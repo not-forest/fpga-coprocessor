@@ -1,0 +1,20 @@
+# Defines a library space for vhdl-ls LSP server.
+
+standard = "2008"
+
+# FPGA Coprocessor file tree.
+[libraries]
+coproc.files = [
+    "./*.vhd",
+    "./*/*.vhd"
+]
+
+# Vendor specific libraries.
+altera_mf.files = [
+    '/home/notforest/intelFPGA_lite/21.1/quartus/eda/sim_lib/altera_mf.vhd',
+    '/home/notforest/intelFPGA_lite/21.1/quartus/eda/sim_lib/altera_mf_components.vhd'
+]
+
+[lint]
+unnecessary_work_library = false    # Do not use 'work' library.
+circular_dependency = false         # Ignoring since altera libraries use 'work' within their libraries, which cause circular dependency.
