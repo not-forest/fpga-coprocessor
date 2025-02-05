@@ -38,34 +38,43 @@ entity pe is
     port (
         ni_clr      : in std_logic := '1';                      -- Clear PE's accumulator (Active low) 
         i_clk       : in std_logic := '0';                      -- Clock signal.
-        i_datax     : in unsigned(g_BUS_WIDTH - 1 downto 0);    -- Input data from vector X
-        i_datay     : in unsigned(g_BUS_WIDTH - 1 downto 0);    -- Input data from vector Y
-        o_data      : out unsigned(g_BUS_WIDTH - 1 downto 0)    -- Pipelined output data.
+        i_xin       : in std_logic_vector(g_BUS_WIDTH - 1 downto 0);    -- Input data from vector X. N-bit width.
+        i_yin       : in std_logic_vector(g_BUS_WIDTH*2- 1 downto 0);   -- Input data from vector Y. 2N-bit width.
+        o_xout      : out std_logic_vector(g_BUS_WIDTH - 1 downto 0);   -- Pipelined output data X. N-bit width.
+        o_yout      : buffer std_logic_vector(g_BUS_WIDTH*2 - 1 downto 0)  -- Pipelined output data Y. 2N-bit width.
          );
 end entity;
 
 architecture rtl of pe is
     signal n_psize : natural := g_BUS_WIDTH;
-    signal r_mac : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');       -- MAC result.
-    signal w_mpipe : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Multiplication pipeline wire. 
+    signal w_ypipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Multiplication pipeline wire. 
+    signal w_xpipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Forward pipeline wire. 
+    signal w_ypipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0'); 
+    signal w_xpipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');
 begin
     process (all) is
-        variable x : unsigned(i_datax'range)  := (others => '0');
-        variable y : unsigned(i_datay'range)  := (others => '0');
-        variable o : unsigned(o_data'range)   := (others => '0');
+        variable xin : unsigned(i_xin'range)  := (others => '0');
+        variable yin : unsigned(i_yin'range)  := (others => '0');
+        variable xout : unsigned(o_xout'range)   := (others => '0');
+        variable yout : unsigned(o_yout'range)   := (others => '0');
     begin
-        x := i_datax;
-        y := i_datay;
+        xin := unsigned(i_xin);
+        yin := unsigned(i_xin);
 
         if ni_clr = '0' then
-            r_mac <= (others => '0');
+            w_ypipein <= (others => '0');
+            w_xpipein <= (others => '0');
         elsif falling_edge(i_clk) then
-            o := x * y;
-            w_mpipe <= std_logic_vector(o);
+            xout := xin;
+            yout := xin * yin;
+            w_ypipein <= yout + unsigned(o_yout);
+            w_xpipein <= std_logic_vector(xout);
         end if;
     end process;
 
-    pipeline(n_psize, i_clk, w_mpipe, r_mac);
+    pipeline(n_psize, i_clk, w_xpipein, w_xpipeout);
+    pipeline(n_psize, i_clk, w_ypipein, w_ypipeout);
 
-    o_data <= o_data + unsigned(r_mac); 
+    o_xout <= w_xpipeout;
+    o_yout <= w_ypipeout;
 end architecture;
