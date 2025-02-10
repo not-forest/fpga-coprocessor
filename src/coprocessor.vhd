@@ -28,20 +28,28 @@
 library coproc;
 library ieee;
 
-use coproc.intrinsics.all;
 use ieee.std_logic_1164.all;
+use coproc.systolic_arr;
 
 entity coprocessor is
-    generic (
-        g_BUS_WIDTH : natural                                                           -- Width of the co-processor's data bus.
-            );
     port (
         i_clk   : in std_logic := '0';                                                  -- External FPGA clock.
-        i_data  : in std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Data in from Raspberry Pi.
-        o_data  : out std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0')     -- Data out to Raspberry Pi.
+        i_data  : in std_logic_vector(7 downto 0) := (others => '0');     -- Data in from Raspberry Pi.
+        o_data  : out std_logic_vector(7 downto 0) := (others => '0')     -- Data out to Raspberry Pi.
          );
 end entity;
 
 architecture structured of coprocessor is
 begin
+    Sysarr_Inst : entity systolic_arr
+    generic map (
+        g_BUS_WIDTH => 8,
+        g_OMD => 8
+                )
+    port map (
+        i_clk => i_clk,
+        i_datax => i_data,
+        i_datay => i_data,
+        o_data => o_data
+             );
 end architecture;
