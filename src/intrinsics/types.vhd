@@ -38,52 +38,22 @@ package intrinsics is
 
     -- Custom pipelining procedure, to pipeline any type of data for one clock cycle. 
     procedure pipeline (
-        signal n_bus_width      : in natural;
-        signal i_clk            : in std_logic := '0';
-        signal i_data           : in std_logic_vector(n_bus_width - 1 downto 0);
-        signal o_data           : out std_logic_vector(n_bus_width - 1 downto 0)
+        signal i_clk            : in std_logic;
+        signal i_data           : in std_logic_vector;
+        signal o_data           : out std_logic_vector
                        );
-
-    type t_pipearray is array (natural range <>) of std_logic_vector; 
-    -- Creates a pipeline of N registers. The output bus is guaranteed to be delayed for N-cycles. 
-    procedure pipelinen (
-        signal n_N              : in natural;
-        signal n_bus_width      : in natural;
-        signal i_clk            : in std_logic := '0';
-        signal i_data           : in std_logic_vector(n_bus_width - 1 downto 0);
-        signal o_data           : out std_logic_vector(n_bus_width - 1 downto 0);
-        signal w_pwires         : t_pipearray(1 to n_N)(n_bus_width - 1 downto 0)
-                        );
 end package;
 
 package body intrinsics is
 
     -- Custom pipelining procedure, to pipeline any type of data for one clock cycle. 
     procedure pipeline (
-        signal n_bus_width      : in natural;
-        signal i_clk            : in std_logic := '0';
-        signal i_data           : in std_logic_vector(n_bus_width - 1 downto 0);
-        signal o_data           : out std_logic_vector(n_bus_width - 1 downto 0)
+        signal i_clk            : in std_logic;
+        signal i_data           : in std_logic_vector;
+        signal o_data           : out std_logic_vector
     ) is begin
         if falling_edge(i_clk) then
             o_data <= i_data;
         end if;
     end procedure;
-
-    -- Creates a pipeline of N registers. The output bus is guaranteed to be delayed for N-cycles. 
-    procedure pipelinen (
-        signal n_N              : in natural;
-        signal n_bus_width      : in natural;
-        signal i_clk            : in std_logic := '0';
-        signal i_data           : in std_logic_vector(n_bus_width - 1 downto 0);
-        signal o_data           : out std_logic_vector(n_bus_width - 1 downto 0);
-        signal w_pwires         : t_pipearray(1 to n_N)(n_bus_width - 1 downto 0)
-    ) is begin
-        pipeline(n_bus_width, i_clk, i_data, w_pwires(w_pwires'left));
-        g_PIPELOOP : for i in 1 to n_N loop
-            pipeline(n_bus_width, i_clk, w_pwires(i), w_pwires(i+1));
-        end loop;
-        pipeline(n_bus_width, i_clk, w_pwires(w_pwires'right), o_data);
-    end procedure;
-
 end package body;

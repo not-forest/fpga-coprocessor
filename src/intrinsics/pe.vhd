@@ -28,7 +28,7 @@ library coproc;
 library ieee;
 
 use ieee.std_logic_1164.all;
-use ieee.std_logic_arith.all;
+use ieee.numeric_std.all;
 use coproc.intrinsics.pipeline;
 
 entity pe is
@@ -36,45 +36,46 @@ entity pe is
         g_BUS_WIDTH : natural   -- Width of the PE bus (allows NxN bit operations).
             );
     port (
-        ni_clr      : in std_logic := '1';                      -- Clear PE's accumulator (Active low) 
+        ni_clr      : in std_logic := '1';                      -- Clear PE's accumulator (Active low)
         i_clk       : in std_logic := '0';                      -- Clock signal.
         i_xin       : in std_logic_vector(g_BUS_WIDTH - 1 downto 0);    -- Input data from vector X. N-bit width.
-        i_yin       : in std_logic_vector(g_BUS_WIDTH*2- 1 downto 0);   -- Input data from vector Y. 2N-bit width.
+        i_yin       : in std_logic_vector(g_BUS_WIDTH - 1 downto 0);   -- Input data from vector Y. N-bit width.
         o_xout      : out std_logic_vector(g_BUS_WIDTH - 1 downto 0);   -- Pipelined output data X. N-bit width.
-        o_yout      : buffer std_logic_vector(g_BUS_WIDTH*2 - 1 downto 0)  -- Pipelined output data Y. 2N-bit width.
+        o_yout      : buffer std_logic_vector(g_BUS_WIDTH - 1 downto 0)  -- Pipelined output data Y. N-bit width.
          );
 end entity;
 
 architecture rtl of pe is
-    signal n_psize : natural := g_BUS_WIDTH;
-    signal w_ypipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Multiplication pipeline wire. 
-    signal w_xpipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Forward pipeline wire. 
-    signal w_ypipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0'); 
+    signal w_ypipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Multiplication pipeline wire.
+    signal w_xpipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Forward pipeline wire.
+    signal w_ypipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');
     signal w_xpipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');
 begin
-    process (all) is
-        variable xin : unsigned(i_xin'range)  := (others => '0');
-        variable yin : unsigned(i_yin'range)  := (others => '0');
-        variable xout : unsigned(o_xout'range)   := (others => '0');
-        variable yout : unsigned(o_yout'range)   := (others => '0');
+    process (i_clk) is
+        variable xin : unsigned(i_xin'range) := (others => '0');
+        variable yin : unsigned(i_yin'range) := (others => '0');
+        variable xout : unsigned(o_xout'range) := (others => '0');
+        variable yout : unsigned(2*g_BUS_WIDTH-1 downto 0) := (others => '0');  -- Double width for multiplication result
     begin
         xin := unsigned(i_xin);
-        yin := unsigned(i_xin);
+        yin := unsigned(i_yin);  -- Corrected assignment
 
         if ni_clr = '0' then
             w_ypipein <= (others => '0');
             w_xpipein <= (others => '0');
         elsif falling_edge(i_clk) then
             xout := xin;
-            yout := xin * yin;
-            w_ypipein <= yout + unsigned(o_yout);
-            w_xpipein <= std_logic_vector(xout);
+            yout := xin * yin;  -- Perform multiplication
+            w_ypipein <= std_logic_vector(yout(g_BUS_WIDTH-1 downto 0) + unsigned(o_yout));
+            w_xpipein <= std_logic_vector(xout);  -- Convert unsigned back to std_logic_vector
         end if;
     end process;
 
-    pipeline(n_psize, i_clk, w_xpipein, w_xpipeout);
-    pipeline(n_psize, i_clk, w_ypipein, w_ypipeout);
+    -- Pipeline processes
+    pipeline(i_clk, w_xpipein, w_xpipeout);
+    pipeline(i_clk, w_ypipein, w_ypipeout);
 
     o_xout <= w_xpipeout;
     o_yout <= w_ypipeout;
 end architecture;
+
