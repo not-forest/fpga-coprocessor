@@ -1,0 +1,4 @@
+src/intrinsics/types.vhd
+src/intrinsics/pe.vhd
+src/systolic.vhd
+src/coprocessor.vhd
