@@ -30,6 +30,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use coproc.systolic_arr;
+use coproc.pll;
 
 entity coprocessor is
     port (
@@ -40,14 +41,23 @@ entity coprocessor is
 end entity;
 
 architecture structured of coprocessor is
+    signal w_clk : std_logic := '1';    -- PLL clock wire signal.
 begin
-    Sysarr_Inst : entity systolic_arr
+    PLL_Inst : entity pll
+    port map(
+        i_clk0 => i_clk,
+        o_clk0 => w_clk,
+        o_clk1 => open,
+        o_clk2 => open
+    );
+
+    SYSARR_Inst : entity systolic_arr
     generic map (
         g_BUS_WIDTH => 8,
-        g_OMD => 8
+        g_OMD => 64 
                 )
     port map (
-        i_clk => i_clk,
+        i_clk => w_clk,
         i_datax => i_data,
         i_datay => i_data,
         o_data => o_data
