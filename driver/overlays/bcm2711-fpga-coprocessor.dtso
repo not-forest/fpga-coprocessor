@@ -1,0 +1,68 @@
+/* 
+ * File: bcm2711-fpga-coprocessor.dtso
+ * Desc: Device tree overlay for FPGA Coprocessor driver. Driver requires this device tree to be preloaded before
+ * the driver itself to properly initialize. Pin mapping for protocol communication can be changed within the global
+ * makefile, or dynamically via driver's API commands.
+ *
+ * This dt overlay is compatible with bcm2711 (Raspberry Pi 4).
+ */
+
+/* A set of validation function is used here so that driver will be properly compatible with FPGA design. */
+
+#if defined(D_IN0) && defined(D_IN1) && defined(D_IN2) && defined(D_IN3) && \
+    defined(D_IN4) && defined(D_IN5) && defined(D_IN6) && defined(D_IN7) && \
+    defined(D_OUT0) && defined(D_OUT1) && defined(D_OUT2) && defined(D_OUT3) && \
+    defined(D_OUT4) && defined(D_OUT5) && defined(D_OUT6) && defined(D_OUT7) && \
+    defined(C_STATUS0) && defined(C_STATUS1) && defined(C_STATUS2) && \
+    defined(C_CMD)
+
+#define GPIO_ACTIVE_HIGH 0
+
+/* Continue with the Device Tree content */
+
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2711";
+
+    /* 
+     * Defines parallel interface peripheral for communicating with FPGA via 20-pin header. 
+     */
+    fragment@0 {
+        target = <&gpio>;
+        __overlay__ {
+            compatible = "fpgacoproc";
+            parallel_bus {
+                /* Defines GPIO busses */
+                din-gpios = <&gpio D_IN0 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN1 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN2 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN3 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN4 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN5 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN6 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_IN7 GPIO_ACTIVE_HIGH>;
+
+                dout-gpios = <&gpio D_OUT0 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT1 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT2 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT3 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT4 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT5 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT6 GPIO_ACTIVE_HIGH>,
+                    <&gpio D_OUT7 GPIO_ACTIVE_HIGH>;
+
+                cstatus-gpios = <&gpio C_STATUS0 GPIO_ACTIVE_HIGH>,
+                    <&gpio C_STATUS1 GPIO_ACTIVE_HIGH>,
+                    <&gpio C_STATUS2 GPIO_ACTIVE_HIGH>;
+
+                cmd-gpios = <&gpio C_CMD GPIO_ACTIVE_HIGH>;
+            };
+        };
+    };
+};
+
+#else
+#error "Bad pin mapping setup. Pins must align with the custom communication protocol."
+#endif
