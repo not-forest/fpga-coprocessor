@@ -11,8 +11,9 @@ coproc.files = [
 
 # Vendor specific libraries.
 altera_mf.files = [
-    '/home/notforest/intelFPGA_lite/21.1/quartus/eda/sim_lib/altera_mf.vhd',
-    '/home/notforest/intelFPGA_lite/21.1/quartus/eda/sim_lib/altera_mf_components.vhd'
+
+    '/home/notforest/intelFPGA_lite/20.1/quartus/eda/sim_lib/altera_mf.vhd',
+    '/home/notforest/intelFPGA_lite/20.1/quartus/eda/sim_lib/altera_mf_components.vhd'
 ]
 
 [lint]
