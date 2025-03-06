@@ -35,7 +35,7 @@
             compatible = "fpgacoproc";
             parallel_bus {
                 /* Defines GPIO busses */
-                din-gpios = <&gpio D_IN0 GPIO_ACTIVE_HIGH>,
+                DIN-gpios = <&gpio D_IN0 GPIO_ACTIVE_HIGH>,
                     <&gpio D_IN1 GPIO_ACTIVE_HIGH>,
                     <&gpio D_IN2 GPIO_ACTIVE_HIGH>,
                     <&gpio D_IN3 GPIO_ACTIVE_HIGH>,
@@ -44,7 +44,7 @@
                     <&gpio D_IN6 GPIO_ACTIVE_HIGH>,
                     <&gpio D_IN7 GPIO_ACTIVE_HIGH>;
 
-                dout-gpios = <&gpio D_OUT0 GPIO_ACTIVE_HIGH>,
+                DOUT-gpios = <&gpio D_OUT0 GPIO_ACTIVE_HIGH>,
                     <&gpio D_OUT1 GPIO_ACTIVE_HIGH>,
                     <&gpio D_OUT2 GPIO_ACTIVE_HIGH>,
                     <&gpio D_OUT3 GPIO_ACTIVE_HIGH>,
@@ -53,11 +53,11 @@
                     <&gpio D_OUT6 GPIO_ACTIVE_HIGH>,
                     <&gpio D_OUT7 GPIO_ACTIVE_HIGH>;
 
-                cstatus-gpios = <&gpio C_STATUS0 GPIO_ACTIVE_HIGH>,
+                CSTATUS-gpios = <&gpio C_STATUS0 GPIO_ACTIVE_HIGH>,
                     <&gpio C_STATUS1 GPIO_ACTIVE_HIGH>,
                     <&gpio C_STATUS2 GPIO_ACTIVE_HIGH>;
 
-                cmd-gpios = <&gpio C_CMD GPIO_ACTIVE_HIGH>;
+                CMD-gpios = <&gpio C_CMD GPIO_ACTIVE_HIGH>;
             };
         };
     };
