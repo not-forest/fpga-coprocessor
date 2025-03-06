@@ -1,7 +1,7 @@
 /* 
  * File: coproc.h
  * Desc: Defines all functions used within this module space. In general driver is based on using DMA for MHz-level
- * GPIO bit-banging. FPGA is waken up from the 
+ * GPIO bit-banging.
  * */
 
 #pragma once
@@ -15,16 +15,26 @@
 
 /* Driver initialization data */
 static struct class *dev_class;
+static struct device *fc_dev;
 static struct cdev fc_cdev;
 
 // Holds all configuration data related to the current state of the coprocessor.
 static struct {
 
-} CoprocessorConfig = { 0 };
+} CoprocessorConfig;
 /******************************/
 
-static int __init driver_init(void);
-static void __exit driver_exit(void);
+static int __init __driver_init(void);
+static void __exit __driver_exit(void);
 
+static int fc_open(struct inode *inode, struct file *file);
+static int fc_release(struct inode *inode, struct file *file);
+static ssize_t fc_read(struct file *file, char __user *buf, size_t len, loff_t *off);
+static ssize_t fc_write(struct file *file, const char *buf, size_t len, loff_t *off);
+static long fc_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
+
+/* Obtains parallel bus for communication between the driver and FPGA. */
+int acquire_parallel_bus(dev_t);
+void free_parallel_bus(dev_t);
 
 #endif // !COPROCESSOR_DRIVER_H
