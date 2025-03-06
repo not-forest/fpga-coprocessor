@@ -10,7 +10,7 @@ ARCH ?= arm64
 COMPILER ?= aarch64-linux-gnu-
 
 obj-m += fpgacoproc.o
-fpgacoproc-objs += mod.o
+fpgacoproc-objs += mod.o pbus.o 
 
 # Kernel headers directory. Can be adjusted when calling.
 KDIR ?= ~/buildroot/output/build/linux-custom
