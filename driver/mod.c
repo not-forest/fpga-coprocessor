@@ -2,11 +2,12 @@
  *  File: mod.c
  *  Desc: Main driver initialization module. Defines all function related to driver's load, unload states and error handling.
  *
- *  Tested with Linux raspberry pi 4, kernel built with buildroot: 6.1.61-v8  
+ *  Tested on Raspberry Pi 4 with Linux kernel 5.10  
  * */
 
 #include<linux/kernel.h>
 #include<linux/module.h>
+#include<linux/device/class.h>
 
 #include "coproc.h"
 
@@ -26,19 +27,19 @@ static struct file_operations fops = {
 };
 
 /* Character device open. */
-static int rpfan_open(struct inode *inode, struct file *file) {
-    pr_debug("%s: Configuration file opened.\n", THIS_MODULE->name);
+static int rc_open(struct inode *inode, struct file *file) {
+    pr_debug("%s: Coprocessor file opened.\n", THIS_MODULE->name);
     return 0;
 }
 
 /* Character device closed. */
-static int rpfan_release(struct inode *inode, struct file *file) {
-    pr_debug("%s: Configuration file closed.\n", THIS_MODULE->name);
+static long rc_release(struct inode *inode, struct file *file) {
+    pr_debug("%s: Coprocessor file closed.\n", THIS_MODULE->name);
     return 0;
 }
 
 /* Initializes the driver while confirming that a proper connection between the Raspberry Pi and FPGA is made. */
-static int __init __driver_init() {
+static int __init __driver_init(void) {
     int ret;
     pr_debug("%s: Entering the loader function.\n", THIS_MODULE->name);
 
@@ -61,7 +62,7 @@ static int __init __driver_init() {
     }
 
     /* FPGA Coprocessor class definition. */
-    if(IS_ERR(dev_class = class_create(CLASS_NAME))) {
+    if(IS_ERR(dev_class = class_create(THIS_MODULE, CLASS_NAME))) {
         pr_err("%s: ERROR: Unable to create the structure class.\n", THIS_MODULE->name);
         ret = PTR_ERR(dev_class);
         goto _class;
@@ -92,10 +93,14 @@ _free_pbus:
 }
 
 /* Clears driver's resources, while also putting the FPGA coprocessor in sleep mode. */
-static void __exit __driver_exit() {
+static void __exit __driver_exit(void) {
     pr_debug("%s: Unloading FPGA Coprocessor driver.\n", THIS_MODULE->name);
 
-
+    device_destroy(dev_class, dev);
+    class_destroy(dev_class);
+    cdev_del(&fc_cdev);
+    unregister_chrdev_region(dev, 1);
+    free_parallel_bus(dev);
 
     pr_debug("%s: Driver was unloaded successfully.\n", THIS_MODULE->name);
 }
