@@ -13,7 +13,7 @@ obj-m += fpgacoproc.o
 fpgacoproc-objs += mod.o pbus.o 
 
 # Kernel headers directory. Can be adjusted when calling.
-KDIR ?= ~/buildroot/output/build/linux-custom
+KDIR ?= ~/rpi-linux-5.10
 
 # FPGA Coprocessor overlay that must be used alongside this driver. Must be aligned with used chip model. 
 DTO_OVERLAY ?= bcm2711-fpga-coprocessor.dtso
@@ -23,10 +23,11 @@ DTO_OVERLAY_O := ${DTO_OVERLAY_S:.dtso=.dtbo}
 # Contains driver's pin mapping
 PINS_CFG_FILE := ./.pins_mapping.cfg
 
-DTOFLAGS := $(foreach pin, $(shell cat $(PINS_CFG_FILE)), -D $(pin))
+DTOFLAGS += $(foreach line, $(file < $(PINS_CFG_FILE)), -D$(line))
+EXTRA_CFLAGS += $(foreach line, $(file < $(PINS_CFG_FILE)), -D$(line))
 
 all:
-	make -C $(KDIR) M=$(CURDIR) ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) modules
+	make -C $(KDIR) M=$(CURDIR) ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) CFLAGS_MODULE="$(EXTRA_CFLAGS)" modules
 
 dto:
 	gcc -xc -E -P $(DTOFLAGS) $(DTO_OVERLAY_S) | tee /dev/tty | dtc -@ -I dts -O dtb -o $(DTO_OVERLAY_O)
