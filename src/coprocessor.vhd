@@ -29,37 +29,36 @@ library coproc;
 library ieee;
 
 use ieee.std_logic_1164.all;
+use coproc.intrinsics.all;
 use coproc.systolic_arr;
 use coproc.pll;
 
 entity coprocessor is
     port (
-        i_clk   : in std_logic := '0';                                                  -- External FPGA clock.
-        i_data  : in std_logic_vector(7 downto 0) := (others => '0');     -- Data in from Raspberry Pi.
-        o_data  : out std_logic_vector(7 downto 0) := (others => '0')     -- Data out to Raspberry Pi.
+        i_clk       : in std_logic := '0';              -- External FPGA Oscillator.
+        i_rst       : in std_logic := '0';              -- Hard reset button.
+        i_din       : in std_logic_vector(8 downto 0);  -- Input data bus from the master microcontroller.
+        o_cstatus   : out std_logic_vector(2 downto 0); -- Coprocessor status line. 
+        o_dout      : out std_logic_vector(7 downto 0)  -- Output data bus.
          );
 end entity;
 
 architecture structured of coprocessor is
-    signal w_clk : std_logic := '1';    -- PLL clock wire signal.
+    signal w_clk : std_logic := '1';                        -- PLL clock wire signal.
+    signal w_parallel_bus : t_ParallelBus := C_PBUS_INIT;   -- Parallel bus interface.
 begin
     PLL_Inst : entity pll
     port map(
         i_clk0 => i_clk,
-        o_clk0 => w_clk,
+        ni_sleep => '1',
+        o_clk0 => open,
         o_clk1 => open,
-        o_clk2 => open
+        o_clk2 => o_cstatus(0)
     );
 
-    SYSARR_Inst : entity systolic_arr
-    generic map (
-        g_BUS_WIDTH => 8,
-        g_OMD => 64 
-                )
-    port map (
-        i_clk => w_clk,
-        i_datax => i_data,
-        i_datay => i_data,
-        o_data => o_data
-             );
+    -- Mapping I/O pins to the parallel bus record.
+    w_parallel_bus.d_in <= i_din(7 downto 0);
+    w_parallel_bus.cmd <= i_din(8);
+
+    o_dout <= w_parallel_bus.d_out;
 end architecture;
