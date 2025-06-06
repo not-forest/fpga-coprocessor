@@ -25,7 +25,6 @@
 -- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN 
 -- IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-library coproc;
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -33,7 +32,9 @@ use ieee.std_logic_1164.all;
 library altera_mf;
 use altera_mf.all;
 
-entity pll is
+library coproc;
+
+entity pll_vendor is
     port (
         i_clk0      : in std_logic;         -- External clock input (50 MHz)
         ni_sleep    : in std_logic;         -- Control signal for sleep mode. (Active low)
@@ -42,14 +43,14 @@ entity pll is
         o_clk2      : out std_logic;        -- Max Cyclone IV Clock (~472.5 MHz)
         o_locked    : out std_logic         -- PLL Lock Signal
     );
-end entity pll;
+end entity pll_vendor;
 
-architecture vendor of pll is
-    signal w_oclks  : std_logic_vector(4 downto 0);  -- Signal for output clocks
+architecture vendor of pll_vendor is
+    signal w_oclks : std_logic_vector(5 downto 0);  -- Signal for output clocks
 
     component altpll
         generic (
-            inclk0_input_frequency  : natural := 20000; -- 50 MHz input clock (20 ns)
+            inclk0_input_frequency  : natural := 50000;
             -- Clock 0 (50 MHz)
             clk0_multiply_by        : natural := 1;
             clk0_divide_by          : natural := 1;
@@ -68,9 +69,9 @@ architecture vendor of pll is
         );
         port (
             inclk  : in  std_logic_vector(1 downto 0);
-            clk    : out std_logic_vector(4 downto 0);
+            clk    : out std_logic_vector(5 downto 0);
             locked : out std_logic;
-            pllena : in  std_logic
+            areset : in  std_logic
         );
     end component;
 
@@ -82,7 +83,7 @@ begin
             inclk(1) => '0',
             clk      => w_oclks,
             locked   => o_locked,
-            pllena   => ni_sleep
+            areset   => not ni_sleep
         );
 
     -- Assigning PLL outputs
