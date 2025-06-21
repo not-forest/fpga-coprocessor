@@ -31,6 +31,11 @@ use ieee.std_logic_1164.all;
 package intrinsics is 
     constant PARALLEL_BUS_WIDTH : natural := 8;
 
+    -- The width of the upcoming data.
+    subtype t_bus is std_logic_vector(PARALLEL_BUS_WIDTH - 1 downto 0);
+    -- Subtype representing PE's weight. All weights are always 8-bit wide.
+    subtype t_weight is std_logic_vector(7 downto 0);
+
     type t_command_type is      -- Used to parse the current command type between all available ones. 
         -- Communication related commands:
         -- INIT (Used to prepare the FPGA coprocessor before sending proper commands.)

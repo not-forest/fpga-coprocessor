@@ -1,7 +1,8 @@
 -- ============================================================
 -- File: pe.vhd
 -- Desc: Defines a single representation of a PE (Processing Element) block, used within the systolic
---  array for parallel computations.
+--  array for parallel computations. This unit is runtime configurable, as it is used to perform different
+--  operations within a single block based on the upcoming operation.
 -- ============================================================
 --
 -- BSD 2-Clause 
@@ -29,53 +30,46 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use coproc.intrinsics.pipeline;
+
+use coproc.intrinsics.all;
 
 entity pe is
-    generic (
-        g_BUS_WIDTH : natural   -- Width of the PE bus (allows NxN bit operations).
-            );
     port (
-        ni_clr      : in std_logic := '1';                      -- Clear PE's accumulator (Active low)
-        i_clk       : in std_logic := '0';                      -- Clock signal.
-        i_xin       : in std_logic_vector(g_BUS_WIDTH - 1 downto 0);    -- Input data from vector X. N-bit width.
-        i_yin       : in std_logic_vector(g_BUS_WIDTH - 1 downto 0);   -- Input data from vector Y. N-bit width.
-        o_xout      : out std_logic_vector(g_BUS_WIDTH - 1 downto 0);   -- Pipelined output data X. N-bit width.
-        o_yout      : buffer std_logic_vector(g_BUS_WIDTH - 1 downto 0)  -- Pipelined output data Y. N-bit width.
+        ni_clr      : in std_logic := '1';  -- Clear PE's accumulator (Active low)
+        i_clk       : in std_logic := '0';  -- Clock signal.
+        i_xin       : in t_bus;             -- Input data from vector X. N-bit width.
+        i_yin       : in t_bus;             -- Input data from vector Y. N-bit width.
+
+        o_xout      : out t_bus;            -- Pipelined output data X. N-bit width.
+        o_yout      : out t_bus             -- Pipelined output data Y. N-bit width.
          );
 end entity;
 
 architecture rtl of pe is
-    signal w_ypipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Multiplication pipeline wire.
-    signal w_xpipein : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');     -- Forward pipeline wire.
-    signal w_ypipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');
-    signal w_xpipeout : std_logic_vector(g_BUS_WIDTH - 1 downto 0) := (others => '0');
+    signal r_weight : t_weight := (others => '0');
 begin
     process (i_clk) is
-        variable xin : unsigned(i_xin'range) := (others => '0');
-        variable yin : unsigned(i_yin'range) := (others => '0');
-        variable xout : unsigned(o_xout'range) := (others => '0');
-        variable yout : unsigned(2*g_BUS_WIDTH-1 downto 0) := (others => '0');  -- Double width for multiplication result
+        variable xin    : signed(i_xin'range);
+        variable yin    : signed(i_yin'range);
+        variable wi     : signed(r_weight'range);
+        variable yout   : signed(o_yout'range);
     begin
-        xin := unsigned(i_xin);
-        yin := unsigned(i_yin);  -- Corrected assignment
+        if falling_edge(i_clk) then
+            if ni_clr = '0' then
+                r_weight <= (others => '0');
+            else
+            -- Assignment
+                xin := signed(i_xin);
+                yin := signed(i_yin);
+                wi := signed(r_weight);
+                yout := (others => '0');
+            -- Execution.
+                yout := yin + wi * xin;
 
-        if ni_clr = '0' then
-            w_ypipein <= (others => '0');
-            w_xpipein <= (others => '0');
-        elsif falling_edge(i_clk) then
-            xout := xin;
-            yout := xin * yin;  -- Perform multiplication
-            w_ypipein <= std_logic_vector(yout(g_BUS_WIDTH-1 downto 0) + unsigned(o_yout));
-            w_xpipein <= std_logic_vector(xout);  -- Convert unsigned back to std_logic_vector
+                o_yout <= std_logic_vector(yout);
+                o_xout <= i_xin;
+            end if;
         end if;
     end process;
-
-    -- Pipeline processes
-    pipeline(i_clk, w_xpipein, w_xpipeout);
-    pipeline(i_clk, w_ypipein, w_ypipeout);
-
-    o_xout <= w_xpipeout;
-    o_yout <= w_ypipeout;
 end architecture;
 
