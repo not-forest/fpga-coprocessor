@@ -35,35 +35,35 @@ use coproc.intrinsics.all;
 
 entity pe is
     port (
-        ni_clr      : in std_logic := '1';  -- Clear PE's accumulator (Active low)
-        i_clk       : in std_logic := '0';  -- Clock signal.
-        i_xin       : in t_bus;             -- Input data from vector X. N-bit width.
-        i_yin       : in t_bus;             -- Input data from vector Y. N-bit width.
+        ni_clr : in std_logic := '1'; -- Clear PE's accumulator (Active low)
+        i_clk : in std_logic := '0'; -- Clock signal.
+        i_xin : in t_bus; -- Input data from vector X. N-bit width.
+        i_yin : in t_bus; -- Input data from vector Y. N-bit width.
 
-        o_xout      : out t_bus;            -- Pipelined output data X. N-bit width.
-        o_yout      : out t_bus             -- Pipelined output data Y. N-bit width.
-         );
+        o_xout : out t_bus; -- Pipelined output data X. N-bit width.
+        o_yout : out t_bus -- Pipelined output data Y. N-bit width.
+    );
 end entity;
 
 architecture rtl of pe is
     signal r_weight : t_weight := (others => '0');
 begin
     process (i_clk) is
-        variable xin    : signed(i_xin'range);
-        variable yin    : signed(i_yin'range);
-        variable wi     : signed(r_weight'range);
-        variable yout   : signed(o_yout'range);
+        variable xin : signed(i_xin'range);
+        variable yin : signed(i_yin'range);
+        variable wi : signed(r_weight'range);
+        variable yout : signed(o_yout'range);
     begin
         if falling_edge(i_clk) then
             if ni_clr = '0' then
                 r_weight <= (others => '0');
             else
-            -- Assignment
+                -- Assignment
                 xin := signed(i_xin);
                 yin := signed(i_yin);
                 wi := signed(r_weight);
                 yout := (others => '0');
-            -- Execution.
+                -- Execution.
                 yout := yin + wi * xin;
 
                 o_yout <= std_logic_vector(yout);
@@ -72,4 +72,3 @@ begin
         end if;
     end process;
 end architecture;
-
