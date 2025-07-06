@@ -14,7 +14,7 @@ DRIVER_FILES = $(wildcard $(DRIVER_DIR)*.ko)
 
 ## Path configuration
 # Test bench environment variable to show the results in GTKWare.
-BENCH 		?= pll_tb
+BENCH 		?= pe_tb
 
 ## Toolchain configuration. 
 GG 			?= ghdl
