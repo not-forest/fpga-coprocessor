@@ -28,17 +28,7 @@ static struct {
 } CoprocessorConfig;
 /******************************/
 
-static int __init __driver_init(void);
-static void __exit __driver_exit(void);
-
-static int fc_open(struct inode *inode, struct file *file);
-static int fc_release(struct inode *inode, struct file *file);
-static ssize_t fc_read(struct file *file, char __user *buf, size_t len, loff_t *off);
-static ssize_t fc_write(struct file *file, const char *buf, size_t len, loff_t *off);
-static long fc_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
-
-/* Obtains parallel bus for communication between the driver and FPGA. */
-int acquire_parallel_bus(dev_t);
-void free_parallel_bus(dev_t);
+int coproc_spi_load(void);
+void coproc_spi_unload(void);
 
 #endif // !COPROCESSOR_DRIVER_H

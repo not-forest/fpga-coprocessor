@@ -16,7 +16,7 @@
 
 dev_t dev = 0;
 
-/* Device file operations. */
+/* Device file operations. *t
 static struct file_operations fops = {
     .owner          = THIS_MODULE,
     .read           = fc_read,
@@ -43,10 +43,13 @@ static int __init __driver_init(void) {
     int ret;
     pr_debug("%s: Entering the loader function.\n", THIS_MODULE->name);
 
-    /* Tries to acquire the 20-pin GPIO header to initialize it as a parallel bus. */
-    if(ret = acquire_parallel_bus(dev) < 0) {
-        pr_err("%s: ERROR: while acquiring communication parallel bus: %d\n", THIS_MODULE->name, ret);
-        goto _free_pbus;
+    /* 
+     * Trying to initialize SPI submodule for comminicating with coprocessor. 
+     * This function will block until a proper initialization routine is done.
+     */
+    if(ret = coproc_spi_load() < 0) {
+        pr_err("%s: ERROR: Unable to load SPI submodule.", THIS_MODULE->name);
+        goto _spi;
     }
 
     /* Initializing a character device region. */
@@ -86,8 +89,8 @@ _cdev:
     cdev_del(&fc_cdev);
 _unreg:
     unregister_chrdev_region(dev, 1);
-_free_pbus:
-    free_parallel_bus(dev);
+_spi:
+    coproc_spi_unload();
 
     return ret;
 }
@@ -100,7 +103,7 @@ static void __exit __driver_exit(void) {
     class_destroy(dev_class);
     cdev_del(&fc_cdev);
     unregister_chrdev_region(dev, 1);
-    free_parallel_bus(dev);
+    coproc_spi_unload();
 
     pr_debug("%s: Driver was unloaded successfully.\n", THIS_MODULE->name);
 }
