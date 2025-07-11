@@ -28,7 +28,7 @@ static struct spi_driver coproc_spi_driver = {
         .name = "coproc-spi",
         .of_match_table = coproc_spi_dt_ids,
     },
-    .probe = coproc_spi_prob,
+    .probe = coproc_spi_probe,
     .remove = coproc_spi_remove,
 };
 

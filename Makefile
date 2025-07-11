@@ -10,8 +10,6 @@ BUILD_DIR	:= $(CURDIR)/build
 TB_DIR 		:= $(SRC_DIR)/tb
 COPROC_LIB  := $(SRC_DIR)/ord.coproc
 
-DRIVER_FILES = $(wildcard $(DRIVER_DIR)*.ko)
-
 ## Path configuration
 # Test bench environment variable to show the results in GTKWare.
 BENCH 		?= pll_tb
@@ -28,7 +26,7 @@ GG_FLAGS := --ieee=synopsys --workdir=build --work=coproc --std=08 -P/home/notfo
 driver_make: __build_folder
 	make -C $(DRIVER_DIR) all
 	mkdir -p $(BUILD_DIR)/driver
-	cp $(DRIVER_FILES) $(DRIVER_DIR)/driver
+	cp $(wildcard $(DRIVER_DIR)/*.ko) $(DRIVER_DIR)/driver
 
 # Cleans driver files.
 driver_clean: __build_folder

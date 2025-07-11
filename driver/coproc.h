@@ -21,11 +21,6 @@
 static struct class *dev_class;
 static struct device *fc_dev;
 static struct cdev fc_cdev;
-
-// Holds all configuration data related to the current state of the coprocessor.
-static struct {
-
-} CoprocessorConfig;
 /******************************/
 
 int coproc_spi_load(void);
