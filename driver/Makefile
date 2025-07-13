@@ -13,6 +13,7 @@ COMPILER ?= aarch64-linux-gnu-
 
 obj-m += fpgacoproc.o
 fpgacoproc-objs += mod.o spi.o 
+ccflags-y += -DDEBUG
 
 # Kernel headers directory. Can be adjusted when calling.
 KDIR ?= /lib/modules/$(KERNEL_VER)/build
@@ -21,12 +22,6 @@ KDIR ?= /lib/modules/$(KERNEL_VER)/build
 DTO_OVERLAY ?= bcm2711-fpga-coprocessor.dtso
 DTO_OVERLAY_S := ./overlays/$(DTO_OVERLAY)
 DTO_OVERLAY_O := ${DTO_OVERLAY_S:.dtso=.dtbo}
-
-# Contains driver's pin mapping
-PINS_CFG_FILE := ./.pins_mapping.cfg
-
-DTOFLAGS += $(foreach line, $(file < $(PINS_CFG_FILE)), -D$(line))
-EXTRA_CFLAGS += $(foreach line, $(file < $(PINS_CFG_FILE)), -D$(line))
 
 all:
 	make -C $(KDIR) M=$(CURDIR) ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) CFLAGS_MODULE="$(EXTRA_CFLAGS)" modules

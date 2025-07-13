@@ -26,7 +26,7 @@ GG_FLAGS := --ieee=synopsys --workdir=build --work=coproc --std=08 -P/home/notfo
 driver_make: __build_folder
 	make -C $(DRIVER_DIR) all
 	mkdir -p $(BUILD_DIR)/driver
-	cp $(wildcard $(DRIVER_DIR)/*.ko) $(DRIVER_DIR)/driver
+	cp $(DRIVER_DIR)/*.ko $(BUILD_DIR)/driver
 
 # Cleans driver files.
 driver_clean: __build_folder
