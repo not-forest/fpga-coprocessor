@@ -16,7 +16,31 @@
 
 dev_t dev = 0;
 
-/* Device file operations. *t
+/* Character device open. */
+static int fc_open(struct inode *inode, struct file *file) {
+    pr_debug("%s: Coprocessor file opened.\n", THIS_MODULE->name);
+    return 0;
+}
+
+/* Character device closed. */
+static int fc_release(struct inode *inode, struct file *file) {
+    pr_debug("%s: Coprocessor file closed.\n", THIS_MODULE->name);
+    return 0;
+}
+
+static ssize_t fc_read(struct file *file, char __user *buf, size_t size, loff_t *off) {
+    return 0;
+}
+
+static ssize_t fc_write(struct file *file, const char *buf, size_t len, loff_t *off) {
+    return 0;
+}
+
+static long fc_ioctl(struct file *file, unsigned int cmd, unsigned long arg) {
+    return 0;
+}
+
+/* Device file operations. */
 static struct file_operations fops = {
     .owner          = THIS_MODULE,
     .read           = fc_read,
@@ -25,18 +49,6 @@ static struct file_operations fops = {
     .release        = fc_release,
     .unlocked_ioctl = fc_ioctl,
 };
-
-/* Character device open. */
-static int rc_open(struct inode *inode, struct file *file) {
-    pr_debug("%s: Coprocessor file opened.\n", THIS_MODULE->name);
-    return 0;
-}
-
-/* Character device closed. */
-static long rc_release(struct inode *inode, struct file *file) {
-    pr_debug("%s: Coprocessor file closed.\n", THIS_MODULE->name);
-    return 0;
-}
 
 /* Initializes the driver while confirming that a proper connection between the Raspberry Pi and FPGA is made. */
 static int __init __driver_init(void) {
@@ -57,6 +69,8 @@ static int __init __driver_init(void) {
         pr_err("%s: ERROR: Unable to allocate major number, aborting...\n", THIS_MODULE->name);
         goto _unreg;
     }
+
+    cdev_init(&fc_cdev, &fops);
 
     /* Initializing the character driver.  */
     if(ret = cdev_add(&fc_cdev, dev, 1) < 0) {
