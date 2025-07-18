@@ -31,22 +31,25 @@ library ieee;
 use ieee.std_logic_1164.all;
 use coproc.intrinsics.all;
 use coproc.systolic_arr;
+use coproc.spi_slave;
 use coproc.pll;
 
 entity coprocessor is
     port (
         i_clk       : in std_logic := '0';              -- External FPGA Oscillator.
         i_rst       : in std_logic := '0';              -- Hard reset button.
-        i_din       : in std_logic_vector(8 downto 0);  -- Input data bus from the master microcontroller.
-        o_cstatus   : out std_logic_vector(2 downto 0); -- Coprocessor status line. 
-        o_dout      : out std_logic_vector(7 downto 0)  -- Output data bus.
+        
+        i_sclk       : in  std_logic;                   -- SPI clock
+        in_ss        : in  std_logic;                   -- Slave select (active low)
+        i_mosi       : in  std_logic;                   -- Master Out Slave In
+        o_miso       : out std_logic                    -- Master In Slave Out
          );
 end entity;
 
 architecture structured of coprocessor is
-    signal w_clk : std_logic := '1';                        -- PLL clock wire signal.
-    signal w_parallel_bus : t_ParallelBus := C_PBUS_INIT;   -- Parallel bus interface.
+    signal w_clk : std_logic := '1';                    -- PLL clock wire signal.
 begin
+    -- Global coprocessor clock source.
     PLL_Inst : entity pll
     port map(
         i_clk0 => i_clk,
@@ -56,9 +59,20 @@ begin
         o_clk2 => o_cstatus(0)
     );
 
-    -- Mapping I/O pins to the parallel bus record.
-    w_parallel_bus.d_in <= i_din(7 downto 0);
-    w_parallel_bus.cmd <= i_din(8);
+    -- SPI slave module acting as an interface between coprocessor and master microcontroller.
+    SPI_Inst : entity spi_slave
+    port map (
+        in_reset     => open,
+        i_cpol       => open,
+        i_cpha       => open,
+        i_rx_enable  => open,
+        i_tx         => open,
+        o_rx         => open,
+        o_busy       => open,
 
-    o_dout <= w_parallel_bus.d_out;
+        i_sclk       => i_sclk,
+        in_ss        => in_ss,
+        i_mosi       => i_mosi,
+        o_miso       => o_miso
+    );
 end architecture;

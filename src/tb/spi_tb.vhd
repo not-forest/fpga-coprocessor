@@ -36,14 +36,15 @@ entity spi_tb is
         in_reset     : std_logic;
         i_cpol       : std_logic;
         i_cpha       : std_logic;
-        i_sclk       : std_logic;
-        in_ss        : std_logic;
-        i_mosi       : std_logic;
-        o_miso       : std_logic;
         i_rx_enable  : std_logic;
         i_tx         : t_bus;
         o_rx         : t_bus;
         o_busy       : std_logic;
+
+        i_sclk       : std_logic;
+        in_ss        : std_logic;
+        i_mosi       : std_logic;
+        o_miso       : std_logic;
     end record;
 end entity;
 
@@ -52,14 +53,15 @@ architecture behavioral of spi_tb is
         in_reset     => '1',
         i_cpol       => '0',
         i_cpha       => '0',
-        i_sclk       => '0',
-        in_ss        => '1',
-        i_mosi       => '0',
-        o_miso       => '0',
         i_rx_enable  => '0',
         i_tx         => (others => '0'),
         o_rx         => (others => '0'),
-        o_busy       => '0'
+        o_busy       => '0',
+
+        i_sclk       => '0',
+        in_ss        => '1',
+        i_mosi       => '0',
+        o_miso       => '0'
     );
 
     -- Helper function to convert baud to period.
@@ -121,19 +123,20 @@ architecture behavioral of spi_tb is
     signal baud4 : real := 20.000e6;
 begin
     -- DUT mapping.
-    PLL_Inst : entity spi_slave
+    SPI_Inst : entity spi_slave
     port map (
         in_reset     => sigs.in_reset,
         i_cpol       => sigs.i_cpol,
         i_cpha       => sigs.i_cpha,
-        i_sclk       => sigs.i_sclk,
-        in_ss        => sigs.in_ss,
-        i_mosi       => sigs.i_mosi,
-        o_miso       => sigs.o_miso,
         i_rx_enable  => sigs.i_rx_enable,
         i_tx         => sigs.i_tx,
         o_rx         => sigs.o_rx,
-        o_busy       => sigs.o_busy
+        o_busy       => sigs.o_busy,
+
+        i_sclk       => sigs.i_sclk,
+        in_ss        => sigs.in_ss,
+        i_mosi       => sigs.i_mosi,
+        o_miso       => sigs.o_miso
     );
 
         p_MAIN : process
