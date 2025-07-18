@@ -26,7 +26,7 @@
 library coproc;
 library ieee;
 
-use coproc.pll_vendor;
+use coproc.pll;
 use coproc.tb.all;
 use ieee.std_logic_1164.all;
 
@@ -56,7 +56,7 @@ architecture behavioral of pll_tb is
     signal freq : real := 50.000e6;
 begin
     -- DUT mapping.
-    PLL_Inst : entity pll_vendor
+    PLL_Inst : entity pll
     port map (
         i_clk0 => sigs.i_clk,
         ni_sleep => sigs.ni_sleep,
@@ -64,7 +64,7 @@ begin
         o_clk1 => sigs.o_clk1,
         o_clk2 => sigs.o_clk2,
         o_locked => sigs.o_locked
-             );
+    );
 
     -- Simulates external oscillator ticks.
     p_EX_CLOCK : tick(sigs.i_clk, freq);

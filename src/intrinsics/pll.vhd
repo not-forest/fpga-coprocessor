@@ -34,7 +34,7 @@ use altera_mf.all;
 
 library coproc;
 
-entity pll_vendor is
+entity pll is
     port (
         i_clk0      : in std_logic;         -- External clock input (50 MHz)
         ni_sleep    : in std_logic;         -- Control signal for sleep mode. (Active low)
@@ -43,9 +43,9 @@ entity pll_vendor is
         o_clk2      : out std_logic;        -- Max Cyclone IV Clock (~472.5 MHz)
         o_locked    : out std_logic         -- PLL Lock Signal
     );
-end entity pll_vendor;
+end entity;
 
-architecture vendor of pll_vendor is
+architecture vendor of pll is
     signal w_oclks : std_logic_vector(5 downto 0);  -- Signal for output clocks
 
     component altpll

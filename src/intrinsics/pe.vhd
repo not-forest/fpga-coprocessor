@@ -35,13 +35,13 @@ use coproc.intrinsics.all;
 
 entity pe is
     port (
-        ni_clr : in std_logic := '1'; -- Clear PE's accumulator (Active low)
-        i_clk : in std_logic := '0'; -- Clock signal.
-        i_xin : in t_bus; -- Input data from vector X. N-bit width.
-        i_yin : in t_bus; -- Input data from vector Y. N-bit width.
+        ni_clr : in std_logic := '1';           -- Clear PE's accumulator (Active low)
+        i_clk : in std_logic := '0';            -- Clock signal.
+        i_xin : in t_bus;                       -- Input data from vector X. N-bit width.
+        i_yin : in t_bus;                       -- Input data from vector Y. N-bit width.
 
-        o_xout : out t_bus; -- Pipelined output data X. N-bit width.
-        o_yout : out t_bus -- Pipelined output data Y. N-bit width.
+        o_xout : out t_bus;                     -- Pipelined output data X. N-bit width.
+        o_yout : out t_bus                      -- Pipelined output data Y. N-bit width.
     );
 end entity;
 

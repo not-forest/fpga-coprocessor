@@ -10,15 +10,17 @@ BUILD_DIR	:= $(CURDIR)/build
 TB_DIR 		:= $(SRC_DIR)/tb
 COPROC_LIB  := $(SRC_DIR)/ord.coproc
 
+VHDL_ALTERA_LIBS := /usr/local/lib/ghdl/vendors/intel/
+
 ## Path configuration
 # Test bench environment variable to show the results in GTKWare.
-BENCH 		?= pll_tb
+BENCH 		?= spi_tb
 
 ## Toolchain configuration. 
 GG 			?= ghdl
 GTKW		?= gtkwave
 
-GG_FLAGS := --ieee=synopsys --workdir=build --work=coproc --std=08 -P/home/notforest/ghdl/scripts/vendors/altera
+GG_FLAGS := --ieee=synopsys --workdir=build --work=coproc --std=08 -P${VHDL_ALTERA_LIBS}
 
 ### LINUX ###
 
