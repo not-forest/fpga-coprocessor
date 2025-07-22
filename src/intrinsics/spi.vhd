@@ -33,11 +33,11 @@ use coproc.intrinsics.all;
 entity spi_slave is
     port (
         -- Internal lanes (Coprocessor).
-        in_reset     : in  std_logic;                   -- Asynchronous active-low reset
-        i_cpol       : in  std_logic;                   -- Clock polarity mode
-        i_cpha       : in  std_logic;                   -- Clock phase mode
-        i_rx_enable  : in  std_logic;                   -- Enable signal to wire rxbuffer to outside
-        i_tx         : in  t_bus;                       -- Data to transmit
+        in_reset     : in  std_logic := '1';            -- Asynchronous active-low reset
+        i_cpol       : in  std_logic := '0';            -- Clock polarity mode
+        i_cpha       : in  std_logic := '0';            -- Clock phase mode
+        i_rx_enable  : in  std_logic := '0';            -- Enable signal to wire rxbuffer to outside
+        i_tx         : in  t_bus := (others => '0');    -- Data to transmit
         o_rx         : out t_bus := (others => '0');    -- Data received
         o_busy       : out std_logic := '0';            -- Slave busy signal
         -- External lanes (Shared with master microcontroller).

@@ -56,7 +56,7 @@ begin
         ni_sleep => '1',
         o_clk0 => open,
         o_clk1 => open,
-        o_clk2 => o_cstatus(0)
+        o_clk2 => w_clk
     );
 
     -- SPI slave module acting as an interface between coprocessor and master microcontroller.
