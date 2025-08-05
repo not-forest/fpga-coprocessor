@@ -1,47 +1,71 @@
-/* 
- *  File: mod.c
- *  Desc: Main driver initialization module. Defines all function related to driver's load, unload states and error handling.
- *
- *  Tested on Raspberry Pi 4 with Linux kernel 5.10  
- * */
-
-#include<linux/kernel.h>
-#include<linux/module.h>
-#include<linux/device/class.h>
+/** 
+  *  @file mod.c
+  *  @brief Main driver initialization module. Defines all function related to driver's load, unload states and error handling.
+  *
+  *  @test Tested on Raspberry Pi 4 with Linux kernel 5.10  
+  **/
 
 #include "coproc.h"
 
-#define DEV_NAME    "fpga-coproc"
 #define CLASS_NAME  "coproc"
 
 dev_t dev = 0;
 
-/* Character device open. */
+/** 
+  * @brief Character device open. 
+  *
+  * Binds file's private data pointer to SPI net structure.
+  **/
 static int fc_open(struct inode *inode, struct file *file) {
+    bind_to_spi(inode, file);
+
     pr_debug("%s: Coprocessor file opened.\n", THIS_MODULE->name);
     return 0;
 }
 
-/* Character device closed. */
+/** 
+  * @brief Character device close. 
+  **/
 static int fc_release(struct inode *inode, struct file *file) {
     pr_debug("%s: Coprocessor file closed.\n", THIS_MODULE->name);
     return 0;
 }
 
+/** 
+  * @brief Character device read. 
+  **/
 static ssize_t fc_read(struct file *file, char __user *buf, size_t size, loff_t *off) {
     return 0;
 }
 
+/** 
+  * @brief Character device write. 
+  **/
 static ssize_t fc_write(struct file *file, const char *buf, size_t len, loff_t *off) {
     return 0;
 }
 
+/** 
+  * @brief Character device IOCTL. 
+  **/
 static long fc_ioctl(struct file *file, unsigned int cmd, unsigned long arg) {
     return 0;
 }
 
-/* Device file operations. */
-static struct file_operations fops = {
+/** 
+  * @brief Memorry map handler for userspace API. 
+  *
+  * Driver shares it's DMA kernel buffers with userspace to provide zero-cost DMA operations
+  * from the userspace and reduce copying time.
+  **/
+static int corpoc_mmap(struct file *file, struct vm_area_struct *vma) {
+    return 0;
+}
+
+/** 
+  * @brief FPGA coprocessor device file operations. 
+  **/
+struct file_operations fops = {
     .owner          = THIS_MODULE,
     .read           = fc_read,
     .write          = fc_write,
@@ -50,32 +74,26 @@ static struct file_operations fops = {
     .unlocked_ioctl = fc_ioctl,
 };
 
-/* Initializes the driver while confirming that a proper connection between the Raspberry Pi and FPGA is made. */
+/** 
+  * @brief FPGA coprocessor initialization. 
+  **/
 static int __init __driver_init(void) {
     int ret;
     pr_debug("%s: Entering the loader function.\n", THIS_MODULE->name);
+
+    /* Initializing a character device region. */
+    if(ret = alloc_chrdev_region(&dev, 0, 1, "fpga-coproc") < 0) {
+        pr_err("%s: ERROR: Unable to allocate major number, aborting...\n", THIS_MODULE->name);
+        goto _unreg;
+    }
 
     /* 
      * Trying to initialize SPI submodule for comminicating with coprocessor. 
      * This function will block until a proper initialization routine is done.
      */
     if(ret = coproc_spi_load() < 0) {
-        pr_err("%s: ERROR: Unable to load SPI submodule.", THIS_MODULE->name);
+        pr_err("%s: ERROR: Unable to load SPI submodule.\n", THIS_MODULE->name);
         goto _spi;
-    }
-
-    /* Initializing a character device region. */
-    if(ret = alloc_chrdev_region(&dev, 0, 1, DEV_NAME) < 0) {
-        pr_err("%s: ERROR: Unable to allocate major number, aborting...\n", THIS_MODULE->name);
-        goto _unreg;
-    }
-
-    cdev_init(&fc_cdev, &fops);
-
-    /* Initializing the character driver.  */
-    if(ret = cdev_add(&fc_cdev, dev, 1) < 0) {
-        pr_err("%s: ERROR: Unable to add the character device for raspberry pi fan.\n", THIS_MODULE->name);
-        goto _cdev;
     }
 
     /* FPGA Coprocessor class definition. */
@@ -86,7 +104,7 @@ static int __init __driver_init(void) {
     }
     
     /* Creating the device itself. */
-    if(IS_ERR(fc_dev = device_create(dev_class, NULL, dev, NULL, DEV_NAME))) {
+    if(IS_ERR(fc_dev = device_create(dev_class, NULL, dev, NULL, "fpga-coproc%d", MINOR(dev)))) {
         pr_err("%s: ERROR: Unable to create the device.\n", THIS_MODULE->name);
         ret = PTR_ERR(fc_dev);
         goto _dev;
@@ -99,25 +117,26 @@ _dev:
     device_destroy(dev_class, dev);
 _class:
     class_destroy(dev_class);
-_cdev:
-    cdev_del(&fc_cdev);
-_unreg:
-    unregister_chrdev_region(dev, 1);
 _spi:
     coproc_spi_unload();
+_unreg:
+    unregister_chrdev_region(dev, 1);
 
     return ret;
 }
 
-/* Clears driver's resources, while also putting the FPGA coprocessor in sleep mode. */
+/** 
+  * @brief FPGA coprocessor release function.
+  *
+  * Frees all internal resources and puts the coprocessor to deep sleep mode.  
+  **/
 static void __exit __driver_exit(void) {
     pr_debug("%s: Unloading FPGA Coprocessor driver.\n", THIS_MODULE->name);
 
     device_destroy(dev_class, dev);
     class_destroy(dev_class);
-    cdev_del(&fc_cdev);
-    unregister_chrdev_region(dev, 1);
     coproc_spi_unload();
+    unregister_chrdev_region(dev, 1);
 
     pr_debug("%s: Driver was unloaded successfully.\n", THIS_MODULE->name);
 }

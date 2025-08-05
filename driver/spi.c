@@ -1,67 +1,110 @@
-/* 
- *  File: spi.c
- *  Desc: SPI bus initialization and control module. 
- *
- *  Tested on Raspberry Pi 4 with Linux kernel 5.10  
- * */
-
-#include <linux/module.h>
-#include <linux/spi/spi.h>
-#include <linux/mutex.h>
+/**  
+  *  @file spi.c
+  *  @brief SPI bus initialization and control module.
+  *
+  *  Double-buffering allows user to keep writing/reading data to Rx/Tx buffers, while 
+  *
+  *  @test Tested on Raspberry Pi 4 with Linux kernel 5.10  
+  **/
 
 #include "coproc.h"
 
 #define SPI_WORD_BITS 8
+#define BUF_SIZE 4096
 
-/* SPI device wrapper for mutual exclusion between kernel calls. */
+extern struct file_operations fops;
+extern dev_t dev;
+
+/**
+  * @brief SPI device wrapper for mutual exclusion between kernel calls.
+  * 
+  * Two buffers are being allocated during the initialization phase for both Tx and Rx.
+  **/
 struct spi_net {
     struct spi_device *spi;
+    struct cdev cdev;
+    double_buffer_t dbuff;
+
     struct mutex lock;
 };
 
-/* Writes word of data to the SPI bus.  */
-static int coproc_send_word(struct spi_net *net, u8 *wr_buf) {
-    int ret;
+/** 
+  * @brief Binds opened file from the user-space to SPI.
+  **/
+void bind_to_spi(struct inode *inode, struct file *file) {
+    struct spi_net *net = container_of(inode->i_cdev, struct spi_net, cdev);
+    file->private_data = net;   // Assuming that this function will never be called before SPI submodule initializes.
+} 
 
-    mutex_lock(&net->lock);
-    ret = spi_write(net->spi, wr_buf, SPI_WORD_BITS);
-    mutex_unlock(&net->lock);
-    return ret;
-}
-
-/* Reads word of data from the SPI bus.  */
-static int coproc_read_word(struct spi_net *net, u8 *rd_buf) { 
-    int ret;
-
-    mutex_lock(&net->lock);
-    ret = spi_read(net->spi, rd_buf, SPI_WORD_BITS);
-    mutex_unlock(&net->lock);
-    return ret;
-}
-
-/* Allocates memory for SPI device net. */
+/** 
+  * @brief SPI bus probe function.
+  *
+  * Allocates kernel memory for SPI net structure and DMA buffers. For each SPI instance, 
+  **/
 static int coproc_spi_probe(struct spi_device *spi) {
     struct spi_net *net;
-    dev_info(&spi->dev, "Probing FPGA Coprocessor SPI bus...");
-
-    net = kzalloc(sizeof(struct spi_net), GFP_KERNEL);
-    if (!net)
+    double_buffer_t *buf;
+    int i;
+    dev_info(&spi->dev, "Probing FPGA Coprocessor SPI bus...\n");
+    
+    net = devm_kzalloc(&spi->dev, sizeof(struct spi_net), GFP_KERNEL);
+    if (!net) {
+        dev_err(&spi->dev, "Failed to allocate SPI net structure.\n");
         return -ENOMEM;
+    }
+    buf = &net->dbuff;
 
     net->spi = spi;
     mutex_init(&net->lock);
 
     spi_set_drvdata(spi, net);
 
+    // Allocating doubled DMA Rx/Tx buffers.
+    for (i = 0; i < 2; ++i) {
+        buf->tx_buf[i] = dma_alloc_coherent(&spi->dev, BUF_SIZE, &buf->tx_dma[i], GFP_KERNEL);
+        buf->rx_buf[i] = dma_alloc_coherent(&spi->dev, BUF_SIZE, &buf->rx_dma[i], GFP_KERNEL);
+
+        if (!buf->tx_buf[i] || !buf->rx_buf[i]) {
+            dev_err(&spi->dev, "Failed to allocate DMA buffers\n");
+            return -ENOMEM;
+        }
+    }
+
+    buf->buf_select = 0;
+
+    cdev_init(&net->cdev, &fops);
+
+    /* Initializing the character driver.  */
+    if(cdev_add(&net->cdev, dev, 1) < 0) {
+        pr_err("%s: ERROR: Unable to add the character device for raspberry pi fan.\n", THIS_MODULE->name);
+        cdev_del(&net->cdev);
+    }
+
+    dev_info(&spi->dev, "SPI bus initialized and ready to be used.\n");
+
     return 0;
 }
 
+/** 
+  * @brief SPI bus remove function.
+  *
+  * Frees SPI net structure and DMA buffers.
+  **/
 static int coproc_spi_remove(struct spi_device *spi) {
     struct spi_net *net;
-    dev_info(&spi->dev, "FPGA Coprocessor SPI bus release...");
+    double_buffer_t *buf;
+    int i;
+    dev_info(&spi->dev, "FPGA Coprocessor SPI bus release...\n");
 
     net = spi_get_drvdata(spi);
-    kfree(net);
+    buf = &net->dbuff;
+    
+    for (i = 0; i < 2; ++i) {
+        if (buf->tx_buf[i])
+        dma_free_coherent(&spi->dev, BUF_SIZE, buf->tx_buf[i], buf->tx_dma[i]);
+        if (buf->rx_buf[i])
+            dma_free_coherent(&spi->dev, BUF_SIZE, buf->rx_buf[i], buf->rx_dma[i]);
+    }
 
     return 0;
 }
