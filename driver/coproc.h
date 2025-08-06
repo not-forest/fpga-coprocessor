@@ -22,6 +22,7 @@
 #include <linux/mutex.h>
 
 #define PLATFORM_DRIVER_COMPAT "coproc"
+#define BUF_SIZE 4096
 
 /* Driver initialization data */
 static struct class *dev_class;
@@ -35,6 +36,7 @@ typedef struct {
     u8 *tx_buf[2], *rx_buf[2];
     dma_addr_t tx_dma[2], rx_dma[2];
     uint8_t buf_select;
+    struct mutex lock;
 } double_buffer_t;
 
 /** 
@@ -50,5 +52,17 @@ void coproc_spi_unload(void);
   * @brief Binds opened file from the user-space to SPI.
   **/
 void bind_to_spi(struct inode *inode, struct file *file); 
+
+/** 
+  * @brief Obtains pointer to doubled buffer data.
+  **/
+double_buffer_t* unwrap_buffer_from_file(struct file *file);
+
+/** 
+  * @brief Initiates asynchronous SPI DMA transfer.
+  *
+  * @note Function expects data to exist within the mmap region of SPI's DMA Tx buffer.
+  **/
+void coproc_spi_async(struct file *file, size_t len);
 
 #endif // !COPROCESSOR_DRIVER_H

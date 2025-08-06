@@ -10,7 +10,6 @@
 #include "coproc.h"
 
 #define SPI_WORD_BITS 8
-#define BUF_SIZE 4096
 
 extern struct file_operations fops;
 extern dev_t dev;
@@ -29,12 +28,12 @@ struct spi_net {
 };
 
 /** 
-  * @brief Binds opened file from the user-space to SPI.
+  * @brief Completion function for asynchronous SPI write.
+  *
   **/
-void bind_to_spi(struct inode *inode, struct file *file) {
-    struct spi_net *net = container_of(inode->i_cdev, struct spi_net, cdev);
-    file->private_data = net;   // Assuming that this function will never be called before SPI submodule initializes.
-} 
+static void coproc_spi_complete(void *ctx) {
+    complete((struct completion*)ctx);
+}
 
 /** 
   * @brief SPI bus probe function.
@@ -71,6 +70,7 @@ static int coproc_spi_probe(struct spi_device *spi) {
     }
 
     buf->buf_select = 0;
+    mutex_init(&buf->lock);
 
     cdev_init(&net->cdev, &fops);
 
@@ -106,6 +106,8 @@ static int coproc_spi_remove(struct spi_device *spi) {
             dma_free_coherent(&spi->dev, BUF_SIZE, buf->rx_buf[i], buf->rx_dma[i]);
     }
 
+    cdev_del(&net->cdev);
+
     return 0;
 }
 
@@ -122,6 +124,66 @@ static struct spi_driver coproc_spi_driver = {
     .probe = coproc_spi_probe,
     .remove = coproc_spi_remove,
 };
+
+/** 
+  * @brief Binds opened file from the user-space to SPI.
+  **/
+void bind_to_spi(struct inode *inode, struct file *file) {
+    // Assuming that this function will never be called before SPI submodule initializes.
+    file->private_data = container_of(inode->i_cdev, struct spi_net, cdev);
+} 
+
+/** 
+  * @brief Obtains pointer to doubled buffer data.
+  **/
+double_buffer_t* unwrap_buffer_from_file(struct file *file) {
+    struct spi_net *net = file->private_data;
+    return &net->dbuff;
+}
+
+/** 
+  * @brief Initiates asynchronous SPI DMA transfer.
+  *
+  * @note Function expects data to exist within the mmap region of SPI's DMA Tx buffer.
+  **/
+void coproc_spi_async(struct file *file, size_t len) {
+    struct spi_message m;
+    struct completion c;
+
+    spi_message_init(&m);
+    init_completion(&c);
+
+    struct spi_net *net = file->private_data;
+    double_buffer_t *buf = &net->dbuff;
+
+    mutex_lock(&buf->lock);
+    int idx = buf->buf_select;
+    
+    struct spi_transfer t = {
+        .tx_buf = buf->tx_buf[idx],
+        .rx_buf = buf->rx_buf[idx],
+        .len = len,
+        .tx_dma = buf->tx_dma[idx],
+        .rx_dma = buf->rx_dma[idx],
+        .cs_change = 0,
+        .speed_hz = net->spi->max_speed_hz,
+        .bits_per_word = SPI_WORD_BITS,
+        .delay_usecs = 0,
+    };
+
+    // Buffer swapping.
+    buf->buf_select ^= 1;
+
+    mutex_unlock(&buf->lock);
+
+    spi_message_add_tail(&t, &m);
+    m.complete = coproc_spi_complete;
+    m.context = &c;
+
+    mutex_lock(&net->lock);
+    spi_async(net->spi, &m);
+    mutex_unlock(&net->lock);
+}
 
 int coproc_spi_load(void) {
     return spi_register_driver(&coproc_spi_driver);
