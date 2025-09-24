@@ -37,6 +37,7 @@ entity pe is
     port (
         ni_clr : in std_logic := '1';           -- Clear PE's accumulator (Active low)
         i_clk : in std_logic := '0';            -- Clock signal.
+        i_cmd : in std_logic := '0';            -- Command bit. Tells if the current word shall be seen as a command.
         i_xin : in t_bus;                       -- Input data from vector X. N-bit width.
         i_yin : in t_bus;                       -- Input data from vector Y. N-bit width.
 
@@ -47,6 +48,7 @@ end entity;
 
 architecture rtl of pe is
     signal r_weight : t_weight := (others => '0');
+    signal r_cmd : t_pe_command := CLEAR;
 begin
     process (i_clk) is
         variable xin : signed(i_xin'range);

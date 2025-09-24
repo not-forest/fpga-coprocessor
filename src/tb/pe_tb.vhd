@@ -34,7 +34,6 @@ use coproc.intrinsics.all;
 use coproc.pe;
 
 entity pe_tb is
-    constant c_WIDTH : natural := 8;
     -- Test PE block is a 8-bit MAD unit.
     -- Expected behavior:
     -- - perform the following mathematical operation: Yout = Yout + Yin + Wi * Xin;

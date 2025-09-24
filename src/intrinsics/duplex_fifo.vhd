@@ -1,5 +1,5 @@
 -- ============================================================
--- File: dcfifo.vhd
+-- File: duplex_fifo.vhd
 -- Desc: Two dual-clock FIFO queues used to separate coprocessor's SPI interface and internal elements.
 --      This element ensures isolation between two areas with different clock frequencies, and ensures that
 --      data is being forwarded properly in both direction.
@@ -37,19 +37,19 @@ use coproc.intrinsics.all;
 
 entity duplex_fifo is
     port (
-        ni_clr : in std_logic := '1',    -- Asynchronous clear (Active low).
+        ni_clr : in std_logic := '1';    -- Asynchronous clear (Active low).
         -- SPI domain.
-        i_clk_spi       : in std_logic := '1', -- SPI clock input.
-        i_spi_rx_ready  : in std_logic := '0', -- Set high as soon as SPI reads first word.
-        i_spi_tx_ready  : in std_logic := '0', -- Set high when SPI's master starts clocking out bits.
-        i_rx_spi        : in t_word,           -- Data from SPI RX
-        o_tx_spi        : out t_word,          -- Data to SPI TX.
+        i_clk_spi       : in std_logic := '1'; -- SPI clock input.
+        i_spi_rx_ready  : in std_logic := '0'; -- Set high as soon as SPI reads first word.
+        i_spi_tx_ready  : in std_logic := '0'; -- Set high when SPI's master starts clocking out bits.
+        i_rx_spi        : in t_word;           -- Data from SPI RX
+        o_tx_spi        : out t_word;          -- Data to SPI TX.
 
         -- System domain.
-        i_clk_sys       : in std_logic := '1', -- System clock input. Shall be the same as the internall PLL.
-        i_sys_rx_ready  : in std_logic := '0', -- Set high when systolic array is ready to consume next byte.
-        i_sys_tx_ready  : in std_logic := '0', -- Set high when systolic array produces a result word.
-        o_rx_sys        : out t_word,          -- Data to system RX.
+        i_clk_sys       : in std_logic := '1'; -- System clock input. Shall be the same as the internall PLL.
+        i_sys_rx_ready  : in std_logic := '0'; -- Set high when systolic array is ready to consume next byte.
+        i_sys_tx_ready  : in std_logic := '0'; -- Set high when systolic array produces a result word.
+        o_rx_sys        : out t_word;          -- Data to system RX.
         i_tx_sys        : in t_word            -- Data from system TX.
 
     );
