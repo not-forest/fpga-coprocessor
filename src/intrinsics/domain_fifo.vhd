@@ -1,8 +1,7 @@
 -- ============================================================
--- File: duplex_fifo.vhd
--- Desc: Two dual-clock FIFO queues used to separate coprocessor's SPI interface and internal elements.
---      This element ensures isolation between two areas with different clock frequencies, and ensures that
---      data is being forwarded properly in both direction.
+-- File: domain_fifo.vhd
+-- Desc: Two dual-clock FIFO queue wrapper used to separate coprocessor's interfaces and internal elements.
+--      This element ensures isolation between two different clock domains and provides proper data transfer.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
 -- ============================================================
 --
@@ -35,32 +34,53 @@ use altera_mf.all;
 library coproc;
 use coproc.intrinsics.all;
 
-entity duplex_fifo is
+entity domain_fifo is
     port (
-        ni_clr : in std_logic := '1';    -- Asynchronous clear (Active low).
-        -- SPI domain.
-        i_clk_spi       : in std_logic := '1'; -- SPI clock input.
-        i_spi_rx_ready  : in std_logic := '0'; -- Set high as soon as SPI reads first word.
-        i_spi_tx_ready  : in std_logic := '0'; -- Set high when SPI's master starts clocking out bits.
-        i_rx_spi        : in t_word;           -- Data from SPI RX
-        o_tx_spi        : out t_word;          -- Data to SPI TX.
+        ni_clr          : in std_logic := '1';      -- Asynchronous clear (Active low).
+        i_clk_producer  : in std_logic := '1';      -- Internal clock for producer.
+        i_clk_consumer  : in std_logic := '1';      -- Internal clock for producer.
 
-        -- System domain.
-        i_clk_sys       : in std_logic := '1'; -- System clock input. Shall be the same as the internall PLL.
-        i_sys_rx_ready  : in std_logic := '0'; -- Set high when systolic array is ready to consume next byte.
-        i_sys_tx_ready  : in std_logic := '0'; -- Set high when systolic array produces a result word.
-        o_rx_sys        : out t_word;          -- Data to system RX.
-        i_tx_sys        : in t_word            -- Data from system TX.
+        i_tx            : in t_word;
+        o_rx            : out t_word;
 
+        i_tx_ready      : in std_logic := '0';      -- Producer is ready to send some data to the FIFO.
+        i_rx_ready      : in std_logic := '0';      -- Consumer is ready to get some data from the FIFO.
+        o_tx_ready      : out std_logic;            -- FIFO is ready to obtain new data (not full.)
+        o_rx_ready      : out std_logic             -- FIFO is ready to send some data (not empty.)
     );
 end entity;
 
-architecture vendor of duplex_fifo is
+architecture vendor of domain_fifo is
     -- Handshake Communication Wires.
-    signal w_wrreq_rx, w_wrreq_tx : std_logic := '0';
-    signal w_rdreq_rx, w_rdreq_tx : std_logic := '0';
-    signal w_wrfull_rx, w_wrfull_tx : std_logic := '0';
-    signal w_rdempty_rx, w_rdempty_tx : std_logic := '0';
+    signal r_wrreq      : std_logic := '0';
+    signal r_rdreq      : std_logic := '0';
+    signal w_wrfull     : std_logic := '0';
+    signal w_rdempty    : std_logic := '0';
+
+    -- Custom procedure to ensure timing constrains for dual-clocked FIFO interface.
+    -- 
+    -- Both read and write requests must be asserted for one clock cycle only. This procedure ensures,
+    -- that both producer and consumer can hold their READY lines high as long as they won't, because it
+    -- will only fire one request per rising edge.
+    procedure delta_ready (
+        signal i_clk        : in std_logic;     -- Input clock from the required domain.
+        signal i_condition  : in std_logic;     -- Condition, under which the request will be asserted together with the request.
+        signal i_ready      : in std_logic;     -- Ready request from the domain side.
+        signal o_req        : out std_logic     -- Wire to FIFO's request inputs.
+    ) is 
+        variable dt : std_logic := '0';
+    begin
+        if falling_edge(i_clk) then
+            -- On each TX ready signal, putting the write request for one clock cycle.
+            if ni_clr = '0' then
+                o_req <= '0';
+                dt := '0';
+            else
+                o_req <= (i_ready and i_condition and not dt);
+                dt := i_ready;
+            end if;
+        end if;
+    end procedure;
 
     -- Vendor specific dual-clock FIFO. This entity uses two such queues to provide duplex communication.
 	component dcfifo
@@ -93,11 +113,15 @@ architecture vendor of duplex_fifo is
 	);
 	end component;
 begin 
-    w_wrreq_rx <= '1' when w_wrfull_rx & i_spi_rx_ready = "01" else '0';
-    w_rdreq_rx <= '1' when w_rdempty_rx & i_sys_rx_ready = "01" else '0';
+    -- Process for handling producer's and consumer's timing constraints.
+    p_PROD_TIMINGS : delta_ready(i_clk_producer, o_tx_ready, i_tx_ready, r_wrreq);
+    p_CONS_TIMINGS : delta_ready(i_clk_consumer, o_rx_ready, i_rx_ready, r_rdreq);
 
-    -- One way FIFO RX (SPI -> System)
-	DCFIFO_Inst0 : dcfifo
+    -- Sending ready flags straight from FIFO interface.
+    o_tx_ready <= not w_wrfull;
+    o_rx_ready <= not w_rdempty;
+
+	DCFIFO_Inst : dcfifo
 	GENERIC MAP (
 		intended_device_family => "Cyclone IV E",
 		lpm_hint => "RAM_BLOCK_TYPE=M9K",
@@ -116,46 +140,14 @@ begin
 	)
 	PORT MAP (
 		aclr => not ni_clr,
-		data => i_rx_spi,
-		rdclk => i_clk_sys,
-		rdreq => w_rdreq_rx,
-		wrclk => i_clk_spi,
-		wrreq => w_wrreq_rx,
-		q => o_rx_sys,
-		rdempty => w_rdempty_rx,
-		wrfull => w_wrfull_rx
-	);
+		data => i_tx,
+        q => o_rx,
+		rdclk => i_clk_consumer,
+		wrclk => i_clk_producer,
 
-    w_wrreq_tx <= '1' when w_wrfull_tx & i_sys_tx_ready = "01" else '0';
-    w_rdreq_tx <= '1' when w_rdempty_tx & i_spi_tx_ready = "01" else '0';
-
-    -- One way FIFO TX (System -> SPI)
-	DCFIFO_Inst1 : dcfifo
-	GENERIC MAP (
-		intended_device_family => "Cyclone IV E",
-		lpm_hint => "RAM_BLOCK_TYPE=M9K",
-		lpm_numwords => 512,
-		lpm_showahead => "OFF",
-		lpm_type => "dcfifo",
-		lpm_width => 8,
-		lpm_widthu => 9,
-        rdsync_delaypipe => 4,
-        wrsync_delaypipe => 4,
-        use_eab => "ON",
-		overflow_checking => "ON",
-		read_aclr_synch => "OFF",
-		underflow_checking => "ON",
-		write_aclr_synch => "OFF"
-	)
-	PORT MAP (
-		aclr => not ni_clr,
-		data => i_tx_sys,
-		rdclk => i_clk_spi,
-		rdreq => w_rdreq_tx,
-		wrclk => i_clk_sys,
-		wrreq => w_wrreq_tx,
-		q => o_tx_spi,
-		rdempty => w_rdempty_tx,
-		wrfull => w_wrfull_tx
+        rdreq => r_rdreq,
+		wrreq => r_wrreq,
+		rdempty => w_rdempty,
+		wrfull => w_wrfull
 	);
 end architecture;
