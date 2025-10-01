@@ -45,8 +45,8 @@ entity domain_fifo is
 
         i_tx_ready      : in std_logic := '0';      -- Producer is ready to send some data to the FIFO.
         i_rx_ready      : in std_logic := '0';      -- Consumer is ready to get some data from the FIFO.
-        o_tx_ready      : out std_logic;            -- FIFO is ready to obtain new data (not full.)
-        o_rx_ready      : out std_logic             -- FIFO is ready to send some data (not empty.)
+        o_tx_ready      : buffer std_logic;         -- FIFO is ready to obtain new data (not full.)
+        o_rx_ready      : buffer std_logic          -- FIFO is ready to send some data (not empty.)
     );
 end entity;
 
@@ -57,6 +57,9 @@ architecture vendor of domain_fifo is
     signal w_wrfull     : std_logic := '0';
     signal w_rdempty    : std_logic := '0';
 
+    signal r_write_dt : std_logic := '0';       -- Delta logic semaphore to lock write requests only for one clock cycle. 
+    signal r_read_dt : std_logic := '0';        -- Delta logic semaphore to lock read requests only for one clock cycle. 
+
     -- Custom procedure to ensure timing constrains for dual-clocked FIFO interface.
     -- 
     -- Both read and write requests must be asserted for one clock cycle only. This procedure ensures,
@@ -66,18 +69,17 @@ architecture vendor of domain_fifo is
         signal i_clk        : in std_logic;     -- Input clock from the required domain.
         signal i_condition  : in std_logic;     -- Condition, under which the request will be asserted together with the request.
         signal i_ready      : in std_logic;     -- Ready request from the domain side.
+        signal io_dt        : inout std_logic;  -- Delta logic semaphore to clock requests only for one clock cycle.
         signal o_req        : out std_logic     -- Wire to FIFO's request inputs.
-    ) is 
-        variable dt : std_logic := '0';
-    begin
-        if falling_edge(i_clk) then
+    ) is begin
+        if rising_edge(i_clk) then
             -- On each TX ready signal, putting the write request for one clock cycle.
             if ni_clr = '0' then
                 o_req <= '0';
-                dt := '0';
+                io_dt <= '0';
             else
-                o_req <= (i_ready and i_condition and not dt);
-                dt := i_ready;
+                o_req <= (i_ready and i_condition and not io_dt);
+                io_dt <= i_ready;
             end if;
         end if;
     end procedure;
@@ -114,8 +116,8 @@ architecture vendor of domain_fifo is
 	end component;
 begin 
     -- Process for handling producer's and consumer's timing constraints.
-    p_PROD_TIMINGS : delta_ready(i_clk_producer, o_tx_ready, i_tx_ready, r_wrreq);
-    p_CONS_TIMINGS : delta_ready(i_clk_consumer, o_rx_ready, i_rx_ready, r_rdreq);
+    p_PROD_TIMINGS : delta_ready(i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq);
+    p_CONS_TIMINGS : delta_ready(i_clk_consumer, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq);
 
     -- Sending ready flags straight from FIFO interface.
     o_tx_ready <= not w_wrfull;
