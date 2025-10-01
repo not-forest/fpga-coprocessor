@@ -37,8 +37,8 @@ entity spi_tb is
         i_cpol       : std_logic;
         i_cpha       : std_logic;
         i_rx_enable  : std_logic;
-        i_tx         : t_bus;
-        o_rx         : t_bus;
+        i_tx         : t_word;
+        o_rx         : t_word;
         o_busy       : std_logic;
 
         i_sclk       : std_logic;
@@ -73,15 +73,15 @@ architecture behavioral of spi_tb is
     -- Transmit and receive word over SPI (full-duplex)
     procedure transferWord(
         signal s      : inout tb_dut;
-        constant tx   : t_bus;
-        variable rx   : out t_bus;
+        constant tx   : t_word;
+        variable rx   : out t_word;
         constant baud : real
     ) is
         constant period : time := baudToPeriod(baud);
-        variable temp_rx : t_bus := (others => '0');
+        variable temp_rx : t_word := (others => '0');
         constant cpol : std_logic := s.i_cpol;
         constant cpha : std_logic := s.i_cpha;
-        constant N : integer := t_bus'length;
+        constant N : integer := t_word'length;
     begin
         s.i_sclk <= cpol;
         s.i_mosi <= '0';
@@ -140,7 +140,7 @@ begin
     );
 
         p_MAIN : process
-        variable received : t_bus;
+        variable received : t_word;
     begin
         report "Enter p_MAIN";
 

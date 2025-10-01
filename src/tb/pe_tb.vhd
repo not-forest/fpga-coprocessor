@@ -36,55 +36,76 @@ use coproc.pe;
 entity pe_tb is
     -- Test PE block is a 8-bit MAD unit.
     -- Expected behavior:
-    -- - perform the following mathematical operation: Yout = Yout + Yin + Wi * Xin;
-    -- - Forward the X input synthed with Y input: Xout = Xin;
-    -- - Clear when 'ni_clr' is set LOW;
     type tb_dut is record
         ni_clr : std_logic;
         i_clk : t_clock;
-        i_xin : t_bus;
-        i_yin : t_bus;
-        o_xout : t_bus;
-        o_yout : t_bus;
+        i_xin : t_word;
+        i_win : t_word;
+        i_ain : t_acc;
+        o_xout : t_word;
+        o_wout : t_word;
+        o_aout : t_acc;
     end record;
 end entity;
 
 architecture behavioral of pe_tb is
     signal sigs : tb_dut := (
         ni_clr => '1',
-        i_clk => '0',
+        i_clk => '1',
         i_xin => (others => '0'),
-        i_yin => (others => '0'),
+        i_win => (others => '0'),
+        i_ain => (others => '0'),
         o_xout => (others => '0'),
-        o_yout => (others => '0')
+        o_wout => (others => '0'),
+        o_aout => (others => '0')
     );
 
-    -- Used to assert the PE element, by providing the Xin, Yin and expected Yout values.
+    -- Used to assert the PE element, by providing the Xin, Win and expected Aout values.
     procedure assert_pe (
-        signal s : inout tb_dut;
-        constant yin : in integer;
+        signal o_xin : out t_word;
+        signal o_win : out t_word;
+        signal o_ain : out t_acc;
+        constant ain : in integer;
         constant xin : in integer;
-        constant yout : in integer
-    ) is begin
+        constant win : in integer;
+        constant aout : in integer
+    ) is 
+        variable ret : boolean := false;
+    begin
         assert sigs.ni_clr = '1'
         report "Unexpected procedure usage. The procedure is expected to be used with non-cleared PE"
             severity error;
 
-        s.i_xin <= t_bus(to_signed(xin, sigs.i_xin'length));
-        s.i_yin <= t_bus(to_signed(yin, sigs.i_yin'length));
+        o_xin <= t_word(to_signed(xin, sigs.i_xin'length));
+        o_win <= t_word(to_signed(win, sigs.i_win'length));
+        o_ain <= t_acc(to_signed(ain, sigs.i_ain'length));
 
+        -- Performing one clock cycle.
         wait until falling_edge(sigs.i_clk);
-        assert sigs.o_xout = sigs.i_xin
+        wait until rising_edge(sigs.i_clk);
+
+        ret := sigs.o_xout = sigs.i_xin; 
+        assert ret
         report "Implementation error. Expected Xout = Xin = " & integer'image(xin) &
             ", found: " & integer'image(to_integer(signed(sigs.o_xout)))
             severity error;
 
-        assert sigs.o_yout = t_bus(to_signed(yout, sigs.o_yout'length))
-        report "Implementation error. Expected Yout = " & integer'image(yout) &
-            ", found: " & integer'image(to_integer(signed(sigs.o_yout)))
+        ret := sigs.o_aout = t_acc(to_signed(aout, sigs.o_aout'length));
+        assert ret
+        report "Implementation error. Expected Aout = " & integer'image(aout) &
+            ", found: " & integer'image(to_integer(signed(sigs.o_aout)))
             severity error;
 
-        report "Passed!";
+        if (ret) then
+            report "Passed! " 
+                & integer'image(ain) 
+                & " + " 
+                & integer'image(xin) 
+                & " * " 
+                & integer'image(win) 
+                & " = "
+                & integer'image(to_integer(signed(sigs.o_aout))); 
+        end if;
     end procedure;
 
     -- Test is performed with 1MHz clock.
@@ -95,9 +116,11 @@ begin
             ni_clr => sigs.ni_clr,
             i_clk => sigs.i_clk,
             i_xin => sigs.i_xin,
-            i_yin => sigs.i_yin,
+            i_win => sigs.i_win,
+            i_ain => sigs.i_ain,
             o_xout => sigs.o_xout,
-            o_yout => sigs.o_yout
+            o_wout => sigs.o_wout,
+            o_aout => sigs.o_aout
         );
 
     -- Simulates input clock.
@@ -106,8 +129,19 @@ begin
     p_MAIN : process begin
         report "Enter p_MAIN.";
 
-        wait for 1 ms;
-        assert_pe(sigs, 1, 1, 2);
+        -- Default MAC calculations.
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, 2, 2, 4);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 1, 1, 127, 128);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 10, 5, 5, 35);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 100, -1, 50, 50);
+        -- Maximum values.
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, 127, 127, 127 * 127);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, -128, 127, -127 * 128);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, -128, -128, 128 ** 2);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, -2 ** 23, -128, -128, -2 ** 23 + 128 ** 2);
+        -- Accumulator overflow (saturated).
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 2 ** 23 - 1, 1, 1, 2 ** 23 - 1);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, -2 ** 23, -1, 1, -2 ** 23);
 
         report "Done: p_MAIN";
         stop_clock(freq);

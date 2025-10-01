@@ -127,7 +127,7 @@ begin
 	GENERIC MAP (
 		intended_device_family => "Cyclone IV E",
 		lpm_hint => "RAM_BLOCK_TYPE=M9K",
-		lpm_numwords => 512,
+		lpm_numwords => 64,
 		lpm_showahead => "OFF",
 		lpm_type => "dcfifo",
 		lpm_width => 8,

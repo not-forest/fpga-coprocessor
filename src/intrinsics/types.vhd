@@ -34,10 +34,8 @@ package intrinsics is
 
     -- Words of data moving within the system atomically.
     subtype t_word is std_logic_vector(WORD_LENGTH - 1 downto 0);
-    -- Words of data on SPI bus.
-    subtype t_bus is std_logic_vector(SPI_WORD_LENGTH - 1 downto 0);
-    -- Subtype representing PE's weight. All weights are always 8-bit wide.
-    subtype t_weight is std_logic_vector(7 downto 0);
+    -- Accumulated value forwarded within the systolic array structure. 
+    subtype t_acc is std_logic_vector(23 downto 0);
 
     -- Enum state that each PE holds.
     --

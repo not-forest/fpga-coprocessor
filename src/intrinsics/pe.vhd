@@ -1,8 +1,8 @@
 -- ============================================================
 -- File: pe.vhd
 -- Desc: Defines a single representation of a PE (Processing Element) block, used within the systolic
---  array for parallel computations. This unit is runtime configurable, as it is used to perform different
---  operations within a single block based on the upcoming operation.
+--  array for parallel computations. PE units only provide MAC operation and must be used properly to
+--  obtain required output of different operations.
 -- ============================================================
 --
 -- BSD 2-Clause 
@@ -36,40 +36,52 @@ use coproc.intrinsics.all;
 entity pe is
     port (
         ni_clr : in std_logic := '1';           -- Clear PE's accumulator (Active low)
-        i_clk : in std_logic := '0';            -- Clock signal.
-        i_cmd : in std_logic := '0';            -- Command bit. Tells if the current word shall be seen as a command.
-        i_xin : in t_bus;                       -- Input data from vector X. N-bit width.
-        i_yin : in t_bus;                       -- Input data from vector Y. N-bit width.
+        i_clk : in std_logic := '1';            -- Clock signal.
 
-        o_xout : out t_bus;                     -- Pipelined output data X. N-bit width.
-        o_yout : out t_bus                      -- Pipelined output data Y. N-bit width.
+        i_xin : in t_word;                      -- Input data from vector X. N-bit width.
+        i_win : in t_word;                      -- Input data from vector W. N-bit width.
+        i_ain : in t_acc;                       -- Forwarded accumulator from the previous diagonal PE.
+
+        o_xout : out t_word;                    -- Pipelined output data X. N-bit width.
+        o_wout : out t_word;                    -- Pipelined output data W. N-bit width.
+        o_aout : buffer t_acc                   -- Pipelined accumulator.
     );
 end entity;
 
 architecture rtl of pe is
-    signal r_weight : t_weight := (others => '0');
-    signal r_cmd : t_pe_command := CLEAR;
 begin
     process (i_clk) is
         variable xin : signed(i_xin'range);
-        variable yin : signed(i_yin'range);
-        variable wi : signed(r_weight'range);
-        variable yout : signed(o_yout'range);
+        variable win : signed(i_win'range);
+        variable acc : signed(i_ain'range);
+        variable aout : integer;
+
+        constant MAX_ACC : integer := 2 ** (t_acc'length - 1) - 1;
+        constant MIN_ACC : integer := -2 ** (t_acc'length - 1);
     begin
         if falling_edge(i_clk) then
             if ni_clr = '0' then
-                r_weight <= (others => '0');
+                o_aout <= (others => '0');
             else
                 -- Assignment
                 xin := signed(i_xin);
-                yin := signed(i_yin);
-                wi := signed(r_weight);
-                yout := (others => '0');
-                -- Execution.
-                yout := yin + wi * xin;
+                win := signed(i_win);
+                acc := signed(i_ain);
+                aout := 0;
 
-                o_yout <= std_logic_vector(yout);
-                o_xout <= i_xin;
+                -- MAC
+                aout := to_integer(acc + resize(xin, t_acc'length) * resize(win, t_acc'length));
+
+                -- Saturating on both sides.
+                if aout > MAX_ACC then
+                    aout := MAX_ACC;
+                elsif aout < MIN_ACC then
+                    aout := MIN_ACC;
+                end if;
+
+                o_xout <= i_xin;                                            -- X inputs forwarded horizontally.
+                o_wout <= i_win;                                            -- W inputs forwarded vertically.
+                o_aout <= std_logic_vector(to_signed(aout, t_acc'length));  -- Accumulator output forwarded diagonally.
             end if;
         end if;
     end process;

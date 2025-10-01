@@ -37,8 +37,8 @@ entity spi_slave is
         i_cpol       : in  std_logic := '0';            -- Clock polarity mode
         i_cpha       : in  std_logic := '0';            -- Clock phase mode
         i_rx_enable  : in  std_logic := '0';            -- Enable signal to wire rxbuffer to outside
-        i_tx         : in  t_bus := (others => '0');    -- Data to transmit
-        o_rx         : out t_bus := (others => '0');    -- Data received
+        i_tx         : in  t_word := (others => '0');    -- Data to transmit
+        o_rx         : out t_word := (others => '0');    -- Data received
         o_busy       : out std_logic := '0';            -- Slave busy signal
         -- External lanes (Shared with master microcontroller).
         i_sclk       : in  std_logic;                   -- SPI clock
@@ -51,9 +51,9 @@ end spi_slave;
 architecture rtl of spi_slave is
     signal mode         : std_logic;                                 -- According to CPOL and CPHA
     signal internal_clk : std_logic;
-    signal bit_counter  : integer range 0 to t_bus'length := 0;      -- Bit counter
-    signal rxbuffer     : t_bus := (others => '0');
-    signal txbuffer     : t_bus := (others => '0');
+    signal bit_counter  : integer range 0 to t_word'length := 0;      -- Bit counter
+    signal rxbuffer     : t_word := (others => '0');
+    signal txbuffer     : t_word := (others => '0');
 begin
     o_busy <= not ni_ss;
 
@@ -79,7 +79,7 @@ begin
         if ni_ss = '1' or ni_reset = '0' then
             bit_counter <= 0;
         elsif rising_edge(internal_clk) then
-            if bit_counter < t_bus'length then
+            if bit_counter < t_word'length then
                 bit_counter <= bit_counter + 1;
             end if;
         end if;
@@ -91,8 +91,8 @@ begin
         -- Receive MOSI
         if ni_reset = '0' then
             rxbuffer <= (others => '0');
-        elsif falling_edge(internal_clk) and bit_counter < t_bus'length then
-            rxbuffer <= rxbuffer(t_bus'length - 2 downto 0) & i_mosi;
+        elsif falling_edge(internal_clk) and bit_counter < t_word'length then
+            rxbuffer <= rxbuffer(t_word'length - 2 downto 0) & i_mosi;
         end if;
 
         -- Output received data
@@ -107,15 +107,15 @@ begin
             txbuffer <= (others => '0');
         elsif ni_ss = '1' then
             txbuffer <= i_tx;
-        elsif rising_edge(internal_clk) and bit_counter < t_bus'length then
-            txbuffer <= txbuffer(t_bus'length - 2 downto 0) & txbuffer(t_bus'length - 1);
+        elsif rising_edge(internal_clk) and bit_counter < t_word'length then
+            txbuffer <= txbuffer(t_word'length - 2 downto 0) & txbuffer(t_word'length - 1);
         end if;
 
         -- Drive MISO
         if ni_ss = '1' or ni_reset = '0' then
             o_miso <= 'Z';
         elsif rising_edge(internal_clk) then
-            o_miso <= txbuffer(t_bus'length - 1);
+            o_miso <= txbuffer(t_word'length - 1);
         end if;
     end process;
 end architecture;
