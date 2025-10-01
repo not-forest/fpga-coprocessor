@@ -1,6 +1,8 @@
 -- ============================================================
--- File: coprocessor.vhd
--- Desc: Top level entity of the FPGA Coprocessor implementation.
+-- File: binding_vendor.vhd
+-- Desc: Additional bindings to the FPGA board. This module separates overall design from vendor-specific software/
+--      configuration/structures.
+-- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
 -- ============================================================
 --
 -- BSD 2-Clause 
@@ -28,38 +30,43 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use coproc.intrinsics.all;
-use coproc.systolic_arr;
-use coproc.spi_slave;
+use coproc.coprocessor;
 use coproc.pll;
 
-entity coprocessor is
+entity binding_vendor is
     port (
-        i_clk       : in std_logic := '0';            -- Stable PLL clock input.
-        ni_rst      : in std_logic := '1';            -- Hard reset signal.
+        i_pCLK       : in std_logic;                -- External FPGA Oscillator.
+        i_pRST       : in std_logic;                -- Hard reset button.
         
-        i_sclk      : in  std_logic;                  -- SPI clock
-        ni_ss       : in  std_logic;                  -- Slave select (active low)
-        i_mosi      : in  std_logic;                  -- Master Out Slave In
-        o_miso      : out std_logic                   -- Master In Slave Out
+        i_pSCLK       : in  std_logic;              -- SPI clock
+        ni_pSS        : in  std_logic;              -- Slave select (active low)
+        i_pMOSI       : in  std_logic;              -- Master Out Slave In
+        o_pMISO       : out std_logic               -- Master In Slave Out
          );
 end entity;
 
-architecture structured of coprocessor is 
+architecture structured of binding_vendor is
+    signal w_clk : std_logic := '1';                -- PLL clock wire signal.
 begin
-    -- SPI slave module acting as an interface between coprocessor and master microcontroller.
-    SPI_Inst : entity spi_slave
-    port map (
-        ni_reset     => ni_rst,
-        i_cpol       => open,
-        i_cpha       => open,
-        i_rx_enable  => open,
-        i_tx         => open,
-        o_rx         => open,
-        o_busy       => open,
+    -- Global coprocessor clock source.
+    PLL_Inst : entity pll
+    port map(
+        i_clk0 => i_pCLK,
+        ni_sleep => not i_pRST,
+        o_clk0 => open,
+        o_clk1 => open,
+        o_clk2 => w_clk
+    );
 
-        i_sclk       => i_sclk,
-        ni_ss        => ni_ss,
-        i_mosi       => i_mosi,
-        o_miso       => o_miso
+    -- SPI slave module acting as an interface between coprocessor and master microcontroller.
+    COPROCESSOR_Inst : entity coprocessor
+    port map(
+        i_clk  => w_clk,
+        ni_rst => not i_pRST,
+        
+        i_sclk => i_pSCLK,
+        ni_ss  => ni_pSS,
+        i_mosi => i_pMOSI,
+        o_miso => o_pMISO
     );
 end architecture;

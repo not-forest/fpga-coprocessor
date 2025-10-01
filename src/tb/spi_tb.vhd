@@ -33,7 +33,7 @@ use ieee.std_logic_1164.all;
 
 entity spi_tb is
     type tb_dut is record
-        in_reset     : std_logic;
+        ni_reset     : std_logic;
         i_cpol       : std_logic;
         i_cpha       : std_logic;
         i_rx_enable  : std_logic;
@@ -42,7 +42,7 @@ entity spi_tb is
         o_busy       : std_logic;
 
         i_sclk       : std_logic;
-        in_ss        : std_logic;
+        ni_ss        : std_logic;
         i_mosi       : std_logic;
         o_miso       : std_logic;
     end record;
@@ -50,7 +50,7 @@ end entity;
 
 architecture behavioral of spi_tb is
     signal sigs : tb_dut := (
-        in_reset     => '1',
+        ni_reset     => '1',
         i_cpol       => '0',
         i_cpha       => '0',
         i_rx_enable  => '0',
@@ -59,7 +59,7 @@ architecture behavioral of spi_tb is
         o_busy       => '0',
 
         i_sclk       => '0',
-        in_ss        => '1',
+        ni_ss        => '1',
         i_mosi       => '0',
         o_miso       => '0'
     );
@@ -85,10 +85,10 @@ architecture behavioral of spi_tb is
     begin
         s.i_sclk <= cpol;
         s.i_mosi <= '0';
-        s.in_ss <= '1';
+        s.ni_ss <= '1';
         wait for period;
 
-        s.in_ss <= '0';
+        s.ni_ss <= '0';
         wait for period;
 
         for i in N-1 downto 0 loop
@@ -109,7 +109,7 @@ architecture behavioral of spi_tb is
             end if;
         end loop;
 
-        s.in_ss <= '1';
+        s.ni_ss <= '1';
         s.i_mosi <= '0';
         s.i_sclk <= cpol;
         rx := temp_rx;
@@ -125,7 +125,7 @@ begin
     -- DUT mapping.
     SPI_Inst : entity spi_slave
     port map (
-        in_reset     => sigs.in_reset,
+        ni_reset     => sigs.ni_reset,
         i_cpol       => sigs.i_cpol,
         i_cpha       => sigs.i_cpha,
         i_rx_enable  => sigs.i_rx_enable,
@@ -134,7 +134,7 @@ begin
         o_busy       => sigs.o_busy,
 
         i_sclk       => sigs.i_sclk,
-        in_ss        => sigs.in_ss,
+        ni_ss        => sigs.ni_ss,
         i_mosi       => sigs.i_mosi,
         o_miso       => sigs.o_miso
     );
@@ -144,9 +144,9 @@ begin
     begin
         report "Enter p_MAIN";
 
-        sigs.in_reset <= '0';
+        sigs.ni_reset <= '0';
         wait for 100 ns;
-        sigs.in_reset <= '1';
+        sigs.ni_reset <= '1';
         wait for 100 ns;
 
         sigs.i_tx <= x"AB";
