@@ -35,6 +35,9 @@ library coproc;
 use coproc.intrinsics.all;
 
 entity domain_fifo is
+    generic (
+        g_LENGTH : natural := 64                    -- Amount of words the FIFO can hold.
+            );
     port (
         ni_clr          : in std_logic := '1';      -- Asynchronous clear (Active low).
         i_clk_producer  : in std_logic := '1';      -- Internal clock for producer.
@@ -127,7 +130,7 @@ begin
 	GENERIC MAP (
 		intended_device_family => "Cyclone IV E",
 		lpm_hint => "RAM_BLOCK_TYPE=M9K",
-		lpm_numwords => 64,
+		lpm_numwords => g_LENGTH,
 		lpm_showahead => "OFF",
 		lpm_type => "dcfifo",
 		lpm_width => 8,

@@ -37,6 +37,9 @@ package intrinsics is
     -- Accumulated value forwarded within the systolic array structure. 
     subtype t_acc is std_logic_vector(23 downto 0);
 
+    -- Resizable array of coprocessor words.
+    type t_word_array is array (natural range <>) of t_word;
+
     -- Enum state that each PE holds.
     --
     -- It provides information to the PE about which operation it shall perform with the

@@ -36,6 +36,8 @@ use coproc.pe;
 entity pe_tb is
     -- Test PE block is a 8-bit MAD unit.
     -- Expected behavior:
+    -- - Perform proper MAC operation and forward all parameters to their corresponding axes.
+    -- - Prevent integer arithmetic overflows (saturate).
     type tb_dut is record
         ni_clr : std_logic;
         i_clk : t_clock;
