@@ -40,20 +40,21 @@ entity pe is
 
         i_xin : in t_word;                      -- Input data from vector X. N-bit width.
         i_win : in t_word;                      -- Input data from vector W. N-bit width.
-        i_ain : in t_acc;                       -- Forwarded accumulator from the previous diagonal PE.
 
         o_xout : out t_word;                    -- Pipelined output data X. N-bit width.
         o_wout : out t_word;                    -- Pipelined output data W. N-bit width.
-        o_aout : buffer t_acc                   -- Pipelined accumulator.
+        o_aout : out t_acc                      -- Pipelined accumulator.
     );
 end entity;
 
 architecture rtl of pe is
+    signal r_x, r_w : t_word := (others => '0');
+    signal r_a      : t_acc := (others => '0');
 begin
     process (i_clk) is
         variable xin : signed(i_xin'range);
         variable win : signed(i_win'range);
-        variable acc : signed(i_ain'range);
+        variable acc : signed(o_aout'range);
         variable aout : integer;
 
         constant MAX_ACC : integer := 2 ** (t_acc'length - 1) - 1;
@@ -61,12 +62,12 @@ begin
     begin
         if falling_edge(i_clk) then
             if ni_clr = '0' then
-                o_aout <= (others => '0');
+                r_a <= (others => '0');
             else
                 -- Assignment
                 xin := signed(i_xin);
                 win := signed(i_win);
-                acc := signed(i_ain);
+                acc := signed(r_a);
                 aout := 0;
 
                 -- MAC
@@ -79,10 +80,14 @@ begin
                     aout := MIN_ACC;
                 end if;
 
-                o_xout <= i_xin;                                            -- X inputs forwarded horizontally.
-                o_wout <= i_win;                                            -- W inputs forwarded vertically.
-                o_aout <= std_logic_vector(to_signed(aout, t_acc'length));  -- Accumulator output forwarded diagonally.
+                r_x <= i_xin;                                            -- X inputs forwarded horizontally.
+                r_w <= i_win;                                            -- W inputs forwarded vertically.
+                r_a <= std_logic_vector(to_signed(aout, t_acc'length));  -- Accumulator output forwarded diagonally.
             end if;
         end if;
     end process;
+
+    o_aout <= r_a;
+    o_xout <= r_x;
+    o_wout <= r_w;
 end architecture;

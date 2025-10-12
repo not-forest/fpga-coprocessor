@@ -66,13 +66,12 @@ architecture behavioral of pe_tb is
     procedure assert_pe (
         signal o_xin : out t_word;
         signal o_win : out t_word;
-        signal o_ain : out t_acc;
-        constant ain : in integer;
         constant xin : in integer;
         constant win : in integer;
         constant aout : in integer
     ) is 
         variable ret : boolean := false;
+        variable acc : t_acc := (others => '0');
     begin
         assert sigs.ni_clr = '1'
         report "Unexpected procedure usage. The procedure is expected to be used with non-cleared PE"
@@ -80,7 +79,7 @@ architecture behavioral of pe_tb is
 
         o_xin <= t_word(to_signed(xin, sigs.i_xin'length));
         o_win <= t_word(to_signed(win, sigs.i_win'length));
-        o_ain <= t_acc(to_signed(ain, sigs.i_ain'length));
+        acc := sigs.o_aout;
 
         -- Performing one clock cycle.
         wait until falling_edge(sigs.i_clk);
@@ -100,7 +99,7 @@ architecture behavioral of pe_tb is
 
         if (ret) then
             report "Passed! " 
-                & integer'image(ain) 
+                & integer'image(to_integer(signed(acc))) 
                 & " + " 
                 & integer'image(xin) 
                 & " * " 
@@ -119,7 +118,6 @@ begin
             i_clk => sigs.i_clk,
             i_xin => sigs.i_xin,
             i_win => sigs.i_win,
-            i_ain => sigs.i_ain,
             o_xout => sigs.o_xout,
             o_wout => sigs.o_wout,
             o_aout => sigs.o_aout
@@ -132,18 +130,12 @@ begin
         report "Enter p_MAIN.";
 
         -- Default MAC calculations.
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, 2, 2, 4);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 1, 1, 127, 128);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 10, 5, 5, 35);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 100, -1, 50, 50);
-        -- Maximum values.
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, 127, 127, 127 * 127);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, -128, 127, -127 * 128);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 0, -128, -128, 128 ** 2);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, -2 ** 23, -128, -128, -2 ** 23 + 128 ** 2);
-        -- Accumulator overflow (saturated).
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, 2 ** 23 - 1, 1, 1, 2 ** 23 - 1);
-        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_ain, -2 ** 23, -1, 1, -2 ** 23);
+        assert_pe(sigs.i_xin, sigs.i_win, 2, 2, 4);
+        assert_pe(sigs.i_xin, sigs.i_win, 1, 4, 8);
+        assert_pe(sigs.i_xin, sigs.i_win, 6, 6, 44);
+        assert_pe(sigs.i_xin, sigs.i_win, -7, -8, 100);
+        assert_pe(sigs.i_xin, sigs.i_win, -1, 100, 0);
+        assert_pe(sigs.i_xin, sigs.i_win, 127, 127, 127 * 127);
 
         report "Done: p_MAIN";
         stop_clock(freq);
