@@ -1,5 +1,5 @@
 -- ============================================================
--- File: shift_tb.vhd
+-- File: sipo_tb.vhd
 -- Desc: Word shifting memory block for systolic array inputs. Shifts upcoming word of data and flushes the entire
 --      previous batch on each clock cycle simultaneously. Internally acts as a SIPO block of N registers.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
@@ -37,7 +37,7 @@ use coproc.intrinsics.all;
 use coproc.tb.all;
 use coproc.word_shifter;
 
-entity shift_tb is
+entity sipo_tb is
     type tb_dut is record
         ni_clr : std_logic;
         i_clk : std_logic;
@@ -46,7 +46,7 @@ entity shift_tb is
     end record;
 end entity;
 
-architecture behavioral of shift_tb is
+architecture behavioral of sipo_tb is
     signal sigs : tb_dut := (
         ni_clr => '1',
         i_clk => '1',

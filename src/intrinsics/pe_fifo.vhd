@@ -1,7 +1,6 @@
 -- ============================================================
--- File: domain_fifo.vhd
--- Desc: Two dual-clock FIFO queue wrapper used to separate coprocessor's interfaces and internal elements.
---      This element ensures isolation between two different clock domains and provides proper data transfer.
+-- File: pe_fifo.vhd
+-- Desc: Regular FIFO queue used to feed rows and columns of systolic array.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
 -- ============================================================
 --
@@ -25,26 +24,24 @@
 -- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN 
 -- IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+library coproc;
 library ieee;
-use ieee.std_logic_1164.all;
-
 library altera_mf;
+
+use ieee.std_logic_1164.all;
+use coproc.intrinsics.all;
 use altera_mf.all;
 
-library coproc;
-use coproc.intrinsics.all;
-
-entity domain_fifo is
+entity pe_fifo is
     generic (
-        g_LENGTH : natural := 64                    -- Amount of words the FIFO can hold.
-            );
+        g_BLOCK_SIZE : natural := 16                -- Size of PE batch block equals to FIFO length.
+    );
     port (
-        ni_clr          : in std_logic := '1';      -- Asynchronous clear (Active low).
-        i_clk_producer  : in std_logic := '1';      -- Internal clock for producer.
-        i_clk_consumer  : in std_logic := '1';      -- Internal clock for producer.
-
-        i_tx            : in t_word;
-        o_rx            : out t_word;
+        na_clr : in std_logic := '1';
+        i_clk : in std_logic := '1';  
+        
+        i_data : in t_word := (others => '0');
+        o_data : out t_word;
 
         i_tx_ready      : in std_logic := '0';      -- Producer is ready to send some data to the FIFO.
         i_rx_ready      : in std_logic := '0';      -- Consumer is ready to get some data from the FIFO.
@@ -53,8 +50,7 @@ entity domain_fifo is
     );
 end entity;
 
-architecture vendor of domain_fifo is
-    -- Handshake Communication Wires.
+architecture vendor of pe_fifo is
     signal r_wrreq      : std_logic := '0';
     signal r_rdreq      : std_logic := '0';
     signal w_wrfull     : std_logic := '0';
@@ -63,9 +59,9 @@ architecture vendor of domain_fifo is
     signal r_write_dt : std_logic := '0';       -- Delta logic semaphore to lock write requests only for one clock cycle. 
     signal r_read_dt : std_logic := '0';        -- Delta logic semaphore to lock read requests only for one clock cycle. 
 
-    -- Vendor specific dual-clock FIFO. This entity uses two such queues to provide duplex communication.
-	component dcfifo
+    component scfifo is
 	generic (
+		add_ram_output_register		: string;
 		intended_device_family		: string;
 		lpm_hint		            : string;
 		lpm_numwords		        : natural;
@@ -74,61 +70,53 @@ architecture vendor of domain_fifo is
 		lpm_width		            : natural;
 		lpm_widthu		            : natural;
 		overflow_checking		    : string;
-		rdsync_delaypipe		    : natural;
-		read_aclr_synch		        : string;
 		underflow_checking		    : string;
-		use_eab		                : string;
-		write_aclr_synch		    : string;
-		wrsync_delaypipe		    : natural
+		use_eab		                : string
 	);
 	port (
-			aclr : in std_logic ;
-			data : in t_word;
-			rdclk : in std_logic ;
-			rdreq : in std_logic ;
-			wrclk : in std_logic ;
-			wrreq : in std_logic ;
-			q : out t_word;
-			rdempty : out std_logic ;
-			wrfull : out std_logic 
+		clock	: in std_logic;
+		data	: in t_word;
+		rdreq	: in std_logic;
+		wrreq	: in std_logic;
+        aclr    : in std_logic;
+		empty	: out std_logic;
+		full	: out std_logic;
+		q	    : out t_word;
+		usedw	: out t_word
 	);
-	end component;
-begin 
+    end component;
+begin
     -- Process for handling producer's and consumer's timing constraints.
-    p_PROD_TIMINGS : delta_ready(ni_clr, i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq);
-    p_CONS_TIMINGS : delta_ready(ni_clr, i_clk_consumer, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq);
+    p_PROD_TIMINGS : delta_ready(na_clr, i_clk, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq);
+    p_CONS_TIMINGS : delta_ready(na_clr, i_clk, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq);
 
     -- Sending ready flags straight from FIFO interface.
     o_tx_ready <= not w_wrfull;
     o_rx_ready <= not w_rdempty;
 
-	DCFIFO_Inst : dcfifo
+	SCFIFO_Inst : scfifo
 	GENERIC MAP (
+		add_ram_output_register => "ON",
 		intended_device_family => "Cyclone IV E",
 		lpm_hint => "RAM_BLOCK_TYPE=M9K",
-		lpm_numwords => g_LENGTH,
+		lpm_numwords => g_BLOCK_SIZE,
 		lpm_showahead => "OFF",
-		lpm_type => "dcfifo",
+		lpm_type => "scfifo",
 		lpm_width => t_word'length,
-		lpm_widthu => t_word'length + 1,
-        rdsync_delaypipe => 4,
-        wrsync_delaypipe => 4,
-        use_eab => "ON",
-		overflow_checking => "ON",
-		read_aclr_synch => "OFF",
-		underflow_checking => "ON",
-		write_aclr_synch => "OFF"
+		lpm_widthu => t_word'length,
+		overflow_checking => "OFF",
+		underflow_checking => "OFF",
+		use_eab => "ON"
 	)
 	PORT MAP (
-		aclr => not ni_clr,
-		data => i_tx,
-        q => o_rx,
-		rdclk => i_clk_consumer,
-		wrclk => i_clk_producer,
-
-        rdreq => r_rdreq,
+		clock => i_clk,
+        aclr => not na_clr,
+		data => i_data,
+		rdreq => r_rdreq,
 		wrreq => r_wrreq,
-		rdempty => w_rdempty,
-		wrfull => w_wrfull
+		empty => w_rdempty,
+		full => w_wrfull,
+		q => o_data,
+		usedw => open
 	);
 end architecture;

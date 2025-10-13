@@ -53,6 +53,20 @@ package intrinsics is
         ADD
     );
 
+    -- Custom procedure to ensure timing constrains for FIFO interfaces.
+    -- 
+    -- Both read and write requests must be asserted for one clock cycle only. This procedure ensures,
+    -- that both producer and consumer can hold their READY lines high as long as they won't, because it
+    -- will only fire one request per rising edge.
+    procedure delta_ready (
+        signal ni_clr       : in std_logic;     -- Synchronous clear (Active low).
+        signal i_clk        : in std_logic;     -- Input clock from the required domain.
+        signal i_condition  : in std_logic;     -- Condition, under which the request will be asserted together with the request.
+        signal i_ready      : in std_logic;     -- Ready request from the domain side.
+        signal io_dt        : inout std_logic;  -- Delta logic semaphore to clock requests only for one clock cycle.
+        signal o_req        : out std_logic     -- Wire to FIFO's request inputs.
+    );
+
     -- Custom pipelining procedure, to pipeline any type of data for one clock cycle. 
     procedure pipeline (
         signal i_clk            : in std_logic;
@@ -71,6 +85,31 @@ package body intrinsics is
     ) is begin
         if falling_edge(i_clk) then
             o_data <= i_data;
+        end if;
+    end procedure;
+
+    -- Custom procedure to ensure timing constrains for FIFO interfaces.
+    -- 
+    -- Both read and write requests must be asserted for one clock cycle only. This procedure ensures,
+    -- that both producer and consumer can hold their READY lines high as long as they won't, because it
+    -- will only fire one request per rising edge.
+    procedure delta_ready (
+        signal ni_clr       : in std_logic;     -- Synchronous clear (Active low).
+        signal i_clk        : in std_logic;     -- Input clock from the required domain.
+        signal i_condition  : in std_logic;     -- Condition, under which the request will be asserted together with the request.
+        signal i_ready      : in std_logic;     -- Ready request from the domain side.
+        signal io_dt        : inout std_logic;  -- Delta logic semaphore to clock requests only for one clock cycle.
+        signal o_req        : out std_logic     -- Wire to FIFO's request inputs.
+    ) is begin
+        if rising_edge(i_clk) then
+            -- On each TX ready signal, putting the write request for one clock cycle.
+            if ni_clr = '0' then
+                o_req <= '0';
+                io_dt <= '0';
+            else
+                o_req <= (i_ready and i_condition and not io_dt);
+                io_dt <= i_ready;
+            end if;
         end if;
     end procedure;
 end package body;
