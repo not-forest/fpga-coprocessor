@@ -1,5 +1,5 @@
 -- ============================================================
--- File: shift.vhd
+-- File: sipo.vhd
 -- Desc: Word shifting memory block for systolic array inputs. Shifts upcoming word of data and flushes the entire
 --      previous batch on each clock cycle simultaneously. Internally acts as a SIPO block of N registers.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
@@ -36,9 +36,10 @@ entity word_shifter is
         g_LENGTH : natural      -- Describes how many words can be held in this shifter.
             );
     port (
-        ni_clr : in std_logic := '1';       -- Asynchronous clear (Active low).
-        i_clk : in std_logic := '1';        -- Clock input. Shifts and pushes elements at the same time.
-        i_data : in t_word;                 -- Data input. One value at a time.
+        ni_clr  : in std_logic := '1';      -- Synchronous clear (Active low).
+        i_clk   : in std_logic := '1';      -- Clock input. Shifts and pushes elements at the same time.
+        i_write : in std_logic := '1';      -- Starts writing procedure.
+        i_data  : in t_word;                -- Data input. One value at a time.
         o_batch : out t_word_array          -- Batch output. Data from each register is always seen.
     );
 end entity;
@@ -68,8 +69,26 @@ architecture vendor of word_shifter is
         );
     end component;
 
+    signal r_batchfull : std_logic := '0';  -- Says whether the full batch is written into the SIPO and ready to be flushed.
     signal w_taps : std_logic_vector(g_LENGTH * t_word'length - 1 downto 0) := (others => '0');
+    signal w_clear : std_logic := '0';
+    signal cnt : integer := 0; 
 begin
+    -- Detects whether batch is full.
+    process (all) is
+    begin
+        r_batchfull <= '0';
+        if i_write = '1' then
+            if falling_edge(i_clk) then
+                cnt <= cnt + 1;
+                if cnt = g_LENGTH then
+                    cnt <= 0;
+                    r_batchfull <= '1';
+                end if;
+            end if;
+        end if;
+    end process;
+
     ALTSHIFT_TAPS_Inst : altshift_taps
     generic map (
         intended_device_family => "Cyclone IV E",
@@ -79,13 +98,16 @@ begin
         lpm_hint => "RAM_BLOCK_TYPE=M9K"
     )
     port map (
-        aclr => not ni_clr,
-        clken => '1',
+        aclr => w_clear,
+        clken => i_write,
         clock => i_clk,
         shiftin => i_data,
         shiftout => open,
         taps => w_taps
     );
+
+    -- Flushing the buffer when full or on clear event.
+    w_clear <= not ni_clr or r_batchfull;
 
     -- Splitting big taps vector into array of words. For some reason taps output from altshift_taps is shifted to left.
     g_SPLIT : for i in 0 to o_batch'length - 2 generate

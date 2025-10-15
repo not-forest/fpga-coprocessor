@@ -41,6 +41,7 @@ entity sipo_tb is
     type tb_dut is record
         ni_clr : std_logic;
         i_clk : std_logic;
+        i_write : std_logic;
         i_data : t_word;          
         o_batch : t_word_array(3 downto 0);   
     end record;
@@ -50,6 +51,7 @@ architecture behavioral of sipo_tb is
     signal sigs : tb_dut := (
         ni_clr => '1',
         i_clk => '1',
+        i_write => '0',
         i_data => (others => '0'),
         o_batch => (others => (others => '0'))
     );
@@ -90,6 +92,7 @@ begin
     port map (
         ni_clr => sigs.ni_clr,
         i_clk => sigs.i_clk,
+        i_write => sigs.i_write,
         i_data => sigs.i_data,   
         o_batch => sigs.o_batch   
          );
@@ -99,17 +102,17 @@ begin
 
     p_APPENDER : process is 
         -- Values that will be pushed into the shifter.
-        variable seq : t_word_array(0 to 5) := (x"AA", x"BB", x"CC", x"DD", x"EE", x"FF");
+        variable seq : t_word_array(0 to 7) := (x"AA", x"AA", x"AA", x"AA", x"BB", x"BB", x"BB", x"BB");
     begin
         report "Enter p_APPENDER";
 
         wait until falling_edge(sigs.i_clk);
+        sigs.i_write <= '1';
         -- Sending each word sequence per clock tick.
         for i in seq'range loop
             sigs.i_data <= seq(i);
             wait until falling_edge(sigs.i_clk);
         end loop;
-        sigs.i_data <= (others => '0');
 
         report "Done: p_APPENDER";
         wait;
@@ -122,24 +125,26 @@ begin
         wait until falling_edge(sigs.i_clk);
         wait until falling_edge(sigs.i_clk);
         assert_shift_regs((x"00", x"00", x"00", x"00"), sigs.o_batch);
+
         wait until falling_edge(sigs.i_clk);
         assert_shift_regs((x"AA", x"00", x"00", x"00"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"BB", x"AA", x"00", x"00"), sigs.o_batch);
+        assert_shift_regs((x"AA", x"AA", x"00", x"00"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"CC", x"BB", x"AA", x"00"), sigs.o_batch);
+        assert_shift_regs((x"AA", x"AA", x"AA", x"00"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"DD", x"CC", x"BB", x"AA"), sigs.o_batch);
+        assert_shift_regs((x"AA", x"AA", x"AA", x"AA"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"EE", x"DD", x"CC", x"BB"), sigs.o_batch);
+        assert_shift_regs((x"00", x"00", x"00", x"00"), sigs.o_batch);
+
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"FF", x"EE", x"DD", x"CC"), sigs.o_batch);
+        assert_shift_regs((x"BB", x"00", x"00", x"00"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"00", x"FF", x"EE", x"DD"), sigs.o_batch);
+        assert_shift_regs((x"BB", x"BB", x"00", x"00"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"00", x"00", x"FF", x"EE"), sigs.o_batch);
+        assert_shift_regs((x"BB", x"BB", x"BB", x"00"), sigs.o_batch);
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"00", x"00", x"00", x"FF"), sigs.o_batch);
+        assert_shift_regs((x"BB", x"BB", x"BB", x"BB"), sigs.o_batch);
 
         report "Done: p_MAIN";
         stop_clock(freq);
