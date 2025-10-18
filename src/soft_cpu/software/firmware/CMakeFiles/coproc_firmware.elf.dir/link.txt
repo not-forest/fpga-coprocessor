@@ -1,0 +1,1 @@
+/usr/bin/riscv32-unknown-elf-gcc -g -march=rv32i -mabi=ilp32 -nostdlib CMakeFiles/coproc_firmware.elf.dir/main.c.obj -o coproc_firmware.elf  -T /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/linker.x -nostdlib -Wl,--start-group hal_bsp/libhal2_bsp.a -lc -lstdc++ -lgcc -lm -Wl,--end-group
