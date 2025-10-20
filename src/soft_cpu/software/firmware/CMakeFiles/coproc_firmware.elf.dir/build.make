@@ -76,15 +76,15 @@ CMakeFiles/coproc_firmware.elf.dir/main.c.obj: CMakeFiles/coproc_firmware.elf.di
 CMakeFiles/coproc_firmware.elf.dir/main.c.obj: main.c
 CMakeFiles/coproc_firmware.elf.dir/main.c.obj: CMakeFiles/coproc_firmware.elf.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/coproc_firmware.elf.dir/main.c.obj"
-	/usr/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/coproc_firmware.elf.dir/main.c.obj -MF CMakeFiles/coproc_firmware.elf.dir/main.c.obj.d -o CMakeFiles/coproc_firmware.elf.dir/main.c.obj -c /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/main.c
+	/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/coproc_firmware.elf.dir/main.c.obj -MF CMakeFiles/coproc_firmware.elf.dir/main.c.obj.d -o CMakeFiles/coproc_firmware.elf.dir/main.c.obj -c /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/main.c
 
 CMakeFiles/coproc_firmware.elf.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/coproc_firmware.elf.dir/main.c.i"
-	/usr/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/main.c > CMakeFiles/coproc_firmware.elf.dir/main.c.i
+	/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/main.c > CMakeFiles/coproc_firmware.elf.dir/main.c.i
 
 CMakeFiles/coproc_firmware.elf.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/coproc_firmware.elf.dir/main.c.s"
-	/usr/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/main.c -o CMakeFiles/coproc_firmware.elf.dir/main.c.s
+	/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/main.c -o CMakeFiles/coproc_firmware.elf.dir/main.c.s
 
 # Object files for target coproc_firmware.elf
 coproc_firmware_elf_OBJECTS = \

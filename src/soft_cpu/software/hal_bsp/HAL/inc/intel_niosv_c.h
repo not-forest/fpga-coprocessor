@@ -27,13 +27,10 @@
 * of California and by the laws of the United States of America.              *
 *                                                                             *
 ******************************************************************************/
-#ifndef __INTEL_NIOSV_M_H__
-#define __INTEL_NIOSV_M_H__
-
-#include "string.h"
+#ifndef __INTEL_NIOSV_C_H__
+#define __INTEL_NIOSV_C_H__
 
 #include "alt_types.h"
-#include "sys/alt_alarm.h"
 
 #include "system.h"
 
@@ -41,7 +38,7 @@
 #include "intel_niosv.h"
 
 /*
- * This header provides processor specific macros for accessing Intel Nios V/m.
+ * This header provides processor specific macros for accessing Intel Nios V/c
  */
 
 #ifdef __cplusplus
@@ -50,19 +47,13 @@ extern "C"
 #endif /* __cplusplus */
 
 // System initialization macros
-#define INTEL_NIOSV_M_INSTANCE(name, dev) extern int alt_no_storage
+#define INTEL_NIOSV_C_INSTANCE(name, dev) extern int alt_no_storage
 
 // This is what's called from alt_sys_init.v
-#define INTEL_NIOSV_M_INIT(name, dev)                                        \
-  if (strcmp(ALT_MKSTR_EXPAND(name), ALT_MKSTR_EXPAND(ALT_SYS_CLK)) == 0)    \
-  {                                                                          \
-      alt_sysclk_init(ALT_CPU_TICKS_PER_SEC);                                \
-      alt_niosv_register_mtimecmp_interrupt_handle(alt_niosv_timer_sc_isr);  \
-      alt_niosv_mtimecmp_interrupt_init();                                   \
-  }                                                                          \
+#define INTEL_NIOSV_C_INIT(name, dev)
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* __INTEL_NIOSV_M_H__ */
+#endif /* __INTEL_NIOSV_C_H__ */

@@ -6,7 +6,6 @@ project(bsp)
 
 enable_language(ASM)
 enable_language(C)
-enable_language(CXX)
 
 set(BspLibraryName "hal2_bsp" CACHE STRING "The BSP library name.")
 set(BspLinkerScript "${CMAKE_CURRENT_SOURCE_DIR}/linker.x" CACHE STRING
@@ -28,7 +27,6 @@ target_sources("${BspLibraryName}"
         HAL/src/alt_mcount.S
         HAL/src/alt_vic_vector_table.S
         HAL/src/crt0.S
-        HAL/src/machine_trap.S
         HAL/src/alt_alarm_start.c
         HAL/src/alt_busy_sleep.c
         HAL/src/alt_close.c
@@ -61,7 +59,6 @@ target_sources("${BspLibraryName}"
         HAL/src/alt_getchar.c
         HAL/src/alt_getpid.c
         HAL/src/alt_gettod.c
-        HAL/src/alt_gmon.c
         HAL/src/alt_icache_flush.c
         HAL/src/alt_icache_flush_all.c
         HAL/src/alt_iic.c
@@ -69,7 +66,6 @@ target_sources("${BspLibraryName}"
         HAL/src/alt_instruction_exception_register.c
         HAL/src/alt_io_redirect.c
         HAL/src/alt_ioctl.c
-        HAL/src/alt_irq_handler.c
         HAL/src/alt_isatty.c
         HAL/src/alt_kill.c
         HAL/src/alt_link.c
@@ -107,7 +103,6 @@ target_sources("${BspLibraryName}"
         HAL/src/intel_fpga_api_niosv.c
         HAL/src/intel_fpga_platform_api_niosv.c
         HAL/src/intel_niosv_irq.c
-        HAL/src/mtimer.c
         alt_sys_init.c
         drivers/src/altera_avalon_jtag_uart_fd.c
         drivers/src/altera_avalon_jtag_uart_init.c
@@ -121,9 +116,9 @@ target_sources("${BspLibraryName}"
         HAL/inc/intel_fpga_platform.h
         HAL/inc/intel_fpga_platform_api.h
         HAL/inc/intel_niosv.h
+        HAL/inc/intel_niosv_c.h
+        HAL/inc/intel_niosv_c_irq.h
         HAL/inc/intel_niosv_irq.h
-        HAL/inc/intel_niosv_m.h
-        HAL/inc/intel_niosv_m_irq.h
         HAL/inc/io.h
         HAL/inc/os/alt_flag.h
         HAL/inc/os/alt_hooks.h

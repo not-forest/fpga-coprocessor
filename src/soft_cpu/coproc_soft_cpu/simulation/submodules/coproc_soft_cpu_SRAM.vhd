@@ -28,11 +28,11 @@ use ieee.std_logic_unsigned.all;
 
 entity coproc_soft_cpu_SRAM is 
         generic (
-                 INIT_FILE : STRING := "coproc_soft_cpu_SRAM.hex"
+                 INIT_FILE : STRING := "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/SRAM.hex"
                  );
         port (
               -- inputs:
-                 signal address : IN STD_LOGIC_VECTOR (9 DOWNTO 0);
+                 signal address : IN STD_LOGIC_VECTOR (11 DOWNTO 0);
                  signal byteenable : IN STD_LOGIC_VECTOR (3 DOWNTO 0);
                  signal chipselect : IN STD_LOGIC;
                  signal clk : IN STD_LOGIC;
@@ -68,10 +68,10 @@ GENERIC (
       );
     PORT (
     signal q_a : OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-        signal clock0 : IN STD_LOGIC;
+        signal address_a : IN STD_LOGIC_VECTOR (11 DOWNTO 0);
         signal clocken0 : IN STD_LOGIC;
         signal data_a : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
-        signal address_a : IN STD_LOGIC_VECTOR (9 DOWNTO 0);
+        signal clock0 : IN STD_LOGIC;
         signal wren_a : IN STD_LOGIC;
         signal byteena_a : IN STD_LOGIC_VECTOR (3 DOWNTO 0)
       );
@@ -89,16 +89,16 @@ begin
       byte_size => 8,
       init_file => INIT_FILE,
       lpm_type => "altsyncram",
-      maximum_depth => 1024,
-      numwords_a => 1024,
+      maximum_depth => 2560,
+      numwords_a => 2560,
       operation_mode => "SINGLE_PORT",
       outdata_reg_a => "UNREGISTERED",
-      ram_block_type => "M9K",
+      ram_block_type => "AUTO",
       read_during_write_mode_mixed_ports => "DONT_CARE",
       read_during_write_mode_port_a => "DONT_CARE",
       width_a => 32,
       width_byteena_a => 4,
-      widthad_a => 10
+      widthad_a => 12
     )
     port map(
             address_a => address,

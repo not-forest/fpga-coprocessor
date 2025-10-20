@@ -67,7 +67,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   </table>
   <table class="blueBar">
    <tr>
-    <td class="l">2025.10.18.16:17:30</td>
+    <td class="l">2025.10.20.20:58:50</td>
     <td class="r">Datasheet</td>
    </tr>
   </table>
@@ -88,11 +88,8 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <div style="display:inline-block ; text-align:left"><span>Processor
      <br/>&#160;&#160;
      <a href="#module_CPU"><b>CPU</b>
-     </a> Abbotts Lake 26.0.0
+     </a> Small Core 3.0.0
      <br/>All Components
-     <br/>&#160;&#160;
-     <a href="#module_CPU"><b>CPU</b>
-     </a> intel_niosv_m 26.0.0
      <br/>&#160;&#160;
      <a href="#module_DEBUG_JTAG"><b>DEBUG_JTAG</b>
      </a> altera_avalon_jtag_uart 24.1
@@ -106,28 +103,19 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   <table class="mmap">
    <tr>
     <td class="empty" rowspan="2"></td>
+    <td class="mastermodule" colspan="2">
+     <a href="#module_CPU"><b>CPU</b>
+     </a>
+    </td>
     <td class="mastermodule" colspan="1">
      <a href="#module_SPI"><b>SPI</b>
      </a>
     </td>
    </tr>
    <tr>
+    <td class="masterl">&#160;instruction_manager</td>
+    <td class="masterr">&#160;data_manager</td>
     <td class="masterlr">&#160;avalon_master</td>
-   </tr>
-   <tr>
-    <td class="slavemodule">&#160;
-     <a href="#module_CPU"><b>CPU</b>
-     </a>
-    </td>
-    <td class="empty"></td>
-   </tr>
-   <tr>
-    <td class="slavem">timer_sw_agent&#160;</td>
-    <td class="empty"></td>
-   </tr>
-   <tr>
-    <td class="slavem">dm_agent&#160;</td>
-    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slavemodule">&#160;
@@ -135,9 +123,13 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      </a>
     </td>
     <td class="empty"></td>
+    <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">avalon_jtag_slave&#160;</td>
+    <td class="addr"><span style="color:#989898">0x</span>00004008</td>
+    <td class="addr"><span style="color:#989898">0x</span>00004008</td>
     <td class="empty"></td>
    </tr>
    <tr>
@@ -146,10 +138,14 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      </a>
     </td>
     <td class="empty"></td>
+    <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">s1&#160;</td>
-    <td class="addr"><span style="color:#989898">0x</span>00010000</td>
+    <td class="addr"><span style="color:#989898">0x</span>00000000</td>
+    <td class="addr"><span style="color:#989898">0x</span>00000000</td>
+    <td class="addr"><span style="color:#989898">0x</span>00000000</td>
    </tr>
   </table>
   <a name="module_CLK"> </a>
@@ -202,25 +198,19 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   <a name="module_CPU"> </a>
   <div>
    <hr/>
-   <h2>CPU</h2>intel_niosv_m v26.0.0
+   <h2>CPU</h2>intel_niosv_c v3.0.0
    <br/>
    <div class="greydiv">
     <table class="connectionboxes">
      <tr>
-      <td class="neighbor" rowspan="6">
+      <td class="neighbor" rowspan="4">
        <a href="#module_CLK">CLK</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
-      <td class="main" rowspan="17">CPU</td>
+      <td class="main" rowspan="13">CPU</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;clk</td>
-     </tr>
-     <tr>
-      <td class="from">clk_reset&#160;&#160;</td>
-     </tr>
-     <tr>
-      <td class="to">&#160;&#160;ndm_reset_in</td>
      </tr>
      <tr>
       <td class="from">clk_reset&#160;&#160;</td>
@@ -232,7 +222,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td></td>
       <td class="from">data_manager&#160;&#160;</td>
-      <td class="neighbor" rowspan="6">
+      <td class="neighbor" rowspan="4">
        <a href="#module_DEBUG_JTAG">DEBUG_JTAG</a>
       </td>
      </tr>
@@ -250,16 +240,6 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td></td>
       <td class="to">&#160;&#160;avalon_jtag_slave</td>
-     </tr>
-     <tr>
-      <td></td>
-      <td></td>
-      <td class="from">platform_irq_rx&#160;&#160;</td>
-     </tr>
-     <tr>
-      <td></td>
-      <td></td>
-      <td class="to">&#160;&#160;irq</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -302,18 +282,14 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">instSlaveMapParam</td>
-        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='CPU.dm_agent' start='0x0' end='0x10000' type='intel_niosv_m.dm_agent' /&gt;&lt;slave name='SRAM.s1' start='0x10000' end='0x11000' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='CPU.timer_sw_agent' start='0x11000' end='0x11040' type='intel_niosv_m.timer_sw_agent' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x11040' end='0x11048' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;/address-map&gt;</td>
+        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='SRAM.s1' start='0x0' end='0x2800' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x4008' end='0x4010' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;/address-map&gt;</td>
        </tr>
        <tr>
         <td class="parametername">dataSlaveMapParam</td>
-        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='CPU.dm_agent' start='0x0' end='0x10000' type='intel_niosv_m.dm_agent' /&gt;&lt;slave name='SRAM.s1' start='0x10000' end='0x11000' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='CPU.timer_sw_agent' start='0x11000' end='0x11040' type='intel_niosv_m.timer_sw_agent' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x11040' end='0x11048' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;/address-map&gt;</td>
+        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='SRAM.s1' start='0x0' end='0x2800' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x4008' end='0x4010' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;/address-map&gt;</td>
        </tr>
        <tr>
-        <td class="parametername">enableDebug</td>
-        <td class="parametervalue">true</td>
-       </tr>
-       <tr>
-        <td class="parametername">enableDebugReset</td>
+        <td class="parametername">enableAvalonInterface</td>
         <td class="parametervalue">true</td>
        </tr>
        <tr>
@@ -333,28 +309,12 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
         <td class="parametervalue">0</td>
        </tr>
        <tr>
-        <td class="parametername">interruptMode</td>
-        <td class="parametervalue">1</td>
-       </tr>
-       <tr>
         <td class="parametername">deviceFamily</td>
         <td class="parametervalue">CYCLONEIVE</td>
        </tr>
        <tr>
-        <td class="parametername">pipelineArch</td>
-        <td class="parametervalue">false</td>
-       </tr>
-       <tr>
-        <td class="parametername">enableAvalonInterface</td>
-        <td class="parametervalue">false</td>
-       </tr>
-       <tr>
-        <td class="parametername">hartId</td>
-        <td class="parametervalue">0</td>
-       </tr>
-       <tr>
         <td class="parametername">enableECCLite</td>
-        <td class="parametervalue">true</td>
+        <td class="parametervalue">false</td>
        </tr>
        <tr>
         <td class="parametername">AUTO_DEVICE</td>
@@ -371,10 +331,6 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        <tr>
         <td class="parametername">AUTO_CLK_RESET_DOMAIN</td>
         <td class="parametervalue">1</td>
-       </tr>
-       <tr>
-        <td class="parametername">AUTO_PLATFORM_IRQ_RX_INTERRUPTS_USED</td>
-        <td class="parametervalue">32768</td>
        </tr>
        <tr>
         <td class="parametername">generateLegacySim</td>
@@ -411,11 +367,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">HAS_CSR_SUPPORT</td>
-        <td class="parametervalue">1</td>
-       </tr>
-       <tr>
-        <td class="parametername">HAS_DEBUG_STUB</td>
-        <td class="parametervalue"></td>
+        <td class="parametervalue">0</td>
        </tr>
        <tr>
         <td class="parametername">ICACHE_LINE_SIZE</td>
@@ -434,16 +386,8 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
         <td class="parametervalue">32</td>
        </tr>
        <tr>
-        <td class="parametername">INT_MODE</td>
-        <td class="parametervalue">1</td>
-       </tr>
-       <tr>
-        <td class="parametername">MTIME_OFFSET</td>
-        <td class="parametervalue">0x00011000</td>
-       </tr>
-       <tr>
         <td class="parametername">NIOSV_CORE_VARIANT</td>
-        <td class="parametervalue">2</td>
+        <td class="parametervalue">4</td>
        </tr>
        <tr>
         <td class="parametername">NUM_GPR</td>
@@ -451,15 +395,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">RESET_ADDR</td>
-        <td class="parametervalue">0x00010000</td>
-       </tr>
-       <tr>
-        <td class="parametername">TICKS_PER_SEC</td>
-        <td class="parametervalue">no_quote(NIOSV_INTERNAL_TIMER_TICKS_PER_SECOND)</td>
-       </tr>
-       <tr>
-        <td class="parametername">TIMER_DEVICE_TYPE</td>
-        <td class="parametervalue">2</td>
+        <td class="parametervalue">0x00000000</td>
        </tr>
       </table>
      </td>
@@ -474,11 +410,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <div class="greydiv">
     <table class="connectionboxes">
      <tr>
-      <td class="neighbor" rowspan="6">
+      <td class="neighbor" rowspan="4">
        <a href="#module_CPU">CPU</a>
       </td>
       <td class="from">data_manager&#160;&#160;</td>
-      <td class="main" rowspan="11">DEBUG_JTAG</td>
+      <td class="main" rowspan="9">DEBUG_JTAG</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;avalon_jtag_slave</td>
@@ -488,12 +424,6 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      </tr>
      <tr>
       <td class="to">&#160;&#160;avalon_jtag_slave</td>
-     </tr>
-     <tr>
-      <td class="from">platform_irq_rx&#160;&#160;</td>
-     </tr>
-     <tr>
-      <td class="to">&#160;&#160;irq</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -800,7 +730,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">blockType</td>
-        <td class="parametervalue">M9K</td>
+        <td class="parametervalue">AUTO</td>
        </tr>
        <tr>
         <td class="parametername">dataWidth</td>
@@ -828,7 +758,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">initializationFileName</td>
-        <td class="parametervalue">onchip_mem.hex</td>
+        <td class="parametervalue">/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/SRAM.hex</td>
        </tr>
        <tr>
         <td class="parametername">enPRInitMode</td>
@@ -840,7 +770,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">memorySize</td>
-        <td class="parametervalue">4096</td>
+        <td class="parametervalue">10240</td>
        </tr>
        <tr>
         <td class="parametername">readDuringWriteMode</td>
@@ -872,7 +802,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">useNonDefaultInitFile</td>
-        <td class="parametervalue">false</td>
+        <td class="parametervalue">true</td>
        </tr>
        <tr>
         <td class="parametername">copyInitFile</td>
@@ -908,11 +838,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">derived_set_addr_width</td>
-        <td class="parametervalue">10</td>
+        <td class="parametervalue">12</td>
        </tr>
        <tr>
         <td class="parametername">derived_set_addr_width2</td>
-        <td class="parametervalue">10</td>
+        <td class="parametervalue">12</td>
        </tr>
        <tr>
         <td class="parametername">derived_set_data_width</td>
@@ -924,7 +854,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">derived_gui_ram_block_type</td>
-        <td class="parametervalue">M9K</td>
+        <td class="parametervalue">Automatic</td>
        </tr>
        <tr>
         <td class="parametername">derived_is_hardcopy</td>
@@ -932,7 +862,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">derived_init_file_name</td>
-        <td class="parametervalue">coproc_soft_cpu_SRAM.hex</td>
+        <td class="parametervalue">/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/SRAM.hex</td>
        </tr>
        <tr>
         <td class="parametername">generateLegacySim</td>
@@ -965,11 +895,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">GUI_RAM_BLOCK_TYPE</td>
-        <td class="parametervalue">M9K</td>
+        <td class="parametervalue">AUTO</td>
        </tr>
        <tr>
         <td class="parametername">INIT_CONTENTS_FILE</td>
-        <td class="parametervalue">coproc_soft_cpu_SRAM</td>
+        <td class="parametervalue">SRAM</td>
        </tr>
        <tr>
         <td class="parametername">INIT_MEM_CONTENT</td>
@@ -981,11 +911,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">NON_DEFAULT_INIT_FILE_ENABLED</td>
-        <td class="parametervalue">0</td>
+        <td class="parametervalue">1</td>
        </tr>
        <tr>
         <td class="parametername">RAM_BLOCK_TYPE</td>
-        <td class="parametervalue">M9K</td>
+        <td class="parametervalue">AUTO</td>
        </tr>
        <tr>
         <td class="parametername">READ_DURING_WRITE_MODE</td>
@@ -1001,7 +931,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">SIZE_VALUE</td>
-        <td class="parametervalue">4096</td>
+        <td class="parametervalue">10240</td>
        </tr>
        <tr>
         <td class="parametername">WRITABLE</td>

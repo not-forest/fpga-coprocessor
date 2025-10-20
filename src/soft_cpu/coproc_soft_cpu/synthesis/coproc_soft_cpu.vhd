@@ -10,7 +10,6 @@ entity coproc_soft_cpu is
 	port (
 		i_clk_clk                                                    : in    std_logic := '0'; --        i_clk.clk
 		i_clr_reset_n                                                : in    std_logic := '0'; --        i_clr.reset_n
-		o_dbg_reset_reset                                            : out   std_logic;        --  o_dbg_reset.reset
 		o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := '0'; -- o_spi_export.mosi_to_the_spislave_inst_for_spichain
 		o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := '0'; --             .nss_to_the_spislave_inst_for_spichain
 		o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := '0'; --             .miso_to_and_from_the_spislave_inst_for_spichain
@@ -21,66 +20,24 @@ end entity coproc_soft_cpu;
 architecture rtl of coproc_soft_cpu is
 	component coproc_soft_cpu_CPU is
 		port (
-			clk                          : in  std_logic                     := 'X';             -- clk
-			reset_reset                  : in  std_logic                     := 'X';             -- reset
-			platform_irq_rx_irq          : in  std_logic_vector(15 downto 0) := (others => 'X'); -- irq
-			ndm_reset_in_reset           : in  std_logic                     := 'X';             -- reset
-			timer_sw_agent_address       : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- address
-			timer_sw_agent_byteenable    : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
-			timer_sw_agent_read          : in  std_logic                     := 'X';             -- read
-			timer_sw_agent_readdata      : out std_logic_vector(31 downto 0);                    -- readdata
-			timer_sw_agent_write         : in  std_logic                     := 'X';             -- write
-			timer_sw_agent_writedata     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			timer_sw_agent_waitrequest   : out std_logic;                                        -- waitrequest
-			timer_sw_agent_readdatavalid : out std_logic;                                        -- readdatavalid
-			instruction_manager_awaddr   : out std_logic_vector(31 downto 0);                    -- awaddr
-			instruction_manager_awprot   : out std_logic_vector(2 downto 0);                     -- awprot
-			instruction_manager_awvalid  : out std_logic;                                        -- awvalid
-			instruction_manager_awready  : in  std_logic                     := 'X';             -- awready
-			instruction_manager_wdata    : out std_logic_vector(31 downto 0);                    -- wdata
-			instruction_manager_wstrb    : out std_logic_vector(3 downto 0);                     -- wstrb
-			instruction_manager_wvalid   : out std_logic;                                        -- wvalid
-			instruction_manager_wready   : in  std_logic                     := 'X';             -- wready
-			instruction_manager_bresp    : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- bresp
-			instruction_manager_bvalid   : in  std_logic                     := 'X';             -- bvalid
-			instruction_manager_bready   : out std_logic;                                        -- bready
-			instruction_manager_araddr   : out std_logic_vector(31 downto 0);                    -- araddr
-			instruction_manager_arprot   : out std_logic_vector(2 downto 0);                     -- arprot
-			instruction_manager_arvalid  : out std_logic;                                        -- arvalid
-			instruction_manager_arready  : in  std_logic                     := 'X';             -- arready
-			instruction_manager_rdata    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- rdata
-			instruction_manager_rresp    : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- rresp
-			instruction_manager_rvalid   : in  std_logic                     := 'X';             -- rvalid
-			instruction_manager_rready   : out std_logic;                                        -- rready
-			data_manager_awaddr          : out std_logic_vector(31 downto 0);                    -- awaddr
-			data_manager_awprot          : out std_logic_vector(2 downto 0);                     -- awprot
-			data_manager_awvalid         : out std_logic;                                        -- awvalid
-			data_manager_awready         : in  std_logic                     := 'X';             -- awready
-			data_manager_wdata           : out std_logic_vector(31 downto 0);                    -- wdata
-			data_manager_wstrb           : out std_logic_vector(3 downto 0);                     -- wstrb
-			data_manager_wvalid          : out std_logic;                                        -- wvalid
-			data_manager_wready          : in  std_logic                     := 'X';             -- wready
-			data_manager_bresp           : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- bresp
-			data_manager_bvalid          : in  std_logic                     := 'X';             -- bvalid
-			data_manager_bready          : out std_logic;                                        -- bready
-			data_manager_araddr          : out std_logic_vector(31 downto 0);                    -- araddr
-			data_manager_arprot          : out std_logic_vector(2 downto 0);                     -- arprot
-			data_manager_arvalid         : out std_logic;                                        -- arvalid
-			data_manager_arready         : in  std_logic                     := 'X';             -- arready
-			data_manager_rdata           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- rdata
-			data_manager_rresp           : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- rresp
-			data_manager_rvalid          : in  std_logic                     := 'X';             -- rvalid
-			data_manager_rready          : out std_logic;                                        -- rready
-			dm_agent_address             : in  std_logic_vector(15 downto 0) := (others => 'X'); -- address
-			dm_agent_read                : in  std_logic                     := 'X';             -- read
-			dm_agent_readdata            : out std_logic_vector(31 downto 0);                    -- readdata
-			dm_agent_write               : in  std_logic                     := 'X';             -- write
-			dm_agent_writedata           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			dm_agent_waitrequest         : out std_logic;                                        -- waitrequest
-			dm_agent_readdatavalid       : out std_logic;                                        -- readdatavalid
-			dbg_reset_out_reset          : out std_logic;                                        -- reset
-			cpu_ecc_status_ecc_status    : out std_logic_vector(1 downto 0);                     -- ecc_status
-			cpu_ecc_status_ecc_source    : out std_logic_vector(3 downto 0)                      -- ecc_source
+			clk                               : in  std_logic                     := 'X';             -- clk
+			reset_reset                       : in  std_logic                     := 'X';             -- reset
+			instruction_manager_readdata      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			instruction_manager_waitrequest   : in  std_logic                     := 'X';             -- waitrequest
+			instruction_manager_readdatavalid : in  std_logic                     := 'X';             -- readdatavalid
+			instruction_manager_response      : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- response
+			instruction_manager_address       : out std_logic_vector(31 downto 0);                    -- address
+			instruction_manager_read          : out std_logic;                                        -- read
+			data_manager_readdata             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			data_manager_waitrequest          : in  std_logic                     := 'X';             -- waitrequest
+			data_manager_readdatavalid        : in  std_logic                     := 'X';             -- readdatavalid
+			data_manager_response             : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- response
+			data_manager_address              : out std_logic_vector(31 downto 0);                    -- address
+			data_manager_read                 : out std_logic;                                        -- read
+			data_manager_write                : out std_logic;                                        -- write
+			data_manager_writedata            : out std_logic_vector(31 downto 0);                    -- writedata
+			data_manager_byteenable           : out std_logic_vector(3 downto 0);                     -- byteenable
+			data_manager_writeresponsevalid   : in  std_logic                     := 'X'              -- writeresponsevalid
 		);
 	end component coproc_soft_cpu_CPU;
 
@@ -141,7 +98,7 @@ architecture rtl of coproc_soft_cpu is
 	component coproc_soft_cpu_SRAM is
 		port (
 			clk        : in  std_logic                     := 'X';             -- clk
-			address    : in  std_logic_vector(9 downto 0)  := (others => 'X'); -- address
+			address    : in  std_logic_vector(11 downto 0) := (others => 'X'); -- address
 			clken      : in  std_logic                     := 'X';             -- clken
 			chipselect : in  std_logic                     := 'X';             -- chipselect
 			write      : in  std_logic                     := 'X';             -- write
@@ -156,46 +113,24 @@ architecture rtl of coproc_soft_cpu is
 
 	component coproc_soft_cpu_mm_interconnect_0 is
 		port (
-			CPU_data_manager_awaddr                   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- awaddr
-			CPU_data_manager_awprot                   : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- awprot
-			CPU_data_manager_awvalid                  : in  std_logic                     := 'X';             -- awvalid
-			CPU_data_manager_awready                  : out std_logic;                                        -- awready
-			CPU_data_manager_wdata                    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- wdata
-			CPU_data_manager_wstrb                    : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- wstrb
-			CPU_data_manager_wvalid                   : in  std_logic                     := 'X';             -- wvalid
-			CPU_data_manager_wready                   : out std_logic;                                        -- wready
-			CPU_data_manager_bresp                    : out std_logic_vector(1 downto 0);                     -- bresp
-			CPU_data_manager_bvalid                   : out std_logic;                                        -- bvalid
-			CPU_data_manager_bready                   : in  std_logic                     := 'X';             -- bready
-			CPU_data_manager_araddr                   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- araddr
-			CPU_data_manager_arprot                   : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- arprot
-			CPU_data_manager_arvalid                  : in  std_logic                     := 'X';             -- arvalid
-			CPU_data_manager_arready                  : out std_logic;                                        -- arready
-			CPU_data_manager_rdata                    : out std_logic_vector(31 downto 0);                    -- rdata
-			CPU_data_manager_rresp                    : out std_logic_vector(1 downto 0);                     -- rresp
-			CPU_data_manager_rvalid                   : out std_logic;                                        -- rvalid
-			CPU_data_manager_rready                   : in  std_logic                     := 'X';             -- rready
-			CPU_instruction_manager_awaddr            : in  std_logic_vector(31 downto 0) := (others => 'X'); -- awaddr
-			CPU_instruction_manager_awprot            : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- awprot
-			CPU_instruction_manager_awvalid           : in  std_logic                     := 'X';             -- awvalid
-			CPU_instruction_manager_awready           : out std_logic;                                        -- awready
-			CPU_instruction_manager_wdata             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- wdata
-			CPU_instruction_manager_wstrb             : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- wstrb
-			CPU_instruction_manager_wvalid            : in  std_logic                     := 'X';             -- wvalid
-			CPU_instruction_manager_wready            : out std_logic;                                        -- wready
-			CPU_instruction_manager_bresp             : out std_logic_vector(1 downto 0);                     -- bresp
-			CPU_instruction_manager_bvalid            : out std_logic;                                        -- bvalid
-			CPU_instruction_manager_bready            : in  std_logic                     := 'X';             -- bready
-			CPU_instruction_manager_araddr            : in  std_logic_vector(31 downto 0) := (others => 'X'); -- araddr
-			CPU_instruction_manager_arprot            : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- arprot
-			CPU_instruction_manager_arvalid           : in  std_logic                     := 'X';             -- arvalid
-			CPU_instruction_manager_arready           : out std_logic;                                        -- arready
-			CPU_instruction_manager_rdata             : out std_logic_vector(31 downto 0);                    -- rdata
-			CPU_instruction_manager_rresp             : out std_logic_vector(1 downto 0);                     -- rresp
-			CPU_instruction_manager_rvalid            : out std_logic;                                        -- rvalid
-			CPU_instruction_manager_rready            : in  std_logic                     := 'X';             -- rready
 			CLK_clk_clk                               : in  std_logic                     := 'X';             -- clk
 			SPI_clk_reset_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
+			CPU_data_manager_address                  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
+			CPU_data_manager_waitrequest              : out std_logic;                                        -- waitrequest
+			CPU_data_manager_byteenable               : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			CPU_data_manager_read                     : in  std_logic                     := 'X';             -- read
+			CPU_data_manager_readdata                 : out std_logic_vector(31 downto 0);                    -- readdata
+			CPU_data_manager_readdatavalid            : out std_logic;                                        -- readdatavalid
+			CPU_data_manager_write                    : in  std_logic                     := 'X';             -- write
+			CPU_data_manager_writedata                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			CPU_data_manager_response                 : out std_logic_vector(1 downto 0);                     -- response
+			CPU_data_manager_writeresponsevalid       : out std_logic;                                        -- writeresponsevalid
+			CPU_instruction_manager_address           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
+			CPU_instruction_manager_waitrequest       : out std_logic;                                        -- waitrequest
+			CPU_instruction_manager_read              : in  std_logic                     := 'X';             -- read
+			CPU_instruction_manager_readdata          : out std_logic_vector(31 downto 0);                    -- readdata
+			CPU_instruction_manager_readdatavalid     : out std_logic;                                        -- readdatavalid
+			CPU_instruction_manager_response          : out std_logic_vector(1 downto 0);                     -- response
 			SPI_avalon_master_address                 : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
 			SPI_avalon_master_waitrequest             : out std_logic;                                        -- waitrequest
 			SPI_avalon_master_byteenable              : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
@@ -204,21 +139,6 @@ architecture rtl of coproc_soft_cpu is
 			SPI_avalon_master_readdatavalid           : out std_logic;                                        -- readdatavalid
 			SPI_avalon_master_write                   : in  std_logic                     := 'X';             -- write
 			SPI_avalon_master_writedata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			CPU_dm_agent_address                      : out std_logic_vector(15 downto 0);                    -- address
-			CPU_dm_agent_write                        : out std_logic;                                        -- write
-			CPU_dm_agent_read                         : out std_logic;                                        -- read
-			CPU_dm_agent_readdata                     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			CPU_dm_agent_writedata                    : out std_logic_vector(31 downto 0);                    -- writedata
-			CPU_dm_agent_readdatavalid                : in  std_logic                     := 'X';             -- readdatavalid
-			CPU_dm_agent_waitrequest                  : in  std_logic                     := 'X';             -- waitrequest
-			CPU_timer_sw_agent_address                : out std_logic_vector(5 downto 0);                     -- address
-			CPU_timer_sw_agent_write                  : out std_logic;                                        -- write
-			CPU_timer_sw_agent_read                   : out std_logic;                                        -- read
-			CPU_timer_sw_agent_readdata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			CPU_timer_sw_agent_writedata              : out std_logic_vector(31 downto 0);                    -- writedata
-			CPU_timer_sw_agent_byteenable             : out std_logic_vector(3 downto 0);                     -- byteenable
-			CPU_timer_sw_agent_readdatavalid          : in  std_logic                     := 'X';             -- readdatavalid
-			CPU_timer_sw_agent_waitrequest            : in  std_logic                     := 'X';             -- waitrequest
 			DEBUG_JTAG_avalon_jtag_slave_address      : out std_logic_vector(0 downto 0);                     -- address
 			DEBUG_JTAG_avalon_jtag_slave_write        : out std_logic;                                        -- write
 			DEBUG_JTAG_avalon_jtag_slave_read         : out std_logic;                                        -- read
@@ -226,7 +146,7 @@ architecture rtl of coproc_soft_cpu is
 			DEBUG_JTAG_avalon_jtag_slave_writedata    : out std_logic_vector(31 downto 0);                    -- writedata
 			DEBUG_JTAG_avalon_jtag_slave_waitrequest  : in  std_logic                     := 'X';             -- waitrequest
 			DEBUG_JTAG_avalon_jtag_slave_chipselect   : out std_logic;                                        -- chipselect
-			SRAM_s1_address                           : out std_logic_vector(9 downto 0);                     -- address
+			SRAM_s1_address                           : out std_logic_vector(11 downto 0);                    -- address
 			SRAM_s1_write                             : out std_logic;                                        -- write
 			SRAM_s1_readdata                          : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			SRAM_s1_writedata                         : out std_logic_vector(31 downto 0);                    -- writedata
@@ -235,15 +155,6 @@ architecture rtl of coproc_soft_cpu is
 			SRAM_s1_clken                             : out std_logic                                         -- clken
 		);
 	end component coproc_soft_cpu_mm_interconnect_0;
-
-	component coproc_soft_cpu_irq_mapper is
-		port (
-			clk           : in  std_logic                     := 'X'; -- clk
-			reset         : in  std_logic                     := 'X'; -- reset
-			receiver0_irq : in  std_logic                     := 'X'; -- irq
-			sender_irq    : out std_logic_vector(15 downto 0)         -- irq
-		);
-	end component coproc_soft_cpu_irq_mapper;
 
 	component altera_reset_controller is
 		generic (
@@ -319,47 +230,25 @@ architecture rtl of coproc_soft_cpu is
 	signal spi_avalon_master_readdatavalid                                : std_logic;                     -- mm_interconnect_0:SPI_avalon_master_readdatavalid -> SPI:readdatavalid_to_the_altera_avalon_packets_to_master_inst_for_spichain
 	signal spi_avalon_master_write                                        : std_logic;                     -- SPI:write_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_write
 	signal spi_avalon_master_writedata                                    : std_logic_vector(31 downto 0); -- SPI:writedata_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_writedata
-	signal cpu_data_manager_awaddr                                        : std_logic_vector(31 downto 0); -- CPU:data_manager_awaddr -> mm_interconnect_0:CPU_data_manager_awaddr
-	signal cpu_data_manager_bresp                                         : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_data_manager_bresp -> CPU:data_manager_bresp
-	signal cpu_data_manager_arready                                       : std_logic;                     -- mm_interconnect_0:CPU_data_manager_arready -> CPU:data_manager_arready
-	signal cpu_data_manager_rdata                                         : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_data_manager_rdata -> CPU:data_manager_rdata
-	signal cpu_data_manager_wstrb                                         : std_logic_vector(3 downto 0);  -- CPU:data_manager_wstrb -> mm_interconnect_0:CPU_data_manager_wstrb
-	signal cpu_data_manager_wready                                        : std_logic;                     -- mm_interconnect_0:CPU_data_manager_wready -> CPU:data_manager_wready
-	signal cpu_data_manager_awready                                       : std_logic;                     -- mm_interconnect_0:CPU_data_manager_awready -> CPU:data_manager_awready
-	signal cpu_data_manager_rready                                        : std_logic;                     -- CPU:data_manager_rready -> mm_interconnect_0:CPU_data_manager_rready
-	signal cpu_data_manager_bready                                        : std_logic;                     -- CPU:data_manager_bready -> mm_interconnect_0:CPU_data_manager_bready
-	signal cpu_data_manager_wvalid                                        : std_logic;                     -- CPU:data_manager_wvalid -> mm_interconnect_0:CPU_data_manager_wvalid
-	signal cpu_data_manager_araddr                                        : std_logic_vector(31 downto 0); -- CPU:data_manager_araddr -> mm_interconnect_0:CPU_data_manager_araddr
-	signal cpu_data_manager_arprot                                        : std_logic_vector(2 downto 0);  -- CPU:data_manager_arprot -> mm_interconnect_0:CPU_data_manager_arprot
-	signal cpu_data_manager_rresp                                         : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_data_manager_rresp -> CPU:data_manager_rresp
-	signal cpu_data_manager_awprot                                        : std_logic_vector(2 downto 0);  -- CPU:data_manager_awprot -> mm_interconnect_0:CPU_data_manager_awprot
-	signal cpu_data_manager_wdata                                         : std_logic_vector(31 downto 0); -- CPU:data_manager_wdata -> mm_interconnect_0:CPU_data_manager_wdata
-	signal cpu_data_manager_arvalid                                       : std_logic;                     -- CPU:data_manager_arvalid -> mm_interconnect_0:CPU_data_manager_arvalid
-	signal cpu_data_manager_bvalid                                        : std_logic;                     -- mm_interconnect_0:CPU_data_manager_bvalid -> CPU:data_manager_bvalid
-	signal cpu_data_manager_awvalid                                       : std_logic;                     -- CPU:data_manager_awvalid -> mm_interconnect_0:CPU_data_manager_awvalid
-	signal cpu_data_manager_rvalid                                        : std_logic;                     -- mm_interconnect_0:CPU_data_manager_rvalid -> CPU:data_manager_rvalid
-	signal cpu_instruction_manager_awaddr                                 : std_logic_vector(31 downto 0); -- CPU:instruction_manager_awaddr -> mm_interconnect_0:CPU_instruction_manager_awaddr
-	signal cpu_instruction_manager_bresp                                  : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_instruction_manager_bresp -> CPU:instruction_manager_bresp
-	signal cpu_instruction_manager_arready                                : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_arready -> CPU:instruction_manager_arready
-	signal cpu_instruction_manager_rdata                                  : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_instruction_manager_rdata -> CPU:instruction_manager_rdata
-	signal cpu_instruction_manager_wstrb                                  : std_logic_vector(3 downto 0);  -- CPU:instruction_manager_wstrb -> mm_interconnect_0:CPU_instruction_manager_wstrb
-	signal cpu_instruction_manager_wready                                 : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_wready -> CPU:instruction_manager_wready
-	signal cpu_instruction_manager_awready                                : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_awready -> CPU:instruction_manager_awready
-	signal cpu_instruction_manager_rready                                 : std_logic;                     -- CPU:instruction_manager_rready -> mm_interconnect_0:CPU_instruction_manager_rready
-	signal cpu_instruction_manager_bready                                 : std_logic;                     -- CPU:instruction_manager_bready -> mm_interconnect_0:CPU_instruction_manager_bready
-	signal cpu_instruction_manager_wvalid                                 : std_logic;                     -- CPU:instruction_manager_wvalid -> mm_interconnect_0:CPU_instruction_manager_wvalid
-	signal cpu_instruction_manager_araddr                                 : std_logic_vector(31 downto 0); -- CPU:instruction_manager_araddr -> mm_interconnect_0:CPU_instruction_manager_araddr
-	signal cpu_instruction_manager_arprot                                 : std_logic_vector(2 downto 0);  -- CPU:instruction_manager_arprot -> mm_interconnect_0:CPU_instruction_manager_arprot
-	signal cpu_instruction_manager_rresp                                  : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_instruction_manager_rresp -> CPU:instruction_manager_rresp
-	signal cpu_instruction_manager_awprot                                 : std_logic_vector(2 downto 0);  -- CPU:instruction_manager_awprot -> mm_interconnect_0:CPU_instruction_manager_awprot
-	signal cpu_instruction_manager_wdata                                  : std_logic_vector(31 downto 0); -- CPU:instruction_manager_wdata -> mm_interconnect_0:CPU_instruction_manager_wdata
-	signal cpu_instruction_manager_arvalid                                : std_logic;                     -- CPU:instruction_manager_arvalid -> mm_interconnect_0:CPU_instruction_manager_arvalid
-	signal cpu_instruction_manager_bvalid                                 : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_bvalid -> CPU:instruction_manager_bvalid
-	signal cpu_instruction_manager_awvalid                                : std_logic;                     -- CPU:instruction_manager_awvalid -> mm_interconnect_0:CPU_instruction_manager_awvalid
-	signal cpu_instruction_manager_rvalid                                 : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_rvalid -> CPU:instruction_manager_rvalid
+	signal cpu_data_manager_readdata                                      : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_data_manager_readdata -> CPU:data_manager_readdata
+	signal cpu_data_manager_waitrequest                                   : std_logic;                     -- mm_interconnect_0:CPU_data_manager_waitrequest -> CPU:data_manager_waitrequest
+	signal cpu_data_manager_address                                       : std_logic_vector(31 downto 0); -- CPU:data_manager_address -> mm_interconnect_0:CPU_data_manager_address
+	signal cpu_data_manager_read                                          : std_logic;                     -- CPU:data_manager_read -> mm_interconnect_0:CPU_data_manager_read
+	signal cpu_data_manager_byteenable                                    : std_logic_vector(3 downto 0);  -- CPU:data_manager_byteenable -> mm_interconnect_0:CPU_data_manager_byteenable
+	signal cpu_data_manager_readdatavalid                                 : std_logic;                     -- mm_interconnect_0:CPU_data_manager_readdatavalid -> CPU:data_manager_readdatavalid
+	signal cpu_data_manager_response                                      : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_data_manager_response -> CPU:data_manager_response
+	signal cpu_data_manager_write                                         : std_logic;                     -- CPU:data_manager_write -> mm_interconnect_0:CPU_data_manager_write
+	signal cpu_data_manager_writedata                                     : std_logic_vector(31 downto 0); -- CPU:data_manager_writedata -> mm_interconnect_0:CPU_data_manager_writedata
+	signal cpu_data_manager_writeresponsevalid                            : std_logic;                     -- mm_interconnect_0:CPU_data_manager_writeresponsevalid -> CPU:data_manager_writeresponsevalid
+	signal cpu_instruction_manager_readdata                               : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_instruction_manager_readdata -> CPU:instruction_manager_readdata
+	signal cpu_instruction_manager_waitrequest                            : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_waitrequest -> CPU:instruction_manager_waitrequest
+	signal cpu_instruction_manager_address                                : std_logic_vector(31 downto 0); -- CPU:instruction_manager_address -> mm_interconnect_0:CPU_instruction_manager_address
+	signal cpu_instruction_manager_read                                   : std_logic;                     -- CPU:instruction_manager_read -> mm_interconnect_0:CPU_instruction_manager_read
+	signal cpu_instruction_manager_readdatavalid                          : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_readdatavalid -> CPU:instruction_manager_readdatavalid
+	signal cpu_instruction_manager_response                               : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_instruction_manager_response -> CPU:instruction_manager_response
 	signal mm_interconnect_0_sram_s1_chipselect                           : std_logic;                     -- mm_interconnect_0:SRAM_s1_chipselect -> SRAM:chipselect
 	signal mm_interconnect_0_sram_s1_readdata                             : std_logic_vector(31 downto 0); -- SRAM:readdata -> mm_interconnect_0:SRAM_s1_readdata
-	signal mm_interconnect_0_sram_s1_address                              : std_logic_vector(9 downto 0);  -- mm_interconnect_0:SRAM_s1_address -> SRAM:address
+	signal mm_interconnect_0_sram_s1_address                              : std_logic_vector(11 downto 0); -- mm_interconnect_0:SRAM_s1_address -> SRAM:address
 	signal mm_interconnect_0_sram_s1_byteenable                           : std_logic_vector(3 downto 0);  -- mm_interconnect_0:SRAM_s1_byteenable -> SRAM:byteenable
 	signal mm_interconnect_0_sram_s1_write                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_write -> SRAM:write
 	signal mm_interconnect_0_sram_s1_writedata                            : std_logic_vector(31 downto 0); -- mm_interconnect_0:SRAM_s1_writedata -> SRAM:writedata
@@ -371,24 +260,7 @@ architecture rtl of coproc_soft_cpu is
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read            : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_read -> mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:in
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_write           : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_write -> mm_interconnect_0_debug_jtag_avalon_jtag_slave_write:in
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata       : std_logic_vector(31 downto 0); -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_writedata -> DEBUG_JTAG:av_writedata
-	signal mm_interconnect_0_cpu_dm_agent_readdata                        : std_logic_vector(31 downto 0); -- CPU:dm_agent_readdata -> mm_interconnect_0:CPU_dm_agent_readdata
-	signal mm_interconnect_0_cpu_dm_agent_waitrequest                     : std_logic;                     -- CPU:dm_agent_waitrequest -> mm_interconnect_0:CPU_dm_agent_waitrequest
-	signal mm_interconnect_0_cpu_dm_agent_address                         : std_logic_vector(15 downto 0); -- mm_interconnect_0:CPU_dm_agent_address -> CPU:dm_agent_address
-	signal mm_interconnect_0_cpu_dm_agent_read                            : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_read -> CPU:dm_agent_read
-	signal mm_interconnect_0_cpu_dm_agent_readdatavalid                   : std_logic;                     -- CPU:dm_agent_readdatavalid -> mm_interconnect_0:CPU_dm_agent_readdatavalid
-	signal mm_interconnect_0_cpu_dm_agent_write                           : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_write -> CPU:dm_agent_write
-	signal mm_interconnect_0_cpu_dm_agent_writedata                       : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_dm_agent_writedata -> CPU:dm_agent_writedata
-	signal mm_interconnect_0_cpu_timer_sw_agent_readdata                  : std_logic_vector(31 downto 0); -- CPU:timer_sw_agent_readdata -> mm_interconnect_0:CPU_timer_sw_agent_readdata
-	signal mm_interconnect_0_cpu_timer_sw_agent_waitrequest               : std_logic;                     -- CPU:timer_sw_agent_waitrequest -> mm_interconnect_0:CPU_timer_sw_agent_waitrequest
-	signal mm_interconnect_0_cpu_timer_sw_agent_address                   : std_logic_vector(5 downto 0);  -- mm_interconnect_0:CPU_timer_sw_agent_address -> CPU:timer_sw_agent_address
-	signal mm_interconnect_0_cpu_timer_sw_agent_read                      : std_logic;                     -- mm_interconnect_0:CPU_timer_sw_agent_read -> CPU:timer_sw_agent_read
-	signal mm_interconnect_0_cpu_timer_sw_agent_byteenable                : std_logic_vector(3 downto 0);  -- mm_interconnect_0:CPU_timer_sw_agent_byteenable -> CPU:timer_sw_agent_byteenable
-	signal mm_interconnect_0_cpu_timer_sw_agent_readdatavalid             : std_logic;                     -- CPU:timer_sw_agent_readdatavalid -> mm_interconnect_0:CPU_timer_sw_agent_readdatavalid
-	signal mm_interconnect_0_cpu_timer_sw_agent_write                     : std_logic;                     -- mm_interconnect_0:CPU_timer_sw_agent_write -> CPU:timer_sw_agent_write
-	signal mm_interconnect_0_cpu_timer_sw_agent_writedata                 : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_timer_sw_agent_writedata -> CPU:timer_sw_agent_writedata
-	signal irq_mapper_receiver0_irq                                       : std_logic;                     -- DEBUG_JTAG:av_irq -> irq_mapper:receiver0_irq
-	signal cpu_platform_irq_rx_irq                                        : std_logic_vector(15 downto 0); -- irq_mapper:sender_irq -> CPU:platform_irq_rx_irq
-	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:ndm_reset_in_reset, CPU:reset_reset, SRAM:reset, irq_mapper:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in, rst_translator:in_reset]
+	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:reset_reset, SRAM:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in, rst_translator:in_reset]
 	signal rst_controller_reset_out_reset_req                             : std_logic;                     -- rst_controller:reset_req -> [SRAM:reset_req, rst_translator:reset_req_in]
 	signal i_clr_reset_n_ports_inv                                        : std_logic;                     -- i_clr_reset_n:inv -> rst_controller:reset_in0
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read_ports_inv  : std_logic;                     -- mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:inv -> DEBUG_JTAG:av_read_n
@@ -399,66 +271,24 @@ begin
 
 	cpu : component coproc_soft_cpu_CPU
 		port map (
-			clk                          => i_clk_clk,                                          --                 clk.clk
-			reset_reset                  => rst_controller_reset_out_reset,                     --               reset.reset
-			platform_irq_rx_irq          => cpu_platform_irq_rx_irq,                            --     platform_irq_rx.irq
-			ndm_reset_in_reset           => rst_controller_reset_out_reset,                     --        ndm_reset_in.reset
-			timer_sw_agent_address       => mm_interconnect_0_cpu_timer_sw_agent_address,       --      timer_sw_agent.address
-			timer_sw_agent_byteenable    => mm_interconnect_0_cpu_timer_sw_agent_byteenable,    --                    .byteenable
-			timer_sw_agent_read          => mm_interconnect_0_cpu_timer_sw_agent_read,          --                    .read
-			timer_sw_agent_readdata      => mm_interconnect_0_cpu_timer_sw_agent_readdata,      --                    .readdata
-			timer_sw_agent_write         => mm_interconnect_0_cpu_timer_sw_agent_write,         --                    .write
-			timer_sw_agent_writedata     => mm_interconnect_0_cpu_timer_sw_agent_writedata,     --                    .writedata
-			timer_sw_agent_waitrequest   => mm_interconnect_0_cpu_timer_sw_agent_waitrequest,   --                    .waitrequest
-			timer_sw_agent_readdatavalid => mm_interconnect_0_cpu_timer_sw_agent_readdatavalid, --                    .readdatavalid
-			instruction_manager_awaddr   => cpu_instruction_manager_awaddr,                     -- instruction_manager.awaddr
-			instruction_manager_awprot   => cpu_instruction_manager_awprot,                     --                    .awprot
-			instruction_manager_awvalid  => cpu_instruction_manager_awvalid,                    --                    .awvalid
-			instruction_manager_awready  => cpu_instruction_manager_awready,                    --                    .awready
-			instruction_manager_wdata    => cpu_instruction_manager_wdata,                      --                    .wdata
-			instruction_manager_wstrb    => cpu_instruction_manager_wstrb,                      --                    .wstrb
-			instruction_manager_wvalid   => cpu_instruction_manager_wvalid,                     --                    .wvalid
-			instruction_manager_wready   => cpu_instruction_manager_wready,                     --                    .wready
-			instruction_manager_bresp    => cpu_instruction_manager_bresp,                      --                    .bresp
-			instruction_manager_bvalid   => cpu_instruction_manager_bvalid,                     --                    .bvalid
-			instruction_manager_bready   => cpu_instruction_manager_bready,                     --                    .bready
-			instruction_manager_araddr   => cpu_instruction_manager_araddr,                     --                    .araddr
-			instruction_manager_arprot   => cpu_instruction_manager_arprot,                     --                    .arprot
-			instruction_manager_arvalid  => cpu_instruction_manager_arvalid,                    --                    .arvalid
-			instruction_manager_arready  => cpu_instruction_manager_arready,                    --                    .arready
-			instruction_manager_rdata    => cpu_instruction_manager_rdata,                      --                    .rdata
-			instruction_manager_rresp    => cpu_instruction_manager_rresp,                      --                    .rresp
-			instruction_manager_rvalid   => cpu_instruction_manager_rvalid,                     --                    .rvalid
-			instruction_manager_rready   => cpu_instruction_manager_rready,                     --                    .rready
-			data_manager_awaddr          => cpu_data_manager_awaddr,                            --        data_manager.awaddr
-			data_manager_awprot          => cpu_data_manager_awprot,                            --                    .awprot
-			data_manager_awvalid         => cpu_data_manager_awvalid,                           --                    .awvalid
-			data_manager_awready         => cpu_data_manager_awready,                           --                    .awready
-			data_manager_wdata           => cpu_data_manager_wdata,                             --                    .wdata
-			data_manager_wstrb           => cpu_data_manager_wstrb,                             --                    .wstrb
-			data_manager_wvalid          => cpu_data_manager_wvalid,                            --                    .wvalid
-			data_manager_wready          => cpu_data_manager_wready,                            --                    .wready
-			data_manager_bresp           => cpu_data_manager_bresp,                             --                    .bresp
-			data_manager_bvalid          => cpu_data_manager_bvalid,                            --                    .bvalid
-			data_manager_bready          => cpu_data_manager_bready,                            --                    .bready
-			data_manager_araddr          => cpu_data_manager_araddr,                            --                    .araddr
-			data_manager_arprot          => cpu_data_manager_arprot,                            --                    .arprot
-			data_manager_arvalid         => cpu_data_manager_arvalid,                           --                    .arvalid
-			data_manager_arready         => cpu_data_manager_arready,                           --                    .arready
-			data_manager_rdata           => cpu_data_manager_rdata,                             --                    .rdata
-			data_manager_rresp           => cpu_data_manager_rresp,                             --                    .rresp
-			data_manager_rvalid          => cpu_data_manager_rvalid,                            --                    .rvalid
-			data_manager_rready          => cpu_data_manager_rready,                            --                    .rready
-			dm_agent_address             => mm_interconnect_0_cpu_dm_agent_address,             --            dm_agent.address
-			dm_agent_read                => mm_interconnect_0_cpu_dm_agent_read,                --                    .read
-			dm_agent_readdata            => mm_interconnect_0_cpu_dm_agent_readdata,            --                    .readdata
-			dm_agent_write               => mm_interconnect_0_cpu_dm_agent_write,               --                    .write
-			dm_agent_writedata           => mm_interconnect_0_cpu_dm_agent_writedata,           --                    .writedata
-			dm_agent_waitrequest         => mm_interconnect_0_cpu_dm_agent_waitrequest,         --                    .waitrequest
-			dm_agent_readdatavalid       => mm_interconnect_0_cpu_dm_agent_readdatavalid,       --                    .readdatavalid
-			dbg_reset_out_reset          => o_dbg_reset_reset,                                  --       dbg_reset_out.reset
-			cpu_ecc_status_ecc_status    => open,                                               --      cpu_ecc_status.ecc_status
-			cpu_ecc_status_ecc_source    => open                                                --                    .ecc_source
+			clk                               => i_clk_clk,                             --                 clk.clk
+			reset_reset                       => rst_controller_reset_out_reset,        --               reset.reset
+			instruction_manager_readdata      => cpu_instruction_manager_readdata,      -- instruction_manager.readdata
+			instruction_manager_waitrequest   => cpu_instruction_manager_waitrequest,   --                    .waitrequest
+			instruction_manager_readdatavalid => cpu_instruction_manager_readdatavalid, --                    .readdatavalid
+			instruction_manager_response      => cpu_instruction_manager_response,      --                    .response
+			instruction_manager_address       => cpu_instruction_manager_address,       --                    .address
+			instruction_manager_read          => cpu_instruction_manager_read,          --                    .read
+			data_manager_readdata             => cpu_data_manager_readdata,             --        data_manager.readdata
+			data_manager_waitrequest          => cpu_data_manager_waitrequest,          --                    .waitrequest
+			data_manager_readdatavalid        => cpu_data_manager_readdatavalid,        --                    .readdatavalid
+			data_manager_response             => cpu_data_manager_response,             --                    .response
+			data_manager_address              => cpu_data_manager_address,              --                    .address
+			data_manager_read                 => cpu_data_manager_read,                 --                    .read
+			data_manager_write                => cpu_data_manager_write,                --                    .write
+			data_manager_writedata            => cpu_data_manager_writedata,            --                    .writedata
+			data_manager_byteenable           => cpu_data_manager_byteenable,           --                    .byteenable
+			data_manager_writeresponsevalid   => cpu_data_manager_writeresponsevalid    --                    .writeresponsevalid
 		);
 
 	debug_jtag : component altera_avalon_jtag_uart
@@ -489,7 +319,7 @@ begin
 			av_write_n     => mm_interconnect_0_debug_jtag_avalon_jtag_slave_write_ports_inv, --                  .write_n
 			av_writedata   => mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata,       --                  .writedata
 			av_waitrequest => mm_interconnect_0_debug_jtag_avalon_jtag_slave_waitrequest,     --                  .waitrequest
-			av_irq         => irq_mapper_receiver0_irq                                        --               irq.irq
+			av_irq         => open                                                            --               irq.irq
 		);
 
 	spi : component SPISlaveToAvalonMasterBridge
@@ -530,46 +360,24 @@ begin
 
 	mm_interconnect_0 : component coproc_soft_cpu_mm_interconnect_0
 		port map (
-			CPU_data_manager_awaddr                   => cpu_data_manager_awaddr,                                    --                    CPU_data_manager.awaddr
-			CPU_data_manager_awprot                   => cpu_data_manager_awprot,                                    --                                    .awprot
-			CPU_data_manager_awvalid                  => cpu_data_manager_awvalid,                                   --                                    .awvalid
-			CPU_data_manager_awready                  => cpu_data_manager_awready,                                   --                                    .awready
-			CPU_data_manager_wdata                    => cpu_data_manager_wdata,                                     --                                    .wdata
-			CPU_data_manager_wstrb                    => cpu_data_manager_wstrb,                                     --                                    .wstrb
-			CPU_data_manager_wvalid                   => cpu_data_manager_wvalid,                                    --                                    .wvalid
-			CPU_data_manager_wready                   => cpu_data_manager_wready,                                    --                                    .wready
-			CPU_data_manager_bresp                    => cpu_data_manager_bresp,                                     --                                    .bresp
-			CPU_data_manager_bvalid                   => cpu_data_manager_bvalid,                                    --                                    .bvalid
-			CPU_data_manager_bready                   => cpu_data_manager_bready,                                    --                                    .bready
-			CPU_data_manager_araddr                   => cpu_data_manager_araddr,                                    --                                    .araddr
-			CPU_data_manager_arprot                   => cpu_data_manager_arprot,                                    --                                    .arprot
-			CPU_data_manager_arvalid                  => cpu_data_manager_arvalid,                                   --                                    .arvalid
-			CPU_data_manager_arready                  => cpu_data_manager_arready,                                   --                                    .arready
-			CPU_data_manager_rdata                    => cpu_data_manager_rdata,                                     --                                    .rdata
-			CPU_data_manager_rresp                    => cpu_data_manager_rresp,                                     --                                    .rresp
-			CPU_data_manager_rvalid                   => cpu_data_manager_rvalid,                                    --                                    .rvalid
-			CPU_data_manager_rready                   => cpu_data_manager_rready,                                    --                                    .rready
-			CPU_instruction_manager_awaddr            => cpu_instruction_manager_awaddr,                             --             CPU_instruction_manager.awaddr
-			CPU_instruction_manager_awprot            => cpu_instruction_manager_awprot,                             --                                    .awprot
-			CPU_instruction_manager_awvalid           => cpu_instruction_manager_awvalid,                            --                                    .awvalid
-			CPU_instruction_manager_awready           => cpu_instruction_manager_awready,                            --                                    .awready
-			CPU_instruction_manager_wdata             => cpu_instruction_manager_wdata,                              --                                    .wdata
-			CPU_instruction_manager_wstrb             => cpu_instruction_manager_wstrb,                              --                                    .wstrb
-			CPU_instruction_manager_wvalid            => cpu_instruction_manager_wvalid,                             --                                    .wvalid
-			CPU_instruction_manager_wready            => cpu_instruction_manager_wready,                             --                                    .wready
-			CPU_instruction_manager_bresp             => cpu_instruction_manager_bresp,                              --                                    .bresp
-			CPU_instruction_manager_bvalid            => cpu_instruction_manager_bvalid,                             --                                    .bvalid
-			CPU_instruction_manager_bready            => cpu_instruction_manager_bready,                             --                                    .bready
-			CPU_instruction_manager_araddr            => cpu_instruction_manager_araddr,                             --                                    .araddr
-			CPU_instruction_manager_arprot            => cpu_instruction_manager_arprot,                             --                                    .arprot
-			CPU_instruction_manager_arvalid           => cpu_instruction_manager_arvalid,                            --                                    .arvalid
-			CPU_instruction_manager_arready           => cpu_instruction_manager_arready,                            --                                    .arready
-			CPU_instruction_manager_rdata             => cpu_instruction_manager_rdata,                              --                                    .rdata
-			CPU_instruction_manager_rresp             => cpu_instruction_manager_rresp,                              --                                    .rresp
-			CPU_instruction_manager_rvalid            => cpu_instruction_manager_rvalid,                             --                                    .rvalid
-			CPU_instruction_manager_rready            => cpu_instruction_manager_rready,                             --                                    .rready
 			CLK_clk_clk                               => i_clk_clk,                                                  --                             CLK_clk.clk
 			SPI_clk_reset_reset_bridge_in_reset_reset => rst_controller_reset_out_reset,                             -- SPI_clk_reset_reset_bridge_in_reset.reset
+			CPU_data_manager_address                  => cpu_data_manager_address,                                   --                    CPU_data_manager.address
+			CPU_data_manager_waitrequest              => cpu_data_manager_waitrequest,                               --                                    .waitrequest
+			CPU_data_manager_byteenable               => cpu_data_manager_byteenable,                                --                                    .byteenable
+			CPU_data_manager_read                     => cpu_data_manager_read,                                      --                                    .read
+			CPU_data_manager_readdata                 => cpu_data_manager_readdata,                                  --                                    .readdata
+			CPU_data_manager_readdatavalid            => cpu_data_manager_readdatavalid,                             --                                    .readdatavalid
+			CPU_data_manager_write                    => cpu_data_manager_write,                                     --                                    .write
+			CPU_data_manager_writedata                => cpu_data_manager_writedata,                                 --                                    .writedata
+			CPU_data_manager_response                 => cpu_data_manager_response,                                  --                                    .response
+			CPU_data_manager_writeresponsevalid       => cpu_data_manager_writeresponsevalid,                        --                                    .writeresponsevalid
+			CPU_instruction_manager_address           => cpu_instruction_manager_address,                            --             CPU_instruction_manager.address
+			CPU_instruction_manager_waitrequest       => cpu_instruction_manager_waitrequest,                        --                                    .waitrequest
+			CPU_instruction_manager_read              => cpu_instruction_manager_read,                               --                                    .read
+			CPU_instruction_manager_readdata          => cpu_instruction_manager_readdata,                           --                                    .readdata
+			CPU_instruction_manager_readdatavalid     => cpu_instruction_manager_readdatavalid,                      --                                    .readdatavalid
+			CPU_instruction_manager_response          => cpu_instruction_manager_response,                           --                                    .response
 			SPI_avalon_master_address                 => spi_avalon_master_address,                                  --                   SPI_avalon_master.address
 			SPI_avalon_master_waitrequest             => spi_avalon_master_waitrequest,                              --                                    .waitrequest
 			SPI_avalon_master_byteenable              => spi_avalon_master_byteenable,                               --                                    .byteenable
@@ -578,21 +386,6 @@ begin
 			SPI_avalon_master_readdatavalid           => spi_avalon_master_readdatavalid,                            --                                    .readdatavalid
 			SPI_avalon_master_write                   => spi_avalon_master_write,                                    --                                    .write
 			SPI_avalon_master_writedata               => spi_avalon_master_writedata,                                --                                    .writedata
-			CPU_dm_agent_address                      => mm_interconnect_0_cpu_dm_agent_address,                     --                        CPU_dm_agent.address
-			CPU_dm_agent_write                        => mm_interconnect_0_cpu_dm_agent_write,                       --                                    .write
-			CPU_dm_agent_read                         => mm_interconnect_0_cpu_dm_agent_read,                        --                                    .read
-			CPU_dm_agent_readdata                     => mm_interconnect_0_cpu_dm_agent_readdata,                    --                                    .readdata
-			CPU_dm_agent_writedata                    => mm_interconnect_0_cpu_dm_agent_writedata,                   --                                    .writedata
-			CPU_dm_agent_readdatavalid                => mm_interconnect_0_cpu_dm_agent_readdatavalid,               --                                    .readdatavalid
-			CPU_dm_agent_waitrequest                  => mm_interconnect_0_cpu_dm_agent_waitrequest,                 --                                    .waitrequest
-			CPU_timer_sw_agent_address                => mm_interconnect_0_cpu_timer_sw_agent_address,               --                  CPU_timer_sw_agent.address
-			CPU_timer_sw_agent_write                  => mm_interconnect_0_cpu_timer_sw_agent_write,                 --                                    .write
-			CPU_timer_sw_agent_read                   => mm_interconnect_0_cpu_timer_sw_agent_read,                  --                                    .read
-			CPU_timer_sw_agent_readdata               => mm_interconnect_0_cpu_timer_sw_agent_readdata,              --                                    .readdata
-			CPU_timer_sw_agent_writedata              => mm_interconnect_0_cpu_timer_sw_agent_writedata,             --                                    .writedata
-			CPU_timer_sw_agent_byteenable             => mm_interconnect_0_cpu_timer_sw_agent_byteenable,            --                                    .byteenable
-			CPU_timer_sw_agent_readdatavalid          => mm_interconnect_0_cpu_timer_sw_agent_readdatavalid,         --                                    .readdatavalid
-			CPU_timer_sw_agent_waitrequest            => mm_interconnect_0_cpu_timer_sw_agent_waitrequest,           --                                    .waitrequest
 			DEBUG_JTAG_avalon_jtag_slave_address      => mm_interconnect_0_debug_jtag_avalon_jtag_slave_address,     --        DEBUG_JTAG_avalon_jtag_slave.address
 			DEBUG_JTAG_avalon_jtag_slave_write        => mm_interconnect_0_debug_jtag_avalon_jtag_slave_write,       --                                    .write
 			DEBUG_JTAG_avalon_jtag_slave_read         => mm_interconnect_0_debug_jtag_avalon_jtag_slave_read,        --                                    .read
@@ -607,14 +400,6 @@ begin
 			SRAM_s1_byteenable                        => mm_interconnect_0_sram_s1_byteenable,                       --                                    .byteenable
 			SRAM_s1_chipselect                        => mm_interconnect_0_sram_s1_chipselect,                       --                                    .chipselect
 			SRAM_s1_clken                             => mm_interconnect_0_sram_s1_clken                             --                                    .clken
-		);
-
-	irq_mapper : component coproc_soft_cpu_irq_mapper
-		port map (
-			clk           => i_clk_clk,                      --       clk.clk
-			reset         => rst_controller_reset_out_reset, -- clk_reset.reset
-			receiver0_irq => irq_mapper_receiver0_irq,       -- receiver0.irq
-			sender_irq    => cpu_platform_irq_rx_irq         --    sender.irq
 		);
 
 	rst_controller : component altera_reset_controller

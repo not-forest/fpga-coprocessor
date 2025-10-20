@@ -70,7 +70,7 @@ CMakeFiles/create-hex: SRAM.hex
 
 SRAM.hex: coproc_firmware.elf
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating SRAM.hex."
-	elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00010000 -w 32 -e 0x00010FFF -r 4
+	elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00000000 -w 32 -e 0x000027FF -r 4
 
 CMakeFiles/create-hex.dir/codegen:
 .PHONY : CMakeFiles/create-hex.dir/codegen

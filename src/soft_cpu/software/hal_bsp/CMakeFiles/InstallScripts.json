@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

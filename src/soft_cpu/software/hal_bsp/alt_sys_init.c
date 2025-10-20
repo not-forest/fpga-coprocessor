@@ -4,7 +4,7 @@
  * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
  * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/coproc_soft_cpu.sopcinfo
  *
- * Generated: Sat Oct 18 17:00:02 UTC 2025
+ * Generated: Mon Oct 20 21:00:09 UTC 2025
  */
 
 /*
@@ -58,17 +58,15 @@
  * Device headers
  */
 
-#include "intel_niosv_m_irq.h"
 #include "altera_avalon_jtag_uart.h"
-#include "intel_niosv_m.h"
+#include "intel_niosv_c.h"
 
 /*
  * Allocate the device storage
  */
 
-INTEL_NIOSV_M_IRQ_INSTANCE ( CPU, CPU);
 ALTERA_AVALON_JTAG_UART_INSTANCE ( DEBUG_JTAG, DEBUG_JTAG);
-INTEL_NIOSV_M_INSTANCE ( CPU, CPU);
+INTEL_NIOSV_C_INSTANCE ( CPU, CPU);
 
 /*
  * Initialize the interrupt controller devices
@@ -80,7 +78,6 @@ INTEL_NIOSV_M_INSTANCE ( CPU, CPU);
 
 void alt_irq_init ( const void* base )
 {
-    INTEL_NIOSV_M_IRQ_INIT ( CPU, CPU);
     alt_irq_cpu_enable_interrupts();
 }
 
@@ -92,5 +89,5 @@ void alt_irq_init ( const void* base )
 void alt_sys_init( void )
 {
     ALTERA_AVALON_JTAG_UART_INIT ( DEBUG_JTAG, DEBUG_JTAG);
-    INTEL_NIOSV_M_INIT ( CPU, CPU);
+    INTEL_NIOSV_C_INIT ( CPU, CPU);
 }

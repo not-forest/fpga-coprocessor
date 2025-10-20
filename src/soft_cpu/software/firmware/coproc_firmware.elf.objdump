@@ -1,0 +1,1098 @@
+
+coproc_firmware.elf:     file format elf32-littleriscv
+coproc_firmware.elf
+architecture: riscv:rv32, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x00000048
+
+Program Header:
+0x70000003 off    0x00001b76 vaddr 0x00000000 paddr 0x00000000 align 2**0
+         filesz 0x0000001c memsz 0x00000000 flags r--
+    LOAD off    0x00001000 vaddr 0x00000000 paddr 0x00000000 align 2**12
+         filesz 0x00000020 memsz 0x00000020 flags r-x
+    LOAD off    0x00001020 vaddr 0x00000020 paddr 0x00000020 align 2**12
+         filesz 0x00000b2c memsz 0x00000b2c flags r-x
+    LOAD off    0x00001b4c vaddr 0x00000b4c paddr 0x00000b64 align 2**12
+         filesz 0x00000018 memsz 0x00000018 flags rw-
+    LOAD off    0x00000b7c vaddr 0x00000b7c paddr 0x00000b7c align 2**12
+         filesz 0x00000000 memsz 0x00000094 flags rw-
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .entry        00000020  00000000  00000000  00001000  2**5
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .exceptions   00000000  00000020  00000020  00001b64  2**0
+                  CONTENTS
+  2 .text         00000ae0  00000020  00000020  00001020  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  3 .rodata       0000004c  00000b00  00000b00  00001b00  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .rwdata       00000018  00000b4c  00000b64  00001b4c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .bss          00000094  00000b7c  00000b7c  00001b7c  2**2
+                  ALLOC
+  6 .SRAM         00000000  00000c10  00000c10  00001b64  2**0
+                  CONTENTS
+  7 .comment      00000012  00000000  00000000  00001b64  2**0
+                  CONTENTS, READONLY
+  8 .riscv.attributes 0000001c  00000000  00000000  00001b76  2**0
+                  CONTENTS, READONLY
+  9 .debug_aranges 000000d8  00000000  00000000  00001b98  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 10 .debug_info   000006d3  00000000  00000000  00001c70  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 11 .debug_abbrev 000003de  00000000  00000000  00002343  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 12 .debug_line   000006c9  00000000  00000000  00002721  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 13 .debug_frame  000000bc  00000000  00000000  00002dec  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_str    0000051e  00000000  00000000  00002ea8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_ranges 00000020  00000000  00000000  000033c8  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 0000005a  00000000  00000000  000033e8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_line_str 000002a9  00000000  00000000  00003442  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_loclists 000000ea  00000000  00000000  000036eb  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+SYMBOL TABLE:
+00000000 l    d  .entry	00000000 .entry
+00000020 l    d  .exceptions	00000000 .exceptions
+00000020 l    d  .text	00000000 .text
+00000b00 l    d  .rodata	00000000 .rodata
+00000b4c l    d  .rwdata	00000000 .rwdata
+00000b7c l    d  .bss	00000000 .bss
+00000c10 l    d  .SRAM	00000000 .SRAM
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_rnglists	00000000 .debug_rnglists
+00000000 l    d  .debug_line_str	00000000 .debug_line_str
+00000000 l    d  .debug_loclists	00000000 .debug_loclists
+00000000 l    df *ABS*	00000000 crt0.S.obj
+000000d4 l       .text	00000000 alt_after_alt_main
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 alt_load.c
+000000d8 l     F .text	00000064 alt_load_section
+00000000 l    df *ABS*	00000000 alt_main.c
+00000000 l    df *ABS*	00000000 alt_putchar.c
+00000000 l    df *ABS*	00000000 alt_sys_init.c
+00000000 l    df *ABS*	00000000 altera_avalon_jtag_uart_write.c
+00000000 l    df *ABS*	00000000 alt_dcache_flush_all.c
+00000000 l    df *ABS*	00000000 alt_icache_flush_all.c
+00000000 l    df *ABS*	00000000 stack_protector.c
+00000000 l    df *ABS*	00000000 puts.c
+00000000 l    df *ABS*	00000000 signal.c
+00000b90 l     O .bss	00000080 _sig_func
+00000000 l    df *ABS*	00000000 save-restore.o
+00000000 l    df *ABS*	00000000 alt_io_redirect.c
+0000056c l     F .text	00000048 putc_wrapper
+000005b4 l     F .text	00000068 getc_wrapper
+00000b4c l     O .rwdata	00000014 __stdio
+0000061c l     F .text	000000d0 alt_open_fd
+00000000 l    df *ABS*	00000000 alt_open.c
+00000000 l    df *ABS*	00000000 alt_read.c
+00000000 l    df *ABS*	00000000 alt_release_fd.c
+00000000 l    df *ABS*	00000000 alt_write.c
+00000000 l    df *ABS*	00000000 altera_avalon_jtag_uart_read.c
+00000000 l    df *ABS*	00000000 errno.c
+000001b0 g     F .text	00000050 alt_main
+00000b64 g       *ABS*	00000000 __flash_rwdata_start
+00000c10 g       *ABS*	00000000 __alt_heap_start
+00001360 g       *ABS*	00000000 __global_pointer$
+00000b40 g     O .rodata	00000004 stdout
+000004c0 g     F .text	0000004c .hidden __riscv_save_8
+00000b4c g       *ABS*	00000000 __tls_base
+00000554 g     F .text	00000018 .hidden __riscv_restore_3
+0000052c g     F .text	00000040 .hidden __riscv_restore_10
+00000b88 g     O .bss	00000004 __stack_chk_guard
+000004c0 g     F .text	0000004c .hidden __riscv_save_11
+00000000 g     F .entry	00000004 __reset
+00000020 g       *ABS*	00000000 __flash_exceptions_start
+00000b8c g     O .bss	00000004 errno
+00000b80 g     O .bss	00000004 alt_argv
+00000554 g     F .text	00000018 .hidden __riscv_restore_2
+00000c10 g     O .bss	00000000 alt_fd_list
+000006ec g     F .text	0000006c alt_io_redirect
+000003f0 g     F .text	00000068 puts
+00000900 g     F .text	00000104 altera_avalon_jtag_uart_read
+000004b0 g     F .text	0000005c .hidden __riscv_save_12
+0000052c g     F .text	00000040 .hidden __riscv_restore_11
+0000050c g     F .text	00000018 .hidden __riscv_save_1
+00000554 g     F .text	00000018 .hidden __riscv_restore_0
+000004dc g     F .text	00000030 .hidden __riscv_save_7
+000003a0 g     F .text	00000030 __stack_chk_init
+00000540 g     F .text	0000002c .hidden __riscv_restore_5
+00000c10 g       *ABS*	00000000 __bss_end
+000003d0  w    F .text	00000020 __stack_chk_fail
+00000b4c g       *ABS*	00000000 __tbss_start
+00000540 g     F .text	0000002c .hidden __riscv_restore_6
+00000368 g     F .text	0000001c alt_dcache_flush_all
+00000b64 g       *ABS*	00000000 __ram_rwdata_end
+00000860 g     F .text	000000a0 write
+00000b4c g       *ABS*	00000000 __ram_rodata_end
+000004c0 g     F .text	0000004c .hidden __riscv_save_9
+000004dc g     F .text	00000030 .hidden __riscv_save_4
+00000c10 g       *ABS*	00000000 end
+00002800 g       *ABS*	00000000 __alt_stack_pointer
+000002d0 g     F .text	00000098 altera_avalon_jtag_uart_write
+00000b48 g     O .rodata	00000004 stdin
+0000050c g     F .text	00000018 .hidden __riscv_save_3
+00000048 g     F .text	00000090 _start
+0000078c g     F .text	00000068 read
+000002b4 g     F .text	0000001c alt_sys_init
+00000b4c g       *ABS*	00000000 __tdata_source
+000003d0 g     F .text	00000020 __stack_chk_fail_weak
+00000b4c g       *ABS*	00000000 __ram_rwdata_start
+00000b00 g       *ABS*	00000000 __ram_rodata_start
+00000c10 g       *ABS*	00000000 __alt_stack_base
+000004c0 g     F .text	0000004c .hidden __riscv_save_10
+00000540 g     F .text	0000002c .hidden __riscv_restore_4
+0000052c g     F .text	00000040 .hidden __riscv_restore_8
+000004dc g     F .text	00000030 .hidden __riscv_save_6
+00000b7c g       *ABS*	00000000 __bss_start
+00000b4c g       *ABS*	00000000 __tdata_start
+00000b4c g       *ABS*	00000000 __tdata_end
+0000052c g     F .text	00000040 .hidden __riscv_restore_9
+00000540 g     F .text	0000002c .hidden __riscv_restore_7
+00000020 g     F .text	00000028 main
+00000b84 g     O .bss	00000004 alt_envp
+00002800 g       *ABS*	00000000 __alt_heap_limit
+00002800 g       *ABS*	00000000 __heap_end
+00000b00 g       *ABS*	00000000 __flash_rodata_start
+00000290 g     F .text	00000024 alt_irq_init
+000007f4 g     F .text	0000006c alt_release_fd
+00000b44 g     O .rodata	00000004 stderr
+00000b7c g     O .bss	00000004 alt_argc
+00000c10 g       *ABS*	00000000 __heap_start
+0000050c g     F .text	00000018 .hidden __riscv_save_2
+00000020 g       *ABS*	00000000 __ram_exceptions_start
+000004dc g     F .text	00000030 .hidden __riscv_save_5
+00000b64 g       *ABS*	00000000 _edata
+00000c10 g       *ABS*	00000000 _end
+00000020 g       *ABS*	00000000 __ram_exceptions_end
+00000004 g       .entry	00000000 exit
+00002800 g       *ABS*	00000000 __alt_data_end
+00000b4c g       *ABS*	00000000 __tbss_end
+00000524 g     F .text	00000048 .hidden __riscv_restore_12
+0000050c g     F .text	00000018 .hidden __riscv_save_0
+00000004 g       .entry	00000000 _exit
+00000b60 g     O .rwdata	00000004 DEBUG_JTAG
+00000758 g     F .text	00000034 open
+00000200 g     F .text	00000090 alt_putchar
+00000000 g       *ABS*	00000000 __alt_mem_SRAM
+00000384 g     F .text	0000001c alt_icache_flush_all
+00000554 g     F .text	00000018 .hidden __riscv_restore_1
+0000013c g     F .text	00000074 alt_load
+00000458 g     F .text	00000058 raise
+
+
+
+Disassembly of section .entry:
+
+00000000 <__reset>:
+ * Jump to the _start entry point in the .text section if reset code
+ * is allowed or if optimizing for RTL simulation.
+ */
+
+    /* Jump to the _start entry point in the .text section. */
+    tail _start
+   0:	0480006f          	j	48 <_start>
+
+00000004 <_exit>:
+	...
+
+Disassembly of section .text:
+
+00000020 <main>:
+  20:	ff010113          	add	sp,sp,-16
+  24:	00112623          	sw	ra,12(sp)
+  28:	00812423          	sw	s0,8(sp)
+  2c:	01010413          	add	s0,sp,16
+  30:	000017b7          	lui	a5,0x1
+  34:	b0078793          	add	a5,a5,-1280 # b00 <__flash_rodata_start>
+  38:	00078513          	mv	a0,a5
+  3c:	1c4000ef          	jal	200 <alt_putchar>
+  40:	00000013          	nop
+  44:	ffdff06f          	j	40 <main+0x20>
+
+00000048 <_start>:
+#endif /* Initialize Data Cache */
+#endif /* ALT_SIM_OPTIMIZE */
+
+    .option push
+    .option norelax
+    la gp, __global_pointer$
+  48:	00001197          	auipc	gp,0x1
+  4c:	31818193          	add	gp,gp,792 # 1360 <__global_pointer$>
+
+    /*
+     * Now that the caches are initialized, set up the stack pointer and global pointer.
+     * The values provided by the linker are assumed to be correctly aligned.
+     */
+    la sp, __alt_stack_pointer
+  50:	00002117          	auipc	sp,0x2
+  54:	7b010113          	add	sp,sp,1968 # 2800 <__alt_data_end>
+    /* Log that the BSS is about to be cleared. */
+#ifdef ALT_LOG_ENABLE
+    ALT_LOG_PUTS(alt_log_msg_bss)
+#endif /* ALT_LOG_ENABLE */
+
+    la t1, __bss_start
+  58:	00001317          	auipc	t1,0x1
+  5c:	b2430313          	add	t1,t1,-1244 # b7c <alt_argc>
+    la t2, __bss_end
+  60:	00001397          	auipc	t2,0x1
+  64:	bb038393          	add	t2,t2,-1104 # c10 <alt_fd_list>
+0:
+    sw zero, (t1)
+  68:	00032023          	sw	zero,0(t1)
+    addi t1, t1, 4
+  6c:	00430313          	add	t1,t1,4
+    bltu t1, t2, 0b
+  70:	fe736ce3          	bltu	t1,t2,68 <_start+0x20>
+/*
+ * The alt_load() facility is normally used when there is no bootloader.
+ * It copies some sections into RAM so it acts like a mini-bootloader.
+ */
+#ifdef CALL_ALT_LOAD
+    call alt_load
+  74:	0c8000ef          	jal	13c <alt_load>
+ */
+#ifndef ALT_SIM_OPTIMIZE
+.globl __tbss_start
+.globl __tbss_end
+
+    la t1, __tbss_start
+  78:	00001317          	auipc	t1,0x1
+  7c:	ad430313          	add	t1,t1,-1324 # b4c <__stdio>
+    la t2, __tbss_end
+  80:	00001397          	auipc	t2,0x1
+  84:	acc38393          	add	t2,t2,-1332 # b4c <__stdio>
+    
+    // Check if we need to skip this (if .tbss is empty)
+    bgeu t1, t2, 1f
+  88:	00737863          	bgeu	t1,t2,98 <_start+0x50>
+0:
+    sw zero, (t1)
+  8c:	00032023          	sw	zero,0(t1)
+    addi t1, t1, 4
+  90:	00430313          	add	t1,t1,4
+    bltu t1, t2, 0b
+  94:	fe736ce3          	bltu	t1,t2,8c <_start+0x44>
+// Copy tdata to tdata golden source location
+.globl __tdata_start
+.globl __tdata_end
+.globl __tdata_source
+
+    la t0, __tdata_start
+  98:	00001297          	auipc	t0,0x1
+  9c:	ab428293          	add	t0,t0,-1356 # b4c <__stdio>
+    la t1, __tdata_end
+  a0:	00001317          	auipc	t1,0x1
+  a4:	aac30313          	add	t1,t1,-1364 # b4c <__stdio>
+    la t2, __tdata_source
+  a8:	00001397          	auipc	t2,0x1
+  ac:	aa438393          	add	t2,t2,-1372 # b4c <__stdio>
+
+    // Check if we need to skip this (if .tdata is empty)
+    bgeu t0, t1, 1f
+  b0:	0062fc63          	bgeu	t0,t1,c8 <_start+0x80>
+0:
+    lw s1, (t0)
+  b4:	0002a483          	lw	s1,0(t0)
+    sw s1, (t2)
+  b8:	0093a023          	sw	s1,0(t2)
+    addi t0, t0, 4
+  bc:	00428293          	add	t0,t0,4
+    addi t2, t2, 4
+  c0:	00438393          	add	t2,t2,4
+    bltu t0, t1, 0b
+  c4:	fe62e8e3          	bltu	t0,t1,b4 <_start+0x6c>
+1:
+
+// Assign thread pointer register (tp) to main thread tls base
+.globl __tls_base
+    la tp, __tls_base
+  c8:	00001217          	auipc	tp,0x1
+  cc:	a8420213          	add	tp,tp,-1404 # b4c <__stdio>
+#ifdef ALT_LOG_ENABLE
+    ALT_LOG_PUTS(alt_log_msg_alt_main)
+#endif /* ALT_LOG_ENABLE */
+
+    /* Call the C entry point. It should never return. */
+    call alt_main
+  d0:	0e0000ef          	jal	1b0 <alt_main>
+
+000000d4 <alt_after_alt_main>:
+
+    /* Wait in infinite loop in case alt_main does return. */
+alt_after_alt_main:
+    j alt_after_alt_main
+  d4:	0000006f          	j	d4 <alt_after_alt_main>
+
+000000d8 <alt_load_section>:
+  d8:	fe010113          	add	sp,sp,-32
+  dc:	00812e23          	sw	s0,28(sp)
+  e0:	02010413          	add	s0,sp,32
+  e4:	fea42623          	sw	a0,-20(s0)
+  e8:	feb42423          	sw	a1,-24(s0)
+  ec:	fec42223          	sw	a2,-28(s0)
+  f0:	fe842703          	lw	a4,-24(s0)
+  f4:	fec42783          	lw	a5,-20(s0)
+  f8:	02f70a63          	beq	a4,a5,12c <alt_load_section+0x54>
+  fc:	0240006f          	j	120 <alt_load_section+0x48>
+ 100:	fec42703          	lw	a4,-20(s0)
+ 104:	00470793          	add	a5,a4,4
+ 108:	fef42623          	sw	a5,-20(s0)
+ 10c:	fe842783          	lw	a5,-24(s0)
+ 110:	00478693          	add	a3,a5,4
+ 114:	fed42423          	sw	a3,-24(s0)
+ 118:	00072703          	lw	a4,0(a4)
+ 11c:	00e7a023          	sw	a4,0(a5)
+ 120:	fe842703          	lw	a4,-24(s0)
+ 124:	fe442783          	lw	a5,-28(s0)
+ 128:	fcf71ce3          	bne	a4,a5,100 <alt_load_section+0x28>
+ 12c:	00000013          	nop
+ 130:	01c12403          	lw	s0,28(sp)
+ 134:	02010113          	add	sp,sp,32
+ 138:	00008067          	ret
+
+0000013c <alt_load>:
+ 13c:	ff010113          	add	sp,sp,-16
+ 140:	00112623          	sw	ra,12(sp)
+ 144:	00812423          	sw	s0,8(sp)
+ 148:	01010413          	add	s0,sp,16
+ 14c:	000017b7          	lui	a5,0x1
+ 150:	b6478613          	add	a2,a5,-1180 # b64 <__flash_rwdata_start>
+ 154:	000017b7          	lui	a5,0x1
+ 158:	b4c78593          	add	a1,a5,-1204 # b4c <__stdio>
+ 15c:	000017b7          	lui	a5,0x1
+ 160:	b6478513          	add	a0,a5,-1180 # b64 <__flash_rwdata_start>
+ 164:	f75ff0ef          	jal	d8 <alt_load_section>
+ 168:	02000613          	li	a2,32
+ 16c:	02000593          	li	a1,32
+ 170:	02000513          	li	a0,32
+ 174:	f65ff0ef          	jal	d8 <alt_load_section>
+ 178:	000017b7          	lui	a5,0x1
+ 17c:	b4c78613          	add	a2,a5,-1204 # b4c <__stdio>
+ 180:	000017b7          	lui	a5,0x1
+ 184:	b0078593          	add	a1,a5,-1280 # b00 <__flash_rodata_start>
+ 188:	000017b7          	lui	a5,0x1
+ 18c:	b0078513          	add	a0,a5,-1280 # b00 <__flash_rodata_start>
+ 190:	f49ff0ef          	jal	d8 <alt_load_section>
+ 194:	1d4000ef          	jal	368 <alt_dcache_flush_all>
+ 198:	1ec000ef          	jal	384 <alt_icache_flush_all>
+ 19c:	00000013          	nop
+ 1a0:	00c12083          	lw	ra,12(sp)
+ 1a4:	00812403          	lw	s0,8(sp)
+ 1a8:	01010113          	add	sp,sp,16
+ 1ac:	00008067          	ret
+
+000001b0 <alt_main>:
+ 1b0:	ff010113          	add	sp,sp,-16
+ 1b4:	00112623          	sw	ra,12(sp)
+ 1b8:	00812423          	sw	s0,8(sp)
+ 1bc:	01010413          	add	s0,sp,16
+ 1c0:	00000513          	li	a0,0
+ 1c4:	0cc000ef          	jal	290 <alt_irq_init>
+ 1c8:	00000013          	nop
+ 1cc:	0e8000ef          	jal	2b4 <alt_sys_init>
+ 1d0:	81c1a703          	lw	a4,-2020(gp) # b7c <alt_argc>
+ 1d4:	8201a683          	lw	a3,-2016(gp) # b80 <alt_argv>
+ 1d8:	8241a783          	lw	a5,-2012(gp) # b84 <alt_envp>
+ 1dc:	00078613          	mv	a2,a5
+ 1e0:	00068593          	mv	a1,a3
+ 1e4:	00070513          	mv	a0,a4
+ 1e8:	e39ff0ef          	jal	20 <main>
+ 1ec:	00000013          	nop
+ 1f0:	00c12083          	lw	ra,12(sp)
+ 1f4:	00812403          	lw	s0,8(sp)
+ 1f8:	01010113          	add	sp,sp,16
+ 1fc:	00008067          	ret
+
+00000200 <alt_putchar>:
+ 200:	fd010113          	add	sp,sp,-48
+ 204:	02112623          	sw	ra,44(sp)
+ 208:	02812423          	sw	s0,40(sp)
+ 20c:	03010413          	add	s0,sp,48
+ 210:	fca42e23          	sw	a0,-36(s0)
+ 214:	8281a703          	lw	a4,-2008(gp) # b88 <__stack_chk_guard>
+ 218:	fee42623          	sw	a4,-20(s0)
+ 21c:	00000713          	li	a4,0
+ 220:	fdc42783          	lw	a5,-36(s0)
+ 224:	0ff7f793          	zext.b	a5,a5
+ 228:	fef405a3          	sb	a5,-21(s0)
+ 22c:	feb40793          	add	a5,s0,-21
+ 230:	00000693          	li	a3,0
+ 234:	00100613          	li	a2,1
+ 238:	00078593          	mv	a1,a5
+ 23c:	000017b7          	lui	a5,0x1
+ 240:	b6078513          	add	a0,a5,-1184 # b60 <DEBUG_JTAG>
+ 244:	08c000ef          	jal	2d0 <altera_avalon_jtag_uart_write>
+ 248:	00050713          	mv	a4,a0
+ 24c:	fff00793          	li	a5,-1
+ 250:	00f71663          	bne	a4,a5,25c <alt_putchar+0x5c>
+ 254:	fff00793          	li	a5,-1
+ 258:	0080006f          	j	260 <alt_putchar+0x60>
+ 25c:	fdc42783          	lw	a5,-36(s0)
+ 260:	00078713          	mv	a4,a5
+ 264:	fec42683          	lw	a3,-20(s0)
+ 268:	8281a783          	lw	a5,-2008(gp) # b88 <__stack_chk_guard>
+ 26c:	00f6c7b3          	xor	a5,a3,a5
+ 270:	00000693          	li	a3,0
+ 274:	00078463          	beqz	a5,27c <alt_putchar+0x7c>
+ 278:	158000ef          	jal	3d0 <__stack_chk_fail_weak>
+ 27c:	00070513          	mv	a0,a4
+ 280:	02c12083          	lw	ra,44(sp)
+ 284:	02812403          	lw	s0,40(sp)
+ 288:	03010113          	add	sp,sp,48
+ 28c:	00008067          	ret
+
+00000290 <alt_irq_init>:
+ 290:	fe010113          	add	sp,sp,-32
+ 294:	00812e23          	sw	s0,28(sp)
+ 298:	02010413          	add	s0,sp,32
+ 29c:	fea42623          	sw	a0,-20(s0)
+ 2a0:	00000013          	nop
+ 2a4:	00000013          	nop
+ 2a8:	01c12403          	lw	s0,28(sp)
+ 2ac:	02010113          	add	sp,sp,32
+ 2b0:	00008067          	ret
+
+000002b4 <alt_sys_init>:
+ 2b4:	ff010113          	add	sp,sp,-16
+ 2b8:	00812623          	sw	s0,12(sp)
+ 2bc:	01010413          	add	s0,sp,16
+ 2c0:	00000013          	nop
+ 2c4:	00c12403          	lw	s0,12(sp)
+ 2c8:	01010113          	add	sp,sp,16
+ 2cc:	00008067          	ret
+
+000002d0 <altera_avalon_jtag_uart_write>:
+ 2d0:	fd010113          	add	sp,sp,-48
+ 2d4:	02812623          	sw	s0,44(sp)
+ 2d8:	03010413          	add	s0,sp,48
+ 2dc:	fca42e23          	sw	a0,-36(s0)
+ 2e0:	fcb42c23          	sw	a1,-40(s0)
+ 2e4:	fcc42a23          	sw	a2,-44(s0)
+ 2e8:	fcd42823          	sw	a3,-48(s0)
+ 2ec:	fdc42783          	lw	a5,-36(s0)
+ 2f0:	0007a783          	lw	a5,0(a5)
+ 2f4:	fef42023          	sw	a5,-32(s0)
+ 2f8:	fd442783          	lw	a5,-44(s0)
+ 2fc:	fd842703          	lw	a4,-40(s0)
+ 300:	00f707b3          	add	a5,a4,a5
+ 304:	fef42223          	sw	a5,-28(s0)
+ 308:	0400006f          	j	348 <altera_avalon_jtag_uart_write+0x78>
+ 30c:	fe042783          	lw	a5,-32(s0)
+ 310:	00478793          	add	a5,a5,4
+ 314:	0007a783          	lw	a5,0(a5)
+ 318:	fef42423          	sw	a5,-24(s0)
+ 31c:	fe842703          	lw	a4,-24(s0)
+ 320:	000107b7          	lui	a5,0x10
+ 324:	02f76263          	bltu	a4,a5,348 <altera_avalon_jtag_uart_write+0x78>
+ 328:	fd842783          	lw	a5,-40(s0)
+ 32c:	00178713          	add	a4,a5,1 # 10001 <__alt_data_end+0xd801>
+ 330:	fce42c23          	sw	a4,-40(s0)
+ 334:	0007c783          	lbu	a5,0(a5)
+ 338:	fef42623          	sw	a5,-20(s0)
+ 33c:	fe042783          	lw	a5,-32(s0)
+ 340:	fec42703          	lw	a4,-20(s0)
+ 344:	00e7a023          	sw	a4,0(a5)
+ 348:	fd842703          	lw	a4,-40(s0)
+ 34c:	fe442783          	lw	a5,-28(s0)
+ 350:	faf76ee3          	bltu	a4,a5,30c <altera_avalon_jtag_uart_write+0x3c>
+ 354:	fd442783          	lw	a5,-44(s0)
+ 358:	00078513          	mv	a0,a5
+ 35c:	02c12403          	lw	s0,44(sp)
+ 360:	03010113          	add	sp,sp,48
+ 364:	00008067          	ret
+
+00000368 <alt_dcache_flush_all>:
+ 368:	ff010113          	add	sp,sp,-16
+ 36c:	00812623          	sw	s0,12(sp)
+ 370:	01010413          	add	s0,sp,16
+ 374:	00000013          	nop
+ 378:	00c12403          	lw	s0,12(sp)
+ 37c:	01010113          	add	sp,sp,16
+ 380:	00008067          	ret
+
+00000384 <alt_icache_flush_all>:
+ 384:	ff010113          	add	sp,sp,-16
+ 388:	00812623          	sw	s0,12(sp)
+ 38c:	01010413          	add	s0,sp,16
+ 390:	00000013          	nop
+ 394:	00c12403          	lw	s0,12(sp)
+ 398:	01010113          	add	sp,sp,16
+ 39c:	00008067          	ret
+
+000003a0 <__stack_chk_init>:
+ 3a0:	82818513          	add	a0,gp,-2008 # b88 <__stack_chk_guard>
+ 3a4:	00052783          	lw	a5,0(a0)
+ 3a8:	02079263          	bnez	a5,3cc <__stack_chk_init+0x2c>
+ 3ac:	00000793          	li	a5,0
+ 3b0:	00078863          	beqz	a5,3c0 <__stack_chk_init+0x20>
+ 3b4:	00400593          	li	a1,4
+ 3b8:	00000317          	auipc	t1,0x0
+ 3bc:	00000067          	jr	zero # 0 <__reset>
+ 3c0:	ff0a07b7          	lui	a5,0xff0a0
+ 3c4:	00f52023          	sw	a5,0(a0)
+ 3c8:	00008067          	ret
+ 3cc:	00008067          	ret
+
+000003d0 <__stack_chk_fail_weak>:
+ 3d0:	13c002ef          	jal	t0,50c <__riscv_save_0>
+ 3d4:	00000517          	auipc	a0,0x0
+ 3d8:	74050513          	add	a0,a0,1856 # b14 <__flash_rodata_start+0x14>
+ 3dc:	014000ef          	jal	3f0 <puts>
+ 3e0:	00600513          	li	a0,6
+ 3e4:	074000ef          	jal	458 <raise>
+ 3e8:	07f00513          	li	a0,127
+ 3ec:	c19ff0ef          	jal	4 <_exit>
+
+000003f0 <puts>:
+ 3f0:	11c002ef          	jal	t0,50c <__riscv_save_0>
+ 3f4:	00000597          	auipc	a1,0x0
+ 3f8:	74c5a583          	lw	a1,1868(a1) # b40 <stdout>
+ 3fc:	0045c783          	lbu	a5,4(a1)
+ 400:	ff010113          	add	sp,sp,-16
+ 404:	00050413          	mv	s0,a0
+ 408:	0027f793          	and	a5,a5,2
+ 40c:	00000493          	li	s1,0
+ 410:	02079463          	bnez	a5,438 <puts+0x48>
+ 414:	fff00493          	li	s1,-1
+ 418:	00048513          	mv	a0,s1
+ 41c:	01010113          	add	sp,sp,16
+ 420:	1340006f          	j	554 <__riscv_restore_0>
+ 424:	00b12623          	sw	a1,12(sp)
+ 428:	000780e7          	jalr	a5 # ff0a0000 <__alt_data_end+0xff09d800>
+ 42c:	00c12583          	lw	a1,12(sp)
+ 430:	00055463          	bgez	a0,438 <puts+0x48>
+ 434:	fff00493          	li	s1,-1
+ 438:	00044503          	lbu	a0,0(s0)
+ 43c:	00140413          	add	s0,s0,1
+ 440:	0085a783          	lw	a5,8(a1)
+ 444:	fe0510e3          	bnez	a0,424 <puts+0x34>
+ 448:	00a00513          	li	a0,10
+ 44c:	000780e7          	jalr	a5
+ 450:	fc0554e3          	bgez	a0,418 <puts+0x28>
+ 454:	fc1ff06f          	j	414 <puts+0x24>
+
+00000458 <raise>:
+ 458:	01f00713          	li	a4,31
+ 45c:	00a77a63          	bgeu	a4,a0,470 <raise+0x18>
+ 460:	01600793          	li	a5,22
+ 464:	82f1a623          	sw	a5,-2004(gp) # b8c <errno>
+ 468:	fff00513          	li	a0,-1
+ 46c:	00008067          	ret
+ 470:	00251693          	sll	a3,a0,0x2
+ 474:	83018713          	add	a4,gp,-2000 # b90 <_sig_func>
+ 478:	00d70733          	add	a4,a4,a3
+ 47c:	00072683          	lw	a3,0(a4)
+ 480:	00100613          	li	a2,1
+ 484:	02c68263          	beq	a3,a2,4a8 <raise+0x50>
+ 488:	084002ef          	jal	t0,50c <__riscv_save_0>
+ 48c:	00069663          	bnez	a3,498 <raise+0x40>
+ 490:	08050513          	add	a0,a0,128
+ 494:	b71ff0ef          	jal	4 <_exit>
+ 498:	00072023          	sw	zero,0(a4)
+ 49c:	000680e7          	jalr	a3
+ 4a0:	00000513          	li	a0,0
+ 4a4:	0b00006f          	j	554 <__riscv_restore_0>
+ 4a8:	00000513          	li	a0,0
+ 4ac:	00008067          	ret
+
+000004b0 <__riscv_save_12>:
+ 4b0:	fc010113          	add	sp,sp,-64
+ 4b4:	00000313          	li	t1,0
+ 4b8:	01b12623          	sw	s11,12(sp)
+ 4bc:	00c0006f          	j	4c8 <__riscv_save_10+0x8>
+
+000004c0 <__riscv_save_10>:
+ 4c0:	fc010113          	add	sp,sp,-64
+ 4c4:	ff000313          	li	t1,-16
+ 4c8:	01a12823          	sw	s10,16(sp)
+ 4cc:	01912a23          	sw	s9,20(sp)
+ 4d0:	01812c23          	sw	s8,24(sp)
+ 4d4:	01712e23          	sw	s7,28(sp)
+ 4d8:	00c0006f          	j	4e4 <__riscv_save_4+0x8>
+
+000004dc <__riscv_save_4>:
+ 4dc:	fc010113          	add	sp,sp,-64
+ 4e0:	fe000313          	li	t1,-32
+ 4e4:	03612023          	sw	s6,32(sp)
+ 4e8:	03512223          	sw	s5,36(sp)
+ 4ec:	03412423          	sw	s4,40(sp)
+ 4f0:	03312623          	sw	s3,44(sp)
+ 4f4:	03212823          	sw	s2,48(sp)
+ 4f8:	02912a23          	sw	s1,52(sp)
+ 4fc:	02812c23          	sw	s0,56(sp)
+ 500:	02112e23          	sw	ra,60(sp)
+ 504:	40610133          	sub	sp,sp,t1
+ 508:	00028067          	jr	t0
+
+0000050c <__riscv_save_0>:
+ 50c:	ff010113          	add	sp,sp,-16
+ 510:	01212023          	sw	s2,0(sp)
+ 514:	00912223          	sw	s1,4(sp)
+ 518:	00812423          	sw	s0,8(sp)
+ 51c:	00112623          	sw	ra,12(sp)
+ 520:	00028067          	jr	t0
+
+00000524 <__riscv_restore_12>:
+ 524:	00c12d83          	lw	s11,12(sp)
+ 528:	01010113          	add	sp,sp,16
+
+0000052c <__riscv_restore_10>:
+ 52c:	00012d03          	lw	s10,0(sp)
+ 530:	00412c83          	lw	s9,4(sp)
+ 534:	00812c03          	lw	s8,8(sp)
+ 538:	00c12b83          	lw	s7,12(sp)
+ 53c:	01010113          	add	sp,sp,16
+
+00000540 <__riscv_restore_4>:
+ 540:	00012b03          	lw	s6,0(sp)
+ 544:	00412a83          	lw	s5,4(sp)
+ 548:	00812a03          	lw	s4,8(sp)
+ 54c:	00c12983          	lw	s3,12(sp)
+ 550:	01010113          	add	sp,sp,16
+
+00000554 <__riscv_restore_0>:
+ 554:	00012903          	lw	s2,0(sp)
+ 558:	00412483          	lw	s1,4(sp)
+ 55c:	00812403          	lw	s0,8(sp)
+ 560:	00c12083          	lw	ra,12(sp)
+ 564:	01010113          	add	sp,sp,16
+ 568:	00008067          	ret
+
+0000056c <putc_wrapper>:
+ 56c:	fe010113          	add	sp,sp,-32
+ 570:	00112e23          	sw	ra,28(sp)
+ 574:	00812c23          	sw	s0,24(sp)
+ 578:	02010413          	add	s0,sp,32
+ 57c:	00050793          	mv	a5,a0
+ 580:	feb42423          	sw	a1,-24(s0)
+ 584:	fef407a3          	sb	a5,-17(s0)
+ 588:	fef40793          	add	a5,s0,-17
+ 58c:	00100613          	li	a2,1
+ 590:	00078593          	mv	a1,a5
+ 594:	00100513          	li	a0,1
+ 598:	2c8000ef          	jal	860 <write>
+ 59c:	00050793          	mv	a5,a0
+ 5a0:	00078513          	mv	a0,a5
+ 5a4:	01c12083          	lw	ra,28(sp)
+ 5a8:	01812403          	lw	s0,24(sp)
+ 5ac:	02010113          	add	sp,sp,32
+ 5b0:	00008067          	ret
+
+000005b4 <getc_wrapper>:
+ 5b4:	fd010113          	add	sp,sp,-48
+ 5b8:	02112623          	sw	ra,44(sp)
+ 5bc:	02812423          	sw	s0,40(sp)
+ 5c0:	03010413          	add	s0,sp,48
+ 5c4:	fca42e23          	sw	a0,-36(s0)
+ 5c8:	8281a703          	lw	a4,-2008(gp) # b88 <__stack_chk_guard>
+ 5cc:	fee42623          	sw	a4,-20(s0)
+ 5d0:	00000713          	li	a4,0
+ 5d4:	feb40793          	add	a5,s0,-21
+ 5d8:	00100613          	li	a2,1
+ 5dc:	00078593          	mv	a1,a5
+ 5e0:	00000513          	li	a0,0
+ 5e4:	1a8000ef          	jal	78c <read>
+ 5e8:	feb44783          	lbu	a5,-21(s0)
+ 5ec:	00078713          	mv	a4,a5
+ 5f0:	fec42683          	lw	a3,-20(s0)
+ 5f4:	8281a783          	lw	a5,-2008(gp) # b88 <__stack_chk_guard>
+ 5f8:	00f6c7b3          	xor	a5,a3,a5
+ 5fc:	00000693          	li	a3,0
+ 600:	00078463          	beqz	a5,608 <getc_wrapper+0x54>
+ 604:	dcdff0ef          	jal	3d0 <__stack_chk_fail_weak>
+ 608:	00070513          	mv	a0,a4
+ 60c:	02c12083          	lw	ra,44(sp)
+ 610:	02812403          	lw	s0,40(sp)
+ 614:	03010113          	add	sp,sp,48
+ 618:	00008067          	ret
+
+0000061c <alt_open_fd>:
+ 61c:	fd010113          	add	sp,sp,-48
+ 620:	02112623          	sw	ra,44(sp)
+ 624:	02812423          	sw	s0,40(sp)
+ 628:	03010413          	add	s0,sp,48
+ 62c:	fca42e23          	sw	a0,-36(s0)
+ 630:	fcb42c23          	sw	a1,-40(s0)
+ 634:	fcc42a23          	sw	a2,-44(s0)
+ 638:	fcd42823          	sw	a3,-48(s0)
+ 63c:	fd042603          	lw	a2,-48(s0)
+ 640:	fd442583          	lw	a1,-44(s0)
+ 644:	fd842503          	lw	a0,-40(s0)
+ 648:	110000ef          	jal	758 <open>
+ 64c:	fea42623          	sw	a0,-20(s0)
+ 650:	fec42783          	lw	a5,-20(s0)
+ 654:	0807c263          	bltz	a5,6d8 <alt_open_fd+0xbc>
+ 658:	8b018693          	add	a3,gp,-1872 # c10 <alt_fd_list>
+ 65c:	fec42703          	lw	a4,-20(s0)
+ 660:	00070793          	mv	a5,a4
+ 664:	00179793          	sll	a5,a5,0x1
+ 668:	00e787b3          	add	a5,a5,a4
+ 66c:	00279793          	sll	a5,a5,0x2
+ 670:	00f687b3          	add	a5,a3,a5
+ 674:	0007a703          	lw	a4,0(a5)
+ 678:	fdc42783          	lw	a5,-36(s0)
+ 67c:	00e7a023          	sw	a4,0(a5)
+ 680:	8b018693          	add	a3,gp,-1872 # c10 <alt_fd_list>
+ 684:	fec42703          	lw	a4,-20(s0)
+ 688:	00070793          	mv	a5,a4
+ 68c:	00179793          	sll	a5,a5,0x1
+ 690:	00e787b3          	add	a5,a5,a4
+ 694:	00279793          	sll	a5,a5,0x2
+ 698:	00f687b3          	add	a5,a3,a5
+ 69c:	0047a703          	lw	a4,4(a5)
+ 6a0:	fdc42783          	lw	a5,-36(s0)
+ 6a4:	00e7a223          	sw	a4,4(a5)
+ 6a8:	8b018693          	add	a3,gp,-1872 # c10 <alt_fd_list>
+ 6ac:	fec42703          	lw	a4,-20(s0)
+ 6b0:	00070793          	mv	a5,a4
+ 6b4:	00179793          	sll	a5,a5,0x1
+ 6b8:	00e787b3          	add	a5,a5,a4
+ 6bc:	00279793          	sll	a5,a5,0x2
+ 6c0:	00f687b3          	add	a5,a3,a5
+ 6c4:	0087a703          	lw	a4,8(a5)
+ 6c8:	fdc42783          	lw	a5,-36(s0)
+ 6cc:	00e7a423          	sw	a4,8(a5)
+ 6d0:	fec42503          	lw	a0,-20(s0)
+ 6d4:	120000ef          	jal	7f4 <alt_release_fd>
+ 6d8:	00000013          	nop
+ 6dc:	02c12083          	lw	ra,44(sp)
+ 6e0:	02812403          	lw	s0,40(sp)
+ 6e4:	03010113          	add	sp,sp,48
+ 6e8:	00008067          	ret
+
+000006ec <alt_io_redirect>:
+ 6ec:	fe010113          	add	sp,sp,-32
+ 6f0:	00112e23          	sw	ra,28(sp)
+ 6f4:	00812c23          	sw	s0,24(sp)
+ 6f8:	02010413          	add	s0,sp,32
+ 6fc:	fea42623          	sw	a0,-20(s0)
+ 700:	feb42423          	sw	a1,-24(s0)
+ 704:	fec42223          	sw	a2,-28(s0)
+ 708:	1ff00693          	li	a3,511
+ 70c:	00100613          	li	a2,1
+ 710:	fec42583          	lw	a1,-20(s0)
+ 714:	8bc18513          	add	a0,gp,-1860 # c1c <alt_fd_list+0xc>
+ 718:	f05ff0ef          	jal	61c <alt_open_fd>
+ 71c:	1ff00693          	li	a3,511
+ 720:	00000613          	li	a2,0
+ 724:	fe842583          	lw	a1,-24(s0)
+ 728:	8b018513          	add	a0,gp,-1872 # c10 <alt_fd_list>
+ 72c:	ef1ff0ef          	jal	61c <alt_open_fd>
+ 730:	1ff00693          	li	a3,511
+ 734:	00100613          	li	a2,1
+ 738:	fe442583          	lw	a1,-28(s0)
+ 73c:	8c818513          	add	a0,gp,-1848 # c28 <alt_fd_list+0x18>
+ 740:	eddff0ef          	jal	61c <alt_open_fd>
+ 744:	00000013          	nop
+ 748:	01c12083          	lw	ra,28(sp)
+ 74c:	01812403          	lw	s0,24(sp)
+ 750:	02010113          	add	sp,sp,32
+ 754:	00008067          	ret
+
+00000758 <open>:
+ 758:	fe010113          	add	sp,sp,-32
+ 75c:	00812e23          	sw	s0,28(sp)
+ 760:	02010413          	add	s0,sp,32
+ 764:	fea42623          	sw	a0,-20(s0)
+ 768:	feb42423          	sw	a1,-24(s0)
+ 76c:	fec42223          	sw	a2,-28(s0)
+ 770:	05800713          	li	a4,88
+ 774:	82e1a623          	sw	a4,-2004(gp) # b8c <errno>
+ 778:	fff00793          	li	a5,-1
+ 77c:	00078513          	mv	a0,a5
+ 780:	01c12403          	lw	s0,28(sp)
+ 784:	02010113          	add	sp,sp,32
+ 788:	00008067          	ret
+
+0000078c <read>:
+ 78c:	fe010113          	add	sp,sp,-32
+ 790:	00112e23          	sw	ra,28(sp)
+ 794:	00812c23          	sw	s0,24(sp)
+ 798:	02010413          	add	s0,sp,32
+ 79c:	fea42623          	sw	a0,-20(s0)
+ 7a0:	feb42423          	sw	a1,-24(s0)
+ 7a4:	fec42223          	sw	a2,-28(s0)
+ 7a8:	fec42783          	lw	a5,-20(s0)
+ 7ac:	02079463          	bnez	a5,7d4 <read+0x48>
+ 7b0:	fe442783          	lw	a5,-28(s0)
+ 7b4:	00000693          	li	a3,0
+ 7b8:	00078613          	mv	a2,a5
+ 7bc:	fe842583          	lw	a1,-24(s0)
+ 7c0:	000017b7          	lui	a5,0x1
+ 7c4:	b6078513          	add	a0,a5,-1184 # b60 <DEBUG_JTAG>
+ 7c8:	138000ef          	jal	900 <altera_avalon_jtag_uart_read>
+ 7cc:	00050793          	mv	a5,a0
+ 7d0:	0100006f          	j	7e0 <read+0x54>
+ 7d4:	05100713          	li	a4,81
+ 7d8:	82e1a623          	sw	a4,-2004(gp) # b8c <errno>
+ 7dc:	fff00793          	li	a5,-1
+ 7e0:	00078513          	mv	a0,a5
+ 7e4:	01c12083          	lw	ra,28(sp)
+ 7e8:	01812403          	lw	s0,24(sp)
+ 7ec:	02010113          	add	sp,sp,32
+ 7f0:	00008067          	ret
+
+000007f4 <alt_release_fd>:
+ 7f4:	fe010113          	add	sp,sp,-32
+ 7f8:	00812e23          	sw	s0,28(sp)
+ 7fc:	02010413          	add	s0,sp,32
+ 800:	fea42623          	sw	a0,-20(s0)
+ 804:	fec42703          	lw	a4,-20(s0)
+ 808:	00200793          	li	a5,2
+ 80c:	04e7d263          	bge	a5,a4,850 <alt_release_fd+0x5c>
+ 810:	8b018693          	add	a3,gp,-1872 # c10 <alt_fd_list>
+ 814:	fec42703          	lw	a4,-20(s0)
+ 818:	00070793          	mv	a5,a4
+ 81c:	00179793          	sll	a5,a5,0x1
+ 820:	00e787b3          	add	a5,a5,a4
+ 824:	00279793          	sll	a5,a5,0x2
+ 828:	00f687b3          	add	a5,a3,a5
+ 82c:	0007a423          	sw	zero,8(a5)
+ 830:	8b018693          	add	a3,gp,-1872 # c10 <alt_fd_list>
+ 834:	fec42703          	lw	a4,-20(s0)
+ 838:	00070793          	mv	a5,a4
+ 83c:	00179793          	sll	a5,a5,0x1
+ 840:	00e787b3          	add	a5,a5,a4
+ 844:	00279793          	sll	a5,a5,0x2
+ 848:	00f687b3          	add	a5,a3,a5
+ 84c:	0007a023          	sw	zero,0(a5)
+ 850:	00000013          	nop
+ 854:	01c12403          	lw	s0,28(sp)
+ 858:	02010113          	add	sp,sp,32
+ 85c:	00008067          	ret
+
+00000860 <write>:
+ 860:	fe010113          	add	sp,sp,-32
+ 864:	00112e23          	sw	ra,28(sp)
+ 868:	00812c23          	sw	s0,24(sp)
+ 86c:	02010413          	add	s0,sp,32
+ 870:	fea42623          	sw	a0,-20(s0)
+ 874:	feb42423          	sw	a1,-24(s0)
+ 878:	fec42223          	sw	a2,-28(s0)
+ 87c:	fec42703          	lw	a4,-20(s0)
+ 880:	00100793          	li	a5,1
+ 884:	00f70a63          	beq	a4,a5,898 <write+0x38>
+ 888:	fec42703          	lw	a4,-20(s0)
+ 88c:	00200793          	li	a5,2
+ 890:	02f70663          	beq	a4,a5,8bc <write+0x5c>
+ 894:	04c0006f          	j	8e0 <write+0x80>
+ 898:	fe442783          	lw	a5,-28(s0)
+ 89c:	00000693          	li	a3,0
+ 8a0:	00078613          	mv	a2,a5
+ 8a4:	fe842583          	lw	a1,-24(s0)
+ 8a8:	000017b7          	lui	a5,0x1
+ 8ac:	b6078513          	add	a0,a5,-1184 # b60 <DEBUG_JTAG>
+ 8b0:	a21ff0ef          	jal	2d0 <altera_avalon_jtag_uart_write>
+ 8b4:	00050793          	mv	a5,a0
+ 8b8:	0340006f          	j	8ec <write+0x8c>
+ 8bc:	fe442783          	lw	a5,-28(s0)
+ 8c0:	00000693          	li	a3,0
+ 8c4:	00078613          	mv	a2,a5
+ 8c8:	fe842583          	lw	a1,-24(s0)
+ 8cc:	000017b7          	lui	a5,0x1
+ 8d0:	b6078513          	add	a0,a5,-1184 # b60 <DEBUG_JTAG>
+ 8d4:	9fdff0ef          	jal	2d0 <altera_avalon_jtag_uart_write>
+ 8d8:	00050793          	mv	a5,a0
+ 8dc:	0100006f          	j	8ec <write+0x8c>
+ 8e0:	05100713          	li	a4,81
+ 8e4:	82e1a623          	sw	a4,-2004(gp) # b8c <errno>
+ 8e8:	fff00793          	li	a5,-1
+ 8ec:	00078513          	mv	a0,a5
+ 8f0:	01c12083          	lw	ra,28(sp)
+ 8f4:	01812403          	lw	s0,24(sp)
+ 8f8:	02010113          	add	sp,sp,32
+ 8fc:	00008067          	ret
+
+00000900 <altera_avalon_jtag_uart_read>:
+ 900:	fc010113          	add	sp,sp,-64
+ 904:	02812e23          	sw	s0,60(sp)
+ 908:	04010413          	add	s0,sp,64
+ 90c:	fca42623          	sw	a0,-52(s0)
+ 910:	fcb42423          	sw	a1,-56(s0)
+ 914:	fcc42223          	sw	a2,-60(s0)
+ 918:	fcd42023          	sw	a3,-64(s0)
+ 91c:	fcc42783          	lw	a5,-52(s0)
+ 920:	0007a783          	lw	a5,0(a5)
+ 924:	fef42023          	sw	a5,-32(s0)
+ 928:	fc842783          	lw	a5,-56(s0)
+ 92c:	fcf42e23          	sw	a5,-36(s0)
+ 930:	fc442783          	lw	a5,-60(s0)
+ 934:	fc842703          	lw	a4,-56(s0)
+ 938:	00f707b3          	add	a5,a4,a5
+ 93c:	fef42223          	sw	a5,-28(s0)
+ 940:	0600006f          	j	9a0 <altera_avalon_jtag_uart_read+0xa0>
+ 944:	fe042783          	lw	a5,-32(s0)
+ 948:	0007a783          	lw	a5,0(a5)
+ 94c:	fef42423          	sw	a5,-24(s0)
+ 950:	fe842783          	lw	a5,-24(s0)
+ 954:	fef42623          	sw	a5,-20(s0)
+ 958:	fec42703          	lw	a4,-20(s0)
+ 95c:	000087b7          	lui	a5,0x8
+ 960:	00f777b3          	and	a5,a4,a5
+ 964:	02078063          	beqz	a5,984 <altera_avalon_jtag_uart_read+0x84>
+ 968:	fdc42783          	lw	a5,-36(s0)
+ 96c:	00178713          	add	a4,a5,1 # 8001 <__alt_data_end+0x5801>
+ 970:	fce42e23          	sw	a4,-36(s0)
+ 974:	fec42703          	lw	a4,-20(s0)
+ 978:	0ff77713          	zext.b	a4,a4
+ 97c:	00e78023          	sb	a4,0(a5)
+ 980:	0200006f          	j	9a0 <altera_avalon_jtag_uart_read+0xa0>
+ 984:	fdc42703          	lw	a4,-36(s0)
+ 988:	fc842783          	lw	a5,-56(s0)
+ 98c:	02f71263          	bne	a4,a5,9b0 <altera_avalon_jtag_uart_read+0xb0>
+ 990:	fc042703          	lw	a4,-64(s0)
+ 994:	000047b7          	lui	a5,0x4
+ 998:	00f777b3          	and	a5,a4,a5
+ 99c:	00079e63          	bnez	a5,9b8 <altera_avalon_jtag_uart_read+0xb8>
+ 9a0:	fdc42703          	lw	a4,-36(s0)
+ 9a4:	fe442783          	lw	a5,-28(s0)
+ 9a8:	f8f76ee3          	bltu	a4,a5,944 <altera_avalon_jtag_uart_read+0x44>
+ 9ac:	0100006f          	j	9bc <altera_avalon_jtag_uart_read+0xbc>
+ 9b0:	00000013          	nop
+ 9b4:	0080006f          	j	9bc <altera_avalon_jtag_uart_read+0xbc>
+ 9b8:	00000013          	nop
+ 9bc:	fdc42703          	lw	a4,-36(s0)
+ 9c0:	fc842783          	lw	a5,-56(s0)
+ 9c4:	00f70a63          	beq	a4,a5,9d8 <altera_avalon_jtag_uart_read+0xd8>
+ 9c8:	fdc42703          	lw	a4,-36(s0)
+ 9cc:	fc842783          	lw	a5,-56(s0)
+ 9d0:	40f707b3          	sub	a5,a4,a5
+ 9d4:	0200006f          	j	9f4 <altera_avalon_jtag_uart_read+0xf4>
+ 9d8:	fc042703          	lw	a4,-64(s0)
+ 9dc:	000047b7          	lui	a5,0x4
+ 9e0:	00f777b3          	and	a5,a4,a5
+ 9e4:	00078663          	beqz	a5,9f0 <altera_avalon_jtag_uart_read+0xf0>
+ 9e8:	ff500793          	li	a5,-11
+ 9ec:	0080006f          	j	9f4 <altera_avalon_jtag_uart_read+0xf4>
+ 9f0:	ffb00793          	li	a5,-5
+ 9f4:	00078513          	mv	a0,a5
+ 9f8:	03c12403          	lw	s0,60(sp)
+ 9fc:	04010113          	add	sp,sp,64
+ a00:	00008067          	ret
+ a04:	03a0                	.insn	2, 0x03a0
+ a06:	0000                	.insn	2, 0x
+ a08:	0010                	.insn	2, 0x0010
+ a0a:	0000                	.insn	2, 0x
+ a0c:	0000                	.insn	2, 0x
+ a0e:	0000                	.insn	2, 0x
+ a10:	00527a03          	.insn	4, 0x00527a03
+ a14:	7c01                	.insn	2, 0x7c01
+ a16:	0105                	.insn	2, 0x0105
+ a18:	00020d1b          	.insn	4, 0x00020d1b
+ a1c:	0048                	.insn	2, 0x0048
+ a1e:	0000                	.insn	2, 0x
+ a20:	0018                	.insn	2, 0x0018
+ a22:	0000                	.insn	2, 0x
+ a24:	fa8c                	.insn	2, 0xfa8c
+ a26:	ffff                	.insn	2, 0xffff
+ a28:	005c                	.insn	2, 0x005c
+ a2a:	0000                	.insn	2, 0x
+ a2c:	4400                	.insn	2, 0x4400
+ a2e:	400e                	.insn	2, 0x400e
+ a30:	9b48                	.insn	2, 0x9b48
+ a32:	440d                	.insn	2, 0x440d
+ a34:	400e44db          	.insn	4, 0x400e44db
+ a38:	9a48                	.insn	2, 0x9a48
+ a3a:	440c                	.insn	2, 0x440c
+ a3c:	0b99                	.insn	2, 0x0b99
+ a3e:	9844                	.insn	2, 0x9844
+ a40:	440a                	.insn	2, 0x440a
+ a42:	d7440997          	auipc	s3,0xd7440
+ a46:	d9d8                	.insn	2, 0xd9d8
+ a48:	dbda                	.insn	2, 0xdbda
+ a4a:	0e44                	.insn	2, 0x0e44
+ a4c:	4840                	.insn	2, 0x4840
+ a4e:	0896                	.insn	2, 0x0896
+ a50:	9544                	.insn	2, 0x9544
+ a52:	06944407          	.insn	4, 0x06944407
+ a56:	9344                	.insn	2, 0x9344
+ a58:	4405                	.insn	2, 0x4405
+ a5a:	0492                	.insn	2, 0x0492
+ a5c:	8944                	.insn	2, 0x8944
+ a5e:	02884403          	lbu	s0,40(a6)
+ a62:	8144                	.insn	2, 0x8144
+ a64:	0001                	.insn	2, 0x0001
+ a66:	0000                	.insn	2, 0x
+ a68:	001c                	.insn	2, 0x001c
+ a6a:	0000                	.insn	2, 0x
+ a6c:	0064                	.insn	2, 0x0064
+ a6e:	0000                	.insn	2, 0x
+ a70:	fa9c                	.insn	2, 0xfa9c
+ a72:	ffff                	.insn	2, 0xffff
+ a74:	0018                	.insn	2, 0x0018
+ a76:	0000                	.insn	2, 0x
+ a78:	4400                	.insn	2, 0x4400
+ a7a:	100e                	.insn	2, 0x100e
+ a7c:	8948                	.insn	2, 0x8948
+ a7e:	4404                	.insn	2, 0x4404
+ a80:	0288                	.insn	2, 0x0288
+ a82:	8144                	.insn	2, 0x8144
+ a84:	0001                	.insn	2, 0x0001
+ a86:	0000                	.insn	2, 0x
+ a88:	002c                	.insn	2, 0x002c
+ a8a:	0000                	.insn	2, 0x
+ a8c:	0000                	.insn	2, 0x
+ a8e:	0000                	.insn	2, 0x
+ a90:	00527a03          	.insn	4, 0x00527a03
+ a94:	7c01                	.insn	2, 0x7c01
+ a96:	0101                	.insn	2, 0x0101
+ a98:	0e020d1b          	.insn	4, 0x0e020d1b
+ a9c:	9b40                	.insn	2, 0x9b40
+ a9e:	9a0d                	.insn	2, 0x9a0d
+ aa0:	990c                	.insn	2, 0x990c
+ aa2:	970a980b          	.insn	4, 0x970a980b
+ aa6:	9609                	.insn	2, 0x9609
+ aa8:	9508                	.insn	2, 0x9508
+ aaa:	93069407          	.insn	4, 0x93069407
+ aae:	9205                	.insn	2, 0x9205
+ ab0:	8904                	.insn	2, 0x8904
+ ab2:	81028803          	lb	a6,-2032(t0)
+ ab6:	0001                	.insn	2, 0x0001
+ ab8:	0044                	.insn	2, 0x0044
+ aba:	0000                	.insn	2, 0x
+ abc:	0034                	.insn	2, 0x0034
+ abe:	0000                	.insn	2, 0x
+ ac0:	fa64                	.insn	2, 0xfa64
+ ac2:	ffff                	.insn	2, 0xffff
+ ac4:	0048                	.insn	2, 0x0048
+ ac6:	0000                	.insn	2, 0x
+ ac8:	4400                	.insn	2, 0x4400
+ aca:	0edb44db          	.insn	4, 0x0edb44db
+ ace:	4430                	.insn	2, 0x4430
+ ad0:	44da                	.insn	2, 0x44da
+ ad2:	44d9                	.insn	2, 0x44d9
+ ad4:	44d8                	.insn	2, 0x44d8
+ ad6:	d8d744d7          	.insn	4, 0xd8d744d7
+ ada:	dad9                	.insn	2, 0xdad9
+ adc:	44200edb          	.insn	4, 0x44200edb
+ ae0:	44d6                	.insn	2, 0x44d6
+ ae2:	44d5                	.insn	2, 0x44d5
+ ae4:	44d4                	.insn	2, 0x44d4
+ ae6:	d4d344d3          	.insn	4, 0xd4d344d3
+ aea:	d6d5                	.insn	2, 0xd6d5
+ aec:	d9d8                	.insn	2, 0xd9d8
+ aee:	dbda                	.insn	2, 0xdbda
+ af0:	100e                	.insn	2, 0x100e
+ af2:	d244                	.insn	2, 0xd244
+ af4:	c944                	.insn	2, 0xc944
+ af6:	c844                	.insn	2, 0xc844
+ af8:	c144                	.insn	2, 0xc144
+ afa:	0e44                	.insn	2, 0x0e44
+ afc:	0000                	.insn	2, 0x
+	...

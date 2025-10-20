@@ -24,13 +24,12 @@
 -- IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 library coproc;
+library coproc_soft_cpu;
 library ieee;
 
 use ieee.std_logic_1164.all;
 use coproc.intrinsics.all;
-use coproc.systolic_arr;
-use coproc.spi_slave;
-use coproc.pll;
+use coproc_soft_cpu.all;
 
 entity coprocessor is
     port (
@@ -40,26 +39,30 @@ entity coprocessor is
         i_sclk      : in  std_logic;                  -- SPI clock
         ni_ss       : in  std_logic;                  -- Slave select (active low)
         i_mosi      : in  std_logic;                  -- Master Out Slave In
-        o_miso      : out std_logic                   -- Master In Slave Out
+        o_miso      : inout std_logic                 -- Master In Slave Out
          );
 end entity;
 
 architecture structured of coprocessor is 
+    component coproc_soft_cpu is
+        port (
+            i_clk_clk                                                    : in    std_logic := '0';
+            i_clr_reset_n                                                : in    std_logic := '0';
+            o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := '0';
+            o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := '0';
+            o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := '0';
+            o_spi_export_sclk_to_the_spislave_inst_for_spichain          : in    std_logic := '0' 
+        );
+    end component;
 begin
-    -- SPI slave module acting as an interface between coprocessor and master microcontroller.
-    SPI_Inst : entity spi_slave
+    -- Generating internal NIOS2 V/m soft CPU core to parse upcoming SPI traffic
+    COPROC_SOFT_CPU_Inst : coproc_soft_cpu
     port map (
-        ni_reset     => ni_rst,
-        i_cpol       => open,
-        i_cpha       => open,
-        i_rx_enable  => open,
-        i_tx         => open,
-        o_rx         => open,
-        o_busy       => open,
-
-        i_sclk       => i_sclk,
-        ni_ss        => ni_ss,
-        i_mosi       => i_mosi,
-        o_miso       => o_miso
-    );
+        i_clk_clk => i_clk,
+        i_clr_reset_n => not ni_rst,
+        o_spi_export_nss_to_the_spislave_inst_for_spichain => ni_ss,
+        o_spi_export_sclk_to_the_spislave_inst_for_spichain => i_sclk,
+        o_spi_export_mosi_to_the_spislave_inst_for_spichain => i_mosi,
+        o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain => o_miso
+             );
 end architecture;

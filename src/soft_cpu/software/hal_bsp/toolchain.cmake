@@ -6,7 +6,6 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(CMAKE_AR riscv32-unknown-elf-ar)
 set(CMAKE_ASM_COMPILER riscv32-unknown-elf-gcc)
 set(CMAKE_C_COMPILER riscv32-unknown-elf-gcc)
-set(CMAKE_CXX_COMPILER riscv32-unknown-elf-g++)
 
 set(ToolchainPrefix riscv32-unknown-elf- CACHE STRING "Toolchain prefix." FORCE)
 
@@ -18,14 +17,13 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
 endif()
 
-set(CMAKE_C_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_C_FLAGS_DEBUG "")
 
-set(CMAKE_C_FLAGS_RELEASE "-O2")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+set(CMAKE_C_FLAGS_RELEASE "-Os")
 
 add_compile_options(
     $<$<COMPILE_LANGUAGE:ASM>:-Wa,-gdwarf2>
+    --specs=picolibc.specs
     -DALT_SINGLE_THREADED
     -Wall -Wformat-security
     -Wformat
@@ -35,13 +33,21 @@ add_compile_options(
 )
 
 add_link_options(
+    --oslib=libhal2_bsp --specs=picolibc.specs -mhal -nostdlib
+    -Wl,--defsym,exit=_exit
+    -Wl,--defsym=__heap_end=__alt_heap_limit
+    -Wl,--defsym=__heap_start=__alt_heap_start
     -march=rv32i -mabi=ilp32
-    -nostdlib
 )
 
 add_compile_definitions(
     ALT_LOG_FLAGS=0
+    ALT_NO_CLEAN_EXIT
+    ALT_NO_C_PLUS_PLUS
+    ALT_NO_EXIT
     ALT_USE_DIRECT_DRIVERS
+    ALT_USE_SMALL_DRIVERS
+    USE_PICOLIBC
     __hal__
 )
 

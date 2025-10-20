@@ -906,30 +906,6 @@ HAL/src/alt_gettod.c.s:
 	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gettod.c.s
 .PHONY : HAL/src/alt_gettod.c.s
 
-HAL/src/alt_gmon.obj: HAL/src/alt_gmon.c.obj
-.PHONY : HAL/src/alt_gmon.obj
-
-# target to build an object file
-HAL/src/alt_gmon.c.obj:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gmon.c.obj
-.PHONY : HAL/src/alt_gmon.c.obj
-
-HAL/src/alt_gmon.i: HAL/src/alt_gmon.c.i
-.PHONY : HAL/src/alt_gmon.i
-
-# target to preprocess a source file
-HAL/src/alt_gmon.c.i:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gmon.c.i
-.PHONY : HAL/src/alt_gmon.c.i
-
-HAL/src/alt_gmon.s: HAL/src/alt_gmon.c.s
-.PHONY : HAL/src/alt_gmon.s
-
-# target to generate assembly for a file
-HAL/src/alt_gmon.c.s:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gmon.c.s
-.PHONY : HAL/src/alt_gmon.c.s
-
 HAL/src/alt_icache_flush.obj: HAL/src/alt_icache_flush.c.obj
 .PHONY : HAL/src/alt_icache_flush.obj
 
@@ -1097,30 +1073,6 @@ HAL/src/alt_ioctl.s: HAL/src/alt_ioctl.c.s
 HAL/src/alt_ioctl.c.s:
 	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_ioctl.c.s
 .PHONY : HAL/src/alt_ioctl.c.s
-
-HAL/src/alt_irq_handler.obj: HAL/src/alt_irq_handler.c.obj
-.PHONY : HAL/src/alt_irq_handler.obj
-
-# target to build an object file
-HAL/src/alt_irq_handler.c.obj:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_irq_handler.c.obj
-.PHONY : HAL/src/alt_irq_handler.c.obj
-
-HAL/src/alt_irq_handler.i: HAL/src/alt_irq_handler.c.i
-.PHONY : HAL/src/alt_irq_handler.i
-
-# target to preprocess a source file
-HAL/src/alt_irq_handler.c.i:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_irq_handler.c.i
-.PHONY : HAL/src/alt_irq_handler.c.i
-
-HAL/src/alt_irq_handler.s: HAL/src/alt_irq_handler.c.s
-.PHONY : HAL/src/alt_irq_handler.s
-
-# target to generate assembly for a file
-HAL/src/alt_irq_handler.c.s:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_irq_handler.c.s
-.PHONY : HAL/src/alt_irq_handler.c.s
 
 HAL/src/alt_isatty.obj: HAL/src/alt_isatty.c.obj
 .PHONY : HAL/src/alt_isatty.obj
@@ -2042,38 +1994,6 @@ HAL/src/intel_niosv_irq.c.s:
 	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_niosv_irq.c.s
 .PHONY : HAL/src/intel_niosv_irq.c.s
 
-HAL/src/machine_trap.obj: HAL/src/machine_trap.S.obj
-.PHONY : HAL/src/machine_trap.obj
-
-# target to build an object file
-HAL/src/machine_trap.S.obj:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/machine_trap.S.obj
-.PHONY : HAL/src/machine_trap.S.obj
-
-HAL/src/mtimer.obj: HAL/src/mtimer.c.obj
-.PHONY : HAL/src/mtimer.obj
-
-# target to build an object file
-HAL/src/mtimer.c.obj:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/mtimer.c.obj
-.PHONY : HAL/src/mtimer.c.obj
-
-HAL/src/mtimer.i: HAL/src/mtimer.c.i
-.PHONY : HAL/src/mtimer.i
-
-# target to preprocess a source file
-HAL/src/mtimer.c.i:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/mtimer.c.i
-.PHONY : HAL/src/mtimer.c.i
-
-HAL/src/mtimer.s: HAL/src/mtimer.c.s
-.PHONY : HAL/src/mtimer.s
-
-# target to generate assembly for a file
-HAL/src/mtimer.c.s:
-	cd /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware && $(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/mtimer.c.s
-.PHONY : HAL/src/mtimer.c.s
-
 alt_sys_init.obj: alt_sys_init.c.obj
 .PHONY : alt_sys_init.obj
 
@@ -2324,9 +2244,6 @@ help:
 	@echo "... HAL/src/alt_gettod.obj"
 	@echo "... HAL/src/alt_gettod.i"
 	@echo "... HAL/src/alt_gettod.s"
-	@echo "... HAL/src/alt_gmon.obj"
-	@echo "... HAL/src/alt_gmon.i"
-	@echo "... HAL/src/alt_gmon.s"
 	@echo "... HAL/src/alt_icache_flush.obj"
 	@echo "... HAL/src/alt_icache_flush.i"
 	@echo "... HAL/src/alt_icache_flush.s"
@@ -2348,9 +2265,6 @@ help:
 	@echo "... HAL/src/alt_ioctl.obj"
 	@echo "... HAL/src/alt_ioctl.i"
 	@echo "... HAL/src/alt_ioctl.s"
-	@echo "... HAL/src/alt_irq_handler.obj"
-	@echo "... HAL/src/alt_irq_handler.i"
-	@echo "... HAL/src/alt_irq_handler.s"
 	@echo "... HAL/src/alt_isatty.obj"
 	@echo "... HAL/src/alt_isatty.i"
 	@echo "... HAL/src/alt_isatty.s"
@@ -2466,10 +2380,6 @@ help:
 	@echo "... HAL/src/intel_niosv_irq.obj"
 	@echo "... HAL/src/intel_niosv_irq.i"
 	@echo "... HAL/src/intel_niosv_irq.s"
-	@echo "... HAL/src/machine_trap.obj"
-	@echo "... HAL/src/mtimer.obj"
-	@echo "... HAL/src/mtimer.i"
-	@echo "... HAL/src/mtimer.s"
 	@echo "... alt_sys_init.obj"
 	@echo "... alt_sys_init.i"
 	@echo "... alt_sys_init.s"

@@ -1,0 +1,3 @@
+/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/CMakeFiles/hal2_bsp.dir
+/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/CMakeFiles/edit_cache.dir
+/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/CMakeFiles/rebuild_cache.dir

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
  * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/coproc_soft_cpu.sopcinfo
  *
- * Generated: Sat Oct 18 17:00:02 UTC 2025
+ * Generated: Mon Oct 20 21:00:09 UTC 2025
  */
 
 /*
@@ -65,10 +65,10 @@
  *
  */
 
-#define RESET_REGION_BASE 0x10000
+#define RESET_REGION_BASE 0x0
 #define RESET_REGION_SPAN 32
-#define SRAM_REGION_BASE 0x10020
-#define SRAM_REGION_SPAN 4064
+#define SRAM_REGION_BASE 0x20
+#define SRAM_REGION_SPAN 10208
 
 
 /*
@@ -96,7 +96,6 @@
  *
  */
 
-#define ALT_LOAD_COPY_RODATA
 #define ALT_LOAD_COPY_RWDATA
 
 #endif /* __LINKER_H_ */

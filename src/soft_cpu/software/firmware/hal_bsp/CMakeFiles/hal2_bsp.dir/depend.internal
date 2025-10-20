@@ -54,7 +54,3 @@ hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/crt0.S.obj
  /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart_regs.h
  /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/linker.h
  /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/system.h
-hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/machine_trap.S.obj
- /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/machine_trap.S
- /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/linker.h
- /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/system.h
