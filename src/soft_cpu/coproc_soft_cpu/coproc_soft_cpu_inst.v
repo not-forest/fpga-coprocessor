@@ -4,6 +4,7 @@
 		.o_spi_export_mosi_to_the_spislave_inst_for_spichain          (<connected-to-o_spi_export_mosi_to_the_spislave_inst_for_spichain>),          // o_spi_export.mosi_to_the_spislave_inst_for_spichain
 		.o_spi_export_nss_to_the_spislave_inst_for_spichain           (<connected-to-o_spi_export_nss_to_the_spislave_inst_for_spichain>),           //             .nss_to_the_spislave_inst_for_spichain
 		.o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain (<connected-to-o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain>), //             .miso_to_and_from_the_spislave_inst_for_spichain
-		.o_spi_export_sclk_to_the_spislave_inst_for_spichain          (<connected-to-o_spi_export_sclk_to_the_spislave_inst_for_spichain>)           //             .sclk_to_the_spislave_inst_for_spichain
+		.o_spi_export_sclk_to_the_spislave_inst_for_spichain          (<connected-to-o_spi_export_sclk_to_the_spislave_inst_for_spichain>),          //             .sclk_to_the_spislave_inst_for_spichain
+		.o_dbg_reset_reset                                            (<connected-to-o_dbg_reset_reset>)                                             //  o_dbg_reset.reset
 	);
 

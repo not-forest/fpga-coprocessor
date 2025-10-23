@@ -25,6 +25,22 @@
          type = "int";
       }
    }
+   element CPU.dm_agent
+   {
+      datum baseAddress
+      {
+         value = "65536";
+         type = "String";
+      }
+   }
+   element CPU.timer_sw_agent
+   {
+      datum baseAddress
+      {
+         value = "32768";
+         type = "String";
+      }
+   }
    element DEBUG_JTAG
    {
       datum _sortIndex
@@ -37,7 +53,7 @@
    {
       datum baseAddress
       {
-         value = "16392";
+         value = "32832";
          type = "String";
       }
    }
@@ -88,6 +104,11 @@
  <instanceScript></instanceScript>
  <interface name="i_clk" internal="CLK.clk_in" type="clock" dir="end" />
  <interface name="i_clr" internal="CLK.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="o_dbg_reset"
+   internal="CPU.dbg_reset_out"
+   type="reset"
+   dir="start" />
  <interface name="o_spi_export" internal="SPI.export_0" type="conduit" dir="end" />
  <module name="CLK" kind="clock_source" version="24.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -95,18 +116,24 @@
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
  </module>
- <module name="CPU" kind="intel_niosv_c" version="3.0.0" enabled="1">
+ <module name="CPU" kind="intel_niosv_m" version="26.0.0" enabled="1">
   <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_DEVICE" value="EP4CE6E22C8" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
+  <parameter name="AUTO_PLATFORM_IRQ_RX_INTERRUPTS_USED" value="1" />
   <parameter name="clockFrequency" value="50000000" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SRAM.s1' start='0x0' end='0x2800' type='altera_avalon_onchip_memory2.s1' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x4008' end='0x4010' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SRAM.s1' start='0x0' end='0x5000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.timer_sw_agent' start='0x8000' end='0x8040' type='intel_niosv_m.timer_sw_agent' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x8040' end='0x8048' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /></address-map>]]></parameter>
   <parameter name="deviceFamily" value="Cyclone IV E" />
   <parameter name="enableAvalonInterface" value="true" />
+  <parameter name="enableDebug" value="true" />
+  <parameter name="enableDebugReset" value="true" />
   <parameter name="enableECCLite" value="false" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SRAM.s1' start='0x0' end='0x2800' type='altera_avalon_onchip_memory2.s1' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x4008' end='0x4010' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
+  <parameter name="hartId" value="0" />
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SRAM.s1' start='0x0' end='0x5000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /></address-map>]]></parameter>
+  <parameter name="interruptMode" value="0" />
   <parameter name="numGpr" value="32" />
+  <parameter name="pipelineArch" value="true" />
   <parameter name="resetOffset" value="0" />
   <parameter name="resetSlave" value="SRAM.s1" />
   <parameter name="useResetReq" value="false" />
@@ -160,7 +187,7 @@
   <parameter name="initMemContent" value="true" />
   <parameter name="initializationFileName">/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/SRAM.hex</parameter>
   <parameter name="instanceID" value="NONE" />
-  <parameter name="memorySize" value="10240" />
+  <parameter name="memorySize" value="20480" />
   <parameter name="readDuringWriteMode" value="DONT_CARE" />
   <parameter name="resetrequest_enabled" value="true" />
   <parameter name="simAllowMRAMContentsFile" value="false" />
@@ -183,7 +210,16 @@
    start="CPU.data_manager"
    end="DEBUG_JTAG.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4008" />
+  <parameter name="baseAddress" value="0x8040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="24.1"
+   start="CPU.data_manager"
+   end="CPU.dm_agent">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00010000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="avalon" version="24.1" start="CPU.data_manager" end="SRAM.s1">
@@ -194,10 +230,19 @@
  <connection
    kind="avalon"
    version="24.1"
-   start="CPU.instruction_manager"
-   end="DEBUG_JTAG.avalon_jtag_slave">
+   start="CPU.data_manager"
+   end="CPU.timer_sw_agent">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4008" />
+  <parameter name="baseAddress" value="0x8000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="24.1"
+   start="CPU.instruction_manager"
+   end="CPU.dm_agent">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00010000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -213,7 +258,19 @@
  <connection kind="clock" version="24.1" start="CLK.clk" end="SPI.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="CPU.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="SRAM.clk1" />
+ <connection
+   kind="interrupt"
+   version="24.1"
+   start="CPU.platform_irq_rx"
+   end="DEBUG_JTAG.irq">
+  <parameter name="irqNumber" value="0" />
+ </connection>
  <connection kind="reset" version="24.1" start="CLK.clk_reset" end="SPI.clk_reset" />
+ <connection
+   kind="reset"
+   version="24.1"
+   start="CLK.clk_reset"
+   end="CPU.ndm_reset_in" />
  <connection
    kind="reset"
    version="24.1"

@@ -13,11 +13,13 @@ set(CMAKE_DEPENDS_CHECK_ASM
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_mcount.S" "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_mcount.S.obj"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_vic_vector_table.S" "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_vic_vector_table.S.obj"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/crt0.S" "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/crt0.S.obj"
+  "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/machine_trap.S" "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/firmware/hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/machine_trap.S.obj"
   )
 set(CMAKE_ASM_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_ASM
+  "ALT_LOG_ENABLE"
   "ALT_LOG_FLAGS=0"
   "ALT_NO_CLEAN_EXIT"
   "ALT_NO_C_PLUS_PLUS"
@@ -69,6 +71,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_getchar.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_getchar.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_getchar.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_getpid.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_getpid.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_getpid.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_gettod.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gettod.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gettod.c.obj.d"
+  "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_gmon.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gmon.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_gmon.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_icache_flush.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_icache_flush.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_icache_flush.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_icache_flush_all.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_icache_flush_all.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_icache_flush_all.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_iic.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_iic.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_iic.c.obj.d"
@@ -76,6 +79,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_instruction_exception_register.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_instruction_exception_register.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_instruction_exception_register.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_io_redirect.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_io_redirect.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_io_redirect.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_ioctl.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_ioctl.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_ioctl.c.obj.d"
+  "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_irq_handler.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_irq_handler.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_irq_handler.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_isatty.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_isatty.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_isatty.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_kill.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_kill.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_kill.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/alt_link.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_link.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_link.c.obj.d"
@@ -113,6 +117,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/intel_fpga_api_niosv.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_fpga_api_niosv.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_fpga_api_niosv.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/intel_fpga_platform_api_niosv.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_fpga_platform_api_niosv.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_fpga_platform_api_niosv.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/intel_niosv_irq.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_niosv_irq.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/intel_niosv_irq.c.obj.d"
+  "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/mtimer.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/mtimer.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/mtimer.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/alt_sys_init.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/alt_sys_init.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/alt_sys_init.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_jtag_uart_fd.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_fd.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_fd.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_jtag_uart_init.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_init.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_init.c.obj.d"

@@ -31,10 +31,8 @@ module coproc_soft_cpu_CPU_hart #(
    parameter DEVICE_FAMILY = "Stratix 10",
    parameter DBG_PARK_LOOP_OFFSET = 32'd24,
    parameter USE_RESET_REQ = 1'b0,
-   parameter CSR_ENABLED   = 1'b0,
-   parameter ECC_EN = 1'b0,
-   parameter SHIFT_BY             = 1,
-   parameter OPTIMIZE_ALU_AREA    = 1'b1 
+   parameter SMALL_CORE = 1'b0,
+   parameter ECC_EN = 1'b0 
 ) (
    input wire clk,
    input wire reset,
@@ -54,14 +52,14 @@ module coproc_soft_cpu_CPU_hart #(
    // ===================== Data Interface ======================
 
 
-   input [31:0]       data_avl_rdata,   
+   input [31:0]             data_avl_rdata,   
    input                    data_avl_waitrequest,
    input                    data_avl_rdatavalid,
    input [1:0]              data_avl_resp,
-   output wire [31:0] data_avl_addr,   
+   output wire [31:0]       data_avl_addr,   
    output wire              data_avl_read, 
    output wire              data_avl_write, 
-   output wire [31:0] data_avl_wdata,   
+   output wire [31:0]       data_avl_wdata,   
    output wire [3:0]        data_avl_byteen,   
    input                    data_avl_wrespvalid,
    
@@ -163,8 +161,9 @@ module coproc_soft_cpu_CPU_hart #(
          );
 
 
-
-         niosv_c_core # (
+   generate 
+      if(SMALL_CORE == 1'b0) begin : m_core
+         niosv_m_core # (
             .DBG_EXPN_VECTOR (DBG_EXPN_VECTOR),
             .RESET_VECTOR (RESET_VECTOR),
             .CORE_EXTN (CORE_EXTN),
@@ -173,11 +172,8 @@ module coproc_soft_cpu_CPU_hart #(
             .DEVICE_FAMILY (DEVICE_FAMILY),
             .DBG_PARK_LOOP_OFFSET (DBG_PARK_LOOP_OFFSET),
             .USE_RESET_REQ (USE_RESET_REQ),
-            .CSR_ENABLED (CSR_ENABLED),
-            .ECC_EN (ECC_EN),
-            .SHIFT_BY (SHIFT_BY),
-            .OPTIMIZE_ALU_AREA (OPTIMIZE_ALU_AREA)
-         ) core_inst (
+            .ECC_EN (ECC_EN)
+         ) niosv_m_full_inst (
                // outputs from shim
                .instr_awready (shim_instr_awready),
                .instr_wready  (shim_instr_wready), 
@@ -249,6 +245,93 @@ module coproc_soft_cpu_CPU_hart #(
                .core_ecc_status  (core_ecc_status),
                .core_ecc_src     (core_ecc_src)
          );
+      end
+      else begin : s_core
+         niosv_c_core # (
+            .DBG_EXPN_VECTOR (DBG_EXPN_VECTOR),
+            .RESET_VECTOR (RESET_VECTOR),
+            .CORE_EXTN (CORE_EXTN),
+            .HARTID(HARTID),
+            .DEBUG_ENABLED (DEBUG_ENABLED),
+            .DEVICE_FAMILY (DEVICE_FAMILY),
+            .DBG_PARK_LOOP_OFFSET (DBG_PARK_LOOP_OFFSET),
+            .USE_RESET_REQ (USE_RESET_REQ),
+            .CSR_ENABLED (1'b1),
+            .ECC_EN (ECC_EN)
+         ) niosv_m_small_inst (
+               // outputs from shim
+               .instr_awready (shim_instr_awready),
+               .instr_wready  (shim_instr_wready), 
+               .instr_bvalid  (shim_instr_bvalid),
+               .instr_bresp   (shim_instr_bresp),
+               .instr_arready (shim_instr_arready),
+
+               .data_arready  (shim_data_arready),
+               .data_awready  (shim_data_awready), 
+               .data_wready   (shim_data_wready), 
+               .data_bresp    (shim_data_bresp),
+
+               .clk           (clk),
+               .reset         (reset),
+               .reset_req     (reset_req),
+               .reset_req_ack (reset_req_ack),
+
+               .instr_awaddr  (),   // outputs unconnected 
+               .instr_awprot  (),   // outputs unconnected 
+               .instr_awvalid (),   // outputs unconnected 
+               .instr_awsize  (),   // outputs unconnected 
+
+               .instr_wvalid  (),   // outputs unconnected
+               .instr_wdata   (),   // outputs unconnected
+               .instr_wstrb   (),   // outputs unconnected
+               .instr_wlast   (),   // outputs unconnected
+
+               .instr_bready  (),   // outputs unconnected
+
+               .instr_araddr  (shim_instr_araddr),
+               .instr_arprot  (),   // outputs unconnected
+               .instr_arvalid (shim_instr_arvalid),
+               .instr_arsize  (),   // outputs unconnected
+
+               .instr_rdata   (shim_instr_rdata),
+               .instr_rvalid  (shim_instr_rvalid),
+               .instr_rresp   (shim_instr_rresp),
+               .instr_rready  (),   // outputs unconnected
+
+               .data_awaddr   (),   // outputs unconnected
+               .data_awprot   (),   // outputs unconnected
+               .data_awvalid  (shim_data_awvalid),
+               .data_awsize   (),   // outputs unconnected
+
+               .data_wvalid   (),   // outputs unconnected
+               .data_wdata    (shim_data_wdata),
+               .data_wstrb    (shim_data_wstrb),
+               .data_wlast    (),   // outputs unconnected
+
+               .data_bvalid   (shim_data_bvalid),
+               .data_bready   (),   // outputs unconnected
+
+               .data_araddr   (shim_data_araddr),
+               .data_arprot   (),   // outputs unconnected
+               .data_arvalid  (shim_data_arvalid),
+               .data_arsize   (),   // outputs unconnected
+
+               .data_rdata    (shim_data_rdata),
+               .data_rvalid   (shim_data_rvalid),
+               .data_rresp    (shim_data_rresp),
+               .data_rready   (),   // outputs unconnected
+
+               .irq_timer     (irq_timer),
+               .irq_sw        (irq_sw),
+               .irq_plat_vec  (irq_plat_vec),
+               .irq_ext       (irq_ext),
+               .irq_debug     (irq_debug),
+
+               .core_ecc_status  (core_ecc_status),
+               .core_ecc_src     (core_ecc_src)
+         );
+      end
+   endgenerate
 
 
 endmodule

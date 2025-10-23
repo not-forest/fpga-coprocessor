@@ -22,10 +22,10 @@
 <td width="20%" bgcolor="#77BBFF">BSP Version:</td><td>default</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Oct 20, 2025 9:00:09 PM</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Oct 21, 2025 7:24:34 PM</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1760994009267</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1761074674027</td>
 </tr>
 <tr mode="wrap">
 <td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>./</td>
@@ -38,10 +38,16 @@
 <th align="left" width="20%">Slave Descriptor</th><th align="left" width="40%">Address Range</th><th align="left" width="20%">Size</th><th align="left" width="20%">Attributes</th>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>DEBUG_JTAG</td><td>0x00004008 - 0x0000400F</td><td>8</td><td class="listing">printable</td>
+<td>CPU_dm_agent</td><td>0x00010000 - 0x0001FFFF</td><td>65536</td><td class="listing">&nbsp;</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>SRAM</td><td>0x00000000 - 0x000027FF</td><td>10240</td><td class="listing">memory</td>
+<td>DEBUG_JTAG</td><td>0x00008040 - 0x00008047</td><td>8</td><td class="listing">printable</td>
+</tr>
+<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
+<td>CPU_timer_sw_agent</td><td>0x00008000 - 0x0000803F</td><td>64</td><td class="listing">&nbsp;</td>
+</tr>
+<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
+<td>SRAM</td><td>0x00000000 - 0x00004FFF</td><td>20480</td><td class="listing">memory</td>
 </tr>
 </table>
 <br>
@@ -255,7 +261,7 @@
 <td width="20%">Default Value:</td><td>false</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>false</td>
+<td width="20%">Value:</td><td>true</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>BooleanDefineOnly</td>
@@ -660,7 +666,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>none</td>
+<td width="20%">Value:</td><td>DEBUG_JTAG</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1119,7 +1125,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>none</td>
+<td width="20%">Value:</td><td>CPU</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1146,7 +1152,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>none</td>
+<td width="20%">Value:</td><td>CPU</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1372,6 +1378,33 @@
 </tr>
 <tr mode="wrap">
 <td width="20%">Description:</td><td>Determines whether to include the DFL walker code in fpga_platform_init() to discover interface information to use fpga_open() to obtain a handle.</td>
+</tr>
+<tr mode="wrap">
+<td width="20%">Restrictions:</td><td>none</td>
+</tr>
+</table>
+<br>
+<table border="1" bgcolor="#FFFFCC" width="60%">
+<tr bgcolor="#77BBFF">
+<td align="left" width="15%">Setting Name:</td><td align="left">intel_niosv_m_hal_driver.internal_timer_ticks_per_sec</td>
+</tr>
+<tr>
+<td width="20%">Identifier:</td><td>NIOSV_INTERNAL_TIMER_TICKS_PER_SECOND</td>
+</tr>
+<tr>
+<td width="20%">Default Value:</td><td>1000</td>
+</tr>
+<tr>
+<td width="20%">Value:</td><td>1000</td>
+</tr>
+<tr>
+<td width="20%">Type:</td><td>DecimalNumber</td>
+</tr>
+<tr mode="wrap">
+<td width="20%">Destination:</td><td>system_h_define</td>
+</tr>
+<tr mode="wrap">
+<td width="20%">Description:</td><td>Sets the tick rate in ticks per second for the internal timer.</td>
 </tr>
 <tr mode="wrap">
 <td width="20%">Restrictions:</td><td>none</td>

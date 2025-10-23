@@ -58,7 +58,7 @@ add_custom_target(niosv-stack-report ALL DEPENDS "${stack_report_file}")
 add_custom_command(
     OUTPUT "SRAM.hex"
     DEPENDS coproc_firmware.elf
-    COMMAND elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00000000 -w 32 -e 0x000027FF -r 4
+    COMMAND elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00000000 -w 32 -e 0x00004FFF -r 4
     COMMENT "Creating SRAM.hex."
     VERBATIM
 )

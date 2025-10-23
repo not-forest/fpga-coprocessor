@@ -13,6 +13,14 @@
    type="VHDL"
    library="avalon_st_adapter" />
  <file
+   path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux_002.sv"
+   type="SYSTEM_VERILOG"
+   library="rsp_mux_002" />
+ <file
+   path="simulation/submodules/altera_merlin_arbitrator.sv"
+   type="SYSTEM_VERILOG"
+   library="rsp_mux_002" />
+ <file
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux_001.sv"
    type="SYSTEM_VERILOG"
    library="rsp_mux_001" />
@@ -37,6 +45,14 @@
    type="SYSTEM_VERILOG"
    library="rsp_demux" />
  <file
+   path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux_002.sv"
+   type="SYSTEM_VERILOG"
+   library="cmd_mux_002" />
+ <file
+   path="simulation/submodules/altera_merlin_arbitrator.sv"
+   type="SYSTEM_VERILOG"
+   library="cmd_mux_002" />
+ <file
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux_001.sv"
    type="SYSTEM_VERILOG"
    library="cmd_mux_001" />
@@ -52,6 +68,10 @@
    path="simulation/submodules/altera_merlin_arbitrator.sv"
    type="SYSTEM_VERILOG"
    library="cmd_mux" />
+ <file
+   path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux_002.sv"
+   type="SYSTEM_VERILOG"
+   library="cmd_demux_002" />
  <file
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux_001.sv"
    type="SYSTEM_VERILOG"
@@ -77,6 +97,10 @@
    type="SYSTEM_VERILOG"
    library="CPU_data_manager_limiter" />
  <file
+   path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_router_005.sv"
+   type="SYSTEM_VERILOG"
+   library="router_005" />
+ <file
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_router_004.sv"
    type="SYSTEM_VERILOG"
    library="router_004" />
@@ -84,6 +108,10 @@
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_router_003.sv"
    type="SYSTEM_VERILOG"
    library="router_003" />
+ <file
+   path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_router_002.sv"
+   type="SYSTEM_VERILOG"
+   library="router_002" />
  <file
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0_router_001.sv"
    type="SYSTEM_VERILOG"
@@ -117,42 +145,188 @@
    type="SYSTEM_VERILOG"
    library="SPI_avalon_master_translator" />
  <file
+   path="simulation/submodules/coproc_soft_cpu_CPU_irq_mapper.sv"
+   type="SYSTEM_VERILOG"
+   library="irq_mapper" />
+ <file
+   path="simulation/submodules/csr_mlab.mif"
+   type="MIF"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/debug_rom.mif"
+   type="MIF"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/aldec/niosv_dm_def.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_ram.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_dm_jtag2mm.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_dm_top.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_debug_module.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/cadence/niosv_dm_def.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_ram.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_dm_jtag2mm.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_dm_top.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_debug_module.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_dm_def.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_ram.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_dm_jtag2mm.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_dm_top.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_debug_module.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/synopsys/niosv_dm_def.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_ram.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_dm_jtag2mm.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_dm_top.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_debug_module.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/altera_std_synchronizer_bundle.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_std_synchronizer_nocut.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_std_synchronizer.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_avalon_st_clock_crosser.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_avalon_st_handshake_clock_crosser.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_avalon_st_pipeline_base.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_avalon_st_pipeline_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_avalon_st_handshake_clock_crosser.sdc"
+   type="SDC"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_reset_synchronizer.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_reset_controller.v"
+   type="SYSTEM_VERILOG"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/altera_reset_controller.sdc"
+   type="SDC"
+   library="dbg_mod" />
+ <file
+   path="simulation/submodules/aldec/niosv_timer_msip.sv"
+   type="SYSTEM_VERILOG"
+   library="timer_module"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/cadence/niosv_timer_msip.sv"
+   type="SYSTEM_VERILOG"
+   library="timer_module"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_timer_msip.sv"
+   type="SYSTEM_VERILOG"
+   library="timer_module"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/synopsys/niosv_timer_msip.sv"
+   type="SYSTEM_VERILOG"
+   library="timer_module"
+   simulator="vcs" />
+ <file
    path="simulation/submodules/aldec/niosv_opcode_def.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="riviera" />
  <file
    path="simulation/submodules/aldec/niosv_mem_op_state.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="riviera" />
- <file
-   path="simulation/submodules/aldec/niosv_shift.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="riviera" />
- <file
-   path="simulation/submodules/aldec/niosv_alu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="riviera" />
- <file
-   path="simulation/submodules/aldec/niosv_lsu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="riviera" />
- <file
-   path="simulation/submodules/aldec/niosv_bus_req.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="riviera" />
- <file
-   path="simulation/submodules/aldec/niosv_interrupt_handler.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="riviera" />
- <file
-   path="simulation/submodules/aldec/niosv_reg_file.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="riviera" />
@@ -178,6 +352,56 @@
    simulator="riviera" />
  <file
    path="simulation/submodules/aldec/altecc_dec.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_reg_file.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_csr.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_csrind_if.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_csrind_host.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_interrupt_handler.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_instr_buffer.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_bus_req.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_shift.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_alu.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_lsu.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="riviera" />
@@ -212,6 +436,41 @@
    library="hart"
    simulator="riviera" />
  <file
+   path="simulation/submodules/aldec/niosv_m_decoder.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_m_core.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_m_instr_prefetch.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_m_D_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_m_E_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_m_M0_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
+   path="simulation/submodules/aldec/niosv_m_W_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="riviera" />
+ <file
    path="simulation/submodules/aldec/niosv_avl_to_axi_shim.sv"
    type="SYSTEM_VERILOG"
    library="hart"
@@ -228,36 +487,6 @@
    simulator="ncsim" />
  <file
    path="simulation/submodules/cadence/niosv_mem_op_state.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="ncsim" />
- <file
-   path="simulation/submodules/cadence/niosv_shift.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="ncsim" />
- <file
-   path="simulation/submodules/cadence/niosv_alu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="ncsim" />
- <file
-   path="simulation/submodules/cadence/niosv_lsu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="ncsim" />
- <file
-   path="simulation/submodules/cadence/niosv_bus_req.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="ncsim" />
- <file
-   path="simulation/submodules/cadence/niosv_interrupt_handler.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="ncsim" />
- <file
-   path="simulation/submodules/cadence/niosv_reg_file.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="ncsim" />
@@ -283,6 +512,56 @@
    simulator="ncsim" />
  <file
    path="simulation/submodules/cadence/altecc_dec.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_reg_file.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_csr.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_csrind_if.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_csrind_host.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_interrupt_handler.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_instr_buffer.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_bus_req.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_shift.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_alu.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_lsu.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="ncsim" />
@@ -317,6 +596,41 @@
    library="hart"
    simulator="ncsim" />
  <file
+   path="simulation/submodules/cadence/niosv_m_decoder.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_m_core.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_m_instr_prefetch.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_m_D_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_m_E_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_m_M0_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
+   path="simulation/submodules/cadence/niosv_m_W_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="ncsim" />
+ <file
    path="simulation/submodules/cadence/niosv_avl_to_axi_shim.sv"
    type="SYSTEM_VERILOG"
    library="hart"
@@ -333,36 +647,6 @@
    simulator="modelsim" />
  <file
    path="simulation/submodules/mentor/niosv_mem_op_state.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="modelsim" />
- <file
-   path="simulation/submodules/mentor/niosv_shift.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="modelsim" />
- <file
-   path="simulation/submodules/mentor/niosv_alu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="modelsim" />
- <file
-   path="simulation/submodules/mentor/niosv_lsu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="modelsim" />
- <file
-   path="simulation/submodules/mentor/niosv_bus_req.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="modelsim" />
- <file
-   path="simulation/submodules/mentor/niosv_interrupt_handler.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="modelsim" />
- <file
-   path="simulation/submodules/mentor/niosv_reg_file.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="modelsim" />
@@ -388,6 +672,56 @@
    simulator="modelsim" />
  <file
    path="simulation/submodules/mentor/altecc_dec.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_reg_file.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_csr.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_csrind_if.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_csrind_host.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_interrupt_handler.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_instr_buffer.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_bus_req.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_shift.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_alu.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_lsu.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="modelsim" />
@@ -422,6 +756,41 @@
    library="hart"
    simulator="modelsim" />
  <file
+   path="simulation/submodules/mentor/niosv_m_decoder.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_m_core.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_m_instr_prefetch.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_m_D_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_m_E_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_m_M0_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
+   path="simulation/submodules/mentor/niosv_m_W_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="modelsim" />
+ <file
    path="simulation/submodules/mentor/niosv_avl_to_axi_shim.sv"
    type="SYSTEM_VERILOG"
    library="hart"
@@ -438,36 +807,6 @@
    simulator="vcs" />
  <file
    path="simulation/submodules/synopsys/niosv_mem_op_state.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="vcs" />
- <file
-   path="simulation/submodules/synopsys/niosv_shift.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="vcs" />
- <file
-   path="simulation/submodules/synopsys/niosv_alu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="vcs" />
- <file
-   path="simulation/submodules/synopsys/niosv_lsu.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="vcs" />
- <file
-   path="simulation/submodules/synopsys/niosv_bus_req.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="vcs" />
- <file
-   path="simulation/submodules/synopsys/niosv_interrupt_handler.sv"
-   type="SYSTEM_VERILOG"
-   library="hart"
-   simulator="vcs" />
- <file
-   path="simulation/submodules/synopsys/niosv_reg_file.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="vcs" />
@@ -493,6 +832,56 @@
    simulator="vcs" />
  <file
    path="simulation/submodules/synopsys/altecc_dec.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_reg_file.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_csr.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_csrind_if.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_csrind_host.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_interrupt_handler.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_instr_buffer.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_bus_req.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_shift.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_alu.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_lsu.sv"
    type="SYSTEM_VERILOG"
    library="hart"
    simulator="vcs" />
@@ -527,6 +916,41 @@
    library="hart"
    simulator="vcs" />
  <file
+   path="simulation/submodules/synopsys/niosv_m_decoder.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_m_core.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_m_instr_prefetch.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_m_D_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_m_E_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_m_M0_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
+   path="simulation/submodules/synopsys/niosv_m_W_stage.sv"
+   type="SYSTEM_VERILOG"
+   library="hart"
+   simulator="vcs" />
+ <file
    path="simulation/submodules/synopsys/niosv_avl_to_axi_shim.sv"
    type="SYSTEM_VERILOG"
    library="hart"
@@ -548,6 +972,10 @@
    path="simulation/submodules/altera_reset_controller.sdc"
    type="SDC"
    library="rst_controller" />
+ <file
+   path="simulation/submodules/coproc_soft_cpu_irq_mapper.sv"
+   type="SYSTEM_VERILOG"
+   library="irq_mapper" />
  <file
    path="simulation/submodules/coproc_soft_cpu_mm_interconnect_0.v"
    type="VERILOG"

@@ -10,6 +10,7 @@ entity coproc_soft_cpu is
 	port (
 		i_clk_clk                                                    : in    std_logic := '0'; --        i_clk.clk
 		i_clr_reset_n                                                : in    std_logic := '0'; --        i_clr.reset_n
+		o_dbg_reset_reset                                            : out   std_logic;        --  o_dbg_reset.reset
 		o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := '0'; -- o_spi_export.mosi_to_the_spislave_inst_for_spichain
 		o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := '0'; --             .nss_to_the_spislave_inst_for_spichain
 		o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := '0'; --             .miso_to_and_from_the_spislave_inst_for_spichain
@@ -22,6 +23,16 @@ architecture rtl of coproc_soft_cpu is
 		port (
 			clk                               : in  std_logic                     := 'X';             -- clk
 			reset_reset                       : in  std_logic                     := 'X';             -- reset
+			platform_irq_rx_irq               : in  std_logic_vector(15 downto 0) := (others => 'X'); -- irq
+			ndm_reset_in_reset                : in  std_logic                     := 'X';             -- reset
+			timer_sw_agent_address            : in  std_logic_vector(5 downto 0)  := (others => 'X'); -- address
+			timer_sw_agent_byteenable         : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			timer_sw_agent_read               : in  std_logic                     := 'X';             -- read
+			timer_sw_agent_readdata           : out std_logic_vector(31 downto 0);                    -- readdata
+			timer_sw_agent_write              : in  std_logic                     := 'X';             -- write
+			timer_sw_agent_writedata          : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			timer_sw_agent_waitrequest        : out std_logic;                                        -- waitrequest
+			timer_sw_agent_readdatavalid      : out std_logic;                                        -- readdatavalid
 			instruction_manager_readdata      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			instruction_manager_waitrequest   : in  std_logic                     := 'X';             -- waitrequest
 			instruction_manager_readdatavalid : in  std_logic                     := 'X';             -- readdatavalid
@@ -37,7 +48,15 @@ architecture rtl of coproc_soft_cpu is
 			data_manager_write                : out std_logic;                                        -- write
 			data_manager_writedata            : out std_logic_vector(31 downto 0);                    -- writedata
 			data_manager_byteenable           : out std_logic_vector(3 downto 0);                     -- byteenable
-			data_manager_writeresponsevalid   : in  std_logic                     := 'X'              -- writeresponsevalid
+			data_manager_writeresponsevalid   : in  std_logic                     := 'X';             -- writeresponsevalid
+			dm_agent_address                  : in  std_logic_vector(15 downto 0) := (others => 'X'); -- address
+			dm_agent_read                     : in  std_logic                     := 'X';             -- read
+			dm_agent_readdata                 : out std_logic_vector(31 downto 0);                    -- readdata
+			dm_agent_write                    : in  std_logic                     := 'X';             -- write
+			dm_agent_writedata                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			dm_agent_waitrequest              : out std_logic;                                        -- waitrequest
+			dm_agent_readdatavalid            : out std_logic;                                        -- readdatavalid
+			dbg_reset_out_reset               : out std_logic                                         -- reset
 		);
 	end component coproc_soft_cpu_CPU;
 
@@ -95,7 +114,7 @@ architecture rtl of coproc_soft_cpu is
 	component coproc_soft_cpu_SRAM is
 		port (
 			clk        : in  std_logic                     := 'X';             -- clk
-			address    : in  std_logic_vector(11 downto 0) := (others => 'X'); -- address
+			address    : in  std_logic_vector(12 downto 0) := (others => 'X'); -- address
 			clken      : in  std_logic                     := 'X';             -- clken
 			chipselect : in  std_logic                     := 'X';             -- chipselect
 			write      : in  std_logic                     := 'X';             -- write
@@ -136,6 +155,21 @@ architecture rtl of coproc_soft_cpu is
 			SPI_avalon_master_readdatavalid           : out std_logic;                                        -- readdatavalid
 			SPI_avalon_master_write                   : in  std_logic                     := 'X';             -- write
 			SPI_avalon_master_writedata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			CPU_dm_agent_address                      : out std_logic_vector(15 downto 0);                    -- address
+			CPU_dm_agent_write                        : out std_logic;                                        -- write
+			CPU_dm_agent_read                         : out std_logic;                                        -- read
+			CPU_dm_agent_readdata                     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			CPU_dm_agent_writedata                    : out std_logic_vector(31 downto 0);                    -- writedata
+			CPU_dm_agent_readdatavalid                : in  std_logic                     := 'X';             -- readdatavalid
+			CPU_dm_agent_waitrequest                  : in  std_logic                     := 'X';             -- waitrequest
+			CPU_timer_sw_agent_address                : out std_logic_vector(5 downto 0);                     -- address
+			CPU_timer_sw_agent_write                  : out std_logic;                                        -- write
+			CPU_timer_sw_agent_read                   : out std_logic;                                        -- read
+			CPU_timer_sw_agent_readdata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			CPU_timer_sw_agent_writedata              : out std_logic_vector(31 downto 0);                    -- writedata
+			CPU_timer_sw_agent_byteenable             : out std_logic_vector(3 downto 0);                     -- byteenable
+			CPU_timer_sw_agent_readdatavalid          : in  std_logic                     := 'X';             -- readdatavalid
+			CPU_timer_sw_agent_waitrequest            : in  std_logic                     := 'X';             -- waitrequest
 			DEBUG_JTAG_avalon_jtag_slave_address      : out std_logic_vector(0 downto 0);                     -- address
 			DEBUG_JTAG_avalon_jtag_slave_write        : out std_logic;                                        -- write
 			DEBUG_JTAG_avalon_jtag_slave_read         : out std_logic;                                        -- read
@@ -143,7 +177,7 @@ architecture rtl of coproc_soft_cpu is
 			DEBUG_JTAG_avalon_jtag_slave_writedata    : out std_logic_vector(31 downto 0);                    -- writedata
 			DEBUG_JTAG_avalon_jtag_slave_waitrequest  : in  std_logic                     := 'X';             -- waitrequest
 			DEBUG_JTAG_avalon_jtag_slave_chipselect   : out std_logic;                                        -- chipselect
-			SRAM_s1_address                           : out std_logic_vector(11 downto 0);                    -- address
+			SRAM_s1_address                           : out std_logic_vector(12 downto 0);                    -- address
 			SRAM_s1_write                             : out std_logic;                                        -- write
 			SRAM_s1_readdata                          : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			SRAM_s1_writedata                         : out std_logic_vector(31 downto 0);                    -- writedata
@@ -152,6 +186,15 @@ architecture rtl of coproc_soft_cpu is
 			SRAM_s1_clken                             : out std_logic                                         -- clken
 		);
 	end component coproc_soft_cpu_mm_interconnect_0;
+
+	component coproc_soft_cpu_irq_mapper is
+		port (
+			clk           : in  std_logic                     := 'X'; -- clk
+			reset         : in  std_logic                     := 'X'; -- reset
+			receiver0_irq : in  std_logic                     := 'X'; -- irq
+			sender_irq    : out std_logic_vector(15 downto 0)         -- irq
+		);
+	end component coproc_soft_cpu_irq_mapper;
 
 	component altera_reset_controller is
 		generic (
@@ -245,11 +288,18 @@ architecture rtl of coproc_soft_cpu is
 	signal cpu_instruction_manager_response                               : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_instruction_manager_response -> CPU:instruction_manager_response
 	signal mm_interconnect_0_sram_s1_chipselect                           : std_logic;                     -- mm_interconnect_0:SRAM_s1_chipselect -> SRAM:chipselect
 	signal mm_interconnect_0_sram_s1_readdata                             : std_logic_vector(31 downto 0); -- SRAM:readdata -> mm_interconnect_0:SRAM_s1_readdata
-	signal mm_interconnect_0_sram_s1_address                              : std_logic_vector(11 downto 0); -- mm_interconnect_0:SRAM_s1_address -> SRAM:address
+	signal mm_interconnect_0_sram_s1_address                              : std_logic_vector(12 downto 0); -- mm_interconnect_0:SRAM_s1_address -> SRAM:address
 	signal mm_interconnect_0_sram_s1_byteenable                           : std_logic_vector(3 downto 0);  -- mm_interconnect_0:SRAM_s1_byteenable -> SRAM:byteenable
 	signal mm_interconnect_0_sram_s1_write                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_write -> SRAM:write
 	signal mm_interconnect_0_sram_s1_writedata                            : std_logic_vector(31 downto 0); -- mm_interconnect_0:SRAM_s1_writedata -> SRAM:writedata
 	signal mm_interconnect_0_sram_s1_clken                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_clken -> SRAM:clken
+	signal mm_interconnect_0_cpu_dm_agent_readdata                        : std_logic_vector(31 downto 0); -- CPU:dm_agent_readdata -> mm_interconnect_0:CPU_dm_agent_readdata
+	signal mm_interconnect_0_cpu_dm_agent_waitrequest                     : std_logic;                     -- CPU:dm_agent_waitrequest -> mm_interconnect_0:CPU_dm_agent_waitrequest
+	signal mm_interconnect_0_cpu_dm_agent_address                         : std_logic_vector(15 downto 0); -- mm_interconnect_0:CPU_dm_agent_address -> CPU:dm_agent_address
+	signal mm_interconnect_0_cpu_dm_agent_read                            : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_read -> CPU:dm_agent_read
+	signal mm_interconnect_0_cpu_dm_agent_readdatavalid                   : std_logic;                     -- CPU:dm_agent_readdatavalid -> mm_interconnect_0:CPU_dm_agent_readdatavalid
+	signal mm_interconnect_0_cpu_dm_agent_write                           : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_write -> CPU:dm_agent_write
+	signal mm_interconnect_0_cpu_dm_agent_writedata                       : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_dm_agent_writedata -> CPU:dm_agent_writedata
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_chipselect      : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_chipselect -> DEBUG_JTAG:av_chipselect
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_readdata        : std_logic_vector(31 downto 0); -- DEBUG_JTAG:av_readdata -> mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_readdata
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_waitrequest     : std_logic;                     -- DEBUG_JTAG:av_waitrequest -> mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_waitrequest
@@ -257,7 +307,17 @@ architecture rtl of coproc_soft_cpu is
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read            : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_read -> mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:in
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_write           : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_write -> mm_interconnect_0_debug_jtag_avalon_jtag_slave_write:in
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata       : std_logic_vector(31 downto 0); -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_writedata -> DEBUG_JTAG:av_writedata
-	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:reset_reset, SRAM:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in, rst_translator:in_reset]
+	signal mm_interconnect_0_cpu_timer_sw_agent_readdata                  : std_logic_vector(31 downto 0); -- CPU:timer_sw_agent_readdata -> mm_interconnect_0:CPU_timer_sw_agent_readdata
+	signal mm_interconnect_0_cpu_timer_sw_agent_waitrequest               : std_logic;                     -- CPU:timer_sw_agent_waitrequest -> mm_interconnect_0:CPU_timer_sw_agent_waitrequest
+	signal mm_interconnect_0_cpu_timer_sw_agent_address                   : std_logic_vector(5 downto 0);  -- mm_interconnect_0:CPU_timer_sw_agent_address -> CPU:timer_sw_agent_address
+	signal mm_interconnect_0_cpu_timer_sw_agent_read                      : std_logic;                     -- mm_interconnect_0:CPU_timer_sw_agent_read -> CPU:timer_sw_agent_read
+	signal mm_interconnect_0_cpu_timer_sw_agent_byteenable                : std_logic_vector(3 downto 0);  -- mm_interconnect_0:CPU_timer_sw_agent_byteenable -> CPU:timer_sw_agent_byteenable
+	signal mm_interconnect_0_cpu_timer_sw_agent_readdatavalid             : std_logic;                     -- CPU:timer_sw_agent_readdatavalid -> mm_interconnect_0:CPU_timer_sw_agent_readdatavalid
+	signal mm_interconnect_0_cpu_timer_sw_agent_write                     : std_logic;                     -- mm_interconnect_0:CPU_timer_sw_agent_write -> CPU:timer_sw_agent_write
+	signal mm_interconnect_0_cpu_timer_sw_agent_writedata                 : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_timer_sw_agent_writedata -> CPU:timer_sw_agent_writedata
+	signal irq_mapper_receiver0_irq                                       : std_logic;                     -- DEBUG_JTAG:av_irq -> irq_mapper:receiver0_irq
+	signal cpu_platform_irq_rx_irq                                        : std_logic_vector(15 downto 0); -- irq_mapper:sender_irq -> CPU:platform_irq_rx_irq
+	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:ndm_reset_in_reset, CPU:reset_reset, SRAM:reset, irq_mapper:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in, rst_translator:in_reset]
 	signal rst_controller_reset_out_reset_req                             : std_logic;                     -- rst_controller:reset_req -> [SRAM:reset_req, rst_translator:reset_req_in]
 	signal i_clr_reset_n_ports_inv                                        : std_logic;                     -- i_clr_reset_n:inv -> rst_controller:reset_in0
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read_ports_inv  : std_logic;                     -- mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:inv -> DEBUG_JTAG:av_read_n
@@ -268,24 +328,42 @@ begin
 
 	cpu : component coproc_soft_cpu_CPU
 		port map (
-			clk                               => i_clk_clk,                             --                 clk.clk
-			reset_reset                       => rst_controller_reset_out_reset,        --               reset.reset
-			instruction_manager_readdata      => cpu_instruction_manager_readdata,      -- instruction_manager.readdata
-			instruction_manager_waitrequest   => cpu_instruction_manager_waitrequest,   --                    .waitrequest
-			instruction_manager_readdatavalid => cpu_instruction_manager_readdatavalid, --                    .readdatavalid
-			instruction_manager_response      => cpu_instruction_manager_response,      --                    .response
-			instruction_manager_address       => cpu_instruction_manager_address,       --                    .address
-			instruction_manager_read          => cpu_instruction_manager_read,          --                    .read
-			data_manager_readdata             => cpu_data_manager_readdata,             --        data_manager.readdata
-			data_manager_waitrequest          => cpu_data_manager_waitrequest,          --                    .waitrequest
-			data_manager_readdatavalid        => cpu_data_manager_readdatavalid,        --                    .readdatavalid
-			data_manager_response             => cpu_data_manager_response,             --                    .response
-			data_manager_address              => cpu_data_manager_address,              --                    .address
-			data_manager_read                 => cpu_data_manager_read,                 --                    .read
-			data_manager_write                => cpu_data_manager_write,                --                    .write
-			data_manager_writedata            => cpu_data_manager_writedata,            --                    .writedata
-			data_manager_byteenable           => cpu_data_manager_byteenable,           --                    .byteenable
-			data_manager_writeresponsevalid   => cpu_data_manager_writeresponsevalid    --                    .writeresponsevalid
+			clk                               => i_clk_clk,                                          --                 clk.clk
+			reset_reset                       => rst_controller_reset_out_reset,                     --               reset.reset
+			platform_irq_rx_irq               => cpu_platform_irq_rx_irq,                            --     platform_irq_rx.irq
+			ndm_reset_in_reset                => rst_controller_reset_out_reset,                     --        ndm_reset_in.reset
+			timer_sw_agent_address            => mm_interconnect_0_cpu_timer_sw_agent_address,       --      timer_sw_agent.address
+			timer_sw_agent_byteenable         => mm_interconnect_0_cpu_timer_sw_agent_byteenable,    --                    .byteenable
+			timer_sw_agent_read               => mm_interconnect_0_cpu_timer_sw_agent_read,          --                    .read
+			timer_sw_agent_readdata           => mm_interconnect_0_cpu_timer_sw_agent_readdata,      --                    .readdata
+			timer_sw_agent_write              => mm_interconnect_0_cpu_timer_sw_agent_write,         --                    .write
+			timer_sw_agent_writedata          => mm_interconnect_0_cpu_timer_sw_agent_writedata,     --                    .writedata
+			timer_sw_agent_waitrequest        => mm_interconnect_0_cpu_timer_sw_agent_waitrequest,   --                    .waitrequest
+			timer_sw_agent_readdatavalid      => mm_interconnect_0_cpu_timer_sw_agent_readdatavalid, --                    .readdatavalid
+			instruction_manager_readdata      => cpu_instruction_manager_readdata,                   -- instruction_manager.readdata
+			instruction_manager_waitrequest   => cpu_instruction_manager_waitrequest,                --                    .waitrequest
+			instruction_manager_readdatavalid => cpu_instruction_manager_readdatavalid,              --                    .readdatavalid
+			instruction_manager_response      => cpu_instruction_manager_response,                   --                    .response
+			instruction_manager_address       => cpu_instruction_manager_address,                    --                    .address
+			instruction_manager_read          => cpu_instruction_manager_read,                       --                    .read
+			data_manager_readdata             => cpu_data_manager_readdata,                          --        data_manager.readdata
+			data_manager_waitrequest          => cpu_data_manager_waitrequest,                       --                    .waitrequest
+			data_manager_readdatavalid        => cpu_data_manager_readdatavalid,                     --                    .readdatavalid
+			data_manager_response             => cpu_data_manager_response,                          --                    .response
+			data_manager_address              => cpu_data_manager_address,                           --                    .address
+			data_manager_read                 => cpu_data_manager_read,                              --                    .read
+			data_manager_write                => cpu_data_manager_write,                             --                    .write
+			data_manager_writedata            => cpu_data_manager_writedata,                         --                    .writedata
+			data_manager_byteenable           => cpu_data_manager_byteenable,                        --                    .byteenable
+			data_manager_writeresponsevalid   => cpu_data_manager_writeresponsevalid,                --                    .writeresponsevalid
+			dm_agent_address                  => mm_interconnect_0_cpu_dm_agent_address,             --            dm_agent.address
+			dm_agent_read                     => mm_interconnect_0_cpu_dm_agent_read,                --                    .read
+			dm_agent_readdata                 => mm_interconnect_0_cpu_dm_agent_readdata,            --                    .readdata
+			dm_agent_write                    => mm_interconnect_0_cpu_dm_agent_write,               --                    .write
+			dm_agent_writedata                => mm_interconnect_0_cpu_dm_agent_writedata,           --                    .writedata
+			dm_agent_waitrequest              => mm_interconnect_0_cpu_dm_agent_waitrequest,         --                    .waitrequest
+			dm_agent_readdatavalid            => mm_interconnect_0_cpu_dm_agent_readdatavalid,       --                    .readdatavalid
+			dbg_reset_out_reset               => o_dbg_reset_reset                                   --       dbg_reset_out.reset
 		);
 
 	debug_jtag : component altera_avalon_jtag_uart
@@ -316,7 +394,7 @@ begin
 			av_write_n     => mm_interconnect_0_debug_jtag_avalon_jtag_slave_write_ports_inv, --                  .write_n
 			av_writedata   => mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata,       --                  .writedata
 			av_waitrequest => mm_interconnect_0_debug_jtag_avalon_jtag_slave_waitrequest,     --                  .waitrequest
-			av_irq         => open                                                            --               irq.irq
+			av_irq         => irq_mapper_receiver0_irq                                        --               irq.irq
 		);
 
 	spi : component SPISlaveToAvalonMasterBridge
@@ -380,6 +458,21 @@ begin
 			SPI_avalon_master_readdatavalid           => spi_avalon_master_readdatavalid,                            --                                    .readdatavalid
 			SPI_avalon_master_write                   => spi_avalon_master_write,                                    --                                    .write
 			SPI_avalon_master_writedata               => spi_avalon_master_writedata,                                --                                    .writedata
+			CPU_dm_agent_address                      => mm_interconnect_0_cpu_dm_agent_address,                     --                        CPU_dm_agent.address
+			CPU_dm_agent_write                        => mm_interconnect_0_cpu_dm_agent_write,                       --                                    .write
+			CPU_dm_agent_read                         => mm_interconnect_0_cpu_dm_agent_read,                        --                                    .read
+			CPU_dm_agent_readdata                     => mm_interconnect_0_cpu_dm_agent_readdata,                    --                                    .readdata
+			CPU_dm_agent_writedata                    => mm_interconnect_0_cpu_dm_agent_writedata,                   --                                    .writedata
+			CPU_dm_agent_readdatavalid                => mm_interconnect_0_cpu_dm_agent_readdatavalid,               --                                    .readdatavalid
+			CPU_dm_agent_waitrequest                  => mm_interconnect_0_cpu_dm_agent_waitrequest,                 --                                    .waitrequest
+			CPU_timer_sw_agent_address                => mm_interconnect_0_cpu_timer_sw_agent_address,               --                  CPU_timer_sw_agent.address
+			CPU_timer_sw_agent_write                  => mm_interconnect_0_cpu_timer_sw_agent_write,                 --                                    .write
+			CPU_timer_sw_agent_read                   => mm_interconnect_0_cpu_timer_sw_agent_read,                  --                                    .read
+			CPU_timer_sw_agent_readdata               => mm_interconnect_0_cpu_timer_sw_agent_readdata,              --                                    .readdata
+			CPU_timer_sw_agent_writedata              => mm_interconnect_0_cpu_timer_sw_agent_writedata,             --                                    .writedata
+			CPU_timer_sw_agent_byteenable             => mm_interconnect_0_cpu_timer_sw_agent_byteenable,            --                                    .byteenable
+			CPU_timer_sw_agent_readdatavalid          => mm_interconnect_0_cpu_timer_sw_agent_readdatavalid,         --                                    .readdatavalid
+			CPU_timer_sw_agent_waitrequest            => mm_interconnect_0_cpu_timer_sw_agent_waitrequest,           --                                    .waitrequest
 			DEBUG_JTAG_avalon_jtag_slave_address      => mm_interconnect_0_debug_jtag_avalon_jtag_slave_address,     --        DEBUG_JTAG_avalon_jtag_slave.address
 			DEBUG_JTAG_avalon_jtag_slave_write        => mm_interconnect_0_debug_jtag_avalon_jtag_slave_write,       --                                    .write
 			DEBUG_JTAG_avalon_jtag_slave_read         => mm_interconnect_0_debug_jtag_avalon_jtag_slave_read,        --                                    .read
@@ -394,6 +487,14 @@ begin
 			SRAM_s1_byteenable                        => mm_interconnect_0_sram_s1_byteenable,                       --                                    .byteenable
 			SRAM_s1_chipselect                        => mm_interconnect_0_sram_s1_chipselect,                       --                                    .chipselect
 			SRAM_s1_clken                             => mm_interconnect_0_sram_s1_clken                             --                                    .clken
+		);
+
+	irq_mapper : component coproc_soft_cpu_irq_mapper
+		port map (
+			clk           => i_clk_clk,                      --       clk.clk
+			reset         => rst_controller_reset_out_reset, -- clk_reset.reset
+			receiver0_irq => irq_mapper_receiver0_irq,       -- receiver0.irq
+			sender_irq    => cpu_platform_irq_rx_irq         --    sender.irq
 		);
 
 	rst_controller : component altera_reset_controller

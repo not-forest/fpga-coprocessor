@@ -37,7 +37,7 @@ library coproc;
 entity pll is
     port (
         i_clk0      : in std_logic;         -- External clock input (50 MHz)
-        ni_sleep    : in std_logic;         -- Control signal for sleep mode. (Active low)
+        i_rst    	  : in std_logic;         -- Clock reset
         o_clk0      : out std_logic;        -- 50 MHz clock
         o_clk1      : out std_logic;        -- 100 MHz clock
         o_clk2      : out std_logic;        -- Max Cyclone IV Clock (~472.5 MHz)
@@ -83,7 +83,7 @@ begin
             inclk(1) => '0',
             clk      => w_oclks,
             locked   => o_locked,
-            areset   => not ni_sleep
+            areset   => i_rst
         );
 
     -- Assigning PLL outputs

@@ -29,11 +29,11 @@
 ******************************************************************************/
 
 /*
- * Support for the Intel Nios V/c internal interrupt controller.
+ * Support for the Intel Nios V/m internal interrupt controller.
  */
 
-#ifndef __INTEL_NIOSV_C_IRQ_H__
-#define __INTEL_NIOSV_C_IRQ_H__
+#ifndef __INTEL_NIOSV_M_IRQ_H__
+#define __INTEL_NIOSV_M_IRQ_H__
 
 #include "intel_niosv_irq.h"
 
@@ -43,26 +43,26 @@ extern "C"
 #endif /* __cplusplus */
 
 /*
- * The macro INTEL_NIOSV_C_IRQ_INSTANCE is used by the alt_irq_init()
+ * The macro INTEL_NIOSV_M_IRQ_INSTANCE is used by the alt_irq_init()
  * function in the auto-generated file alt_sys_init.c to create an
  * instance of this interrupt controller device driver state if this
  * module contains an interrupt controller.
- * Only one instance of a Intel Nios V/c is allowed so this macro is just empty.
+ * Only one instance of a Intel Nios V/m is allowed so this macro is just empty.
  */
 
-#define INTEL_NIOSV_C_IRQ_INSTANCE(name, state)
+#define INTEL_NIOSV_M_IRQ_INSTANCE(name, state)
 
 /*
- * The macro INTEL_NIOSV_C_IRQ_INIT is used by the alt_irq_init() routine
+ * The macro INTEL_NIOSV_M_IRQ_INIT is used by the alt_irq_init() routine
  * in the auto-generated file alt_sys_init.c to initialize an instance
  * of the interrupt controller device driver state.
  */
 
-#define INTEL_NIOSV_C_IRQ_INIT(name, state) // Nothing
+#define INTEL_NIOSV_M_IRQ_INIT(name, state) intel_niosv_irq_init()
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* __INTEL_NIOSV_C_IRQ_H__ */
+#endif /* __INTEL_NIOSV_M_IRQ_H__ */
 

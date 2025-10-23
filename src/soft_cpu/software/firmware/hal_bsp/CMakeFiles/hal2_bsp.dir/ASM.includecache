@@ -102,6 +102,12 @@ system.h
 sys/alt_log_printf.h
 /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/sys/alt_log_printf.h
 
+/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/machine_trap.S
+linker.h
+/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/linker.h
+system.h
+/home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/HAL/src/system.h
+
 /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart.h
 stddef.h
 -

@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 24.1 1077 linux 2025.10.20.20:58:49
+# ACDS 24.1 1077 linux 2025.10.21.20:19:14
 
 # ----------------------------------------
 # xcelium - auto-generated simulation script
@@ -107,7 +107,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 24.1 1077 linux 2025.10.20.20:58:49
+# ACDS 24.1 1077 linux 2025.10.21.20:19:14
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="coproc_soft_cpu"
@@ -150,17 +150,22 @@ mkdir -p ./libraries/work/
 mkdir -p ./libraries/error_adapter_0/
 mkdir -p ./libraries/niosv_reset_controller/
 mkdir -p ./libraries/avalon_st_adapter/
+mkdir -p ./libraries/rsp_mux_002/
 mkdir -p ./libraries/rsp_mux_001/
 mkdir -p ./libraries/rsp_mux/
 mkdir -p ./libraries/rsp_demux_001/
 mkdir -p ./libraries/rsp_demux/
+mkdir -p ./libraries/cmd_mux_002/
 mkdir -p ./libraries/cmd_mux_001/
 mkdir -p ./libraries/cmd_mux/
+mkdir -p ./libraries/cmd_demux_002/
 mkdir -p ./libraries/cmd_demux_001/
 mkdir -p ./libraries/cmd_demux/
 mkdir -p ./libraries/CPU_data_manager_limiter/
+mkdir -p ./libraries/router_005/
 mkdir -p ./libraries/router_004/
 mkdir -p ./libraries/router_003/
+mkdir -p ./libraries/router_002/
 mkdir -p ./libraries/router_001/
 mkdir -p ./libraries/router/
 mkdir -p ./libraries/SRAM_s1_agent_rsp_fifo/
@@ -168,6 +173,9 @@ mkdir -p ./libraries/SRAM_s1_agent/
 mkdir -p ./libraries/SPI_avalon_master_agent/
 mkdir -p ./libraries/SRAM_s1_translator/
 mkdir -p ./libraries/SPI_avalon_master_translator/
+mkdir -p ./libraries/irq_mapper/
+mkdir -p ./libraries/dbg_mod/
+mkdir -p ./libraries/timer_module/
 mkdir -p ./libraries/hart/
 mkdir -p ./libraries/rst_controller/
 mkdir -p ./libraries/mm_interconnect_0/
@@ -189,6 +197,10 @@ mkdir -p ./libraries/cycloneive/
 
 # ----------------------------------------
 # copy RAM/ROM files to simulation directory
+if [ $SKIP_FILE_COPY -eq 0 ]; then
+  cp -f $QSYS_SIMDIR/submodules/csr_mlab.mif ./
+  cp -f $QSYS_SIMDIR/submodules/debug_rom.mif ./
+fi
 
 # ----------------------------------------
 # compile device library files
@@ -222,24 +234,31 @@ if [ $SKIP_COM -eq 0 ]; then
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv" -work error_adapter_0              -cdslib ./cds_libs/error_adapter_0.cds.lib             
   xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/submodules/niosv_reset_controller.vhd"                                             -work niosv_reset_controller       -cdslib ./cds_libs/niosv_reset_controller.cds.lib      
   xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter.vhd"                -work avalon_st_adapter            -cdslib ./cds_libs/avalon_st_adapter.cds.lib           
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux_002.sv"                       -work rsp_mux_002                  -cdslib ./cds_libs/rsp_mux_002.cds.lib                 
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work rsp_mux_002                  -cdslib ./cds_libs/rsp_mux_002.cds.lib                 
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux_001.sv"                       -work rsp_mux_001                  -cdslib ./cds_libs/rsp_mux_001.cds.lib                 
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work rsp_mux_001                  -cdslib ./cds_libs/rsp_mux_001.cds.lib                 
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux.sv"                           -work rsp_mux                      -cdslib ./cds_libs/rsp_mux.cds.lib                     
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work rsp_mux                      -cdslib ./cds_libs/rsp_mux.cds.lib                     
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_demux_001.sv"                     -work rsp_demux_001                -cdslib ./cds_libs/rsp_demux_001.cds.lib               
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_demux.sv"                         -work rsp_demux                    -cdslib ./cds_libs/rsp_demux.cds.lib                   
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux_002.sv"                       -work cmd_mux_002                  -cdslib ./cds_libs/cmd_mux_002.cds.lib                 
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work cmd_mux_002                  -cdslib ./cds_libs/cmd_mux_002.cds.lib                 
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux_001.sv"                       -work cmd_mux_001                  -cdslib ./cds_libs/cmd_mux_001.cds.lib                 
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work cmd_mux_001                  -cdslib ./cds_libs/cmd_mux_001.cds.lib                 
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux.sv"                           -work cmd_mux                      -cdslib ./cds_libs/cmd_mux.cds.lib                     
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work cmd_mux                      -cdslib ./cds_libs/cmd_mux.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux_002.sv"                     -work cmd_demux_002                -cdslib ./cds_libs/cmd_demux_002.cds.lib               
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux_001.sv"                     -work cmd_demux_001                -cdslib ./cds_libs/cmd_demux_001.cds.lib               
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux.sv"                         -work cmd_demux                    -cdslib ./cds_libs/cmd_demux.cds.lib                   
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_traffic_limiter.sv"                                       -work CPU_data_manager_limiter     -cdslib ./cds_libs/CPU_data_manager_limiter.cds.lib    
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_reorder_memory.sv"                                        -work CPU_data_manager_limiter     -cdslib ./cds_libs/CPU_data_manager_limiter.cds.lib    
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_sc_fifo.v"                                                -work CPU_data_manager_limiter     -cdslib ./cds_libs/CPU_data_manager_limiter.cds.lib    
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_pipeline_base.v"                                       -work CPU_data_manager_limiter     -cdslib ./cds_libs/CPU_data_manager_limiter.cds.lib    
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_005.sv"                        -work router_005                   -cdslib ./cds_libs/router_005.cds.lib                  
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_004.sv"                        -work router_004                   -cdslib ./cds_libs/router_004.cds.lib                  
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_003.sv"                        -work router_003                   -cdslib ./cds_libs/router_003.cds.lib                  
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_002.sv"                        -work router_002                   -cdslib ./cds_libs/router_002.cds.lib                  
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_001.sv"                        -work router_001                   -cdslib ./cds_libs/router_001.cds.lib                  
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router.sv"                            -work router                       -cdslib ./cds_libs/router.cds.lib                      
   xmvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_avalon_sc_fifo.v"                                                -work SRAM_s1_agent_rsp_fifo       -cdslib ./cds_libs/SRAM_s1_agent_rsp_fifo.cds.lib      
@@ -248,29 +267,57 @@ if [ $SKIP_COM -eq 0 ]; then
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_master_agent.sv"                                          -work SPI_avalon_master_agent      -cdslib ./cds_libs/SPI_avalon_master_agent.cds.lib     
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_slave_translator.sv"                                      -work SRAM_s1_translator           -cdslib ./cds_libs/SRAM_s1_translator.cds.lib          
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_merlin_master_translator.sv"                                     -work SPI_avalon_master_translator -cdslib ./cds_libs/SPI_avalon_master_translator.cds.lib
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_CPU_irq_mapper.sv"                                      -work irq_mapper                   -cdslib ./cds_libs/irq_mapper.cds.lib                  
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_dm_def.sv"                                                -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_ram.sv"                                                   -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_dm_jtag2mm.sv"                                            -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_dm_top.sv"                                                -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_debug_module.sv"                                          -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_std_synchronizer_bundle.v"                                       -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_std_synchronizer_nocut.v"                                        -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_std_synchronizer.v"                                              -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_clock_crosser.v"                                       -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_handshake_clock_crosser.v"                             -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_pipeline_base.v"                                       -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_st_pipeline_stage.sv"                                     -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                            -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                              -work dbg_mod                      -cdslib ./cds_libs/dbg_mod.cds.lib                     
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_timer_msip.sv"                                            -work timer_module                 -cdslib ./cds_libs/timer_module.cds.lib                
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_opcode_def.sv"                                            -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_mem_op_state.sv"                                          -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
-  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_shift.sv"                                                 -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
-  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_alu.sv"                                                   -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
-  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_lsu.sv"                                                   -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
-  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_bus_req.sv"                                               -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
-  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_interrupt_handler.sv"                                     -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
-  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_reg_file.sv"                                              -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_ram.sv"                                                   -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/ecc_enc.sv"                                                     -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/ecc_dec.sv"                                                     -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/altecc_enc.sv"                                                  -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/altecc_dec.sv"                                                  -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_reg_file.sv"                                              -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_csr.sv"                                                   -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_csrind_if.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_csrind_host.sv"                                           -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_interrupt_handler.sv"                                     -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_instr_buffer.sv"                                          -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_bus_req.sv"                                               -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_shift.sv"                                                 -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_alu.sv"                                                   -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_lsu.sv"                                                   -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_c_decoder.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_c_core.sv"                                                -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_c_csr.sv"                                                 -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_c_D_stage.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_c_E_stage.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_c_M0_stage.sv"                                            -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_decoder.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_core.sv"                                                -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_instr_prefetch.sv"                                      -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_D_stage.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_E_stage.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_M0_stage.sv"                                            -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_m_W_stage.sv"                                             -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/niosv_avl_to_axi_shim.sv"                                       -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/cadence/coproc_soft_cpu_CPU_hart.sv"                                    -work hart                         -cdslib ./cds_libs/hart.cds.lib                        
   xmvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                              -work rst_controller               -cdslib ./cds_libs/rst_controller.cds.lib              
   xmvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                            -work rst_controller               -cdslib ./cds_libs/rst_controller.cds.lib              
+  xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_irq_mapper.sv"                                          -work irq_mapper                   -cdslib ./cds_libs/irq_mapper.cds.lib                  
   xmvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0.v"                                    -work mm_interconnect_0            -cdslib ./cds_libs/mm_interconnect_0.cds.lib           
   xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/submodules/coproc_soft_cpu_SRAM.vhd"                                               -work SRAM                         -cdslib ./cds_libs/SRAM.cds.lib                        
   xmvlog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS     "$QSYS_SIMDIR/submodules/SPISlaveToAvalonMasterBridge.v"                                         -work SPI                          -cdslib ./cds_libs/SPI.cds.lib                         

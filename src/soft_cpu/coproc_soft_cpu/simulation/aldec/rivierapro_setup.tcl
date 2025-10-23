@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 24.1 1077 linux 2025.10.20.20:58:49
+# ACDS 24.1 1077 linux 2025.10.21.20:19:14
 # ----------------------------------------
 # Auto-generated simulation script rivierapro_setup.tcl
 # ----------------------------------------
@@ -152,6 +152,8 @@ if { [ string match "Active" $Aldec ] } {
 # Copy ROM/RAM files to simulation directory
 alias file_copy {
   echo "\[exec\] file_copy"
+  file copy -force $QSYS_SIMDIR/submodules/csr_mlab.mif ./
+  file copy -force $QSYS_SIMDIR/submodules/debug_rom.mif ./
 }
 
 # ----------------------------------------
@@ -190,6 +192,8 @@ ensure_lib                              ./libraries/niosv_reset_controller
 vmap       niosv_reset_controller       ./libraries/niosv_reset_controller      
 ensure_lib                              ./libraries/avalon_st_adapter           
 vmap       avalon_st_adapter            ./libraries/avalon_st_adapter           
+ensure_lib                              ./libraries/rsp_mux_002                 
+vmap       rsp_mux_002                  ./libraries/rsp_mux_002                 
 ensure_lib                              ./libraries/rsp_mux_001                 
 vmap       rsp_mux_001                  ./libraries/rsp_mux_001                 
 ensure_lib                              ./libraries/rsp_mux                     
@@ -198,20 +202,28 @@ ensure_lib                              ./libraries/rsp_demux_001
 vmap       rsp_demux_001                ./libraries/rsp_demux_001               
 ensure_lib                              ./libraries/rsp_demux                   
 vmap       rsp_demux                    ./libraries/rsp_demux                   
+ensure_lib                              ./libraries/cmd_mux_002                 
+vmap       cmd_mux_002                  ./libraries/cmd_mux_002                 
 ensure_lib                              ./libraries/cmd_mux_001                 
 vmap       cmd_mux_001                  ./libraries/cmd_mux_001                 
 ensure_lib                              ./libraries/cmd_mux                     
 vmap       cmd_mux                      ./libraries/cmd_mux                     
+ensure_lib                              ./libraries/cmd_demux_002               
+vmap       cmd_demux_002                ./libraries/cmd_demux_002               
 ensure_lib                              ./libraries/cmd_demux_001               
 vmap       cmd_demux_001                ./libraries/cmd_demux_001               
 ensure_lib                              ./libraries/cmd_demux                   
 vmap       cmd_demux                    ./libraries/cmd_demux                   
 ensure_lib                              ./libraries/CPU_data_manager_limiter    
 vmap       CPU_data_manager_limiter     ./libraries/CPU_data_manager_limiter    
+ensure_lib                              ./libraries/router_005                  
+vmap       router_005                   ./libraries/router_005                  
 ensure_lib                              ./libraries/router_004                  
 vmap       router_004                   ./libraries/router_004                  
 ensure_lib                              ./libraries/router_003                  
 vmap       router_003                   ./libraries/router_003                  
+ensure_lib                              ./libraries/router_002                  
+vmap       router_002                   ./libraries/router_002                  
 ensure_lib                              ./libraries/router_001                  
 vmap       router_001                   ./libraries/router_001                  
 ensure_lib                              ./libraries/router                      
@@ -226,6 +238,12 @@ ensure_lib                              ./libraries/SRAM_s1_translator
 vmap       SRAM_s1_translator           ./libraries/SRAM_s1_translator          
 ensure_lib                              ./libraries/SPI_avalon_master_translator
 vmap       SPI_avalon_master_translator ./libraries/SPI_avalon_master_translator
+ensure_lib                              ./libraries/irq_mapper                  
+vmap       irq_mapper                   ./libraries/irq_mapper                  
+ensure_lib                              ./libraries/dbg_mod                     
+vmap       dbg_mod                      ./libraries/dbg_mod                     
+ensure_lib                              ./libraries/timer_module                
+vmap       timer_module                 ./libraries/timer_module                
 ensure_lib                              ./libraries/hart                        
 vmap       hart                         ./libraries/hart                        
 ensure_lib                              ./libraries/rst_controller              
@@ -276,24 +294,31 @@ alias com {
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv" -work error_adapter_0             
   eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS          "$QSYS_SIMDIR/submodules/niosv_reset_controller.vhd"                                             -work niosv_reset_controller      
   eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS          "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter.vhd"                -work avalon_st_adapter           
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux_002.sv"                       -work rsp_mux_002                 
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work rsp_mux_002                 
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux_001.sv"                       -work rsp_mux_001                 
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work rsp_mux_001                 
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_mux.sv"                           -work rsp_mux                     
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work rsp_mux                     
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_demux_001.sv"                     -work rsp_demux_001               
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_rsp_demux.sv"                         -work rsp_demux                   
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux_002.sv"                       -work cmd_mux_002                 
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work cmd_mux_002                 
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux_001.sv"                       -work cmd_mux_001                 
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work cmd_mux_001                 
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_mux.sv"                           -work cmd_mux                     
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_arbitrator.sv"                                            -work cmd_mux                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux_002.sv"                     -work cmd_demux_002               
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux_001.sv"                     -work cmd_demux_001               
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_cmd_demux.sv"                         -work cmd_demux                   
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_traffic_limiter.sv"                                       -work CPU_data_manager_limiter    
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_reorder_memory.sv"                                        -work CPU_data_manager_limiter    
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_sc_fifo.v"                                                -work CPU_data_manager_limiter    
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_st_pipeline_base.v"                                       -work CPU_data_manager_limiter    
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_005.sv"                        -work router_005                  
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_004.sv"                        -work router_004                  
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_003.sv"                        -work router_003                  
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_002.sv"                        -work router_002                  
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router_001.sv"                        -work router_001                  
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0_router.sv"                            -work router                      
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_sc_fifo.v"                                                -work SRAM_s1_agent_rsp_fifo      
@@ -302,29 +327,57 @@ alias com {
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_master_agent.sv"                                          -work SPI_avalon_master_agent     
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_slave_translator.sv"                                      -work SRAM_s1_translator          
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_merlin_master_translator.sv"                                     -work SPI_avalon_master_translator
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_CPU_irq_mapper.sv"                                      -work irq_mapper                  
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_dm_def.sv"                                                  -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_ram.sv"                                                     -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_dm_jtag2mm.sv"                                              -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_dm_top.sv"                                                  -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_debug_module.sv"                                            -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_std_synchronizer_bundle.v"                                       -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_std_synchronizer_nocut.v"                                        -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_std_synchronizer.v"                                              -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_st_clock_crosser.v"                                       -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_st_handshake_clock_crosser.v"                             -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_st_pipeline_base.v"                                       -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_avalon_st_pipeline_stage.sv"                                     -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                            -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                              -work dbg_mod                     
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_timer_msip.sv"                                              -work timer_module                
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_opcode_def.sv"                                              -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_mem_op_state.sv"                                            -work hart                        
-  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_shift.sv"                                                   -work hart                        
-  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_alu.sv"                                                     -work hart                        
-  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_lsu.sv"                                                     -work hart                        
-  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_bus_req.sv"                                                 -work hart                        
-  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_interrupt_handler.sv"                                       -work hart                        
-  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_reg_file.sv"                                                -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_ram.sv"                                                     -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/ecc_enc.sv"                                                       -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/ecc_dec.sv"                                                       -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/altecc_enc.sv"                                                    -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/altecc_dec.sv"                                                    -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_reg_file.sv"                                                -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_csr.sv"                                                     -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_csrind_if.sv"                                               -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_csrind_host.sv"                                             -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_interrupt_handler.sv"                                       -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_instr_buffer.sv"                                            -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_bus_req.sv"                                                 -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_shift.sv"                                                   -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_alu.sv"                                                     -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_lsu.sv"                                                     -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_c_decoder.sv"                                               -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_c_core.sv"                                                  -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_c_csr.sv"                                                   -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_c_D_stage.sv"                                               -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_c_E_stage.sv"                                               -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_c_M0_stage.sv"                                              -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_decoder.sv"                                               -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_core.sv"                                                  -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_instr_prefetch.sv"                                        -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_D_stage.sv"                                               -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_E_stage.sv"                                               -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_M0_stage.sv"                                              -work hart                        
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_m_W_stage.sv"                                               -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/niosv_avl_to_axi_shim.sv"                                         -work hart                        
   eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/aldec/coproc_soft_cpu_CPU_hart.sv"                                      -work hart                        
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_reset_controller.v"                                              -work rst_controller              
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_reset_synchronizer.v"                                            -work rst_controller              
+  eval  vlog  $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS      "$QSYS_SIMDIR/submodules/coproc_soft_cpu_irq_mapper.sv"                                          -work irq_mapper                  
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/coproc_soft_cpu_mm_interconnect_0.v"                                    -work mm_interconnect_0           
   eval  vcom $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS          "$QSYS_SIMDIR/submodules/coproc_soft_cpu_SRAM.vhd"                                               -work SRAM                        
   eval  vlog -v2k5 $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/SPISlaveToAvalonMasterBridge.v"                                         -work SPI                         
@@ -352,14 +405,14 @@ alias com {
 # Elaborate top level design
 alias elab {
   echo "\[exec\] elab"
-  eval vsim +access +r -t ps $ELAB_OPTIONS -L work -L error_adapter_0 -L niosv_reset_controller -L avalon_st_adapter -L rsp_mux_001 -L rsp_mux -L rsp_demux_001 -L rsp_demux -L cmd_mux_001 -L cmd_mux -L cmd_demux_001 -L cmd_demux -L CPU_data_manager_limiter -L router_004 -L router_003 -L router_001 -L router -L SRAM_s1_agent_rsp_fifo -L SRAM_s1_agent -L SPI_avalon_master_agent -L SRAM_s1_translator -L SPI_avalon_master_translator -L hart -L rst_controller -L mm_interconnect_0 -L SRAM -L SPI -L DEBUG_JTAG -L CPU -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cycloneive $TOP_LEVEL_NAME
+  eval vsim +access +r -t ps $ELAB_OPTIONS -L work -L error_adapter_0 -L niosv_reset_controller -L avalon_st_adapter -L rsp_mux_002 -L rsp_mux_001 -L rsp_mux -L rsp_demux_001 -L rsp_demux -L cmd_mux_002 -L cmd_mux_001 -L cmd_mux -L cmd_demux_002 -L cmd_demux_001 -L cmd_demux -L CPU_data_manager_limiter -L router_005 -L router_004 -L router_003 -L router_002 -L router_001 -L router -L SRAM_s1_agent_rsp_fifo -L SRAM_s1_agent -L SPI_avalon_master_agent -L SRAM_s1_translator -L SPI_avalon_master_translator -L irq_mapper -L dbg_mod -L timer_module -L hart -L rst_controller -L mm_interconnect_0 -L SRAM -L SPI -L DEBUG_JTAG -L CPU -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cycloneive $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------
 # Elaborate the top level design with -dbg -O2 option
 alias elab_debug {
   echo "\[exec\] elab_debug"
-  eval vsim -dbg -O2 +access +r -t ps $ELAB_OPTIONS -L work -L error_adapter_0 -L niosv_reset_controller -L avalon_st_adapter -L rsp_mux_001 -L rsp_mux -L rsp_demux_001 -L rsp_demux -L cmd_mux_001 -L cmd_mux -L cmd_demux_001 -L cmd_demux -L CPU_data_manager_limiter -L router_004 -L router_003 -L router_001 -L router -L SRAM_s1_agent_rsp_fifo -L SRAM_s1_agent -L SPI_avalon_master_agent -L SRAM_s1_translator -L SPI_avalon_master_translator -L hart -L rst_controller -L mm_interconnect_0 -L SRAM -L SPI -L DEBUG_JTAG -L CPU -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cycloneive $TOP_LEVEL_NAME
+  eval vsim -dbg -O2 +access +r -t ps $ELAB_OPTIONS -L work -L error_adapter_0 -L niosv_reset_controller -L avalon_st_adapter -L rsp_mux_002 -L rsp_mux_001 -L rsp_mux -L rsp_demux_001 -L rsp_demux -L cmd_mux_002 -L cmd_mux_001 -L cmd_mux -L cmd_demux_002 -L cmd_demux_001 -L cmd_demux -L CPU_data_manager_limiter -L router_005 -L router_004 -L router_003 -L router_002 -L router_001 -L router -L SRAM_s1_agent_rsp_fifo -L SRAM_s1_agent -L SPI_avalon_master_agent -L SRAM_s1_translator -L SPI_avalon_master_translator -L irq_mapper -L dbg_mod -L timer_module -L hart -L rst_controller -L mm_interconnect_0 -L SRAM -L SPI -L DEBUG_JTAG -L CPU -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cycloneive $TOP_LEVEL_NAME
 }
 
 # ----------------------------------------

@@ -41,6 +41,7 @@ add_link_options(
 )
 
 add_compile_definitions(
+    ALT_LOG_ENABLE
     ALT_LOG_FLAGS=0
     ALT_NO_CLEAN_EXIT
     ALT_NO_C_PLUS_PLUS
