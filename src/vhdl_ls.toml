@@ -6,12 +6,16 @@ standard = "2008"
 [libraries]
 coproc.files = [
     "./*.vhd",
-    "./*/*.vhd"
+    "./*/*.vhd",
+]
+
+# QSYS generated soft core.
+coproc_soft_cpu.files = [
+    "soft_cpu/coproc_soft_cpu/synthesis/*.vhd",
 ]
 
 # Vendor specific libraries.
 altera_mf.files = [
-
     '/home/notforest/intelFPGA_lite/20.1/quartus/eda/sim_lib/altera_mf.vhd',
     '/home/notforest/intelFPGA_lite/20.1/quartus/eda/sim_lib/altera_mf_components.vhd'
 ]

@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+output_files/*
+drivers/*
+db/*
+incremental_db/*
+.qsys_edit/*

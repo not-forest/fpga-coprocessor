@@ -35,13 +35,13 @@ use coproc.pll;
 
 entity binding_vendor is
     port (
-        i_pCLK       : in std_logic;                -- External FPGA Oscillator.
-        i_pRST       : in std_logic;                -- Hard reset button.
+        i_pCLK        : in std_logic;               -- External FPGA Oscillator.
+        ni_pRST       : in std_logic;               -- Hard reset button (Active Low).
         
         i_pSCLK       : in  std_logic;              -- SPI clock
         ni_pSS        : in  std_logic;              -- Slave select (active low)
         i_pMOSI       : in  std_logic;              -- Master Out Slave In
-        o_pMISO       : out std_logic               -- Master In Slave Out
+        o_pMISO       : inout std_logic             -- Master In Slave Out
          );
 end entity;
 
@@ -52,17 +52,17 @@ begin
     PLL_Inst : entity pll
     port map(
         i_clk0 => i_pCLK,
-        ni_sleep => not i_pRST,
-        o_clk0 => open,
+        i_rst => not ni_pRST,
+        o_clk0 => w_clk,
         o_clk1 => open,
-        o_clk2 => w_clk
+        o_clk2 => open
     );
 
     -- SPI slave module acting as an interface between coprocessor and master microcontroller.
     COPROCESSOR_Inst : entity coprocessor
     port map(
         i_clk  => w_clk,
-        ni_rst => not i_pRST,
+        ni_rst => ni_pRST,
         
         i_sclk => i_pSCLK,
         ni_ss  => ni_pSS,
