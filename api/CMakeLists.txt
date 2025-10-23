@@ -23,11 +23,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(coproc_api C CXX)
 
-target_include_directories(coproc_api PUBLIC include)
-
 add_library(coproc_api STATIC
     src/api.c
 )
 
-target_link_libraries(test_matrix PRIVATE coproc_api)
-
+target_include_directories(coproc_api PUBLIC include)
