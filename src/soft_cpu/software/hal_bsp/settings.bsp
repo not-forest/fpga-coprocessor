@@ -2,12 +2,12 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal2</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Oct 24, 2025 5:13:00 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1761325980918</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>../../../../</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Oct 24, 2025 8:44:21 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1761338661821</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>./</BspGeneratedLocation>
         <BspSettingsFile>/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../coproc_soft_cpu.sopcinfo</SopcDesignFile>
-        <SystemFileHash>8717d38fc7c7dd4ba475115598a7699b60b9b4adc088c6e05271d1a587b6d1</SystemFileHash>
+        <SystemFileHash>78607823a52ef2b7a10fca869a6b1a4068bdfad29594533c479a288e47ce33</SystemFileHash>
         <JdiFile>default</JdiFile>
         <Cpu>CPU</Cpu>
         <SchemaVersion>1.9</SchemaVersion>
@@ -39,7 +39,7 @@
                 <SettingName>hal.max_file_descriptors</SettingName>
                 <Identifier>ALT_MAX_FD</Identifier>
                 <Type>DecimalNumber</Type>
-                <Value>0</Value>
+                <Value>4</Value>
                 <DefaultValue>32</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Determines the number of file descriptors statically allocated. This setting defines the value of ALT_MAX_FD in system.h.</Description>
@@ -600,28 +600,34 @@
                 <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
         </Setting>
         <MemoryMap>
-                <slaveDescriptor>SRAM</slaveDescriptor>
-                <addressRange>0x00000000 - 0x00004FFF</addressRange>
-                <addressSpan>20480</addressSpan>
-                <attributes>memory</attributes>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>CPU_timer_sw_agent</slaveDescriptor>
-                <addressRange>0x00008000 - 0x0000803F</addressRange>
-                <addressSpan>64</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>DEBUG_JTAG</slaveDescriptor>
-                <addressRange>0x00008040 - 0x00008047</addressRange>
-                <addressSpan>8</addressSpan>
-                <attributes>printable</attributes>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>CPU_dm_agent</slaveDescriptor>
                 <addressRange>0x00010000 - 0x0001FFFF</addressRange>
                 <addressSpan>65536</addressSpan>
                 <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>SRAM</slaveDescriptor>
+                <addressRange>0x00028000 - 0x0002E3FF</addressRange>
+                <addressSpan>25600</addressSpan>
+                <attributes>memory</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>CPU_timer_sw_agent</slaveDescriptor>
+                <addressRange>0x00030000 - 0x0003003F</addressRange>
+                <addressSpan>64</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>SPI_0</slaveDescriptor>
+                <addressRange>0x00030040 - 0x0003005F</addressRange>
+                <addressSpan>32</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>DEBUG_JTAG</slaveDescriptor>
+                <addressRange>0x00030060 - 0x00030067</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes>printable</attributes>
         </MemoryMap>
         <LinkerSection>
                 <sectionName>.text</sectionName>

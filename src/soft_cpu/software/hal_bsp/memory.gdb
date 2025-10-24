@@ -1,9 +1,9 @@
 # memory.gdb - GDB memory region definitions
 #
 # Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
-# SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/coproc_soft_cpu.sopcinfo
+# SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
 #
-# Generated: Tue Oct 21 19:24:34 UTC 2025
+# Generated: Fri Oct 24 20:44:22 UTC 2025
 
 # DO NOT MODIFY THIS FILE
 #
@@ -47,4 +47,4 @@
 # by allowing GDB to cache memory contents on the host.
 
 # SRAM
-memory 0x0 0x5000 cache
+memory 0x28000 0x2e400 cache

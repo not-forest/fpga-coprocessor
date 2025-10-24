@@ -2,9 +2,9 @@
  * linker.h - Linker script mapping information
  *
  * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
- * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/coproc_soft_cpu.sopcinfo
+ * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
  *
- * Generated: Tue Oct 21 19:24:34 UTC 2025
+ * Generated: Fri Oct 24 20:44:22 UTC 2025
  */
 
 /*
@@ -65,10 +65,10 @@
  *
  */
 
-#define RESET_REGION_BASE 0x0
+#define RESET_REGION_BASE 0x28000
 #define RESET_REGION_SPAN 32
-#define SRAM_REGION_BASE 0x20
-#define SRAM_REGION_SPAN 20448
+#define SRAM_REGION_BASE 0x28020
+#define SRAM_REGION_SPAN 25568
 
 
 /*

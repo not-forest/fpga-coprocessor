@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/softw
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
-	/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -2217,6 +2217,30 @@ drivers/src/altera_avalon_jtag_uart_write.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hal2_bsp.dir/build.make CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.s
 .PHONY : drivers/src/altera_avalon_jtag_uart_write.c.s
 
+drivers/src/altera_avalon_spi.obj: drivers/src/altera_avalon_spi.c.obj
+.PHONY : drivers/src/altera_avalon_spi.obj
+
+# target to build an object file
+drivers/src/altera_avalon_spi.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hal2_bsp.dir/build.make CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj
+.PHONY : drivers/src/altera_avalon_spi.c.obj
+
+drivers/src/altera_avalon_spi.i: drivers/src/altera_avalon_spi.c.i
+.PHONY : drivers/src/altera_avalon_spi.i
+
+# target to preprocess a source file
+drivers/src/altera_avalon_spi.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hal2_bsp.dir/build.make CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.i
+.PHONY : drivers/src/altera_avalon_spi.c.i
+
+drivers/src/altera_avalon_spi.s: drivers/src/altera_avalon_spi.c.s
+.PHONY : drivers/src/altera_avalon_spi.s
+
+# target to generate assembly for a file
+drivers/src/altera_avalon_spi.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/hal2_bsp.dir/build.make CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.s
+.PHONY : drivers/src/altera_avalon_spi.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -2487,6 +2511,9 @@ help:
 	@echo "... drivers/src/altera_avalon_jtag_uart_write.obj"
 	@echo "... drivers/src/altera_avalon_jtag_uart_write.i"
 	@echo "... drivers/src/altera_avalon_jtag_uart_write.s"
+	@echo "... drivers/src/altera_avalon_spi.obj"
+	@echo "... drivers/src/altera_avalon_spi.i"
+	@echo "... drivers/src/altera_avalon_spi.s"
 .PHONY : help
 
 

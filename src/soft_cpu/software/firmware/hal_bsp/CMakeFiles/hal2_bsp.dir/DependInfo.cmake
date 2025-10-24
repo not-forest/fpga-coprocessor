@@ -19,13 +19,13 @@ set(CMAKE_ASM_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_ASM
+  "ALTERA_AVALON_JTAG_UART_IGNORE_FIFO_FULL_ERROR"
   "ALT_LOG_ENABLE"
   "ALT_LOG_FLAGS=0"
   "ALT_NO_CLEAN_EXIT"
   "ALT_NO_C_PLUS_PLUS"
   "ALT_NO_EXIT"
   "ALT_USE_DIRECT_DRIVERS"
-  "ALT_USE_SMALL_DRIVERS"
   "USE_PICOLIBC"
   "__hal__"
   )
@@ -124,6 +124,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_jtag_uart_ioctl.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_ioctl.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_ioctl.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_jtag_uart_read.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_read.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_read.c.obj.d"
   "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_jtag_uart_write.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj.d"
+  "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_spi.c" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj" "gcc" "hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

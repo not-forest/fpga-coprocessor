@@ -2,9 +2,9 @@
  * linker.x - Linker script
  *
  * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
- * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor-nios2/src/soft_cpu/coproc_soft_cpu.sopcinfo
+ * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
  *
- * Generated: Tue Oct 21 19:24:34 UTC 2025
+ * Generated: Fri Oct 24 20:44:22 UTC 2025
  */
 
 /*
@@ -50,12 +50,12 @@
 
 MEMORY
 {
-    reset : ORIGIN = 0x0, LENGTH = 32
-    SRAM : ORIGIN = 0x20, LENGTH = 20448
+    reset : ORIGIN = 0x28000, LENGTH = 32
+    SRAM : ORIGIN = 0x28020, LENGTH = 25568
 }
 
 /* Define symbols for each memory base-address */
-__alt_mem_SRAM = 0x0;
+__alt_mem_SRAM = 0x28000;
 
 OUTPUT_FORMAT( "elf32-littleriscv",
                "elf32-littleriscv",
@@ -391,7 +391,7 @@ SECTIONS
 /*
  * Don't override this, override the __alt_stack_* symbols instead.
  */
-__alt_data_end = 0x5000;
+__alt_data_end = 0x2e400;
 
 /*
  * The next two symbols define the location of the default stack.  You can
@@ -407,4 +407,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0x5000 );
+PROVIDE( __alt_heap_limit    = 0x2e400 );

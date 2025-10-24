@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/softw
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
-	/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -205,6 +205,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/main.c.s
 .PHONY : main.c.s
 
+spi_avalon.obj: spi_avalon.c.obj
+.PHONY : spi_avalon.obj
+
+# target to build an object file
+spi_avalon.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.obj
+.PHONY : spi_avalon.c.obj
+
+spi_avalon.i: spi_avalon.c.i
+.PHONY : spi_avalon.i
+
+# target to preprocess a source file
+spi_avalon.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.i
+.PHONY : spi_avalon.c.i
+
+spi_avalon.s: spi_avalon.c.s
+.PHONY : spi_avalon.s
+
+# target to generate assembly for a file
+spi_avalon.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.s
+.PHONY : spi_avalon.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -221,6 +245,9 @@ help:
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... spi_avalon.obj"
+	@echo "... spi_avalon.i"
+	@echo "... spi_avalon.s"
 .PHONY : help
 
 

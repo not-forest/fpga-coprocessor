@@ -20,9 +20,9 @@
 // Altera IRQ Mapper
 //
 // Parameters
-//   NUM_RCVRS        : 1
+//   NUM_RCVRS        : 2
 //   SENDER_IRW_WIDTH : 16
-//   IRQ_MAP          : 0:0
+//   IRQ_MAP          : 0:15,1:5
 //
 // -------------------------------------------------------
 
@@ -40,6 +40,7 @@ module coproc_soft_cpu_irq_mapper
     // IRQ Receivers
     // -------------------
     input                receiver0_irq,
+    input                receiver1_irq,
 
     // -------------------
     // Command Source (Output)
@@ -51,7 +52,8 @@ module coproc_soft_cpu_irq_mapper
     always @* begin
 	sender_irq = 0;
 
-        sender_irq[0] = receiver0_irq;
+        sender_irq[15] = receiver0_irq;
+        sender_irq[5] = receiver1_irq;
     end
 
 endmodule

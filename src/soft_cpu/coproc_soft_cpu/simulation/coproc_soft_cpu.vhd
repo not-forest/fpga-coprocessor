@@ -8,12 +8,12 @@ use IEEE.numeric_std.all;
 
 entity coproc_soft_cpu is
 	port (
-		i_clk_clk                                                    : in    std_logic := '0'; --        i_clk.clk
-		i_clr_reset_n                                                : in    std_logic := '0'; --        i_clr.reset_n
-		o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := '0'; -- o_spi_export.mosi_to_the_spislave_inst_for_spichain
-		o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := '0'; --             .nss_to_the_spislave_inst_for_spichain
-		o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := '0'; --             .miso_to_and_from_the_spislave_inst_for_spichain
-		o_spi_export_sclk_to_the_spislave_inst_for_spichain          : in    std_logic := '0'  --             .sclk_to_the_spislave_inst_for_spichain
+		i_clk_clk         : in  std_logic := '0'; --        i_clk.clk
+		i_clr_reset_n     : in  std_logic := '0'; --        i_clr.reset_n
+		o_spi_export_MISO : out std_logic;        -- o_spi_export.MISO
+		o_spi_export_MOSI : in  std_logic := '0'; --             .MOSI
+		o_spi_export_SCLK : in  std_logic := '0'; --             .SCLK
+		o_spi_export_SS_n : in  std_logic := '0'  --             .SS_n
 	);
 end entity coproc_soft_cpu;
 
@@ -91,24 +91,23 @@ architecture rtl of coproc_soft_cpu is
 		);
 	end component altera_avalon_jtag_uart;
 
-	component SPISlaveToAvalonMasterBridge is
+	component coproc_soft_cpu_SPI_0 is
 		port (
-			clk                                                                    : in    std_logic                     := 'X';             -- clk
-			reset_n                                                                : in    std_logic                     := 'X';             -- reset_n
-			mosi_to_the_spislave_inst_for_spichain                                 : in    std_logic                     := 'X';             -- export
-			nss_to_the_spislave_inst_for_spichain                                  : in    std_logic                     := 'X';             -- export
-			miso_to_and_from_the_spislave_inst_for_spichain                        : inout std_logic                     := 'X';             -- export
-			sclk_to_the_spislave_inst_for_spichain                                 : in    std_logic                     := 'X';             -- export
-			address_from_the_altera_avalon_packets_to_master_inst_for_spichain     : out   std_logic_vector(31 downto 0);                    -- address
-			byteenable_from_the_altera_avalon_packets_to_master_inst_for_spichain  : out   std_logic_vector(3 downto 0);                     -- byteenable
-			read_from_the_altera_avalon_packets_to_master_inst_for_spichain        : out   std_logic;                                        -- read
-			readdata_to_the_altera_avalon_packets_to_master_inst_for_spichain      : in    std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			readdatavalid_to_the_altera_avalon_packets_to_master_inst_for_spichain : in    std_logic                     := 'X';             -- readdatavalid
-			waitrequest_to_the_altera_avalon_packets_to_master_inst_for_spichain   : in    std_logic                     := 'X';             -- waitrequest
-			write_from_the_altera_avalon_packets_to_master_inst_for_spichain       : out   std_logic;                                        -- write
-			writedata_from_the_altera_avalon_packets_to_master_inst_for_spichain   : out   std_logic_vector(31 downto 0)                     -- writedata
+			clk           : in  std_logic                     := 'X';             -- clk
+			reset_n       : in  std_logic                     := 'X';             -- reset_n
+			data_from_cpu : in  std_logic_vector(15 downto 0) := (others => 'X'); -- writedata
+			data_to_cpu   : out std_logic_vector(15 downto 0);                    -- readdata
+			mem_addr      : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- address
+			read_n        : in  std_logic                     := 'X';             -- read_n
+			spi_select    : in  std_logic                     := 'X';             -- chipselect
+			write_n       : in  std_logic                     := 'X';             -- write_n
+			irq           : out std_logic;                                        -- irq
+			MISO          : out std_logic;                                        -- export
+			MOSI          : in  std_logic                     := 'X';             -- export
+			SCLK          : in  std_logic                     := 'X';             -- export
+			SS_n          : in  std_logic                     := 'X'              -- export
 		);
-	end component SPISlaveToAvalonMasterBridge;
+	end component coproc_soft_cpu_SPI_0;
 
 	component coproc_soft_cpu_SRAM is
 		port (
@@ -128,62 +127,60 @@ architecture rtl of coproc_soft_cpu is
 
 	component coproc_soft_cpu_mm_interconnect_0 is
 		port (
-			CLK_clk_clk                               : in  std_logic                     := 'X';             -- clk
-			CPU_reset_reset_bridge_in_reset_reset     : in  std_logic                     := 'X';             -- reset
-			SPI_clk_reset_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
-			CPU_data_manager_address                  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
-			CPU_data_manager_waitrequest              : out std_logic;                                        -- waitrequest
-			CPU_data_manager_byteenable               : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
-			CPU_data_manager_read                     : in  std_logic                     := 'X';             -- read
-			CPU_data_manager_readdata                 : out std_logic_vector(31 downto 0);                    -- readdata
-			CPU_data_manager_readdatavalid            : out std_logic;                                        -- readdatavalid
-			CPU_data_manager_write                    : in  std_logic                     := 'X';             -- write
-			CPU_data_manager_writedata                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			CPU_data_manager_response                 : out std_logic_vector(1 downto 0);                     -- response
-			CPU_data_manager_writeresponsevalid       : out std_logic;                                        -- writeresponsevalid
-			CPU_instruction_manager_address           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
-			CPU_instruction_manager_waitrequest       : out std_logic;                                        -- waitrequest
-			CPU_instruction_manager_read              : in  std_logic                     := 'X';             -- read
-			CPU_instruction_manager_readdata          : out std_logic_vector(31 downto 0);                    -- readdata
-			CPU_instruction_manager_readdatavalid     : out std_logic;                                        -- readdatavalid
-			CPU_instruction_manager_response          : out std_logic_vector(1 downto 0);                     -- response
-			SPI_avalon_master_address                 : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
-			SPI_avalon_master_waitrequest             : out std_logic;                                        -- waitrequest
-			SPI_avalon_master_byteenable              : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
-			SPI_avalon_master_read                    : in  std_logic                     := 'X';             -- read
-			SPI_avalon_master_readdata                : out std_logic_vector(31 downto 0);                    -- readdata
-			SPI_avalon_master_readdatavalid           : out std_logic;                                        -- readdatavalid
-			SPI_avalon_master_write                   : in  std_logic                     := 'X';             -- write
-			SPI_avalon_master_writedata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			CPU_dm_agent_address                      : out std_logic_vector(15 downto 0);                    -- address
-			CPU_dm_agent_write                        : out std_logic;                                        -- write
-			CPU_dm_agent_read                         : out std_logic;                                        -- read
-			CPU_dm_agent_readdata                     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			CPU_dm_agent_writedata                    : out std_logic_vector(31 downto 0);                    -- writedata
-			CPU_dm_agent_readdatavalid                : in  std_logic                     := 'X';             -- readdatavalid
-			CPU_dm_agent_waitrequest                  : in  std_logic                     := 'X';             -- waitrequest
-			CPU_timer_sw_agent_address                : out std_logic_vector(5 downto 0);                     -- address
-			CPU_timer_sw_agent_write                  : out std_logic;                                        -- write
-			CPU_timer_sw_agent_read                   : out std_logic;                                        -- read
-			CPU_timer_sw_agent_readdata               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			CPU_timer_sw_agent_writedata              : out std_logic_vector(31 downto 0);                    -- writedata
-			CPU_timer_sw_agent_byteenable             : out std_logic_vector(3 downto 0);                     -- byteenable
-			CPU_timer_sw_agent_readdatavalid          : in  std_logic                     := 'X';             -- readdatavalid
-			CPU_timer_sw_agent_waitrequest            : in  std_logic                     := 'X';             -- waitrequest
-			DEBUG_JTAG_avalon_jtag_slave_address      : out std_logic_vector(0 downto 0);                     -- address
-			DEBUG_JTAG_avalon_jtag_slave_write        : out std_logic;                                        -- write
-			DEBUG_JTAG_avalon_jtag_slave_read         : out std_logic;                                        -- read
-			DEBUG_JTAG_avalon_jtag_slave_readdata     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			DEBUG_JTAG_avalon_jtag_slave_writedata    : out std_logic_vector(31 downto 0);                    -- writedata
-			DEBUG_JTAG_avalon_jtag_slave_waitrequest  : in  std_logic                     := 'X';             -- waitrequest
-			DEBUG_JTAG_avalon_jtag_slave_chipselect   : out std_logic;                                        -- chipselect
-			SRAM_s1_address                           : out std_logic_vector(12 downto 0);                    -- address
-			SRAM_s1_write                             : out std_logic;                                        -- write
-			SRAM_s1_readdata                          : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			SRAM_s1_writedata                         : out std_logic_vector(31 downto 0);                    -- writedata
-			SRAM_s1_byteenable                        : out std_logic_vector(3 downto 0);                     -- byteenable
-			SRAM_s1_chipselect                        : out std_logic;                                        -- chipselect
-			SRAM_s1_clken                             : out std_logic                                         -- clken
+			CLK_clk_clk                                  : in  std_logic                     := 'X';             -- clk
+			CPU_reset_reset_bridge_in_reset_reset        : in  std_logic                     := 'X';             -- reset
+			DEBUG_JTAG_reset_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
+			CPU_data_manager_address                     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
+			CPU_data_manager_waitrequest                 : out std_logic;                                        -- waitrequest
+			CPU_data_manager_byteenable                  : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			CPU_data_manager_read                        : in  std_logic                     := 'X';             -- read
+			CPU_data_manager_readdata                    : out std_logic_vector(31 downto 0);                    -- readdata
+			CPU_data_manager_readdatavalid               : out std_logic;                                        -- readdatavalid
+			CPU_data_manager_write                       : in  std_logic                     := 'X';             -- write
+			CPU_data_manager_writedata                   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			CPU_data_manager_response                    : out std_logic_vector(1 downto 0);                     -- response
+			CPU_data_manager_writeresponsevalid          : out std_logic;                                        -- writeresponsevalid
+			CPU_instruction_manager_address              : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
+			CPU_instruction_manager_waitrequest          : out std_logic;                                        -- waitrequest
+			CPU_instruction_manager_read                 : in  std_logic                     := 'X';             -- read
+			CPU_instruction_manager_readdata             : out std_logic_vector(31 downto 0);                    -- readdata
+			CPU_instruction_manager_readdatavalid        : out std_logic;                                        -- readdatavalid
+			CPU_instruction_manager_response             : out std_logic_vector(1 downto 0);                     -- response
+			CPU_dm_agent_address                         : out std_logic_vector(15 downto 0);                    -- address
+			CPU_dm_agent_write                           : out std_logic;                                        -- write
+			CPU_dm_agent_read                            : out std_logic;                                        -- read
+			CPU_dm_agent_readdata                        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			CPU_dm_agent_writedata                       : out std_logic_vector(31 downto 0);                    -- writedata
+			CPU_dm_agent_readdatavalid                   : in  std_logic                     := 'X';             -- readdatavalid
+			CPU_dm_agent_waitrequest                     : in  std_logic                     := 'X';             -- waitrequest
+			CPU_timer_sw_agent_address                   : out std_logic_vector(5 downto 0);                     -- address
+			CPU_timer_sw_agent_write                     : out std_logic;                                        -- write
+			CPU_timer_sw_agent_read                      : out std_logic;                                        -- read
+			CPU_timer_sw_agent_readdata                  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			CPU_timer_sw_agent_writedata                 : out std_logic_vector(31 downto 0);                    -- writedata
+			CPU_timer_sw_agent_byteenable                : out std_logic_vector(3 downto 0);                     -- byteenable
+			CPU_timer_sw_agent_readdatavalid             : in  std_logic                     := 'X';             -- readdatavalid
+			CPU_timer_sw_agent_waitrequest               : in  std_logic                     := 'X';             -- waitrequest
+			DEBUG_JTAG_avalon_jtag_slave_address         : out std_logic_vector(0 downto 0);                     -- address
+			DEBUG_JTAG_avalon_jtag_slave_write           : out std_logic;                                        -- write
+			DEBUG_JTAG_avalon_jtag_slave_read            : out std_logic;                                        -- read
+			DEBUG_JTAG_avalon_jtag_slave_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			DEBUG_JTAG_avalon_jtag_slave_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
+			DEBUG_JTAG_avalon_jtag_slave_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
+			DEBUG_JTAG_avalon_jtag_slave_chipselect      : out std_logic;                                        -- chipselect
+			SPI_0_spi_control_port_address               : out std_logic_vector(2 downto 0);                     -- address
+			SPI_0_spi_control_port_write                 : out std_logic;                                        -- write
+			SPI_0_spi_control_port_read                  : out std_logic;                                        -- read
+			SPI_0_spi_control_port_readdata              : in  std_logic_vector(15 downto 0) := (others => 'X'); -- readdata
+			SPI_0_spi_control_port_writedata             : out std_logic_vector(15 downto 0);                    -- writedata
+			SPI_0_spi_control_port_chipselect            : out std_logic;                                        -- chipselect
+			SRAM_s1_address                              : out std_logic_vector(12 downto 0);                    -- address
+			SRAM_s1_write                                : out std_logic;                                        -- write
+			SRAM_s1_readdata                             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			SRAM_s1_writedata                            : out std_logic_vector(31 downto 0);                    -- writedata
+			SRAM_s1_byteenable                           : out std_logic_vector(3 downto 0);                     -- byteenable
+			SRAM_s1_chipselect                           : out std_logic;                                        -- chipselect
+			SRAM_s1_clken                                : out std_logic                                         -- clken
 		);
 	end component coproc_soft_cpu_mm_interconnect_0;
 
@@ -192,6 +189,7 @@ architecture rtl of coproc_soft_cpu is
 			clk           : in  std_logic                     := 'X'; -- clk
 			reset         : in  std_logic                     := 'X'; -- reset
 			receiver0_irq : in  std_logic                     := 'X'; -- irq
+			receiver1_irq : in  std_logic                     := 'X'; -- irq
 			sender_irq    : out std_logic_vector(15 downto 0)         -- irq
 		);
 	end component coproc_soft_cpu_irq_mapper;
@@ -328,14 +326,6 @@ architecture rtl of coproc_soft_cpu is
 		);
 	end component coproc_soft_cpu_rst_controller_001;
 
-	signal spi_avalon_master_readdata                                     : std_logic_vector(31 downto 0); -- mm_interconnect_0:SPI_avalon_master_readdata -> SPI:readdata_to_the_altera_avalon_packets_to_master_inst_for_spichain
-	signal spi_avalon_master_waitrequest                                  : std_logic;                     -- mm_interconnect_0:SPI_avalon_master_waitrequest -> SPI:waitrequest_to_the_altera_avalon_packets_to_master_inst_for_spichain
-	signal spi_avalon_master_address                                      : std_logic_vector(31 downto 0); -- SPI:address_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_address
-	signal spi_avalon_master_byteenable                                   : std_logic_vector(3 downto 0);  -- SPI:byteenable_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_byteenable
-	signal spi_avalon_master_read                                         : std_logic;                     -- SPI:read_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_read
-	signal spi_avalon_master_readdatavalid                                : std_logic;                     -- mm_interconnect_0:SPI_avalon_master_readdatavalid -> SPI:readdatavalid_to_the_altera_avalon_packets_to_master_inst_for_spichain
-	signal spi_avalon_master_write                                        : std_logic;                     -- SPI:write_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_write
-	signal spi_avalon_master_writedata                                    : std_logic_vector(31 downto 0); -- SPI:writedata_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:SPI_avalon_master_writedata
 	signal cpu_data_manager_readdata                                      : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_data_manager_readdata -> CPU:data_manager_readdata
 	signal cpu_data_manager_waitrequest                                   : std_logic;                     -- mm_interconnect_0:CPU_data_manager_waitrequest -> CPU:data_manager_waitrequest
 	signal cpu_data_manager_address                                       : std_logic_vector(31 downto 0); -- CPU:data_manager_address -> mm_interconnect_0:CPU_data_manager_address
@@ -352,20 +342,6 @@ architecture rtl of coproc_soft_cpu is
 	signal cpu_instruction_manager_read                                   : std_logic;                     -- CPU:instruction_manager_read -> mm_interconnect_0:CPU_instruction_manager_read
 	signal cpu_instruction_manager_readdatavalid                          : std_logic;                     -- mm_interconnect_0:CPU_instruction_manager_readdatavalid -> CPU:instruction_manager_readdatavalid
 	signal cpu_instruction_manager_response                               : std_logic_vector(1 downto 0);  -- mm_interconnect_0:CPU_instruction_manager_response -> CPU:instruction_manager_response
-	signal mm_interconnect_0_sram_s1_chipselect                           : std_logic;                     -- mm_interconnect_0:SRAM_s1_chipselect -> SRAM:chipselect
-	signal mm_interconnect_0_sram_s1_readdata                             : std_logic_vector(31 downto 0); -- SRAM:readdata -> mm_interconnect_0:SRAM_s1_readdata
-	signal mm_interconnect_0_sram_s1_address                              : std_logic_vector(12 downto 0); -- mm_interconnect_0:SRAM_s1_address -> SRAM:address
-	signal mm_interconnect_0_sram_s1_byteenable                           : std_logic_vector(3 downto 0);  -- mm_interconnect_0:SRAM_s1_byteenable -> SRAM:byteenable
-	signal mm_interconnect_0_sram_s1_write                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_write -> SRAM:write
-	signal mm_interconnect_0_sram_s1_writedata                            : std_logic_vector(31 downto 0); -- mm_interconnect_0:SRAM_s1_writedata -> SRAM:writedata
-	signal mm_interconnect_0_sram_s1_clken                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_clken -> SRAM:clken
-	signal mm_interconnect_0_cpu_dm_agent_readdata                        : std_logic_vector(31 downto 0); -- CPU:dm_agent_readdata -> mm_interconnect_0:CPU_dm_agent_readdata
-	signal mm_interconnect_0_cpu_dm_agent_waitrequest                     : std_logic;                     -- CPU:dm_agent_waitrequest -> mm_interconnect_0:CPU_dm_agent_waitrequest
-	signal mm_interconnect_0_cpu_dm_agent_address                         : std_logic_vector(15 downto 0); -- mm_interconnect_0:CPU_dm_agent_address -> CPU:dm_agent_address
-	signal mm_interconnect_0_cpu_dm_agent_read                            : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_read -> CPU:dm_agent_read
-	signal mm_interconnect_0_cpu_dm_agent_readdatavalid                   : std_logic;                     -- CPU:dm_agent_readdatavalid -> mm_interconnect_0:CPU_dm_agent_readdatavalid
-	signal mm_interconnect_0_cpu_dm_agent_write                           : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_write -> CPU:dm_agent_write
-	signal mm_interconnect_0_cpu_dm_agent_writedata                       : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_dm_agent_writedata -> CPU:dm_agent_writedata
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_chipselect      : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_chipselect -> DEBUG_JTAG:av_chipselect
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_readdata        : std_logic_vector(31 downto 0); -- DEBUG_JTAG:av_readdata -> mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_readdata
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_waitrequest     : std_logic;                     -- DEBUG_JTAG:av_waitrequest -> mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_waitrequest
@@ -373,6 +349,26 @@ architecture rtl of coproc_soft_cpu is
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read            : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_read -> mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:in
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_write           : std_logic;                     -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_write -> mm_interconnect_0_debug_jtag_avalon_jtag_slave_write:in
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata       : std_logic_vector(31 downto 0); -- mm_interconnect_0:DEBUG_JTAG_avalon_jtag_slave_writedata -> DEBUG_JTAG:av_writedata
+	signal mm_interconnect_0_cpu_dm_agent_readdata                        : std_logic_vector(31 downto 0); -- CPU:dm_agent_readdata -> mm_interconnect_0:CPU_dm_agent_readdata
+	signal mm_interconnect_0_cpu_dm_agent_waitrequest                     : std_logic;                     -- CPU:dm_agent_waitrequest -> mm_interconnect_0:CPU_dm_agent_waitrequest
+	signal mm_interconnect_0_cpu_dm_agent_address                         : std_logic_vector(15 downto 0); -- mm_interconnect_0:CPU_dm_agent_address -> CPU:dm_agent_address
+	signal mm_interconnect_0_cpu_dm_agent_read                            : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_read -> CPU:dm_agent_read
+	signal mm_interconnect_0_cpu_dm_agent_readdatavalid                   : std_logic;                     -- CPU:dm_agent_readdatavalid -> mm_interconnect_0:CPU_dm_agent_readdatavalid
+	signal mm_interconnect_0_cpu_dm_agent_write                           : std_logic;                     -- mm_interconnect_0:CPU_dm_agent_write -> CPU:dm_agent_write
+	signal mm_interconnect_0_cpu_dm_agent_writedata                       : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_dm_agent_writedata -> CPU:dm_agent_writedata
+	signal mm_interconnect_0_sram_s1_chipselect                           : std_logic;                     -- mm_interconnect_0:SRAM_s1_chipselect -> SRAM:chipselect
+	signal mm_interconnect_0_sram_s1_readdata                             : std_logic_vector(31 downto 0); -- SRAM:readdata -> mm_interconnect_0:SRAM_s1_readdata
+	signal mm_interconnect_0_sram_s1_address                              : std_logic_vector(12 downto 0); -- mm_interconnect_0:SRAM_s1_address -> SRAM:address
+	signal mm_interconnect_0_sram_s1_byteenable                           : std_logic_vector(3 downto 0);  -- mm_interconnect_0:SRAM_s1_byteenable -> SRAM:byteenable
+	signal mm_interconnect_0_sram_s1_write                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_write -> SRAM:write
+	signal mm_interconnect_0_sram_s1_writedata                            : std_logic_vector(31 downto 0); -- mm_interconnect_0:SRAM_s1_writedata -> SRAM:writedata
+	signal mm_interconnect_0_sram_s1_clken                                : std_logic;                     -- mm_interconnect_0:SRAM_s1_clken -> SRAM:clken
+	signal mm_interconnect_0_spi_0_spi_control_port_chipselect            : std_logic;                     -- mm_interconnect_0:SPI_0_spi_control_port_chipselect -> SPI_0:spi_select
+	signal mm_interconnect_0_spi_0_spi_control_port_readdata              : std_logic_vector(15 downto 0); -- SPI_0:data_to_cpu -> mm_interconnect_0:SPI_0_spi_control_port_readdata
+	signal mm_interconnect_0_spi_0_spi_control_port_address               : std_logic_vector(2 downto 0);  -- mm_interconnect_0:SPI_0_spi_control_port_address -> SPI_0:mem_addr
+	signal mm_interconnect_0_spi_0_spi_control_port_read                  : std_logic;                     -- mm_interconnect_0:SPI_0_spi_control_port_read -> mm_interconnect_0_spi_0_spi_control_port_read:in
+	signal mm_interconnect_0_spi_0_spi_control_port_write                 : std_logic;                     -- mm_interconnect_0:SPI_0_spi_control_port_write -> mm_interconnect_0_spi_0_spi_control_port_write:in
+	signal mm_interconnect_0_spi_0_spi_control_port_writedata             : std_logic_vector(15 downto 0); -- mm_interconnect_0:SPI_0_spi_control_port_writedata -> SPI_0:data_from_cpu
 	signal mm_interconnect_0_cpu_timer_sw_agent_readdata                  : std_logic_vector(31 downto 0); -- CPU:timer_sw_agent_readdata -> mm_interconnect_0:CPU_timer_sw_agent_readdata
 	signal mm_interconnect_0_cpu_timer_sw_agent_waitrequest               : std_logic;                     -- CPU:timer_sw_agent_waitrequest -> mm_interconnect_0:CPU_timer_sw_agent_waitrequest
 	signal mm_interconnect_0_cpu_timer_sw_agent_address                   : std_logic_vector(5 downto 0);  -- mm_interconnect_0:CPU_timer_sw_agent_address -> CPU:timer_sw_agent_address
@@ -382,15 +378,18 @@ architecture rtl of coproc_soft_cpu is
 	signal mm_interconnect_0_cpu_timer_sw_agent_write                     : std_logic;                     -- mm_interconnect_0:CPU_timer_sw_agent_write -> CPU:timer_sw_agent_write
 	signal mm_interconnect_0_cpu_timer_sw_agent_writedata                 : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_timer_sw_agent_writedata -> CPU:timer_sw_agent_writedata
 	signal irq_mapper_receiver0_irq                                       : std_logic;                     -- DEBUG_JTAG:av_irq -> irq_mapper:receiver0_irq
+	signal irq_mapper_receiver1_irq                                       : std_logic;                     -- SPI_0:irq -> irq_mapper:receiver1_irq
 	signal cpu_platform_irq_rx_irq                                        : std_logic_vector(15 downto 0); -- irq_mapper:sender_irq -> CPU:platform_irq_rx_irq
 	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:reset_reset, irq_mapper:reset, mm_interconnect_0:CPU_reset_reset_bridge_in_reset_reset]
-	signal rst_controller_001_reset_out_reset                             : std_logic;                     -- rst_controller_001:reset_out -> [CPU:ndm_reset_in_reset, SRAM:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_001_reset_out_reset:in, rst_translator:in_reset]
+	signal rst_controller_001_reset_out_reset                             : std_logic;                     -- rst_controller_001:reset_out -> [CPU:ndm_reset_in_reset, SRAM:reset, mm_interconnect_0:DEBUG_JTAG_reset_reset_bridge_in_reset_reset, rst_controller_001_reset_out_reset:in, rst_translator:in_reset]
 	signal rst_controller_001_reset_out_reset_req                         : std_logic;                     -- rst_controller_001:reset_req -> [SRAM:reset_req, rst_translator:reset_req_in]
 	signal cpu_dbg_reset_out_reset                                        : std_logic;                     -- CPU:dbg_reset_out_reset -> rst_controller_001:reset_in1
 	signal i_clr_reset_n_ports_inv                                        : std_logic;                     -- i_clr_reset_n:inv -> [rst_controller:reset_in0, rst_controller_001:reset_in0]
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read_ports_inv  : std_logic;                     -- mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:inv -> DEBUG_JTAG:av_read_n
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_write_ports_inv : std_logic;                     -- mm_interconnect_0_debug_jtag_avalon_jtag_slave_write:inv -> DEBUG_JTAG:av_write_n
-	signal rst_controller_001_reset_out_reset_ports_inv                   : std_logic;                     -- rst_controller_001_reset_out_reset:inv -> [DEBUG_JTAG:rst_n, SPI:reset_n]
+	signal mm_interconnect_0_spi_0_spi_control_port_read_ports_inv        : std_logic;                     -- mm_interconnect_0_spi_0_spi_control_port_read:inv -> SPI_0:read_n
+	signal mm_interconnect_0_spi_0_spi_control_port_write_ports_inv       : std_logic;                     -- mm_interconnect_0_spi_0_spi_control_port_write:inv -> SPI_0:write_n
+	signal rst_controller_001_reset_out_reset_ports_inv                   : std_logic;                     -- rst_controller_001_reset_out_reset:inv -> [DEBUG_JTAG:rst_n, SPI_0:reset_n]
 
 begin
 
@@ -465,22 +464,21 @@ begin
 			av_irq         => irq_mapper_receiver0_irq                                        --               irq.irq
 		);
 
-	spi : component SPISlaveToAvalonMasterBridge
+	spi_0 : component coproc_soft_cpu_SPI_0
 		port map (
-			clk                                                                    => i_clk_clk,                                                    --           clk.clk
-			reset_n                                                                => rst_controller_001_reset_out_reset_ports_inv,                 --     clk_reset.reset_n
-			mosi_to_the_spislave_inst_for_spichain                                 => o_spi_export_mosi_to_the_spislave_inst_for_spichain,          --      export_0.export
-			nss_to_the_spislave_inst_for_spichain                                  => o_spi_export_nss_to_the_spislave_inst_for_spichain,           --              .export
-			miso_to_and_from_the_spislave_inst_for_spichain                        => o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain, --              .export
-			sclk_to_the_spislave_inst_for_spichain                                 => o_spi_export_sclk_to_the_spislave_inst_for_spichain,          --              .export
-			address_from_the_altera_avalon_packets_to_master_inst_for_spichain     => spi_avalon_master_address,                                    -- avalon_master.address
-			byteenable_from_the_altera_avalon_packets_to_master_inst_for_spichain  => spi_avalon_master_byteenable,                                 --              .byteenable
-			read_from_the_altera_avalon_packets_to_master_inst_for_spichain        => spi_avalon_master_read,                                       --              .read
-			readdata_to_the_altera_avalon_packets_to_master_inst_for_spichain      => spi_avalon_master_readdata,                                   --              .readdata
-			readdatavalid_to_the_altera_avalon_packets_to_master_inst_for_spichain => spi_avalon_master_readdatavalid,                              --              .readdatavalid
-			waitrequest_to_the_altera_avalon_packets_to_master_inst_for_spichain   => spi_avalon_master_waitrequest,                                --              .waitrequest
-			write_from_the_altera_avalon_packets_to_master_inst_for_spichain       => spi_avalon_master_write,                                      --              .write
-			writedata_from_the_altera_avalon_packets_to_master_inst_for_spichain   => spi_avalon_master_writedata                                   --              .writedata
+			clk           => i_clk_clk,                                                --              clk.clk
+			reset_n       => rst_controller_001_reset_out_reset_ports_inv,             --            reset.reset_n
+			data_from_cpu => mm_interconnect_0_spi_0_spi_control_port_writedata,       -- spi_control_port.writedata
+			data_to_cpu   => mm_interconnect_0_spi_0_spi_control_port_readdata,        --                 .readdata
+			mem_addr      => mm_interconnect_0_spi_0_spi_control_port_address,         --                 .address
+			read_n        => mm_interconnect_0_spi_0_spi_control_port_read_ports_inv,  --                 .read_n
+			spi_select    => mm_interconnect_0_spi_0_spi_control_port_chipselect,      --                 .chipselect
+			write_n       => mm_interconnect_0_spi_0_spi_control_port_write_ports_inv, --                 .write_n
+			irq           => irq_mapper_receiver1_irq,                                 --              irq.irq
+			MISO          => o_spi_export_MISO,                                        --         external.export
+			MOSI          => o_spi_export_MOSI,                                        --                 .export
+			SCLK          => o_spi_export_SCLK,                                        --                 .export
+			SS_n          => o_spi_export_SS_n                                         --                 .export
 		);
 
 	sram : component coproc_soft_cpu_SRAM
@@ -500,62 +498,60 @@ begin
 
 	mm_interconnect_0 : component coproc_soft_cpu_mm_interconnect_0
 		port map (
-			CLK_clk_clk                               => i_clk_clk,                                                  --                             CLK_clk.clk
-			CPU_reset_reset_bridge_in_reset_reset     => rst_controller_reset_out_reset,                             --     CPU_reset_reset_bridge_in_reset.reset
-			SPI_clk_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                         -- SPI_clk_reset_reset_bridge_in_reset.reset
-			CPU_data_manager_address                  => cpu_data_manager_address,                                   --                    CPU_data_manager.address
-			CPU_data_manager_waitrequest              => cpu_data_manager_waitrequest,                               --                                    .waitrequest
-			CPU_data_manager_byteenable               => cpu_data_manager_byteenable,                                --                                    .byteenable
-			CPU_data_manager_read                     => cpu_data_manager_read,                                      --                                    .read
-			CPU_data_manager_readdata                 => cpu_data_manager_readdata,                                  --                                    .readdata
-			CPU_data_manager_readdatavalid            => cpu_data_manager_readdatavalid,                             --                                    .readdatavalid
-			CPU_data_manager_write                    => cpu_data_manager_write,                                     --                                    .write
-			CPU_data_manager_writedata                => cpu_data_manager_writedata,                                 --                                    .writedata
-			CPU_data_manager_response                 => cpu_data_manager_response,                                  --                                    .response
-			CPU_data_manager_writeresponsevalid       => cpu_data_manager_writeresponsevalid,                        --                                    .writeresponsevalid
-			CPU_instruction_manager_address           => cpu_instruction_manager_address,                            --             CPU_instruction_manager.address
-			CPU_instruction_manager_waitrequest       => cpu_instruction_manager_waitrequest,                        --                                    .waitrequest
-			CPU_instruction_manager_read              => cpu_instruction_manager_read,                               --                                    .read
-			CPU_instruction_manager_readdata          => cpu_instruction_manager_readdata,                           --                                    .readdata
-			CPU_instruction_manager_readdatavalid     => cpu_instruction_manager_readdatavalid,                      --                                    .readdatavalid
-			CPU_instruction_manager_response          => cpu_instruction_manager_response,                           --                                    .response
-			SPI_avalon_master_address                 => spi_avalon_master_address,                                  --                   SPI_avalon_master.address
-			SPI_avalon_master_waitrequest             => spi_avalon_master_waitrequest,                              --                                    .waitrequest
-			SPI_avalon_master_byteenable              => spi_avalon_master_byteenable,                               --                                    .byteenable
-			SPI_avalon_master_read                    => spi_avalon_master_read,                                     --                                    .read
-			SPI_avalon_master_readdata                => spi_avalon_master_readdata,                                 --                                    .readdata
-			SPI_avalon_master_readdatavalid           => spi_avalon_master_readdatavalid,                            --                                    .readdatavalid
-			SPI_avalon_master_write                   => spi_avalon_master_write,                                    --                                    .write
-			SPI_avalon_master_writedata               => spi_avalon_master_writedata,                                --                                    .writedata
-			CPU_dm_agent_address                      => mm_interconnect_0_cpu_dm_agent_address,                     --                        CPU_dm_agent.address
-			CPU_dm_agent_write                        => mm_interconnect_0_cpu_dm_agent_write,                       --                                    .write
-			CPU_dm_agent_read                         => mm_interconnect_0_cpu_dm_agent_read,                        --                                    .read
-			CPU_dm_agent_readdata                     => mm_interconnect_0_cpu_dm_agent_readdata,                    --                                    .readdata
-			CPU_dm_agent_writedata                    => mm_interconnect_0_cpu_dm_agent_writedata,                   --                                    .writedata
-			CPU_dm_agent_readdatavalid                => mm_interconnect_0_cpu_dm_agent_readdatavalid,               --                                    .readdatavalid
-			CPU_dm_agent_waitrequest                  => mm_interconnect_0_cpu_dm_agent_waitrequest,                 --                                    .waitrequest
-			CPU_timer_sw_agent_address                => mm_interconnect_0_cpu_timer_sw_agent_address,               --                  CPU_timer_sw_agent.address
-			CPU_timer_sw_agent_write                  => mm_interconnect_0_cpu_timer_sw_agent_write,                 --                                    .write
-			CPU_timer_sw_agent_read                   => mm_interconnect_0_cpu_timer_sw_agent_read,                  --                                    .read
-			CPU_timer_sw_agent_readdata               => mm_interconnect_0_cpu_timer_sw_agent_readdata,              --                                    .readdata
-			CPU_timer_sw_agent_writedata              => mm_interconnect_0_cpu_timer_sw_agent_writedata,             --                                    .writedata
-			CPU_timer_sw_agent_byteenable             => mm_interconnect_0_cpu_timer_sw_agent_byteenable,            --                                    .byteenable
-			CPU_timer_sw_agent_readdatavalid          => mm_interconnect_0_cpu_timer_sw_agent_readdatavalid,         --                                    .readdatavalid
-			CPU_timer_sw_agent_waitrequest            => mm_interconnect_0_cpu_timer_sw_agent_waitrequest,           --                                    .waitrequest
-			DEBUG_JTAG_avalon_jtag_slave_address      => mm_interconnect_0_debug_jtag_avalon_jtag_slave_address,     --        DEBUG_JTAG_avalon_jtag_slave.address
-			DEBUG_JTAG_avalon_jtag_slave_write        => mm_interconnect_0_debug_jtag_avalon_jtag_slave_write,       --                                    .write
-			DEBUG_JTAG_avalon_jtag_slave_read         => mm_interconnect_0_debug_jtag_avalon_jtag_slave_read,        --                                    .read
-			DEBUG_JTAG_avalon_jtag_slave_readdata     => mm_interconnect_0_debug_jtag_avalon_jtag_slave_readdata,    --                                    .readdata
-			DEBUG_JTAG_avalon_jtag_slave_writedata    => mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata,   --                                    .writedata
-			DEBUG_JTAG_avalon_jtag_slave_waitrequest  => mm_interconnect_0_debug_jtag_avalon_jtag_slave_waitrequest, --                                    .waitrequest
-			DEBUG_JTAG_avalon_jtag_slave_chipselect   => mm_interconnect_0_debug_jtag_avalon_jtag_slave_chipselect,  --                                    .chipselect
-			SRAM_s1_address                           => mm_interconnect_0_sram_s1_address,                          --                             SRAM_s1.address
-			SRAM_s1_write                             => mm_interconnect_0_sram_s1_write,                            --                                    .write
-			SRAM_s1_readdata                          => mm_interconnect_0_sram_s1_readdata,                         --                                    .readdata
-			SRAM_s1_writedata                         => mm_interconnect_0_sram_s1_writedata,                        --                                    .writedata
-			SRAM_s1_byteenable                        => mm_interconnect_0_sram_s1_byteenable,                       --                                    .byteenable
-			SRAM_s1_chipselect                        => mm_interconnect_0_sram_s1_chipselect,                       --                                    .chipselect
-			SRAM_s1_clken                             => mm_interconnect_0_sram_s1_clken                             --                                    .clken
+			CLK_clk_clk                                  => i_clk_clk,                                                  --                                CLK_clk.clk
+			CPU_reset_reset_bridge_in_reset_reset        => rst_controller_reset_out_reset,                             --        CPU_reset_reset_bridge_in_reset.reset
+			DEBUG_JTAG_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                         -- DEBUG_JTAG_reset_reset_bridge_in_reset.reset
+			CPU_data_manager_address                     => cpu_data_manager_address,                                   --                       CPU_data_manager.address
+			CPU_data_manager_waitrequest                 => cpu_data_manager_waitrequest,                               --                                       .waitrequest
+			CPU_data_manager_byteenable                  => cpu_data_manager_byteenable,                                --                                       .byteenable
+			CPU_data_manager_read                        => cpu_data_manager_read,                                      --                                       .read
+			CPU_data_manager_readdata                    => cpu_data_manager_readdata,                                  --                                       .readdata
+			CPU_data_manager_readdatavalid               => cpu_data_manager_readdatavalid,                             --                                       .readdatavalid
+			CPU_data_manager_write                       => cpu_data_manager_write,                                     --                                       .write
+			CPU_data_manager_writedata                   => cpu_data_manager_writedata,                                 --                                       .writedata
+			CPU_data_manager_response                    => cpu_data_manager_response,                                  --                                       .response
+			CPU_data_manager_writeresponsevalid          => cpu_data_manager_writeresponsevalid,                        --                                       .writeresponsevalid
+			CPU_instruction_manager_address              => cpu_instruction_manager_address,                            --                CPU_instruction_manager.address
+			CPU_instruction_manager_waitrequest          => cpu_instruction_manager_waitrequest,                        --                                       .waitrequest
+			CPU_instruction_manager_read                 => cpu_instruction_manager_read,                               --                                       .read
+			CPU_instruction_manager_readdata             => cpu_instruction_manager_readdata,                           --                                       .readdata
+			CPU_instruction_manager_readdatavalid        => cpu_instruction_manager_readdatavalid,                      --                                       .readdatavalid
+			CPU_instruction_manager_response             => cpu_instruction_manager_response,                           --                                       .response
+			CPU_dm_agent_address                         => mm_interconnect_0_cpu_dm_agent_address,                     --                           CPU_dm_agent.address
+			CPU_dm_agent_write                           => mm_interconnect_0_cpu_dm_agent_write,                       --                                       .write
+			CPU_dm_agent_read                            => mm_interconnect_0_cpu_dm_agent_read,                        --                                       .read
+			CPU_dm_agent_readdata                        => mm_interconnect_0_cpu_dm_agent_readdata,                    --                                       .readdata
+			CPU_dm_agent_writedata                       => mm_interconnect_0_cpu_dm_agent_writedata,                   --                                       .writedata
+			CPU_dm_agent_readdatavalid                   => mm_interconnect_0_cpu_dm_agent_readdatavalid,               --                                       .readdatavalid
+			CPU_dm_agent_waitrequest                     => mm_interconnect_0_cpu_dm_agent_waitrequest,                 --                                       .waitrequest
+			CPU_timer_sw_agent_address                   => mm_interconnect_0_cpu_timer_sw_agent_address,               --                     CPU_timer_sw_agent.address
+			CPU_timer_sw_agent_write                     => mm_interconnect_0_cpu_timer_sw_agent_write,                 --                                       .write
+			CPU_timer_sw_agent_read                      => mm_interconnect_0_cpu_timer_sw_agent_read,                  --                                       .read
+			CPU_timer_sw_agent_readdata                  => mm_interconnect_0_cpu_timer_sw_agent_readdata,              --                                       .readdata
+			CPU_timer_sw_agent_writedata                 => mm_interconnect_0_cpu_timer_sw_agent_writedata,             --                                       .writedata
+			CPU_timer_sw_agent_byteenable                => mm_interconnect_0_cpu_timer_sw_agent_byteenable,            --                                       .byteenable
+			CPU_timer_sw_agent_readdatavalid             => mm_interconnect_0_cpu_timer_sw_agent_readdatavalid,         --                                       .readdatavalid
+			CPU_timer_sw_agent_waitrequest               => mm_interconnect_0_cpu_timer_sw_agent_waitrequest,           --                                       .waitrequest
+			DEBUG_JTAG_avalon_jtag_slave_address         => mm_interconnect_0_debug_jtag_avalon_jtag_slave_address,     --           DEBUG_JTAG_avalon_jtag_slave.address
+			DEBUG_JTAG_avalon_jtag_slave_write           => mm_interconnect_0_debug_jtag_avalon_jtag_slave_write,       --                                       .write
+			DEBUG_JTAG_avalon_jtag_slave_read            => mm_interconnect_0_debug_jtag_avalon_jtag_slave_read,        --                                       .read
+			DEBUG_JTAG_avalon_jtag_slave_readdata        => mm_interconnect_0_debug_jtag_avalon_jtag_slave_readdata,    --                                       .readdata
+			DEBUG_JTAG_avalon_jtag_slave_writedata       => mm_interconnect_0_debug_jtag_avalon_jtag_slave_writedata,   --                                       .writedata
+			DEBUG_JTAG_avalon_jtag_slave_waitrequest     => mm_interconnect_0_debug_jtag_avalon_jtag_slave_waitrequest, --                                       .waitrequest
+			DEBUG_JTAG_avalon_jtag_slave_chipselect      => mm_interconnect_0_debug_jtag_avalon_jtag_slave_chipselect,  --                                       .chipselect
+			SPI_0_spi_control_port_address               => mm_interconnect_0_spi_0_spi_control_port_address,           --                 SPI_0_spi_control_port.address
+			SPI_0_spi_control_port_write                 => mm_interconnect_0_spi_0_spi_control_port_write,             --                                       .write
+			SPI_0_spi_control_port_read                  => mm_interconnect_0_spi_0_spi_control_port_read,              --                                       .read
+			SPI_0_spi_control_port_readdata              => mm_interconnect_0_spi_0_spi_control_port_readdata,          --                                       .readdata
+			SPI_0_spi_control_port_writedata             => mm_interconnect_0_spi_0_spi_control_port_writedata,         --                                       .writedata
+			SPI_0_spi_control_port_chipselect            => mm_interconnect_0_spi_0_spi_control_port_chipselect,        --                                       .chipselect
+			SRAM_s1_address                              => mm_interconnect_0_sram_s1_address,                          --                                SRAM_s1.address
+			SRAM_s1_write                                => mm_interconnect_0_sram_s1_write,                            --                                       .write
+			SRAM_s1_readdata                             => mm_interconnect_0_sram_s1_readdata,                         --                                       .readdata
+			SRAM_s1_writedata                            => mm_interconnect_0_sram_s1_writedata,                        --                                       .writedata
+			SRAM_s1_byteenable                           => mm_interconnect_0_sram_s1_byteenable,                       --                                       .byteenable
+			SRAM_s1_chipselect                           => mm_interconnect_0_sram_s1_chipselect,                       --                                       .chipselect
+			SRAM_s1_clken                                => mm_interconnect_0_sram_s1_clken                             --                                       .clken
 		);
 
 	irq_mapper : component coproc_soft_cpu_irq_mapper
@@ -563,6 +559,7 @@ begin
 			clk           => i_clk_clk,                      --       clk.clk
 			reset         => rst_controller_reset_out_reset, -- clk_reset.reset
 			receiver0_irq => irq_mapper_receiver0_irq,       -- receiver0.irq
+			receiver1_irq => irq_mapper_receiver1_irq,       -- receiver1.irq
 			sender_irq    => cpu_platform_irq_rx_irq         --    sender.irq
 		);
 
@@ -701,6 +698,10 @@ begin
 	mm_interconnect_0_debug_jtag_avalon_jtag_slave_read_ports_inv <= not mm_interconnect_0_debug_jtag_avalon_jtag_slave_read;
 
 	mm_interconnect_0_debug_jtag_avalon_jtag_slave_write_ports_inv <= not mm_interconnect_0_debug_jtag_avalon_jtag_slave_write;
+
+	mm_interconnect_0_spi_0_spi_control_port_read_ports_inv <= not mm_interconnect_0_spi_0_spi_control_port_read;
+
+	mm_interconnect_0_spi_0_spi_control_port_write_ports_inv <= not mm_interconnect_0_spi_0_spi_control_port_write;
 
 	rst_controller_001_reset_out_reset_ports_inv <= not rst_controller_001_reset_out_reset;
 

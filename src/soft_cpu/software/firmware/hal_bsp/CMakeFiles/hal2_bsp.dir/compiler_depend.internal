@@ -1629,13 +1629,6 @@ hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_vic_isr_wrapper.c.obj
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/system.h
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_niosv_int_mode.h
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/intel_niosv.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/io.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_exception_handler_registry.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_irq_table.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_exceptions.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_irq.h
- /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/msw_interrupt.h
 
 hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_wait.c.obj
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/alt_wait.c
@@ -1930,6 +1923,7 @@ hal_bsp/CMakeFiles/hal2_bsp.dir/alt_sys_init.c.obj
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_warning.h
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart.h
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart_fd.h
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi.h
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/linker.h
  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/system.h
  /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/float.h
@@ -2209,4 +2203,12 @@ hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj
  /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/timespec.h
  /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/types.h
  /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/time.h
+
+hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_spi.c
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/io.h
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi.h
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi_regs.h
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h
 

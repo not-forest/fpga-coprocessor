@@ -14,7 +14,9 @@ add_executable(coproc_firmware.elf)
 
 target_sources(coproc_firmware.elf
     PRIVATE
+        firmware.h
         main.c
+        spi_avalon.c
 )
 
 target_include_directories(coproc_firmware.elf
@@ -58,7 +60,7 @@ add_custom_target(niosv-stack-report ALL DEPENDS "${stack_report_file}")
 add_custom_command(
     OUTPUT "SRAM.hex"
     DEPENDS coproc_firmware.elf
-    COMMAND elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00000000 -w 32 -e 0x00004FFF -r 4
+    COMMAND elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00028000 -w 32 -e 0x0002E3FF -r 4
     COMMENT "Creating SRAM.hex."
     VERBATIM
 )

@@ -1,7 +1,7 @@
 /**
-  *  @file   main.c
+  *  @file   firmware.h
   *  @author not-forest <sshkliaiev@gmail.com>
-  *  @brief  Main NIOS V firmware entry point. 
+  *  @brief  Firmware data type definitions and low level interface bindings.
   *  @license BSD 
   *
   *  BSD 2-Clause 
@@ -27,12 +27,11 @@
   *  @test   Tested on Cyclone IV with Intel Quartus Lite 24.1
   **/
 
-#include <sys/alt_stdio.h>
+#pragma once
 
-int main() {
-    alt_putstr("Hello world NIOS V");
+#ifndef FIRMWARE_NIOSV_COPROC_H
+#define FIRMWARE_NIOSV_COPROC_H
 
-    for (;;);
 
-    return 0;
-}
+
+#endif // !FIRMWARE_NIOSV_COPROC_H

@@ -175,6 +175,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_read.c.obj.d"
   "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj"
   "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj.d"
+  "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj"
+  "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj.d"
   "libhal2_bsp.a"
   "libhal2_bsp.pdb"
 )

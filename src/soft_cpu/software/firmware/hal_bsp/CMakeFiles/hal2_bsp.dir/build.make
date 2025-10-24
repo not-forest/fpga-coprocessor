@@ -1340,6 +1340,20 @@ hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.s: c
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.s"
 	cd /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/hal_bsp && /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_jtag_uart_write.c -o CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.s
 
+hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj: hal_bsp/CMakeFiles/hal2_bsp.dir/flags.make
+hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_spi.c
+hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj: hal_bsp/CMakeFiles/hal2_bsp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building C object hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj"
+	cd /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/hal_bsp && /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj -MF CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj.d -o CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj -c /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_spi.c
+
+hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.i"
+	cd /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/hal_bsp && /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_spi.c > CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.i
+
+hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.s"
+	cd /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/hal_bsp && /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/src/altera_avalon_spi.c -o CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.s
+
 # Object files for target hal2_bsp
 hal2_bsp_OBJECTS = \
 "CMakeFiles/hal2_bsp.dir/HAL/src/alt_ecc_exception_entry.S.obj" \
@@ -1432,7 +1446,8 @@ hal2_bsp_OBJECTS = \
 "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_init.c.obj" \
 "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_ioctl.c.obj" \
 "CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_read.c.obj" \
-"CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj"
+"CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj" \
+"CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj"
 
 # External object files for target hal2_bsp
 hal2_bsp_EXTERNAL_OBJECTS =
@@ -1528,9 +1543,10 @@ hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon
 hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_ioctl.c.obj
 hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_read.c.obj
 hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj
+hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj
 hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/build.make
 hal_bsp/libhal2_bsp.a: hal_bsp/CMakeFiles/hal2_bsp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Linking C static library libhal2_bsp.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Linking C static library libhal2_bsp.a"
 	cd /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/hal_bsp && $(CMAKE_COMMAND) -P CMakeFiles/hal2_bsp.dir/cmake_clean_target.cmake
 	cd /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/hal_bsp && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hal2_bsp.dir/link.txt --verbose=$(VERBOSE)
 

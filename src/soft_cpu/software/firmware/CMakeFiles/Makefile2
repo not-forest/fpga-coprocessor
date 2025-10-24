@@ -116,12 +116,12 @@ hal_bsp/clean: hal_bsp/CMakeFiles/hal2_bsp.dir/clean
 CMakeFiles/coproc_firmware.elf.dir/all: hal_bsp/CMakeFiles/hal2_bsp.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=1,2 "Built target coproc_firmware.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=1,2,3 "Built target coproc_firmware.elf"
 .PHONY : CMakeFiles/coproc_firmware.elf.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/coproc_firmware.elf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 94
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 96
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/coproc_firmware.elf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 0
 .PHONY : CMakeFiles/coproc_firmware.elf.dir/rule
@@ -133,7 +133,7 @@ coproc_firmware.elf: CMakeFiles/coproc_firmware.elf.dir/rule
 # codegen rule for target.
 CMakeFiles/coproc_firmware.elf.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=1,2 "Finished codegen for target coproc_firmware.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=1,2,3 "Finished codegen for target coproc_firmware.elf"
 .PHONY : CMakeFiles/coproc_firmware.elf.dir/codegen
 
 # clean rule for target.
@@ -148,12 +148,12 @@ CMakeFiles/coproc_firmware.elf.dir/clean:
 CMakeFiles/create-objdump.dir/all: CMakeFiles/coproc_firmware.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/create-objdump.dir/build.make CMakeFiles/create-objdump.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/create-objdump.dir/build.make CMakeFiles/create-objdump.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=4 "Built target create-objdump"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=5 "Built target create-objdump"
 .PHONY : CMakeFiles/create-objdump.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/create-objdump.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 95
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 97
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/create-objdump.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 0
 .PHONY : CMakeFiles/create-objdump.dir/rule
@@ -165,7 +165,7 @@ create-objdump: CMakeFiles/create-objdump.dir/rule
 # codegen rule for target.
 CMakeFiles/create-objdump.dir/codegen: CMakeFiles/coproc_firmware.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/create-objdump.dir/build.make CMakeFiles/create-objdump.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=4 "Finished codegen for target create-objdump"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=5 "Finished codegen for target create-objdump"
 .PHONY : CMakeFiles/create-objdump.dir/codegen
 
 # clean rule for target.
@@ -180,12 +180,12 @@ CMakeFiles/create-objdump.dir/clean:
 CMakeFiles/niosv-stack-report.dir/all: CMakeFiles/coproc_firmware.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/niosv-stack-report.dir/build.make CMakeFiles/niosv-stack-report.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/niosv-stack-report.dir/build.make CMakeFiles/niosv-stack-report.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=97 "Built target niosv-stack-report"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=99 "Built target niosv-stack-report"
 .PHONY : CMakeFiles/niosv-stack-report.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/niosv-stack-report.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 95
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 97
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/niosv-stack-report.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 0
 .PHONY : CMakeFiles/niosv-stack-report.dir/rule
@@ -197,7 +197,7 @@ niosv-stack-report: CMakeFiles/niosv-stack-report.dir/rule
 # codegen rule for target.
 CMakeFiles/niosv-stack-report.dir/codegen: CMakeFiles/coproc_firmware.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/niosv-stack-report.dir/build.make CMakeFiles/niosv-stack-report.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=97 "Finished codegen for target niosv-stack-report"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=99 "Finished codegen for target niosv-stack-report"
 .PHONY : CMakeFiles/niosv-stack-report.dir/codegen
 
 # clean rule for target.
@@ -212,12 +212,12 @@ CMakeFiles/niosv-stack-report.dir/clean:
 CMakeFiles/create-hex.dir/all: CMakeFiles/coproc_firmware.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/create-hex.dir/build.make CMakeFiles/create-hex.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/create-hex.dir/build.make CMakeFiles/create-hex.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=3 "Built target create-hex"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=4 "Built target create-hex"
 .PHONY : CMakeFiles/create-hex.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/create-hex.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 95
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 97
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/create-hex.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 0
 .PHONY : CMakeFiles/create-hex.dir/rule
@@ -229,7 +229,7 @@ create-hex: CMakeFiles/create-hex.dir/rule
 # codegen rule for target.
 CMakeFiles/create-hex.dir/codegen: CMakeFiles/coproc_firmware.elf.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/create-hex.dir/build.make CMakeFiles/create-hex.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=3 "Finished codegen for target create-hex"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=4 "Finished codegen for target create-hex"
 .PHONY : CMakeFiles/create-hex.dir/codegen
 
 # clean rule for target.
@@ -244,12 +244,12 @@ CMakeFiles/create-hex.dir/clean:
 hal_bsp/CMakeFiles/hal2_bsp.dir/all:
 	$(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/depend
 	$(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96 "Built target hal2_bsp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98 "Built target hal2_bsp"
 .PHONY : hal_bsp/CMakeFiles/hal2_bsp.dir/all
 
 # Build rule for subdir invocation for target.
 hal_bsp/CMakeFiles/hal2_bsp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 92
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 93
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hal_bsp/CMakeFiles/hal2_bsp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles 0
 .PHONY : hal_bsp/CMakeFiles/hal2_bsp.dir/rule
@@ -261,7 +261,7 @@ hal2_bsp: hal_bsp/CMakeFiles/hal2_bsp.dir/rule
 # codegen rule for target.
 hal_bsp/CMakeFiles/hal2_bsp.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f hal_bsp/CMakeFiles/hal2_bsp.dir/build.make hal_bsp/CMakeFiles/hal2_bsp.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96 "Finished codegen for target hal2_bsp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles --progress-num=6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98 "Finished codegen for target hal2_bsp"
 .PHONY : hal_bsp/CMakeFiles/hal2_bsp.dir/codegen
 
 # clean rule for target.

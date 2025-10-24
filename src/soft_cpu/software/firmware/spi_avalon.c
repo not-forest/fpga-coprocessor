@@ -1,7 +1,7 @@
 /**
-  *  @file   main.c
+  *  @file   spi_avalon.c
   *  @author not-forest <sshkliaiev@gmail.com>
-  *  @brief  Main NIOS V firmware entry point. 
+  *  @brief  Driver functions to communicate with SPI Slave to Avalon-MM Interface IP.
   *  @license BSD 
   *
   *  BSD 2-Clause 
@@ -27,12 +27,7 @@
   *  @test   Tested on Cyclone IV with Intel Quartus Lite 24.1
   **/
 
-#include <sys/alt_stdio.h>
+#include <altera_avalon_spi.h>
+#include <altera_avalon_spi_regs.h>
 
-int main() {
-    alt_putstr("Hello world NIOS V");
 
-    for (;;);
-
-    return 0;
-}

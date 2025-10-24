@@ -1558,14 +1558,7 @@ CMakeFiles/hal2_bsp.dir/HAL/src/alt_vic_isr_wrapper.c.obj: HAL/src/alt_vic_isr_w
   linker.h \
   system.h \
   HAL/inc/alt_niosv_int_mode.h \
-  HAL/inc/alt_types.h \
-  HAL/inc/intel_niosv.h \
-  HAL/inc/io.h \
-  HAL/inc/priv/alt_exception_handler_registry.h \
-  HAL/inc/priv/alt_irq_table.h \
-  HAL/inc/sys/alt_exceptions.h \
-  HAL/inc/sys/alt_irq.h \
-  HAL/inc/sys/msw_interrupt.h
+  HAL/inc/alt_types.h
 
 CMakeFiles/hal2_bsp.dir/HAL/src/alt_wait.c.obj: HAL/src/alt_wait.c \
   HAL/inc/os/alt_syscall.h \
@@ -1850,6 +1843,7 @@ CMakeFiles/hal2_bsp.dir/alt_sys_init.c.obj: alt_sys_init.c \
   HAL/inc/sys/alt_warning.h \
   drivers/inc/altera_avalon_jtag_uart.h \
   drivers/inc/altera_avalon_jtag_uart_fd.h \
+  drivers/inc/altera_avalon_spi.h \
   linker.h \
   system.h \
   /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/float.h \
@@ -2125,10 +2119,21 @@ CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_jtag_uart_write.c.obj: drivers
   /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/types.h \
   /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/time.h
 
+CMakeFiles/hal2_bsp.dir/drivers/src/altera_avalon_spi.c.obj: drivers/src/altera_avalon_spi.c \
+  HAL/inc/alt_types.h \
+  HAL/inc/io.h \
+  drivers/inc/altera_avalon_spi.h \
+  drivers/inc/altera_avalon_spi_regs.h \
+  /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h
+
+
+drivers/inc/altera_avalon_spi_regs.h:
 
 drivers/src/altera_avalon_jtag_uart_read.c:
 
 drivers/src/altera_avalon_jtag_uart_fd.c:
+
+drivers/inc/altera_avalon_spi.h:
 
 HAL/inc/intel_niosv_m_irq.h:
 
@@ -2149,8 +2154,6 @@ HAL/inc/sys/intel_fpga_api_cmn_msg.h:
 HAL/inc/sys/intel_fpga_api_cmn_dfl.h:
 
 HAL/src/alt_write.c:
-
-HAL/inc/sys/msw_interrupt.h:
 
 HAL/src/alt_vic_isr_wrapper.c:
 
@@ -2335,6 +2338,8 @@ HAL/inc/os/alt_flag.h:
 HAL/src/alt_malloc_lock.c:
 
 HAL/src/alt_busy_sleep.c:
+
+drivers/src/altera_avalon_spi.c:
 
 HAL/src/alt_remap_uncached.c:
 

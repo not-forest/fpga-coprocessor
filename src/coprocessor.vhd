@@ -39,19 +39,19 @@ entity coprocessor is
         i_sclk      : in  std_logic;                  -- SPI clock
         ni_ss       : in  std_logic;                  -- Slave select (active low)
         i_mosi      : in  std_logic;                  -- Master Out Slave In
-        o_miso      : inout std_logic                 -- Master In Slave Out
+        o_miso      : out std_logic                 -- Master In Slave Out
          );
 end entity;
 
 architecture structured of coprocessor is 
     component coproc_soft_cpu is
         port (
-            i_clk_clk                                                    : in    std_logic := '0';
-            i_clr_reset_n                                                : in    std_logic := '0';
-            o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := '0';
-            o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := '0';
-            o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := '0';
-            o_spi_export_sclk_to_the_spislave_inst_for_spichain          : in    std_logic := '0' 
+            i_clk_clk               : in    std_logic := '0';
+            i_clr_reset_n           : in    std_logic := '0';
+			o_spi_export_MISO       : out std_logic;
+			o_spi_export_MOSI       : in  std_logic := 'X';
+			o_spi_export_SCLK       : in  std_logic := 'X';
+			o_spi_export_SS_n       : in  std_logic := 'X' 
         );
     end component;
 
@@ -62,9 +62,9 @@ begin
     port map (
         i_clk_clk => i_clk,
         i_clr_reset_n => ni_rst,
-        o_spi_export_nss_to_the_spislave_inst_for_spichain => ni_ss,
-        o_spi_export_sclk_to_the_spislave_inst_for_spichain => i_sclk,
-        o_spi_export_mosi_to_the_spislave_inst_for_spichain => i_mosi,
-        o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain => o_miso
+        o_spi_export_SS_n => ni_ss,
+        o_spi_export_SCLK => i_sclk,
+        o_spi_export_MOSI => i_mosi,
+        o_spi_export_MISO => o_miso
              );
 end architecture;

@@ -37,7 +37,7 @@
    {
       datum baseAddress
       {
-         value = "32768";
+         value = "196608";
          type = "String";
       }
    }
@@ -51,18 +51,31 @@
    }
    element DEBUG_JTAG.avalon_jtag_slave
    {
+      datum _lockedAddress
+      {
+         value = "0";
+         type = "boolean";
+      }
       datum baseAddress
       {
-         value = "32832";
+         value = "196704";
          type = "String";
       }
    }
-   element SPI
+   element SPI_0
    {
       datum _sortIndex
       {
          value = "4";
          type = "int";
+      }
+   }
+   element SPI_0.spi_control_port
+   {
+      datum baseAddress
+      {
+         value = "196672";
+         type = "String";
       }
    }
    element SRAM
@@ -77,7 +90,7 @@
    {
       datum baseAddress
       {
-         value = "0";
+         value = "163840";
          type = "String";
       }
    }
@@ -104,7 +117,11 @@
  <instanceScript></instanceScript>
  <interface name="i_clk" internal="CLK.clk_in" type="clock" dir="end" />
  <interface name="i_clr" internal="CLK.clk_in_reset" type="reset" dir="end" />
- <interface name="o_spi_export" internal="SPI.export_0" type="conduit" dir="end" />
+ <interface
+   name="o_spi_export"
+   internal="SPI_0.external"
+   type="conduit"
+   dir="end" />
  <module name="CLK" kind="clock_source" version="24.1" enabled="1">
   <parameter name="clockFrequency" value="100000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -116,16 +133,16 @@
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_DEVICE" value="EP4CE6E22C8" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
-  <parameter name="AUTO_PLATFORM_IRQ_RX_INTERRUPTS_USED" value="1" />
+  <parameter name="AUTO_PLATFORM_IRQ_RX_INTERRUPTS_USED" value="32800" />
   <parameter name="clockFrequency" value="100000000" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SRAM.s1' start='0x0' end='0x5000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.timer_sw_agent' start='0x8000' end='0x8040' type='intel_niosv_m.timer_sw_agent' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x8040' end='0x8048' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /><slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.timer_sw_agent' start='0x30000' end='0x30040' type='intel_niosv_m.timer_sw_agent' /><slave name='SPI_0.spi_control_port' start='0x30040' end='0x30060' type='altera_avalon_spi.spi_control_port' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x30060' end='0x30068' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
   <parameter name="deviceFamily" value="Cyclone IV E" />
   <parameter name="enableAvalonInterface" value="true" />
   <parameter name="enableDebug" value="true" />
   <parameter name="enableDebugReset" value="true" />
   <parameter name="enableECCLite" value="false" />
   <parameter name="hartId" value="0" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SRAM.s1' start='0x0' end='0x5000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /><slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></parameter>
   <parameter name="interruptMode" value="0" />
   <parameter name="numGpr" value="32" />
   <parameter name="pipelineArch" value="true" />
@@ -153,14 +170,21 @@
   <parameter name="writeBufferDepth" value="64" />
   <parameter name="writeIRQThreshold" value="8" />
  </module>
- <module
-   name="SPI"
-   kind="spi_slave_to_avalon_mm_master_bridge"
-   version="24.1"
-   enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_RATE" value="100000000" />
-  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
-  <parameter name="SYNC_DEPTH" value="2" />
+ <module name="SPI_0" kind="altera_avalon_spi" version="24.1" enabled="1">
+  <parameter name="avalonSpec" value="2.0" />
+  <parameter name="clockPhase" value="1" />
+  <parameter name="clockPolarity" value="1" />
+  <parameter name="dataWidth" value="8" />
+  <parameter name="disableAvalonFlowControl" value="false" />
+  <parameter name="inputClockRate" value="100000000" />
+  <parameter name="insertDelayBetweenSlaveSelectAndSClk" value="false" />
+  <parameter name="insertSync" value="true" />
+  <parameter name="lsbOrderedFirst" value="false" />
+  <parameter name="masterSPI" value="false" />
+  <parameter name="numberOfSlaves" value="1" />
+  <parameter name="syncRegDepth" value="2" />
+  <parameter name="targetClockRate" value="128000" />
+  <parameter name="targetSlaveSelectToSClkDelay" value="0.0" />
  </module>
  <module
    name="SRAM"
@@ -194,18 +218,13 @@
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
- <connection kind="avalon" version="24.1" start="SPI.avalon_master" end="SRAM.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
  <connection
    kind="avalon"
    version="24.1"
    start="CPU.data_manager"
    end="DEBUG_JTAG.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x8040" />
+  <parameter name="baseAddress" value="0x00030060" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -219,7 +238,16 @@
  </connection>
  <connection kind="avalon" version="24.1" start="CPU.data_manager" end="SRAM.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="baseAddress" value="0x00028000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="24.1"
+   start="CPU.data_manager"
+   end="SPI_0.spi_control_port">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00030040" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -228,7 +256,7 @@
    start="CPU.data_manager"
    end="CPU.timer_sw_agent">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x8000" />
+  <parameter name="baseAddress" value="0x00030000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -246,21 +274,27 @@
    start="CPU.instruction_manager"
    end="SRAM.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="baseAddress" value="0x00028000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection kind="clock" version="24.1" start="CLK.clk" end="SPI.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="CPU.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="DEBUG_JTAG.clk" />
+ <connection kind="clock" version="24.1" start="CLK.clk" end="SPI_0.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="SRAM.clk1" />
  <connection
    kind="interrupt"
    version="24.1"
    start="CPU.platform_irq_rx"
    end="DEBUG_JTAG.irq">
-  <parameter name="irqNumber" value="0" />
+  <parameter name="irqNumber" value="15" />
  </connection>
- <connection kind="reset" version="24.1" start="CLK.clk_reset" end="SPI.clk_reset" />
+ <connection
+   kind="interrupt"
+   version="24.1"
+   start="CPU.platform_irq_rx"
+   end="SPI_0.irq">
+  <parameter name="irqNumber" value="5" />
+ </connection>
  <connection
    kind="reset"
    version="24.1"
@@ -272,12 +306,8 @@
    start="CLK.clk_reset"
    end="DEBUG_JTAG.reset" />
  <connection kind="reset" version="24.1" start="CLK.clk_reset" end="CPU.reset" />
+ <connection kind="reset" version="24.1" start="CLK.clk_reset" end="SPI_0.reset" />
  <connection kind="reset" version="24.1" start="CLK.clk_reset" end="SRAM.reset1" />
- <connection
-   kind="reset"
-   version="24.1"
-   start="CPU.dbg_reset_out"
-   end="SPI.clk_reset" />
  <connection
    kind="reset"
    version="24.1"
@@ -288,6 +318,11 @@
    version="24.1"
    start="CPU.dbg_reset_out"
    end="DEBUG_JTAG.reset" />
+ <connection
+   kind="reset"
+   version="24.1"
+   start="CPU.dbg_reset_out"
+   end="SPI_0.reset" />
  <connection
    kind="reset"
    version="24.1"

@@ -55,7 +55,7 @@ module coproc_soft_cpu_CPU (
 	wire    rst_controller_001_reset_out_reset; // rst_controller_001:reset_out -> [irq_mapper:reset, irq_mapper_001:reset, irq_mapper_002:reset, timer_module:reset]
 
 	coproc_soft_cpu_CPU_hart #(
-		.RESET_VECTOR    (32'b00000000000000000000000000000000),
+		.RESET_VECTOR    (32'b00000000000000101000000000000000),
 		.DBG_EXPN_VECTOR (32'b00000000000000010000000000000000),
 		.HARTID          (32'b00000000000000000000000000000000),
 		.CORE_EXTN       (256),
