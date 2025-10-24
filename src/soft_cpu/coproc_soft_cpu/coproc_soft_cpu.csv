@@ -1,15 +1,17 @@
-# system info coproc_soft_cpu on 2025.10.21.20:19:14
+# system info coproc_soft_cpu on 2025.10.24.17:51:58
 system_info:
 name,value
 DEVICE,EP4CE6E22C8
 DEVICE_FAMILY,Cyclone IV E
-GENERATION_ID,1761077951
+GENERATION_ID,1761328312
 #
 #
-# Files generated for coproc_soft_cpu on 2025.10.21.20:19:14
+# Files generated for coproc_soft_cpu on 2025.10.24.17:51:58
 files:
 filepath,kind,attributes,module,is_top
 simulation/coproc_soft_cpu.vhd,VHDL,,coproc_soft_cpu,true
+simulation/coproc_soft_cpu_rst_controller.vhd,VHDL,,coproc_soft_cpu,false
+simulation/coproc_soft_cpu_rst_controller_001.vhd,VHDL,,coproc_soft_cpu,false
 simulation/submodules/coproc_soft_cpu_CPU.vhd,VHDL,,coproc_soft_cpu_CPU,false
 simulation/submodules/altera_avalon_jtag_uart.sv,SYSTEM_VERILOG,,altera_avalon_jtag_uart,false
 simulation/submodules/altera_avalon_jtag_uart_log_module.sv,SYSTEM_VERILOG,,altera_avalon_jtag_uart,false
@@ -308,3 +310,6 @@ coproc_soft_cpu.mm_interconnect_0.avalon_st_adapter_003,coproc_soft_cpu_mm_inter
 coproc_soft_cpu.mm_interconnect_0.avalon_st_adapter_003.error_adapter_0,coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter_error_adapter_0
 coproc_soft_cpu.irq_mapper,coproc_soft_cpu_irq_mapper
 coproc_soft_cpu.rst_controller,altera_reset_controller
+coproc_soft_cpu.rst_controller_001,altera_reset_controller
+coproc_soft_cpu.rst_controller,altera_reset_controller
+coproc_soft_cpu.rst_controller_001,altera_reset_controller

@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 24.1 1077 linux 2025.10.21.20:19:14
+# ACDS 24.1 1077 linux 2025.10.24.17:51:59
 
 # ----------------------------------------
 # xcelium - auto-generated simulation script
@@ -107,7 +107,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 24.1 1077 linux 2025.10.21.20:19:14
+# ACDS 24.1 1077 linux 2025.10.24.17:51:59
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="coproc_soft_cpu"
@@ -339,6 +339,8 @@ if [ $SKIP_COM -eq 0 ]; then
   xmvlog -sv $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_jtag_uart_sim_scfifo_w.sv"                                -work DEBUG_JTAG                   -cdslib ./cds_libs/DEBUG_JTAG.cds.lib                  
   xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/submodules/coproc_soft_cpu_CPU.vhd"                                                -work CPU                          -cdslib ./cds_libs/CPU.cds.lib                         
   xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/coproc_soft_cpu.vhd"                                                                                                                                                         
+  xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/coproc_soft_cpu_rst_controller.vhd"                                                                                                                                          
+  xmvhdl -v93 $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS   "$QSYS_SIMDIR/coproc_soft_cpu_rst_controller_001.vhd"                                                                                                                                      
 fi
 
 # ----------------------------------------

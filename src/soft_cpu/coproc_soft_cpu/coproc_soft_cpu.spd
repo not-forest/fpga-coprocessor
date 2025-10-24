@@ -1057,6 +1057,8 @@
    type="VHDL"
    library="CPU" />
  <file path="simulation/coproc_soft_cpu.vhd" type="VHDL" />
+ <file path="simulation/coproc_soft_cpu_rst_controller.vhd" type="VHDL" />
+ <file path="simulation/coproc_soft_cpu_rst_controller_001.vhd" type="VHDL" />
  <topLevel name="coproc_soft_cpu" />
  <deviceFamily name="cycloneive" />
  <modelMap

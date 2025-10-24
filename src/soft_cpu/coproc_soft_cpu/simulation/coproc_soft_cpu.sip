@@ -5,6 +5,8 @@ set_global_assignment -library "lib_coproc_soft_cpu" -name SPD_FILE [file join $
 set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "../../coproc_soft_cpu.qsys"]
 
 set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "coproc_soft_cpu.vhd"]
+set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "coproc_soft_cpu_rst_controller.vhd"]
+set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "coproc_soft_cpu_rst_controller_001.vhd"]
 set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "submodules/altera_reset_controller.v"]
 set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "submodules/altera_reset_synchronizer.v"]
 set_global_assignment -library "lib_coproc_soft_cpu" -name MISC_FILE [file join $::quartus(sip_path) "submodules/altera_reset_controller.sdc"]

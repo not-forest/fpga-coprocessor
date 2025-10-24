@@ -8,6 +8,7 @@
 `timescale 1 ps / 1 ps
 module coproc_soft_cpu_mm_interconnect_0 (
 		input  wire        CLK_clk_clk,                               //                             CLK_clk.clk
+		input  wire        CPU_reset_reset_bridge_in_reset_reset,     //     CPU_reset_reset_bridge_in_reset.reset
 		input  wire        SPI_clk_reset_reset_bridge_in_reset_reset, // SPI_clk_reset_reset_bridge_in_reset.reset
 		input  wire [31:0] CPU_data_manager_address,                  //                    CPU_data_manager.address
 		output wire        CPU_data_manager_waitrequest,              //                                    .waitrequest
@@ -532,7 +533,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.AV_REGISTERINCOMINGSIGNALS  (0)
 	) cpu_data_manager_translator (
 		.clk                    (CLK_clk_clk),                                                              //                       clk.clk
-		.reset                  (SPI_clk_reset_reset_bridge_in_reset_reset),                                //                     reset.reset
+		.reset                  (CPU_reset_reset_bridge_in_reset_reset),                                    //                     reset.reset
 		.uav_address            (cpu_data_manager_translator_avalon_universal_master_0_address),            // avalon_universal_master_0.address
 		.uav_burstcount         (cpu_data_manager_translator_avalon_universal_master_0_burstcount),         //                          .burstcount
 		.uav_read               (cpu_data_manager_translator_avalon_universal_master_0_read),               //                          .read
@@ -592,7 +593,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.AV_REGISTERINCOMINGSIGNALS  (0)
 	) cpu_instruction_manager_translator (
 		.clk                    (CLK_clk_clk),                                                                //                       clk.clk
-		.reset                  (SPI_clk_reset_reset_bridge_in_reset_reset),                                  //                     reset.reset
+		.reset                  (CPU_reset_reset_bridge_in_reset_reset),                                      //                     reset.reset
 		.uav_address            (cpu_instruction_manager_translator_avalon_universal_master_0_address),       // avalon_universal_master_0.address
 		.uav_burstcount         (cpu_instruction_manager_translator_avalon_universal_master_0_burstcount),    //                          .burstcount
 		.uav_read               (cpu_instruction_manager_translator_avalon_universal_master_0_read),          //                          .read
@@ -717,41 +718,41 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.AV_SETUP_WAIT_CYCLES           (0),
 		.AV_DATA_HOLD_CYCLES            (0)
 	) cpu_dm_agent_translator (
-		.clk                    (CLK_clk_clk),                               //                      clk.clk
-		.reset                  (SPI_clk_reset_reset_bridge_in_reset_reset), //                    reset.reset
-		.uav_address            (cpu_dm_agent_agent_m0_address),             // avalon_universal_slave_0.address
-		.uav_burstcount         (cpu_dm_agent_agent_m0_burstcount),          //                         .burstcount
-		.uav_read               (cpu_dm_agent_agent_m0_read),                //                         .read
-		.uav_write              (cpu_dm_agent_agent_m0_write),               //                         .write
-		.uav_waitrequest        (cpu_dm_agent_agent_m0_waitrequest),         //                         .waitrequest
-		.uav_readdatavalid      (cpu_dm_agent_agent_m0_readdatavalid),       //                         .readdatavalid
-		.uav_byteenable         (cpu_dm_agent_agent_m0_byteenable),          //                         .byteenable
-		.uav_readdata           (cpu_dm_agent_agent_m0_readdata),            //                         .readdata
-		.uav_writedata          (cpu_dm_agent_agent_m0_writedata),           //                         .writedata
-		.uav_lock               (cpu_dm_agent_agent_m0_lock),                //                         .lock
-		.uav_debugaccess        (cpu_dm_agent_agent_m0_debugaccess),         //                         .debugaccess
-		.av_address             (CPU_dm_agent_address),                      //      avalon_anti_slave_0.address
-		.av_write               (CPU_dm_agent_write),                        //                         .write
-		.av_read                (CPU_dm_agent_read),                         //                         .read
-		.av_readdata            (CPU_dm_agent_readdata),                     //                         .readdata
-		.av_writedata           (CPU_dm_agent_writedata),                    //                         .writedata
-		.av_readdatavalid       (CPU_dm_agent_readdatavalid),                //                         .readdatavalid
-		.av_waitrequest         (CPU_dm_agent_waitrequest),                  //                         .waitrequest
-		.av_begintransfer       (),                                          //              (terminated)
-		.av_beginbursttransfer  (),                                          //              (terminated)
-		.av_burstcount          (),                                          //              (terminated)
-		.av_byteenable          (),                                          //              (terminated)
-		.av_writebyteenable     (),                                          //              (terminated)
-		.av_lock                (),                                          //              (terminated)
-		.av_chipselect          (),                                          //              (terminated)
-		.av_clken               (),                                          //              (terminated)
-		.uav_clken              (1'b0),                                      //              (terminated)
-		.av_debugaccess         (),                                          //              (terminated)
-		.av_outputenable        (),                                          //              (terminated)
-		.uav_response           (),                                          //              (terminated)
-		.av_response            (2'b00),                                     //              (terminated)
-		.uav_writeresponsevalid (),                                          //              (terminated)
-		.av_writeresponsevalid  (1'b0)                                       //              (terminated)
+		.clk                    (CLK_clk_clk),                           //                      clk.clk
+		.reset                  (CPU_reset_reset_bridge_in_reset_reset), //                    reset.reset
+		.uav_address            (cpu_dm_agent_agent_m0_address),         // avalon_universal_slave_0.address
+		.uav_burstcount         (cpu_dm_agent_agent_m0_burstcount),      //                         .burstcount
+		.uav_read               (cpu_dm_agent_agent_m0_read),            //                         .read
+		.uav_write              (cpu_dm_agent_agent_m0_write),           //                         .write
+		.uav_waitrequest        (cpu_dm_agent_agent_m0_waitrequest),     //                         .waitrequest
+		.uav_readdatavalid      (cpu_dm_agent_agent_m0_readdatavalid),   //                         .readdatavalid
+		.uav_byteenable         (cpu_dm_agent_agent_m0_byteenable),      //                         .byteenable
+		.uav_readdata           (cpu_dm_agent_agent_m0_readdata),        //                         .readdata
+		.uav_writedata          (cpu_dm_agent_agent_m0_writedata),       //                         .writedata
+		.uav_lock               (cpu_dm_agent_agent_m0_lock),            //                         .lock
+		.uav_debugaccess        (cpu_dm_agent_agent_m0_debugaccess),     //                         .debugaccess
+		.av_address             (CPU_dm_agent_address),                  //      avalon_anti_slave_0.address
+		.av_write               (CPU_dm_agent_write),                    //                         .write
+		.av_read                (CPU_dm_agent_read),                     //                         .read
+		.av_readdata            (CPU_dm_agent_readdata),                 //                         .readdata
+		.av_writedata           (CPU_dm_agent_writedata),                //                         .writedata
+		.av_readdatavalid       (CPU_dm_agent_readdatavalid),            //                         .readdatavalid
+		.av_waitrequest         (CPU_dm_agent_waitrequest),              //                         .waitrequest
+		.av_begintransfer       (),                                      //              (terminated)
+		.av_beginbursttransfer  (),                                      //              (terminated)
+		.av_burstcount          (),                                      //              (terminated)
+		.av_byteenable          (),                                      //              (terminated)
+		.av_writebyteenable     (),                                      //              (terminated)
+		.av_lock                (),                                      //              (terminated)
+		.av_chipselect          (),                                      //              (terminated)
+		.av_clken               (),                                      //              (terminated)
+		.uav_clken              (1'b0),                                  //              (terminated)
+		.av_debugaccess         (),                                      //              (terminated)
+		.av_outputenable        (),                                      //              (terminated)
+		.uav_response           (),                                      //              (terminated)
+		.av_response            (2'b00),                                 //              (terminated)
+		.uav_writeresponsevalid (),                                      //              (terminated)
+		.av_writeresponsevalid  (1'b0)                                   //              (terminated)
 	);
 
 	altera_merlin_slave_translator #(
@@ -846,7 +847,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.AV_DATA_HOLD_CYCLES            (0)
 	) cpu_timer_sw_agent_translator (
 		.clk                    (CLK_clk_clk),                               //                      clk.clk
-		.reset                  (SPI_clk_reset_reset_bridge_in_reset_reset), //                    reset.reset
+		.reset                  (CPU_reset_reset_bridge_in_reset_reset),     //                    reset.reset
 		.uav_address            (cpu_timer_sw_agent_agent_m0_address),       // avalon_universal_slave_0.address
 		.uav_burstcount         (cpu_timer_sw_agent_agent_m0_burstcount),    //                         .burstcount
 		.uav_read               (cpu_timer_sw_agent_agent_m0_read),          //                         .read
@@ -1017,7 +1018,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.USE_WRITERESPONSE         (1)
 	) cpu_data_manager_agent (
 		.clk                   (CLK_clk_clk),                                                              //       clk.clk
-		.reset                 (SPI_clk_reset_reset_bridge_in_reset_reset),                                // clk_reset.reset
+		.reset                 (CPU_reset_reset_bridge_in_reset_reset),                                    // clk_reset.reset
 		.av_address            (cpu_data_manager_translator_avalon_universal_master_0_address),            //        av.address
 		.av_write              (cpu_data_manager_translator_avalon_universal_master_0_write),              //          .write
 		.av_read               (cpu_data_manager_translator_avalon_universal_master_0_read),               //          .read
@@ -1098,7 +1099,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.USE_WRITERESPONSE         (0)
 	) cpu_instruction_manager_agent (
 		.clk                   (CLK_clk_clk),                                                                //       clk.clk
-		.reset                 (SPI_clk_reset_reset_bridge_in_reset_reset),                                  // clk_reset.reset
+		.reset                 (CPU_reset_reset_bridge_in_reset_reset),                                      // clk_reset.reset
 		.av_address            (cpu_instruction_manager_translator_avalon_universal_master_0_address),       //        av.address
 		.av_write              (cpu_instruction_manager_translator_avalon_universal_master_0_write),         //          .write
 		.av_read               (cpu_instruction_manager_translator_avalon_universal_master_0_read),          //          .read
@@ -1290,7 +1291,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.ECC_ENABLE                (0)
 	) cpu_dm_agent_agent (
 		.clk                     (CLK_clk_clk),                                   //             clk.clk
-		.reset                   (SPI_clk_reset_reset_bridge_in_reset_reset),     //       clk_reset.reset
+		.reset                   (CPU_reset_reset_bridge_in_reset_reset),         //       clk_reset.reset
 		.m0_address              (cpu_dm_agent_agent_m0_address),                 //              m0.address
 		.m0_burstcount           (cpu_dm_agent_agent_m0_burstcount),              //                .burstcount
 		.m0_byteenable           (cpu_dm_agent_agent_m0_byteenable),              //                .byteenable
@@ -1349,7 +1350,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.USE_ALMOST_EMPTY_IF (0)
 	) cpu_dm_agent_agent_rsp_fifo (
 		.clk               (CLK_clk_clk),                                   //       clk.clk
-		.reset             (SPI_clk_reset_reset_bridge_in_reset_reset),     // clk_reset.reset
+		.reset             (CPU_reset_reset_bridge_in_reset_reset),         // clk_reset.reset
 		.in_data           (cpu_dm_agent_agent_rf_source_data),             //        in.data
 		.in_valid          (cpu_dm_agent_agent_rf_source_valid),            //          .valid
 		.in_ready          (cpu_dm_agent_agent_rf_source_ready),            //          .ready
@@ -1389,31 +1390,31 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) cpu_dm_agent_agent_rdata_fifo (
-		.clk               (CLK_clk_clk),                               //       clk.clk
-		.reset             (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.in_data           (cpu_dm_agent_agent_rdata_fifo_src_data),    //        in.data
-		.in_valid          (cpu_dm_agent_agent_rdata_fifo_src_valid),   //          .valid
-		.in_ready          (cpu_dm_agent_agent_rdata_fifo_src_ready),   //          .ready
-		.out_data          (cpu_dm_agent_agent_rdata_fifo_out_data),    //       out.data
-		.out_valid         (cpu_dm_agent_agent_rdata_fifo_out_valid),   //          .valid
-		.out_ready         (cpu_dm_agent_agent_rdata_fifo_out_ready),   //          .ready
-		.csr_address       (2'b00),                                     // (terminated)
-		.csr_read          (1'b0),                                      // (terminated)
-		.csr_write         (1'b0),                                      // (terminated)
-		.csr_readdata      (),                                          // (terminated)
-		.csr_writedata     (32'b00000000000000000000000000000000),      // (terminated)
-		.almost_full_data  (),                                          // (terminated)
-		.almost_empty_data (),                                          // (terminated)
-		.in_startofpacket  (1'b0),                                      // (terminated)
-		.in_endofpacket    (1'b0),                                      // (terminated)
-		.out_startofpacket (),                                          // (terminated)
-		.out_endofpacket   (),                                          // (terminated)
-		.in_empty          (1'b0),                                      // (terminated)
-		.out_empty         (),                                          // (terminated)
-		.in_error          (1'b0),                                      // (terminated)
-		.out_error         (),                                          // (terminated)
-		.in_channel        (1'b0),                                      // (terminated)
-		.out_channel       ()                                           // (terminated)
+		.clk               (CLK_clk_clk),                             //       clk.clk
+		.reset             (CPU_reset_reset_bridge_in_reset_reset),   // clk_reset.reset
+		.in_data           (cpu_dm_agent_agent_rdata_fifo_src_data),  //        in.data
+		.in_valid          (cpu_dm_agent_agent_rdata_fifo_src_valid), //          .valid
+		.in_ready          (cpu_dm_agent_agent_rdata_fifo_src_ready), //          .ready
+		.out_data          (cpu_dm_agent_agent_rdata_fifo_out_data),  //       out.data
+		.out_valid         (cpu_dm_agent_agent_rdata_fifo_out_valid), //          .valid
+		.out_ready         (cpu_dm_agent_agent_rdata_fifo_out_ready), //          .ready
+		.csr_address       (2'b00),                                   // (terminated)
+		.csr_read          (1'b0),                                    // (terminated)
+		.csr_write         (1'b0),                                    // (terminated)
+		.csr_readdata      (),                                        // (terminated)
+		.csr_writedata     (32'b00000000000000000000000000000000),    // (terminated)
+		.almost_full_data  (),                                        // (terminated)
+		.almost_empty_data (),                                        // (terminated)
+		.in_startofpacket  (1'b0),                                    // (terminated)
+		.in_endofpacket    (1'b0),                                    // (terminated)
+		.out_startofpacket (),                                        // (terminated)
+		.out_endofpacket   (),                                        // (terminated)
+		.in_empty          (1'b0),                                    // (terminated)
+		.out_empty         (),                                        // (terminated)
+		.in_error          (1'b0),                                    // (terminated)
+		.out_error         (),                                        // (terminated)
+		.in_channel        (1'b0),                                    // (terminated)
+		.out_channel       ()                                         // (terminated)
 	);
 
 	altera_merlin_slave_agent #(
@@ -1581,7 +1582,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.ECC_ENABLE                (0)
 	) cpu_timer_sw_agent_agent (
 		.clk                     (CLK_clk_clk),                                         //             clk.clk
-		.reset                   (SPI_clk_reset_reset_bridge_in_reset_reset),           //       clk_reset.reset
+		.reset                   (CPU_reset_reset_bridge_in_reset_reset),               //       clk_reset.reset
 		.m0_address              (cpu_timer_sw_agent_agent_m0_address),                 //              m0.address
 		.m0_burstcount           (cpu_timer_sw_agent_agent_m0_burstcount),              //                .burstcount
 		.m0_byteenable           (cpu_timer_sw_agent_agent_m0_byteenable),              //                .byteenable
@@ -1640,7 +1641,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.USE_ALMOST_EMPTY_IF (0)
 	) cpu_timer_sw_agent_agent_rsp_fifo (
 		.clk               (CLK_clk_clk),                                         //       clk.clk
-		.reset             (SPI_clk_reset_reset_bridge_in_reset_reset),           // clk_reset.reset
+		.reset             (CPU_reset_reset_bridge_in_reset_reset),               // clk_reset.reset
 		.in_data           (cpu_timer_sw_agent_agent_rf_source_data),             //        in.data
 		.in_valid          (cpu_timer_sw_agent_agent_rf_source_valid),            //          .valid
 		.in_ready          (cpu_timer_sw_agent_agent_rf_source_ready),            //          .ready
@@ -1681,7 +1682,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.USE_ALMOST_EMPTY_IF (0)
 	) cpu_timer_sw_agent_agent_rdata_fifo (
 		.clk               (CLK_clk_clk),                                   //       clk.clk
-		.reset             (SPI_clk_reset_reset_bridge_in_reset_reset),     // clk_reset.reset
+		.reset             (CPU_reset_reset_bridge_in_reset_reset),         // clk_reset.reset
 		.in_data           (cpu_timer_sw_agent_agent_rdata_fifo_src_data),  //        in.data
 		.in_valid          (cpu_timer_sw_agent_agent_rdata_fifo_src_valid), //          .valid
 		.in_ready          (cpu_timer_sw_agent_agent_rdata_fifo_src_ready), //          .ready
@@ -1724,19 +1725,19 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_router_001 router_001 (
-		.sink_ready         (cpu_data_manager_agent_cp_ready),           //      sink.ready
-		.sink_valid         (cpu_data_manager_agent_cp_valid),           //          .valid
-		.sink_data          (cpu_data_manager_agent_cp_data),            //          .data
-		.sink_startofpacket (cpu_data_manager_agent_cp_startofpacket),   //          .startofpacket
-		.sink_endofpacket   (cpu_data_manager_agent_cp_endofpacket),     //          .endofpacket
-		.clk                (CLK_clk_clk),                               //       clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready          (router_001_src_ready),                      //       src.ready
-		.src_valid          (router_001_src_valid),                      //          .valid
-		.src_data           (router_001_src_data),                       //          .data
-		.src_channel        (router_001_src_channel),                    //          .channel
-		.src_startofpacket  (router_001_src_startofpacket),              //          .startofpacket
-		.src_endofpacket    (router_001_src_endofpacket)                 //          .endofpacket
+		.sink_ready         (cpu_data_manager_agent_cp_ready),         //      sink.ready
+		.sink_valid         (cpu_data_manager_agent_cp_valid),         //          .valid
+		.sink_data          (cpu_data_manager_agent_cp_data),          //          .data
+		.sink_startofpacket (cpu_data_manager_agent_cp_startofpacket), //          .startofpacket
+		.sink_endofpacket   (cpu_data_manager_agent_cp_endofpacket),   //          .endofpacket
+		.clk                (CLK_clk_clk),                             //       clk.clk
+		.reset              (CPU_reset_reset_bridge_in_reset_reset),   // clk_reset.reset
+		.src_ready          (router_001_src_ready),                    //       src.ready
+		.src_valid          (router_001_src_valid),                    //          .valid
+		.src_data           (router_001_src_data),                     //          .data
+		.src_channel        (router_001_src_channel),                  //          .channel
+		.src_startofpacket  (router_001_src_startofpacket),            //          .startofpacket
+		.src_endofpacket    (router_001_src_endofpacket)               //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_router_002 router_002 (
@@ -1746,7 +1747,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.sink_startofpacket (cpu_instruction_manager_agent_cp_startofpacket), //          .startofpacket
 		.sink_endofpacket   (cpu_instruction_manager_agent_cp_endofpacket),   //          .endofpacket
 		.clk                (CLK_clk_clk),                                    //       clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset),      // clk_reset.reset
+		.reset              (CPU_reset_reset_bridge_in_reset_reset),          // clk_reset.reset
 		.src_ready          (router_002_src_ready),                           //       src.ready
 		.src_valid          (router_002_src_valid),                           //          .valid
 		.src_data           (router_002_src_data),                            //          .data
@@ -1772,19 +1773,19 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_router_004 router_004 (
-		.sink_ready         (cpu_dm_agent_agent_rp_ready),               //      sink.ready
-		.sink_valid         (cpu_dm_agent_agent_rp_valid),               //          .valid
-		.sink_data          (cpu_dm_agent_agent_rp_data),                //          .data
-		.sink_startofpacket (cpu_dm_agent_agent_rp_startofpacket),       //          .startofpacket
-		.sink_endofpacket   (cpu_dm_agent_agent_rp_endofpacket),         //          .endofpacket
-		.clk                (CLK_clk_clk),                               //       clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready          (router_004_src_ready),                      //       src.ready
-		.src_valid          (router_004_src_valid),                      //          .valid
-		.src_data           (router_004_src_data),                       //          .data
-		.src_channel        (router_004_src_channel),                    //          .channel
-		.src_startofpacket  (router_004_src_startofpacket),              //          .startofpacket
-		.src_endofpacket    (router_004_src_endofpacket)                 //          .endofpacket
+		.sink_ready         (cpu_dm_agent_agent_rp_ready),           //      sink.ready
+		.sink_valid         (cpu_dm_agent_agent_rp_valid),           //          .valid
+		.sink_data          (cpu_dm_agent_agent_rp_data),            //          .data
+		.sink_startofpacket (cpu_dm_agent_agent_rp_startofpacket),   //          .startofpacket
+		.sink_endofpacket   (cpu_dm_agent_agent_rp_endofpacket),     //          .endofpacket
+		.clk                (CLK_clk_clk),                           //       clk.clk
+		.reset              (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready          (router_004_src_ready),                  //       src.ready
+		.src_valid          (router_004_src_valid),                  //          .valid
+		.src_data           (router_004_src_data),                   //          .data
+		.src_channel        (router_004_src_channel),                //          .channel
+		.src_startofpacket  (router_004_src_startofpacket),          //          .startofpacket
+		.src_endofpacket    (router_004_src_endofpacket)             //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_router_005 router_005 (
@@ -1810,7 +1811,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.sink_startofpacket (cpu_timer_sw_agent_agent_rp_startofpacket), //          .startofpacket
 		.sink_endofpacket   (cpu_timer_sw_agent_agent_rp_endofpacket),   //          .endofpacket
 		.clk                (CLK_clk_clk),                               //       clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.reset              (CPU_reset_reset_bridge_in_reset_reset),     // clk_reset.reset
 		.src_ready          (router_006_src_ready),                      //       src.ready
 		.src_valid          (router_006_src_valid),                      //          .valid
 		.src_data           (router_006_src_data),                       //          .data
@@ -1842,7 +1843,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.REORDER                   (0)
 	) cpu_data_manager_limiter (
 		.clk                    (CLK_clk_clk),                                    //       clk.clk
-		.reset                  (SPI_clk_reset_reset_bridge_in_reset_reset),      // clk_reset.reset
+		.reset                  (CPU_reset_reset_bridge_in_reset_reset),          // clk_reset.reset
 		.cmd_sink_ready         (router_001_src_ready),                           //  cmd_sink.ready
 		.cmd_sink_valid         (router_001_src_valid),                           //          .valid
 		.cmd_sink_data          (router_001_src_data),                            //          .data
@@ -1892,7 +1893,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.REORDER                   (0)
 	) cpu_instruction_manager_limiter (
 		.clk                    (CLK_clk_clk),                                           //       clk.clk
-		.reset                  (SPI_clk_reset_reset_bridge_in_reset_reset),             // clk_reset.reset
+		.reset                  (CPU_reset_reset_bridge_in_reset_reset),                 // clk_reset.reset
 		.cmd_sink_ready         (router_002_src_ready),                                  //  cmd_sink.ready
 		.cmd_sink_valid         (router_002_src_valid),                                  //          .valid
 		.cmd_sink_data          (router_002_src_data),                                   //          .data
@@ -1938,7 +1939,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_demux_001 cmd_demux_001 (
 		.clk                (CLK_clk_clk),                                    //        clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset),      //  clk_reset.reset
+		.reset              (CPU_reset_reset_bridge_in_reset_reset),          //  clk_reset.reset
 		.sink_ready         (cpu_data_manager_limiter_cmd_src_ready),         //       sink.ready
 		.sink_channel       (cpu_data_manager_limiter_cmd_src_channel),       //           .channel
 		.sink_data          (cpu_data_manager_limiter_cmd_src_data),          //           .data
@@ -1973,7 +1974,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_demux_002 cmd_demux_002 (
 		.clk                (CLK_clk_clk),                                           //        clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset),             //  clk_reset.reset
+		.reset              (CPU_reset_reset_bridge_in_reset_reset),                 //  clk_reset.reset
 		.sink_ready         (cpu_instruction_manager_limiter_cmd_src_ready),         //       sink.ready
 		.sink_channel       (cpu_instruction_manager_limiter_cmd_src_channel),       //           .channel
 		.sink_data          (cpu_instruction_manager_limiter_cmd_src_data),          //           .data
@@ -2024,26 +2025,26 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_mux_001 cmd_mux_001 (
-		.clk                 (CLK_clk_clk),                               //       clk.clk
-		.reset               (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (cmd_mux_001_src_ready),                     //       src.ready
-		.src_valid           (cmd_mux_001_src_valid),                     //          .valid
-		.src_data            (cmd_mux_001_src_data),                      //          .data
-		.src_channel         (cmd_mux_001_src_channel),                   //          .channel
-		.src_startofpacket   (cmd_mux_001_src_startofpacket),             //          .startofpacket
-		.src_endofpacket     (cmd_mux_001_src_endofpacket),               //          .endofpacket
-		.sink0_ready         (cmd_demux_001_src1_ready),                  //     sink0.ready
-		.sink0_valid         (cmd_demux_001_src1_valid),                  //          .valid
-		.sink0_channel       (cmd_demux_001_src1_channel),                //          .channel
-		.sink0_data          (cmd_demux_001_src1_data),                   //          .data
-		.sink0_startofpacket (cmd_demux_001_src1_startofpacket),          //          .startofpacket
-		.sink0_endofpacket   (cmd_demux_001_src1_endofpacket),            //          .endofpacket
-		.sink1_ready         (cmd_demux_002_src1_ready),                  //     sink1.ready
-		.sink1_valid         (cmd_demux_002_src1_valid),                  //          .valid
-		.sink1_channel       (cmd_demux_002_src1_channel),                //          .channel
-		.sink1_data          (cmd_demux_002_src1_data),                   //          .data
-		.sink1_startofpacket (cmd_demux_002_src1_startofpacket),          //          .startofpacket
-		.sink1_endofpacket   (cmd_demux_002_src1_endofpacket)             //          .endofpacket
+		.clk                 (CLK_clk_clk),                           //       clk.clk
+		.reset               (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (cmd_mux_001_src_ready),                 //       src.ready
+		.src_valid           (cmd_mux_001_src_valid),                 //          .valid
+		.src_data            (cmd_mux_001_src_data),                  //          .data
+		.src_channel         (cmd_mux_001_src_channel),               //          .channel
+		.src_startofpacket   (cmd_mux_001_src_startofpacket),         //          .startofpacket
+		.src_endofpacket     (cmd_mux_001_src_endofpacket),           //          .endofpacket
+		.sink0_ready         (cmd_demux_001_src1_ready),              //     sink0.ready
+		.sink0_valid         (cmd_demux_001_src1_valid),              //          .valid
+		.sink0_channel       (cmd_demux_001_src1_channel),            //          .channel
+		.sink0_data          (cmd_demux_001_src1_data),               //          .data
+		.sink0_startofpacket (cmd_demux_001_src1_startofpacket),      //          .startofpacket
+		.sink0_endofpacket   (cmd_demux_001_src1_endofpacket),        //          .endofpacket
+		.sink1_ready         (cmd_demux_002_src1_ready),              //     sink1.ready
+		.sink1_valid         (cmd_demux_002_src1_valid),              //          .valid
+		.sink1_channel       (cmd_demux_002_src1_channel),            //          .channel
+		.sink1_data          (cmd_demux_002_src1_data),               //          .data
+		.sink1_startofpacket (cmd_demux_002_src1_startofpacket),      //          .startofpacket
+		.sink1_endofpacket   (cmd_demux_002_src1_endofpacket)         //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_mux_002 cmd_mux_002 (
@@ -2064,20 +2065,20 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_mux_002 cmd_mux_003 (
-		.clk                 (CLK_clk_clk),                               //       clk.clk
-		.reset               (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (cmd_mux_003_src_ready),                     //       src.ready
-		.src_valid           (cmd_mux_003_src_valid),                     //          .valid
-		.src_data            (cmd_mux_003_src_data),                      //          .data
-		.src_channel         (cmd_mux_003_src_channel),                   //          .channel
-		.src_startofpacket   (cmd_mux_003_src_startofpacket),             //          .startofpacket
-		.src_endofpacket     (cmd_mux_003_src_endofpacket),               //          .endofpacket
-		.sink0_ready         (cmd_demux_001_src3_ready),                  //     sink0.ready
-		.sink0_valid         (cmd_demux_001_src3_valid),                  //          .valid
-		.sink0_channel       (cmd_demux_001_src3_channel),                //          .channel
-		.sink0_data          (cmd_demux_001_src3_data),                   //          .data
-		.sink0_startofpacket (cmd_demux_001_src3_startofpacket),          //          .startofpacket
-		.sink0_endofpacket   (cmd_demux_001_src3_endofpacket)             //          .endofpacket
+		.clk                 (CLK_clk_clk),                           //       clk.clk
+		.reset               (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (cmd_mux_003_src_ready),                 //       src.ready
+		.src_valid           (cmd_mux_003_src_valid),                 //          .valid
+		.src_data            (cmd_mux_003_src_data),                  //          .data
+		.src_channel         (cmd_mux_003_src_channel),               //          .channel
+		.src_startofpacket   (cmd_mux_003_src_startofpacket),         //          .startofpacket
+		.src_endofpacket     (cmd_mux_003_src_endofpacket),           //          .endofpacket
+		.sink0_ready         (cmd_demux_001_src3_ready),              //     sink0.ready
+		.sink0_valid         (cmd_demux_001_src3_valid),              //          .valid
+		.sink0_channel       (cmd_demux_001_src3_channel),            //          .channel
+		.sink0_data          (cmd_demux_001_src3_data),               //          .data
+		.sink0_startofpacket (cmd_demux_001_src3_startofpacket),      //          .startofpacket
+		.sink0_endofpacket   (cmd_demux_001_src3_endofpacket)         //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_rsp_demux rsp_demux (
@@ -2110,26 +2111,26 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_rsp_demux_001 rsp_demux_001 (
-		.clk                (CLK_clk_clk),                               //       clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.sink_ready         (router_004_src_ready),                      //      sink.ready
-		.sink_channel       (router_004_src_channel),                    //          .channel
-		.sink_data          (router_004_src_data),                       //          .data
-		.sink_startofpacket (router_004_src_startofpacket),              //          .startofpacket
-		.sink_endofpacket   (router_004_src_endofpacket),                //          .endofpacket
-		.sink_valid         (router_004_src_valid),                      //          .valid
-		.src0_ready         (rsp_demux_001_src0_ready),                  //      src0.ready
-		.src0_valid         (rsp_demux_001_src0_valid),                  //          .valid
-		.src0_data          (rsp_demux_001_src0_data),                   //          .data
-		.src0_channel       (rsp_demux_001_src0_channel),                //          .channel
-		.src0_startofpacket (rsp_demux_001_src0_startofpacket),          //          .startofpacket
-		.src0_endofpacket   (rsp_demux_001_src0_endofpacket),            //          .endofpacket
-		.src1_ready         (rsp_demux_001_src1_ready),                  //      src1.ready
-		.src1_valid         (rsp_demux_001_src1_valid),                  //          .valid
-		.src1_data          (rsp_demux_001_src1_data),                   //          .data
-		.src1_channel       (rsp_demux_001_src1_channel),                //          .channel
-		.src1_startofpacket (rsp_demux_001_src1_startofpacket),          //          .startofpacket
-		.src1_endofpacket   (rsp_demux_001_src1_endofpacket)             //          .endofpacket
+		.clk                (CLK_clk_clk),                           //       clk.clk
+		.reset              (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.sink_ready         (router_004_src_ready),                  //      sink.ready
+		.sink_channel       (router_004_src_channel),                //          .channel
+		.sink_data          (router_004_src_data),                   //          .data
+		.sink_startofpacket (router_004_src_startofpacket),          //          .startofpacket
+		.sink_endofpacket   (router_004_src_endofpacket),            //          .endofpacket
+		.sink_valid         (router_004_src_valid),                  //          .valid
+		.src0_ready         (rsp_demux_001_src0_ready),              //      src0.ready
+		.src0_valid         (rsp_demux_001_src0_valid),              //          .valid
+		.src0_data          (rsp_demux_001_src0_data),               //          .data
+		.src0_channel       (rsp_demux_001_src0_channel),            //          .channel
+		.src0_startofpacket (rsp_demux_001_src0_startofpacket),      //          .startofpacket
+		.src0_endofpacket   (rsp_demux_001_src0_endofpacket),        //          .endofpacket
+		.src1_ready         (rsp_demux_001_src1_ready),              //      src1.ready
+		.src1_valid         (rsp_demux_001_src1_valid),              //          .valid
+		.src1_data          (rsp_demux_001_src1_data),               //          .data
+		.src1_channel       (rsp_demux_001_src1_channel),            //          .channel
+		.src1_startofpacket (rsp_demux_001_src1_startofpacket),      //          .startofpacket
+		.src1_endofpacket   (rsp_demux_001_src1_endofpacket)         //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_demux rsp_demux_002 (
@@ -2150,20 +2151,20 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_cmd_demux rsp_demux_003 (
-		.clk                (CLK_clk_clk),                               //       clk.clk
-		.reset              (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.sink_ready         (router_006_src_ready),                      //      sink.ready
-		.sink_channel       (router_006_src_channel),                    //          .channel
-		.sink_data          (router_006_src_data),                       //          .data
-		.sink_startofpacket (router_006_src_startofpacket),              //          .startofpacket
-		.sink_endofpacket   (router_006_src_endofpacket),                //          .endofpacket
-		.sink_valid         (router_006_src_valid),                      //          .valid
-		.src0_ready         (rsp_demux_003_src0_ready),                  //      src0.ready
-		.src0_valid         (rsp_demux_003_src0_valid),                  //          .valid
-		.src0_data          (rsp_demux_003_src0_data),                   //          .data
-		.src0_channel       (rsp_demux_003_src0_channel),                //          .channel
-		.src0_startofpacket (rsp_demux_003_src0_startofpacket),          //          .startofpacket
-		.src0_endofpacket   (rsp_demux_003_src0_endofpacket)             //          .endofpacket
+		.clk                (CLK_clk_clk),                           //       clk.clk
+		.reset              (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.sink_ready         (router_006_src_ready),                  //      sink.ready
+		.sink_channel       (router_006_src_channel),                //          .channel
+		.sink_data          (router_006_src_data),                   //          .data
+		.sink_startofpacket (router_006_src_startofpacket),          //          .startofpacket
+		.sink_endofpacket   (router_006_src_endofpacket),            //          .endofpacket
+		.sink_valid         (router_006_src_valid),                  //          .valid
+		.src0_ready         (rsp_demux_003_src0_ready),              //      src0.ready
+		.src0_valid         (rsp_demux_003_src0_valid),              //          .valid
+		.src0_data          (rsp_demux_003_src0_data),               //          .data
+		.src0_channel       (rsp_demux_003_src0_channel),            //          .channel
+		.src0_startofpacket (rsp_demux_003_src0_startofpacket),      //          .startofpacket
+		.src0_endofpacket   (rsp_demux_003_src0_endofpacket)         //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_rsp_mux rsp_mux (
@@ -2184,61 +2185,61 @@ module coproc_soft_cpu_mm_interconnect_0 (
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_rsp_mux_001 rsp_mux_001 (
-		.clk                 (CLK_clk_clk),                               //       clk.clk
-		.reset               (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (rsp_mux_001_src_ready),                     //       src.ready
-		.src_valid           (rsp_mux_001_src_valid),                     //          .valid
-		.src_data            (rsp_mux_001_src_data),                      //          .data
-		.src_channel         (rsp_mux_001_src_channel),                   //          .channel
-		.src_startofpacket   (rsp_mux_001_src_startofpacket),             //          .startofpacket
-		.src_endofpacket     (rsp_mux_001_src_endofpacket),               //          .endofpacket
-		.sink0_ready         (rsp_demux_src1_ready),                      //     sink0.ready
-		.sink0_valid         (rsp_demux_src1_valid),                      //          .valid
-		.sink0_channel       (rsp_demux_src1_channel),                    //          .channel
-		.sink0_data          (rsp_demux_src1_data),                       //          .data
-		.sink0_startofpacket (rsp_demux_src1_startofpacket),              //          .startofpacket
-		.sink0_endofpacket   (rsp_demux_src1_endofpacket),                //          .endofpacket
-		.sink1_ready         (rsp_demux_001_src0_ready),                  //     sink1.ready
-		.sink1_valid         (rsp_demux_001_src0_valid),                  //          .valid
-		.sink1_channel       (rsp_demux_001_src0_channel),                //          .channel
-		.sink1_data          (rsp_demux_001_src0_data),                   //          .data
-		.sink1_startofpacket (rsp_demux_001_src0_startofpacket),          //          .startofpacket
-		.sink1_endofpacket   (rsp_demux_001_src0_endofpacket),            //          .endofpacket
-		.sink2_ready         (rsp_demux_002_src0_ready),                  //     sink2.ready
-		.sink2_valid         (rsp_demux_002_src0_valid),                  //          .valid
-		.sink2_channel       (rsp_demux_002_src0_channel),                //          .channel
-		.sink2_data          (rsp_demux_002_src0_data),                   //          .data
-		.sink2_startofpacket (rsp_demux_002_src0_startofpacket),          //          .startofpacket
-		.sink2_endofpacket   (rsp_demux_002_src0_endofpacket),            //          .endofpacket
-		.sink3_ready         (rsp_demux_003_src0_ready),                  //     sink3.ready
-		.sink3_valid         (rsp_demux_003_src0_valid),                  //          .valid
-		.sink3_channel       (rsp_demux_003_src0_channel),                //          .channel
-		.sink3_data          (rsp_demux_003_src0_data),                   //          .data
-		.sink3_startofpacket (rsp_demux_003_src0_startofpacket),          //          .startofpacket
-		.sink3_endofpacket   (rsp_demux_003_src0_endofpacket)             //          .endofpacket
+		.clk                 (CLK_clk_clk),                           //       clk.clk
+		.reset               (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (rsp_mux_001_src_ready),                 //       src.ready
+		.src_valid           (rsp_mux_001_src_valid),                 //          .valid
+		.src_data            (rsp_mux_001_src_data),                  //          .data
+		.src_channel         (rsp_mux_001_src_channel),               //          .channel
+		.src_startofpacket   (rsp_mux_001_src_startofpacket),         //          .startofpacket
+		.src_endofpacket     (rsp_mux_001_src_endofpacket),           //          .endofpacket
+		.sink0_ready         (rsp_demux_src1_ready),                  //     sink0.ready
+		.sink0_valid         (rsp_demux_src1_valid),                  //          .valid
+		.sink0_channel       (rsp_demux_src1_channel),                //          .channel
+		.sink0_data          (rsp_demux_src1_data),                   //          .data
+		.sink0_startofpacket (rsp_demux_src1_startofpacket),          //          .startofpacket
+		.sink0_endofpacket   (rsp_demux_src1_endofpacket),            //          .endofpacket
+		.sink1_ready         (rsp_demux_001_src0_ready),              //     sink1.ready
+		.sink1_valid         (rsp_demux_001_src0_valid),              //          .valid
+		.sink1_channel       (rsp_demux_001_src0_channel),            //          .channel
+		.sink1_data          (rsp_demux_001_src0_data),               //          .data
+		.sink1_startofpacket (rsp_demux_001_src0_startofpacket),      //          .startofpacket
+		.sink1_endofpacket   (rsp_demux_001_src0_endofpacket),        //          .endofpacket
+		.sink2_ready         (rsp_demux_002_src0_ready),              //     sink2.ready
+		.sink2_valid         (rsp_demux_002_src0_valid),              //          .valid
+		.sink2_channel       (rsp_demux_002_src0_channel),            //          .channel
+		.sink2_data          (rsp_demux_002_src0_data),               //          .data
+		.sink2_startofpacket (rsp_demux_002_src0_startofpacket),      //          .startofpacket
+		.sink2_endofpacket   (rsp_demux_002_src0_endofpacket),        //          .endofpacket
+		.sink3_ready         (rsp_demux_003_src0_ready),              //     sink3.ready
+		.sink3_valid         (rsp_demux_003_src0_valid),              //          .valid
+		.sink3_channel       (rsp_demux_003_src0_channel),            //          .channel
+		.sink3_data          (rsp_demux_003_src0_data),               //          .data
+		.sink3_startofpacket (rsp_demux_003_src0_startofpacket),      //          .startofpacket
+		.sink3_endofpacket   (rsp_demux_003_src0_endofpacket)         //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_rsp_mux_002 rsp_mux_002 (
-		.clk                 (CLK_clk_clk),                               //       clk.clk
-		.reset               (SPI_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (rsp_mux_002_src_ready),                     //       src.ready
-		.src_valid           (rsp_mux_002_src_valid),                     //          .valid
-		.src_data            (rsp_mux_002_src_data),                      //          .data
-		.src_channel         (rsp_mux_002_src_channel),                   //          .channel
-		.src_startofpacket   (rsp_mux_002_src_startofpacket),             //          .startofpacket
-		.src_endofpacket     (rsp_mux_002_src_endofpacket),               //          .endofpacket
-		.sink0_ready         (rsp_demux_src2_ready),                      //     sink0.ready
-		.sink0_valid         (rsp_demux_src2_valid),                      //          .valid
-		.sink0_channel       (rsp_demux_src2_channel),                    //          .channel
-		.sink0_data          (rsp_demux_src2_data),                       //          .data
-		.sink0_startofpacket (rsp_demux_src2_startofpacket),              //          .startofpacket
-		.sink0_endofpacket   (rsp_demux_src2_endofpacket),                //          .endofpacket
-		.sink1_ready         (rsp_demux_001_src1_ready),                  //     sink1.ready
-		.sink1_valid         (rsp_demux_001_src1_valid),                  //          .valid
-		.sink1_channel       (rsp_demux_001_src1_channel),                //          .channel
-		.sink1_data          (rsp_demux_001_src1_data),                   //          .data
-		.sink1_startofpacket (rsp_demux_001_src1_startofpacket),          //          .startofpacket
-		.sink1_endofpacket   (rsp_demux_001_src1_endofpacket)             //          .endofpacket
+		.clk                 (CLK_clk_clk),                           //       clk.clk
+		.reset               (CPU_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (rsp_mux_002_src_ready),                 //       src.ready
+		.src_valid           (rsp_mux_002_src_valid),                 //          .valid
+		.src_data            (rsp_mux_002_src_data),                  //          .data
+		.src_channel         (rsp_mux_002_src_channel),               //          .channel
+		.src_startofpacket   (rsp_mux_002_src_startofpacket),         //          .startofpacket
+		.src_endofpacket     (rsp_mux_002_src_endofpacket),           //          .endofpacket
+		.sink0_ready         (rsp_demux_src2_ready),                  //     sink0.ready
+		.sink0_valid         (rsp_demux_src2_valid),                  //          .valid
+		.sink0_channel       (rsp_demux_src2_channel),                //          .channel
+		.sink0_data          (rsp_demux_src2_data),                   //          .data
+		.sink0_startofpacket (rsp_demux_src2_startofpacket),          //          .startofpacket
+		.sink0_endofpacket   (rsp_demux_src2_endofpacket),            //          .endofpacket
+		.sink1_ready         (rsp_demux_001_src1_ready),              //     sink1.ready
+		.sink1_valid         (rsp_demux_001_src1_valid),              //          .valid
+		.sink1_channel       (rsp_demux_001_src1_channel),            //          .channel
+		.sink1_data          (rsp_demux_001_src1_data),               //          .data
+		.sink1_startofpacket (rsp_demux_001_src1_startofpacket),      //          .startofpacket
+		.sink1_endofpacket   (rsp_demux_001_src1_endofpacket)         //          .endofpacket
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter #(
@@ -2288,15 +2289,15 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.outUseReady     (1),
 		.outReadyLatency (0)
 	) avalon_st_adapter_001 (
-		.in_clk_0_clk   (CLK_clk_clk),                               // in_clk_0.clk
-		.in_rst_0_reset (SPI_clk_reset_reset_bridge_in_reset_reset), // in_rst_0.reset
-		.in_0_data      (cpu_dm_agent_agent_rdata_fifo_out_data),    //     in_0.data
-		.in_0_valid     (cpu_dm_agent_agent_rdata_fifo_out_valid),   //         .valid
-		.in_0_ready     (cpu_dm_agent_agent_rdata_fifo_out_ready),   //         .ready
-		.out_0_data     (avalon_st_adapter_001_out_0_data),          //    out_0.data
-		.out_0_valid    (avalon_st_adapter_001_out_0_valid),         //         .valid
-		.out_0_ready    (avalon_st_adapter_001_out_0_ready),         //         .ready
-		.out_0_error    (avalon_st_adapter_001_out_0_error)          //         .error
+		.in_clk_0_clk   (CLK_clk_clk),                             // in_clk_0.clk
+		.in_rst_0_reset (CPU_reset_reset_bridge_in_reset_reset),   // in_rst_0.reset
+		.in_0_data      (cpu_dm_agent_agent_rdata_fifo_out_data),  //     in_0.data
+		.in_0_valid     (cpu_dm_agent_agent_rdata_fifo_out_valid), //         .valid
+		.in_0_ready     (cpu_dm_agent_agent_rdata_fifo_out_ready), //         .ready
+		.out_0_data     (avalon_st_adapter_001_out_0_data),        //    out_0.data
+		.out_0_valid    (avalon_st_adapter_001_out_0_valid),       //         .valid
+		.out_0_ready    (avalon_st_adapter_001_out_0_ready),       //         .ready
+		.out_0_error    (avalon_st_adapter_001_out_0_error)        //         .error
 	);
 
 	coproc_soft_cpu_mm_interconnect_0_avalon_st_adapter #(
@@ -2347,7 +2348,7 @@ module coproc_soft_cpu_mm_interconnect_0 (
 		.outReadyLatency (0)
 	) avalon_st_adapter_003 (
 		.in_clk_0_clk   (CLK_clk_clk),                                   // in_clk_0.clk
-		.in_rst_0_reset (SPI_clk_reset_reset_bridge_in_reset_reset),     // in_rst_0.reset
+		.in_rst_0_reset (CPU_reset_reset_bridge_in_reset_reset),         // in_rst_0.reset
 		.in_0_data      (cpu_timer_sw_agent_agent_rdata_fifo_out_data),  //     in_0.data
 		.in_0_valid     (cpu_timer_sw_agent_agent_rdata_fifo_out_valid), //         .valid
 		.in_0_ready     (cpu_timer_sw_agent_agent_rdata_fifo_out_ready), //         .ready

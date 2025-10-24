@@ -44,7 +44,7 @@ firmware_toolchain_regenerate:
 	$(NIOS)-app $(NIOS_TOOLCHAIN_FLAGS)
 
 ## Compiles the inner firmware for NIOS processor with required toolchain.
-firmware_compile:
+firmware_compile: firmware_toolchain_regenerate
 	cd $(NIOS_SOFT_DIR)/hal_bsp && \
 	PATH=$(NIOS_TOOLCHAIN):$$PATH \
 	CMAKE_C_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-gcc \
@@ -63,6 +63,9 @@ firmware_compile:
 	CMAKE_RANLIB=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-ranlib \
 	bash -c 'cmake . && make'
 
+## Flashed output elf file to internal SRAM via JTAG.
+firmware_flash: firmware_compile
+	niosv-download --go $(NIOS_SOFT_DIR)/firmware/coproc_firmware.elf
 
 ### Coprocessor Firmware ###
 

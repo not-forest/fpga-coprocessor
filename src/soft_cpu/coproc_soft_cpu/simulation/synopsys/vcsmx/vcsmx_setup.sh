@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 24.1 1077 linux 2025.10.21.20:19:14
+# ACDS 24.1 1077 linux 2025.10.24.17:51:59
 
 # ----------------------------------------
 # vcsmx - auto-generated simulation script
@@ -107,7 +107,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 24.1 1077 linux 2025.10.21.20:19:14
+# ACDS 24.1 1077 linux 2025.10.24.17:51:59
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="coproc_soft_cpu"
@@ -341,6 +341,8 @@ if [ $SKIP_COM -eq 0 ]; then
   vlogan +v2k -sverilog $USER_DEFINED_VERILOG_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/altera_avalon_jtag_uart_sim_scfifo_w.sv"                                -work DEBUG_JTAG                  
   vhdlan -xlrm $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS             "$QSYS_SIMDIR/submodules/coproc_soft_cpu_CPU.vhd"                                                -work CPU                         
   vhdlan -xlrm $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS             "$QSYS_SIMDIR/coproc_soft_cpu.vhd"                                                                                                 
+  vhdlan -xlrm $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS             "$QSYS_SIMDIR/coproc_soft_cpu_rst_controller.vhd"                                                                                  
+  vhdlan -xlrm $USER_DEFINED_VHDL_COMPILE_OPTIONS $USER_DEFINED_COMPILE_OPTIONS             "$QSYS_SIMDIR/coproc_soft_cpu_rst_controller_001.vhd"                                                                              
 fi
 
 # ----------------------------------------

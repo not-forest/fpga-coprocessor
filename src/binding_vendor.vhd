@@ -46,22 +46,24 @@ entity binding_vendor is
 end entity;
 
 architecture structured of binding_vendor is
-    signal w_clk : std_logic := '1';                -- PLL clock wire signal.
+    signal w_clk50MHz  : std_logic := '1';          -- Lowest 50 MHz clock.
+    signal w_clk100MHz : std_logic := '1';          -- Moderate frequency used for NIOS V Core.
+    signal w_clk475Mhz : std_logic := '1';          -- Fastest 475 MHz clock.
 begin
     -- Global coprocessor clock source.
     PLL_Inst : entity pll
     port map(
         i_clk0 => i_pCLK,
         i_rst => not ni_pRST,
-        o_clk0 => w_clk,
-        o_clk1 => open,
-        o_clk2 => open
+        o_clk0 => open,
+        o_clk1 => w_clk100MHz,
+        o_clk2 => w_clk475Mhz
     );
 
     -- SPI slave module acting as an interface between coprocessor and master microcontroller.
     COPROCESSOR_Inst : entity coprocessor
     port map(
-        i_clk  => w_clk,
+        i_clk  => w_clk100MHz,
         ni_rst => ni_pRST,
         
         i_sclk => i_pSCLK,

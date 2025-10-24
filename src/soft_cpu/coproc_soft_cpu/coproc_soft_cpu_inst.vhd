@@ -5,8 +5,7 @@
 			o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := 'X'; -- mosi_to_the_spislave_inst_for_spichain
 			o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := 'X'; -- nss_to_the_spislave_inst_for_spichain
 			o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := 'X'; -- miso_to_and_from_the_spislave_inst_for_spichain
-			o_spi_export_sclk_to_the_spislave_inst_for_spichain          : in    std_logic := 'X'; -- sclk_to_the_spislave_inst_for_spichain
-			o_dbg_reset_reset                                            : out   std_logic         -- reset
+			o_spi_export_sclk_to_the_spislave_inst_for_spichain          : in    std_logic := 'X'  -- sclk_to_the_spislave_inst_for_spichain
 		);
 	end component coproc_soft_cpu;
 
@@ -17,7 +16,6 @@
 			o_spi_export_mosi_to_the_spislave_inst_for_spichain          => CONNECTED_TO_o_spi_export_mosi_to_the_spislave_inst_for_spichain,          -- o_spi_export.mosi_to_the_spislave_inst_for_spichain
 			o_spi_export_nss_to_the_spislave_inst_for_spichain           => CONNECTED_TO_o_spi_export_nss_to_the_spislave_inst_for_spichain,           --             .nss_to_the_spislave_inst_for_spichain
 			o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain => CONNECTED_TO_o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain, --             .miso_to_and_from_the_spislave_inst_for_spichain
-			o_spi_export_sclk_to_the_spislave_inst_for_spichain          => CONNECTED_TO_o_spi_export_sclk_to_the_spislave_inst_for_spichain,          --             .sclk_to_the_spislave_inst_for_spichain
-			o_dbg_reset_reset                                            => CONNECTED_TO_o_dbg_reset_reset                                             --  o_dbg_reset.reset
+			o_spi_export_sclk_to_the_spislave_inst_for_spichain          => CONNECTED_TO_o_spi_export_sclk_to_the_spislave_inst_for_spichain           --             .sclk_to_the_spislave_inst_for_spichain
 		);
 

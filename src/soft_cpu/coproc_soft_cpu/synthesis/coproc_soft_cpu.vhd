@@ -10,7 +10,6 @@ entity coproc_soft_cpu is
 	port (
 		i_clk_clk                                                    : in    std_logic := '0'; --        i_clk.clk
 		i_clr_reset_n                                                : in    std_logic := '0'; --        i_clr.reset_n
-		o_dbg_reset_reset                                            : out   std_logic;        --  o_dbg_reset.reset
 		o_spi_export_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := '0'; -- o_spi_export.mosi_to_the_spislave_inst_for_spichain
 		o_spi_export_nss_to_the_spislave_inst_for_spichain           : in    std_logic := '0'; --             .nss_to_the_spislave_inst_for_spichain
 		o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic := '0'; --             .miso_to_and_from_the_spislave_inst_for_spichain
@@ -133,6 +132,7 @@ architecture rtl of coproc_soft_cpu is
 	component coproc_soft_cpu_mm_interconnect_0 is
 		port (
 			CLK_clk_clk                               : in  std_logic                     := 'X';             -- clk
+			CPU_reset_reset_bridge_in_reset_reset     : in  std_logic                     := 'X';             -- reset
 			SPI_clk_reset_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
 			CPU_data_manager_address                  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
 			CPU_data_manager_waitrequest              : out std_logic;                                        -- waitrequest
@@ -199,7 +199,7 @@ architecture rtl of coproc_soft_cpu is
 		);
 	end component coproc_soft_cpu_irq_mapper;
 
-	component altera_reset_controller is
+	component coproc_soft_cpu_rst_controller is
 		generic (
 			NUM_RESET_INPUTS          : integer := 6;
 			OUTPUT_RESET_SYNC_EDGES   : string  := "deassert";
@@ -227,43 +227,109 @@ architecture rtl of coproc_soft_cpu is
 			ADAPT_RESET_REQUEST       : integer := 0
 		);
 		port (
-			reset_in0      : in  std_logic := 'X'; -- reset
-			clk            : in  std_logic := 'X'; -- clk
-			reset_out      : out std_logic;        -- reset
-			reset_req      : out std_logic;        -- reset_req
-			reset_req_in0  : in  std_logic := 'X'; -- reset_req
-			reset_in1      : in  std_logic := 'X'; -- reset
-			reset_req_in1  : in  std_logic := 'X'; -- reset_req
-			reset_in2      : in  std_logic := 'X'; -- reset
-			reset_req_in2  : in  std_logic := 'X'; -- reset_req
-			reset_in3      : in  std_logic := 'X'; -- reset
-			reset_req_in3  : in  std_logic := 'X'; -- reset_req
-			reset_in4      : in  std_logic := 'X'; -- reset
-			reset_req_in4  : in  std_logic := 'X'; -- reset_req
-			reset_in5      : in  std_logic := 'X'; -- reset
-			reset_req_in5  : in  std_logic := 'X'; -- reset_req
-			reset_in6      : in  std_logic := 'X'; -- reset
-			reset_req_in6  : in  std_logic := 'X'; -- reset_req
-			reset_in7      : in  std_logic := 'X'; -- reset
-			reset_req_in7  : in  std_logic := 'X'; -- reset_req
-			reset_in8      : in  std_logic := 'X'; -- reset
-			reset_req_in8  : in  std_logic := 'X'; -- reset_req
-			reset_in9      : in  std_logic := 'X'; -- reset
-			reset_req_in9  : in  std_logic := 'X'; -- reset_req
-			reset_in10     : in  std_logic := 'X'; -- reset
-			reset_req_in10 : in  std_logic := 'X'; -- reset_req
-			reset_in11     : in  std_logic := 'X'; -- reset
-			reset_req_in11 : in  std_logic := 'X'; -- reset_req
-			reset_in12     : in  std_logic := 'X'; -- reset
-			reset_req_in12 : in  std_logic := 'X'; -- reset_req
-			reset_in13     : in  std_logic := 'X'; -- reset
-			reset_req_in13 : in  std_logic := 'X'; -- reset_req
-			reset_in14     : in  std_logic := 'X'; -- reset
-			reset_req_in14 : in  std_logic := 'X'; -- reset_req
-			reset_in15     : in  std_logic := 'X'; -- reset
-			reset_req_in15 : in  std_logic := 'X'  -- reset_req
+			reset_in0      : in  std_logic := 'X'; -- reset_in0.reset
+			clk            : in  std_logic := 'X'; --       clk.clk
+			reset_out      : out std_logic;        -- reset_out.reset
+			reset_in1      : in  std_logic := 'X';
+			reset_in10     : in  std_logic := 'X';
+			reset_in11     : in  std_logic := 'X';
+			reset_in12     : in  std_logic := 'X';
+			reset_in13     : in  std_logic := 'X';
+			reset_in14     : in  std_logic := 'X';
+			reset_in15     : in  std_logic := 'X';
+			reset_in2      : in  std_logic := 'X';
+			reset_in3      : in  std_logic := 'X';
+			reset_in4      : in  std_logic := 'X';
+			reset_in5      : in  std_logic := 'X';
+			reset_in6      : in  std_logic := 'X';
+			reset_in7      : in  std_logic := 'X';
+			reset_in8      : in  std_logic := 'X';
+			reset_in9      : in  std_logic := 'X';
+			reset_req      : out std_logic;
+			reset_req_in0  : in  std_logic := 'X';
+			reset_req_in1  : in  std_logic := 'X';
+			reset_req_in10 : in  std_logic := 'X';
+			reset_req_in11 : in  std_logic := 'X';
+			reset_req_in12 : in  std_logic := 'X';
+			reset_req_in13 : in  std_logic := 'X';
+			reset_req_in14 : in  std_logic := 'X';
+			reset_req_in15 : in  std_logic := 'X';
+			reset_req_in2  : in  std_logic := 'X';
+			reset_req_in3  : in  std_logic := 'X';
+			reset_req_in4  : in  std_logic := 'X';
+			reset_req_in5  : in  std_logic := 'X';
+			reset_req_in6  : in  std_logic := 'X';
+			reset_req_in7  : in  std_logic := 'X';
+			reset_req_in8  : in  std_logic := 'X';
+			reset_req_in9  : in  std_logic := 'X'
 		);
-	end component altera_reset_controller;
+	end component coproc_soft_cpu_rst_controller;
+
+	component coproc_soft_cpu_rst_controller_001 is
+		generic (
+			NUM_RESET_INPUTS          : integer := 6;
+			OUTPUT_RESET_SYNC_EDGES   : string  := "deassert";
+			SYNC_DEPTH                : integer := 2;
+			RESET_REQUEST_PRESENT     : integer := 0;
+			RESET_REQ_WAIT_TIME       : integer := 1;
+			MIN_RST_ASSERTION_TIME    : integer := 3;
+			RESET_REQ_EARLY_DSRT_TIME : integer := 1;
+			USE_RESET_REQUEST_IN0     : integer := 0;
+			USE_RESET_REQUEST_IN1     : integer := 0;
+			USE_RESET_REQUEST_IN2     : integer := 0;
+			USE_RESET_REQUEST_IN3     : integer := 0;
+			USE_RESET_REQUEST_IN4     : integer := 0;
+			USE_RESET_REQUEST_IN5     : integer := 0;
+			USE_RESET_REQUEST_IN6     : integer := 0;
+			USE_RESET_REQUEST_IN7     : integer := 0;
+			USE_RESET_REQUEST_IN8     : integer := 0;
+			USE_RESET_REQUEST_IN9     : integer := 0;
+			USE_RESET_REQUEST_IN10    : integer := 0;
+			USE_RESET_REQUEST_IN11    : integer := 0;
+			USE_RESET_REQUEST_IN12    : integer := 0;
+			USE_RESET_REQUEST_IN13    : integer := 0;
+			USE_RESET_REQUEST_IN14    : integer := 0;
+			USE_RESET_REQUEST_IN15    : integer := 0;
+			ADAPT_RESET_REQUEST       : integer := 0
+		);
+		port (
+			reset_in0      : in  std_logic := 'X'; -- reset_in0.reset
+			reset_in1      : in  std_logic := 'X'; -- reset_in1.reset
+			clk            : in  std_logic := 'X'; --       clk.clk
+			reset_out      : out std_logic;        -- reset_out.reset
+			reset_req      : out std_logic;        --          .reset_req
+			reset_in10     : in  std_logic := 'X';
+			reset_in11     : in  std_logic := 'X';
+			reset_in12     : in  std_logic := 'X';
+			reset_in13     : in  std_logic := 'X';
+			reset_in14     : in  std_logic := 'X';
+			reset_in15     : in  std_logic := 'X';
+			reset_in2      : in  std_logic := 'X';
+			reset_in3      : in  std_logic := 'X';
+			reset_in4      : in  std_logic := 'X';
+			reset_in5      : in  std_logic := 'X';
+			reset_in6      : in  std_logic := 'X';
+			reset_in7      : in  std_logic := 'X';
+			reset_in8      : in  std_logic := 'X';
+			reset_in9      : in  std_logic := 'X';
+			reset_req_in0  : in  std_logic := 'X';
+			reset_req_in1  : in  std_logic := 'X';
+			reset_req_in10 : in  std_logic := 'X';
+			reset_req_in11 : in  std_logic := 'X';
+			reset_req_in12 : in  std_logic := 'X';
+			reset_req_in13 : in  std_logic := 'X';
+			reset_req_in14 : in  std_logic := 'X';
+			reset_req_in15 : in  std_logic := 'X';
+			reset_req_in2  : in  std_logic := 'X';
+			reset_req_in3  : in  std_logic := 'X';
+			reset_req_in4  : in  std_logic := 'X';
+			reset_req_in5  : in  std_logic := 'X';
+			reset_req_in6  : in  std_logic := 'X';
+			reset_req_in7  : in  std_logic := 'X';
+			reset_req_in8  : in  std_logic := 'X';
+			reset_req_in9  : in  std_logic := 'X'
+		);
+	end component coproc_soft_cpu_rst_controller_001;
 
 	signal spi_avalon_master_readdata                                     : std_logic_vector(31 downto 0); -- mm_interconnect_0:SPI_avalon_master_readdata -> SPI:readdata_to_the_altera_avalon_packets_to_master_inst_for_spichain
 	signal spi_avalon_master_waitrequest                                  : std_logic;                     -- mm_interconnect_0:SPI_avalon_master_waitrequest -> SPI:waitrequest_to_the_altera_avalon_packets_to_master_inst_for_spichain
@@ -320,12 +386,14 @@ architecture rtl of coproc_soft_cpu is
 	signal mm_interconnect_0_cpu_timer_sw_agent_writedata                 : std_logic_vector(31 downto 0); -- mm_interconnect_0:CPU_timer_sw_agent_writedata -> CPU:timer_sw_agent_writedata
 	signal irq_mapper_receiver0_irq                                       : std_logic;                     -- DEBUG_JTAG:av_irq -> irq_mapper:receiver0_irq
 	signal cpu_platform_irq_rx_irq                                        : std_logic_vector(15 downto 0); -- irq_mapper:sender_irq -> CPU:platform_irq_rx_irq
-	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:ndm_reset_in_reset, CPU:reset_reset, SRAM:reset, irq_mapper:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in, rst_translator:in_reset]
-	signal rst_controller_reset_out_reset_req                             : std_logic;                     -- rst_controller:reset_req -> [SRAM:reset_req, rst_translator:reset_req_in]
-	signal i_clr_reset_n_ports_inv                                        : std_logic;                     -- i_clr_reset_n:inv -> rst_controller:reset_in0
+	signal rst_controller_reset_out_reset                                 : std_logic;                     -- rst_controller:reset_out -> [CPU:reset_reset, irq_mapper:reset, mm_interconnect_0:CPU_reset_reset_bridge_in_reset_reset]
+	signal rst_controller_001_reset_out_reset                             : std_logic;                     -- rst_controller_001:reset_out -> [CPU:ndm_reset_in_reset, SRAM:reset, mm_interconnect_0:SPI_clk_reset_reset_bridge_in_reset_reset, rst_controller_001_reset_out_reset:in, rst_translator:in_reset]
+	signal rst_controller_001_reset_out_reset_req                         : std_logic;                     -- rst_controller_001:reset_req -> [SRAM:reset_req, rst_translator:reset_req_in]
+	signal cpu_dbg_reset_out_reset                                        : std_logic;                     -- CPU:dbg_reset_out_reset -> rst_controller_001:reset_in1
+	signal i_clr_reset_n_ports_inv                                        : std_logic;                     -- i_clr_reset_n:inv -> [rst_controller:reset_in0, rst_controller_001:reset_in0]
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_read_ports_inv  : std_logic;                     -- mm_interconnect_0_debug_jtag_avalon_jtag_slave_read:inv -> DEBUG_JTAG:av_read_n
 	signal mm_interconnect_0_debug_jtag_avalon_jtag_slave_write_ports_inv : std_logic;                     -- mm_interconnect_0_debug_jtag_avalon_jtag_slave_write:inv -> DEBUG_JTAG:av_write_n
-	signal rst_controller_reset_out_reset_ports_inv                       : std_logic;                     -- rst_controller_reset_out_reset:inv -> [DEBUG_JTAG:rst_n, SPI:reset_n]
+	signal rst_controller_001_reset_out_reset_ports_inv                   : std_logic;                     -- rst_controller_001_reset_out_reset:inv -> [DEBUG_JTAG:rst_n, SPI:reset_n]
 
 begin
 
@@ -334,7 +402,7 @@ begin
 			clk                               => i_clk_clk,                                          --                 clk.clk
 			reset_reset                       => rst_controller_reset_out_reset,                     --               reset.reset
 			platform_irq_rx_irq               => cpu_platform_irq_rx_irq,                            --     platform_irq_rx.irq
-			ndm_reset_in_reset                => rst_controller_reset_out_reset,                     --        ndm_reset_in.reset
+			ndm_reset_in_reset                => rst_controller_001_reset_out_reset,                 --        ndm_reset_in.reset
 			timer_sw_agent_address            => mm_interconnect_0_cpu_timer_sw_agent_address,       --      timer_sw_agent.address
 			timer_sw_agent_byteenable         => mm_interconnect_0_cpu_timer_sw_agent_byteenable,    --                    .byteenable
 			timer_sw_agent_read               => mm_interconnect_0_cpu_timer_sw_agent_read,          --                    .read
@@ -366,7 +434,7 @@ begin
 			dm_agent_writedata                => mm_interconnect_0_cpu_dm_agent_writedata,           --                    .writedata
 			dm_agent_waitrequest              => mm_interconnect_0_cpu_dm_agent_waitrequest,         --                    .waitrequest
 			dm_agent_readdatavalid            => mm_interconnect_0_cpu_dm_agent_readdatavalid,       --                    .readdatavalid
-			dbg_reset_out_reset               => o_dbg_reset_reset                                   --       dbg_reset_out.reset
+			dbg_reset_out_reset               => cpu_dbg_reset_out_reset                             --       dbg_reset_out.reset
 		);
 
 	debug_jtag : component altera_avalon_jtag_uart
@@ -389,7 +457,7 @@ begin
 		)
 		port map (
 			clk            => i_clk_clk,                                                      --               clk.clk
-			rst_n          => rst_controller_reset_out_reset_ports_inv,                       --             reset.reset_n
+			rst_n          => rst_controller_001_reset_out_reset_ports_inv,                   --             reset.reset_n
 			av_chipselect  => mm_interconnect_0_debug_jtag_avalon_jtag_slave_chipselect,      -- avalon_jtag_slave.chipselect
 			av_address     => mm_interconnect_0_debug_jtag_avalon_jtag_slave_address(0),      --                  .address
 			av_read_n      => mm_interconnect_0_debug_jtag_avalon_jtag_slave_read_ports_inv,  --                  .read_n
@@ -406,7 +474,7 @@ begin
 		)
 		port map (
 			clk                                                                    => i_clk_clk,                                                    --           clk.clk
-			reset_n                                                                => rst_controller_reset_out_reset_ports_inv,                     --     clk_reset.reset_n
+			reset_n                                                                => rst_controller_001_reset_out_reset_ports_inv,                 --     clk_reset.reset_n
 			mosi_to_the_spislave_inst_for_spichain                                 => o_spi_export_mosi_to_the_spislave_inst_for_spichain,          --      export_0.export
 			nss_to_the_spislave_inst_for_spichain                                  => o_spi_export_nss_to_the_spislave_inst_for_spichain,           --              .export
 			miso_to_and_from_the_spislave_inst_for_spichain                        => o_spi_export_miso_to_and_from_the_spislave_inst_for_spichain, --              .export
@@ -423,23 +491,24 @@ begin
 
 	sram : component coproc_soft_cpu_SRAM
 		port map (
-			clk        => i_clk_clk,                            --   clk1.clk
-			address    => mm_interconnect_0_sram_s1_address,    --     s1.address
-			clken      => mm_interconnect_0_sram_s1_clken,      --       .clken
-			chipselect => mm_interconnect_0_sram_s1_chipselect, --       .chipselect
-			write      => mm_interconnect_0_sram_s1_write,      --       .write
-			readdata   => mm_interconnect_0_sram_s1_readdata,   --       .readdata
-			writedata  => mm_interconnect_0_sram_s1_writedata,  --       .writedata
-			byteenable => mm_interconnect_0_sram_s1_byteenable, --       .byteenable
-			reset      => rst_controller_reset_out_reset,       -- reset1.reset
-			reset_req  => rst_controller_reset_out_reset_req,   --       .reset_req
-			freeze     => '0'                                   -- (terminated)
+			clk        => i_clk_clk,                              --   clk1.clk
+			address    => mm_interconnect_0_sram_s1_address,      --     s1.address
+			clken      => mm_interconnect_0_sram_s1_clken,        --       .clken
+			chipselect => mm_interconnect_0_sram_s1_chipselect,   --       .chipselect
+			write      => mm_interconnect_0_sram_s1_write,        --       .write
+			readdata   => mm_interconnect_0_sram_s1_readdata,     --       .readdata
+			writedata  => mm_interconnect_0_sram_s1_writedata,    --       .writedata
+			byteenable => mm_interconnect_0_sram_s1_byteenable,   --       .byteenable
+			reset      => rst_controller_001_reset_out_reset,     -- reset1.reset
+			reset_req  => rst_controller_001_reset_out_reset_req, --       .reset_req
+			freeze     => '0'                                     -- (terminated)
 		);
 
 	mm_interconnect_0 : component coproc_soft_cpu_mm_interconnect_0
 		port map (
 			CLK_clk_clk                               => i_clk_clk,                                                  --                             CLK_clk.clk
-			SPI_clk_reset_reset_bridge_in_reset_reset => rst_controller_reset_out_reset,                             -- SPI_clk_reset_reset_bridge_in_reset.reset
+			CPU_reset_reset_bridge_in_reset_reset     => rst_controller_reset_out_reset,                             --     CPU_reset_reset_bridge_in_reset.reset
+			SPI_clk_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                         -- SPI_clk_reset_reset_bridge_in_reset.reset
 			CPU_data_manager_address                  => cpu_data_manager_address,                                   --                    CPU_data_manager.address
 			CPU_data_manager_waitrequest              => cpu_data_manager_waitrequest,                               --                                    .waitrequest
 			CPU_data_manager_byteenable               => cpu_data_manager_byteenable,                                --                                    .byteenable
@@ -503,9 +572,74 @@ begin
 			sender_irq    => cpu_platform_irq_rx_irq         --    sender.irq
 		);
 
-	rst_controller : component altera_reset_controller
+	rst_controller : component coproc_soft_cpu_rst_controller
 		generic map (
 			NUM_RESET_INPUTS          => 1,
+			OUTPUT_RESET_SYNC_EDGES   => "deassert",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
+			reset_in0      => i_clr_reset_n_ports_inv,        -- reset_in0.reset
+			clk            => i_clk_clk,                      --       clk.clk
+			reset_out      => rst_controller_reset_out_reset, -- reset_out.reset
+			reset_req      => open,                           -- (terminated)
+			reset_req_in0  => '0',                            -- (terminated)
+			reset_in1      => '0',                            -- (terminated)
+			reset_req_in1  => '0',                            -- (terminated)
+			reset_in2      => '0',                            -- (terminated)
+			reset_req_in2  => '0',                            -- (terminated)
+			reset_in3      => '0',                            -- (terminated)
+			reset_req_in3  => '0',                            -- (terminated)
+			reset_in4      => '0',                            -- (terminated)
+			reset_req_in4  => '0',                            -- (terminated)
+			reset_in5      => '0',                            -- (terminated)
+			reset_req_in5  => '0',                            -- (terminated)
+			reset_in6      => '0',                            -- (terminated)
+			reset_req_in6  => '0',                            -- (terminated)
+			reset_in7      => '0',                            -- (terminated)
+			reset_req_in7  => '0',                            -- (terminated)
+			reset_in8      => '0',                            -- (terminated)
+			reset_req_in8  => '0',                            -- (terminated)
+			reset_in9      => '0',                            -- (terminated)
+			reset_req_in9  => '0',                            -- (terminated)
+			reset_in10     => '0',                            -- (terminated)
+			reset_req_in10 => '0',                            -- (terminated)
+			reset_in11     => '0',                            -- (terminated)
+			reset_req_in11 => '0',                            -- (terminated)
+			reset_in12     => '0',                            -- (terminated)
+			reset_req_in12 => '0',                            -- (terminated)
+			reset_in13     => '0',                            -- (terminated)
+			reset_req_in13 => '0',                            -- (terminated)
+			reset_in14     => '0',                            -- (terminated)
+			reset_req_in14 => '0',                            -- (terminated)
+			reset_in15     => '0',                            -- (terminated)
+			reset_req_in15 => '0'                             -- (terminated)
+		);
+
+	rst_controller_001 : component coproc_soft_cpu_rst_controller_001
+		generic map (
+			NUM_RESET_INPUTS          => 2,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
 			SYNC_DEPTH                => 2,
 			RESET_REQUEST_PRESENT     => 1,
@@ -531,41 +665,41 @@ begin
 			ADAPT_RESET_REQUEST       => 0
 		)
 		port map (
-			reset_in0      => i_clr_reset_n_ports_inv,            -- reset_in0.reset
-			clk            => i_clk_clk,                          --       clk.clk
-			reset_out      => rst_controller_reset_out_reset,     -- reset_out.reset
-			reset_req      => rst_controller_reset_out_reset_req, --          .reset_req
-			reset_req_in0  => '0',                                -- (terminated)
-			reset_in1      => '0',                                -- (terminated)
-			reset_req_in1  => '0',                                -- (terminated)
-			reset_in2      => '0',                                -- (terminated)
-			reset_req_in2  => '0',                                -- (terminated)
-			reset_in3      => '0',                                -- (terminated)
-			reset_req_in3  => '0',                                -- (terminated)
-			reset_in4      => '0',                                -- (terminated)
-			reset_req_in4  => '0',                                -- (terminated)
-			reset_in5      => '0',                                -- (terminated)
-			reset_req_in5  => '0',                                -- (terminated)
-			reset_in6      => '0',                                -- (terminated)
-			reset_req_in6  => '0',                                -- (terminated)
-			reset_in7      => '0',                                -- (terminated)
-			reset_req_in7  => '0',                                -- (terminated)
-			reset_in8      => '0',                                -- (terminated)
-			reset_req_in8  => '0',                                -- (terminated)
-			reset_in9      => '0',                                -- (terminated)
-			reset_req_in9  => '0',                                -- (terminated)
-			reset_in10     => '0',                                -- (terminated)
-			reset_req_in10 => '0',                                -- (terminated)
-			reset_in11     => '0',                                -- (terminated)
-			reset_req_in11 => '0',                                -- (terminated)
-			reset_in12     => '0',                                -- (terminated)
-			reset_req_in12 => '0',                                -- (terminated)
-			reset_in13     => '0',                                -- (terminated)
-			reset_req_in13 => '0',                                -- (terminated)
-			reset_in14     => '0',                                -- (terminated)
-			reset_req_in14 => '0',                                -- (terminated)
-			reset_in15     => '0',                                -- (terminated)
-			reset_req_in15 => '0'                                 -- (terminated)
+			reset_in0      => i_clr_reset_n_ports_inv,                -- reset_in0.reset
+			reset_in1      => cpu_dbg_reset_out_reset,                -- reset_in1.reset
+			clk            => i_clk_clk,                              --       clk.clk
+			reset_out      => rst_controller_001_reset_out_reset,     -- reset_out.reset
+			reset_req      => rst_controller_001_reset_out_reset_req, --          .reset_req
+			reset_req_in0  => '0',                                    -- (terminated)
+			reset_req_in1  => '0',                                    -- (terminated)
+			reset_in2      => '0',                                    -- (terminated)
+			reset_req_in2  => '0',                                    -- (terminated)
+			reset_in3      => '0',                                    -- (terminated)
+			reset_req_in3  => '0',                                    -- (terminated)
+			reset_in4      => '0',                                    -- (terminated)
+			reset_req_in4  => '0',                                    -- (terminated)
+			reset_in5      => '0',                                    -- (terminated)
+			reset_req_in5  => '0',                                    -- (terminated)
+			reset_in6      => '0',                                    -- (terminated)
+			reset_req_in6  => '0',                                    -- (terminated)
+			reset_in7      => '0',                                    -- (terminated)
+			reset_req_in7  => '0',                                    -- (terminated)
+			reset_in8      => '0',                                    -- (terminated)
+			reset_req_in8  => '0',                                    -- (terminated)
+			reset_in9      => '0',                                    -- (terminated)
+			reset_req_in9  => '0',                                    -- (terminated)
+			reset_in10     => '0',                                    -- (terminated)
+			reset_req_in10 => '0',                                    -- (terminated)
+			reset_in11     => '0',                                    -- (terminated)
+			reset_req_in11 => '0',                                    -- (terminated)
+			reset_in12     => '0',                                    -- (terminated)
+			reset_req_in12 => '0',                                    -- (terminated)
+			reset_in13     => '0',                                    -- (terminated)
+			reset_req_in13 => '0',                                    -- (terminated)
+			reset_in14     => '0',                                    -- (terminated)
+			reset_req_in14 => '0',                                    -- (terminated)
+			reset_in15     => '0',                                    -- (terminated)
+			reset_req_in15 => '0'                                     -- (terminated)
 		);
 
 	i_clr_reset_n_ports_inv <= not i_clr_reset_n;
@@ -574,6 +708,6 @@ begin
 
 	mm_interconnect_0_debug_jtag_avalon_jtag_slave_write_ports_inv <= not mm_interconnect_0_debug_jtag_avalon_jtag_slave_write;
 
-	rst_controller_reset_out_reset_ports_inv <= not rst_controller_reset_out_reset;
+	rst_controller_001_reset_out_reset_ports_inv <= not rst_controller_001_reset_out_reset;
 
 end architecture rtl; -- of coproc_soft_cpu

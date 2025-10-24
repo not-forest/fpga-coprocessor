@@ -1045,3 +1045,397 @@ events:
       warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
       
 ...
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      The target system is: Generic -  - Nios V/m
+      The host system is: Linux - 6.17.3-arch2-1 - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is GNU, found in:
+        /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/3.31.1/CompilerIdC/a.out
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/3.31.1/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p"
+      binary: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p'
+        
+        Run Build Command(s): /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E env VERBOSE=1 /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make -f Makefile cmTC_8f5c7/fast
+        make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p'
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make  -f CMakeFiles/cmTC_8f5c7.dir/build.make CMakeFiles/cmTC_8f5c7.dir/build
+        make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p'
+        Building C object CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc   -v -o CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj -c /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Using built-in specs.
+        COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc
+        Target: riscv32-unknown-elf
+        Configured with: ../../gcc/configure --target=riscv32-unknown-elf --prefix=/build/install --with-sysroot=/build/install/riscv32-unknown-elf --with-native-system-header-dir=/include --with-newlib --disable-shared --enable-languages=c,c++ --enable-tls --disable-werror --disable-libmudflap --disable-libssp --disable-quadmath --disable-libgomp --disable-nls --disable-bootstrap --enable-multilib --with-isa-spec=2.2 --with-multilib-generator='rv32e-ilp32e--zicbom rv32ea-ilp32e--zicbom rv32im-ilp32--zicbom rv32ia-ilp32--zicbom rv32ima-ilp32--zicbom rv32imf-ilp32--zicbom rv32imf-ilp32f--zicbom rv32imaf-ilp32--zicbom rv32imaf-ilp32f--zicbom rv64ima-lp64--zicbom rv64imaf-lp64--zicbom rv64imaf-lp64f--zicbom' --with-arch=rv32i --with-abi=ilp32 --with-zstd=no --with-system-zlib --enable-libstdcxx-pch=no --disable-werror
+        Thread model: single
+        Supported LTO compression algorithms: zlib
+        gcc version 13.2.0 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_8f5c7.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1 -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_8f5c7.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccLMuBym.s
+        GNU C17 (GCC) version 13.2.0 (riscv32-unknown-elf)
+        	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3), GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+        
+        warning: GMP header version 6.2.1 differs from library version 6.2.1.fix1.
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include"
+        ignoring nonexistent directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/usr/local/include"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include
+        End of search list.
+        Compiler executable checksum: 36c165f0b8979f7845c1f97495d4f685
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_8f5c7.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj /tmp/ccLMuBym.s
+        GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730
+        COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/
+        LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.'
+        Linking C static library libcmTC_8f5c7.a
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -P CMakeFiles/cmTC_8f5c7.dir/cmake_clean_target.cmake
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8f5c7.dir/link.txt --verbose=1
+        riscv32-unknown-elf-ar qc libcmTC_8f5c7.a CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_8f5c7.a
+        make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p'
+        make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include]
+        end of search list found
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include]
+        implicit include dirs: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p']
+        ignore line: []
+        ignore line: [Run Build Command(s): /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E env VERBOSE=1 /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make -f Makefile cmTC_8f5c7/fast]
+        ignore line: [make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p']
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make  -f CMakeFiles/cmTC_8f5c7.dir/build.make CMakeFiles/cmTC_8f5c7.dir/build]
+        ignore line: [make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p']
+        ignore line: [Building C object CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc   -v -o CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj -c /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc]
+        ignore line: [Target: riscv32-unknown-elf]
+        ignore line: [Configured with: ../../gcc/configure --target=riscv32-unknown-elf --prefix=/build/install --with-sysroot=/build/install/riscv32-unknown-elf --with-native-system-header-dir=/include --with-newlib --disable-shared --enable-languages=c c++ --enable-tls --disable-werror --disable-libmudflap --disable-libssp --disable-quadmath --disable-libgomp --disable-nls --disable-bootstrap --enable-multilib --with-isa-spec=2.2 --with-multilib-generator='rv32e-ilp32e--zicbom rv32ea-ilp32e--zicbom rv32im-ilp32--zicbom rv32ia-ilp32--zicbom rv32ima-ilp32--zicbom rv32imf-ilp32--zicbom rv32imf-ilp32f--zicbom rv32imaf-ilp32--zicbom rv32imaf-ilp32f--zicbom rv64ima-lp64--zicbom rv64imaf-lp64--zicbom rv64imaf-lp64f--zicbom' --with-arch=rv32i --with-abi=ilp32 --with-zstd=no --with-system-zlib --enable-libstdcxx-pch=no --disable-werror]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib]
+        ignore line: [gcc version 13.2.0 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_8f5c7.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1 -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_8f5c7.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccLMuBym.s]
+        ignore line: [GNU C17 (GCC) version 13.2.0 (riscv32-unknown-elf)]
+        ignore line: [	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3)  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+        ignore line: []
+        ignore line: [warning: GMP header version 6.2.1 differs from library version 6.2.1.fix1.]
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include"]
+        ignore line: [ignoring nonexistent directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/usr/local/include"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 36c165f0b8979f7845c1f97495d4f685]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_8f5c7.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj /tmp/ccLMuBym.s]
+        ignore line: [GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730]
+        ignore line: [COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/]
+        ignore line: [LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.']
+        ignore line: [Linking C static library libcmTC_8f5c7.a]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -P CMakeFiles/cmTC_8f5c7.dir/cmake_clean_target.cmake]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8f5c7.dir/link.txt --verbose=1]
+        ignore line: [riscv32-unknown-elf-ar qc libcmTC_8f5c7.a CMakeFiles/cmTC_8f5c7.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_8f5c7.a]
+        ignore line: [make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p']
+        ignore line: [make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-Ved67p']
+        ignore line: []
+        ignore line: []
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX"
+      binary: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX'
+        
+        Run Build Command(s): /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E env VERBOSE=1 /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make -f Makefile cmTC_93c9d/fast
+        make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX'
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make  -f CMakeFiles/cmTC_93c9d.dir/build.make CMakeFiles/cmTC_93c9d.dir/build
+        make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX'
+        Building CXX object CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++   -v -o CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj -c /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++
+        Target: riscv32-unknown-elf
+        Configured with: ../../gcc/configure --target=riscv32-unknown-elf --prefix=/build/install --with-sysroot=/build/install/riscv32-unknown-elf --with-native-system-header-dir=/include --with-newlib --disable-shared --enable-languages=c,c++ --enable-tls --disable-werror --disable-libmudflap --disable-libssp --disable-quadmath --disable-libgomp --disable-nls --disable-bootstrap --enable-multilib --with-isa-spec=2.2 --with-multilib-generator='rv32e-ilp32e--zicbom rv32ea-ilp32e--zicbom rv32im-ilp32--zicbom rv32ia-ilp32--zicbom rv32ima-ilp32--zicbom rv32imf-ilp32--zicbom rv32imf-ilp32f--zicbom rv32imaf-ilp32--zicbom rv32imaf-ilp32f--zicbom rv64ima-lp64--zicbom rv64imaf-lp64--zicbom rv64imaf-lp64f--zicbom' --with-arch=rv32i --with-abi=ilp32 --with-zstd=no --with-system-zlib --enable-libstdcxx-pch=no --disable-werror
+        Thread model: single
+        Supported LTO compression algorithms: zlib
+        gcc version 13.2.0 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_93c9d.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_93c9d.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccZ44ohO.s
+        GNU C++17 (GCC) version 13.2.0 (riscv32-unknown-elf)
+        	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3), GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+        
+        warning: GMP header version 6.2.1 differs from library version 6.2.1.fix1.
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf/."
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/backward"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include"
+        ignoring nonexistent directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/usr/local/include"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include"
+        ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf/.
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/backward
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include
+        End of search list.
+        Compiler executable checksum: d25b0579c2889d3121af47bd6e3da33d
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_93c9d.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj /tmp/ccZ44ohO.s
+        GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730
+        COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/
+        LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX static library libcmTC_93c9d.a
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -P CMakeFiles/cmTC_93c9d.dir/cmake_clean_target.cmake
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93c9d.dir/link.txt --verbose=1
+        riscv32-unknown-elf-ar qc libcmTC_93c9d.a CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_93c9d.a
+        make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX'
+        make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf/.]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/backward]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed]
+          add: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include]
+        end of search list found
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include/c++/13.2.0]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf/.] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/backward] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include/c++/13.2.0/backward]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed]
+        collapse include dir [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include] ==> [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include]
+        implicit include dirs: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include/c++/13.2.0;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include/c++/13.2.0/backward;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed;/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/riscv32-unknown-elf/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:5 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX']
+        ignore line: []
+        ignore line: [Run Build Command(s): /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E env VERBOSE=1 /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make -f Makefile cmTC_93c9d/fast]
+        ignore line: [make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX']
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/bin/make  -f CMakeFiles/cmTC_93c9d.dir/build.make CMakeFiles/cmTC_93c9d.dir/build]
+        ignore line: [make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX']
+        ignore line: [Building CXX object CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++   -v -o CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj -c /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++]
+        ignore line: [Target: riscv32-unknown-elf]
+        ignore line: [Configured with: ../../gcc/configure --target=riscv32-unknown-elf --prefix=/build/install --with-sysroot=/build/install/riscv32-unknown-elf --with-native-system-header-dir=/include --with-newlib --disable-shared --enable-languages=c c++ --enable-tls --disable-werror --disable-libmudflap --disable-libssp --disable-quadmath --disable-libgomp --disable-nls --disable-bootstrap --enable-multilib --with-isa-spec=2.2 --with-multilib-generator='rv32e-ilp32e--zicbom rv32ea-ilp32e--zicbom rv32im-ilp32--zicbom rv32ia-ilp32--zicbom rv32ima-ilp32--zicbom rv32imf-ilp32--zicbom rv32imf-ilp32f--zicbom rv32imaf-ilp32--zicbom rv32imaf-ilp32f--zicbom rv64ima-lp64--zicbom rv64imaf-lp64--zicbom rv64imaf-lp64f--zicbom' --with-arch=rv32i --with-abi=ilp32 --with-zstd=no --with-system-zlib --enable-libstdcxx-pch=no --disable-werror]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib]
+        ignore line: [gcc version 13.2.0 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_93c9d.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_93c9d.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccZ44ohO.s]
+        ignore line: [GNU C++17 (GCC) version 13.2.0 (riscv32-unknown-elf)]
+        ignore line: [	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3)  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+        ignore line: []
+        ignore line: [warning: GMP header version 6.2.1 differs from library version 6.2.1.fix1.]
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf/."]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/backward"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include"]
+        ignore line: [ignoring nonexistent directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/usr/local/include"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/../../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include"]
+        ignore line: [ignoring duplicate directory "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/riscv32-unknown-elf/.]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include/c++/13.2.0/backward]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/include-fixed]
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: d25b0579c2889d3121af47bd6e3da33d]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_93c9d.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj /tmp/ccZ44ohO.s]
+        ignore line: [GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730]
+        ignore line: [COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/]
+        ignore line: [LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX static library libcmTC_93c9d.a]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -P CMakeFiles/cmTC_93c9d.dir/cmake_clean_target.cmake]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93c9d.dir/link.txt --verbose=1]
+        ignore line: [riscv32-unknown-elf-ar qc libcmTC_93c9d.a CMakeFiles/cmTC_93c9d.dir/CMakeCXXCompilerABI.cpp.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_93c9d.a]
+        ignore line: [make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX']
+        ignore line: [make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/CMakeFiles/CMakeScratch/TryCompile-fc9NQX']
+        ignore line: []
+        ignore line: []
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1237 (message)"
+      - "/home/notforest/intelFPGA_lite/24.1std/riscfree/build_tools/cmake/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeLists.txt:7 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      riscv32-unknown-elf-gcc (GCC) 13.2.0
+      Copyright (C) 2023 Free Software Foundation, Inc.
+      This is free software; see the source for copying conditions.  There is NO
+      warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+      
+...
