@@ -1,11 +1,19 @@
 	component coproc_soft_cpu is
 		port (
-			i_clk_clk         : in  std_logic := 'X'; -- clk
-			i_clr_reset_n     : in  std_logic := 'X'; -- reset_n
-			o_spi_export_MISO : out std_logic;        -- MISO
-			o_spi_export_MOSI : in  std_logic := 'X'; -- MOSI
-			o_spi_export_SCLK : in  std_logic := 'X'; -- SCLK
-			o_spi_export_SS_n : in  std_logic := 'X'  -- SS_n
+			i_clk_clk                                : in  std_logic                     := 'X';             -- clk
+			i_clr_reset_n                            : in  std_logic                     := 'X';             -- reset_n
+			o_batch_data_export_conduit_i_rd_clk     : in  std_logic                     := 'X';             -- conduit_i_rd_clk
+			o_batch_data_export_conduit_i_rd_row     : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- conduit_i_rd_row
+			o_batch_data_export_conduit_o_data       : out std_logic_vector(63 downto 0);                    -- conduit_o_data
+			o_batch_data_export_conduit_o_rd_ready   : out std_logic;                                        -- conduit_o_rd_ready
+			o_batch_weight_export_conduit_i_rd_clk   : in  std_logic                     := 'X';             -- conduit_i_rd_clk
+			o_batch_weight_export_conduit_i_rd_row   : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- conduit_i_rd_row
+			o_batch_weight_export_conduit_o_data     : out std_logic_vector(63 downto 0);                    -- conduit_o_data
+			o_batch_weight_export_conduit_o_rd_ready : out std_logic;                                        -- conduit_o_rd_ready
+			o_spi_export_MISO                        : out std_logic;                                        -- MISO
+			o_spi_export_MOSI                        : in  std_logic                     := 'X';             -- MOSI
+			o_spi_export_SCLK                        : in  std_logic                     := 'X';             -- SCLK
+			o_spi_export_SS_n                        : in  std_logic                     := 'X'              -- SS_n
 		);
 	end component coproc_soft_cpu;
 

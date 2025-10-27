@@ -25,7 +25,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -45,19 +44,12 @@ events:
       - "/opt/nvim/bin/uname"
       - "/home/notforest/.local/bin/uname"
       - "/home/notforest/.cargo/bin/uname"
-      - "/home/notforest/.local/share/lvim/mason/bin/uname"
       - "/usr/local/sbin/uname"
       - "/usr/local/bin/uname"
     found: "/usr/bin/uname"
     search_context:
       ENV{PATH}:
         - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/opt/nvim/bin"
         - "/home/notforest/.local/bin"
@@ -72,11 +64,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -116,7 +103,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -135,7 +121,6 @@ events:
       - "/opt/nvim/bin/gmake"
       - "/home/notforest/.local/bin/gmake"
       - "/home/notforest/.cargo/bin/gmake"
-      - "/home/notforest/.local/share/lvim/mason/bin/gmake"
       - "/usr/local/sbin/gmake"
       - "/usr/local/bin/gmake"
       - "/usr/bin/gmake"
@@ -153,19 +138,12 @@ events:
       - "/opt/nvim/bin/make"
       - "/home/notforest/.local/bin/make"
       - "/home/notforest/.cargo/bin/make"
-      - "/home/notforest/.local/share/lvim/mason/bin/make"
       - "/usr/local/sbin/make"
       - "/usr/local/bin/make"
     found: "/usr/bin/make"
     search_context:
       ENV{PATH}:
         - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/opt/nvim/bin"
         - "/home/notforest/.local/bin"
@@ -180,11 +158,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -215,7 +188,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -237,12 +209,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -252,11 +218,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -295,12 +256,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -310,11 +265,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -368,7 +318,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -390,12 +339,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -405,11 +348,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -441,7 +379,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -463,12 +400,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -478,11 +409,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -514,7 +440,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -536,12 +461,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -551,11 +470,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -587,7 +501,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -609,12 +522,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -624,11 +531,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -660,7 +562,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -682,12 +583,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -697,11 +592,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -733,7 +623,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -755,12 +644,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -770,11 +653,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -806,7 +684,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -828,12 +705,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -843,11 +714,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -879,7 +745,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -898,7 +763,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-dlltool"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-dlltool"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-dlltool"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-dlltool"
       - "/usr/local/sbin/riscv32-unknown-elf-dlltool"
       - "/usr/local/bin/riscv32-unknown-elf-dlltool"
       - "/usr/bin/riscv32-unknown-elf-dlltool"
@@ -916,7 +780,6 @@ events:
       - "/opt/nvim/bin/dlltool"
       - "/home/notforest/.local/bin/dlltool"
       - "/home/notforest/.cargo/bin/dlltool"
-      - "/home/notforest/.local/share/lvim/mason/bin/dlltool"
       - "/usr/local/sbin/dlltool"
       - "/usr/local/bin/dlltool"
       - "/usr/bin/dlltool"
@@ -938,12 +801,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -953,11 +810,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -989,7 +841,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -1011,12 +862,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1026,11 +871,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1062,7 +902,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -1081,7 +920,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-tapi"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-tapi"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-tapi"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-tapi"
       - "/usr/local/sbin/riscv32-unknown-elf-tapi"
       - "/usr/local/bin/riscv32-unknown-elf-tapi"
       - "/usr/bin/riscv32-unknown-elf-tapi"
@@ -1099,7 +937,6 @@ events:
       - "/opt/nvim/bin/tapi"
       - "/home/notforest/.local/bin/tapi"
       - "/home/notforest/.cargo/bin/tapi"
-      - "/home/notforest/.local/share/lvim/mason/bin/tapi"
       - "/usr/local/sbin/tapi"
       - "/usr/local/bin/tapi"
       - "/usr/bin/tapi"
@@ -1121,12 +958,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1136,11 +967,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1174,7 +1000,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -1193,7 +1018,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar-13.2"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar-13.2"
@@ -1211,7 +1035,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar-13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar-13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar-13"
@@ -1229,7 +1052,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar13"
@@ -1251,12 +1073,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1266,11 +1082,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1304,7 +1115,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -1323,7 +1133,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
@@ -1341,7 +1150,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib-13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib-13"
@@ -1359,7 +1167,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib13"
@@ -1381,12 +1188,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1396,11 +1197,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1447,12 +1243,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1462,11 +1252,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1505,12 +1290,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1520,11 +1299,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1580,7 +1354,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -1599,7 +1372,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar-13.2"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar-13.2"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar-13.2"
@@ -1617,7 +1389,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar-13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar-13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar-13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar-13"
@@ -1635,7 +1406,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar13"
@@ -1657,12 +1427,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1672,11 +1436,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -1710,7 +1469,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -1729,7 +1487,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib-13.2"
@@ -1747,7 +1504,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib-13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib-13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib-13"
@@ -1765,7 +1521,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib13"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib13"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib13"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib13"
@@ -1787,12 +1542,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -1807,11 +1556,6 @@ events:
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
         - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
   -
     kind: "try_compile-v1"
     backtrace:
@@ -1821,8 +1565,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX"
-      binary: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX"
+      source: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS"
+      binary: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: ""
@@ -1831,14 +1575,14 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX'
+        Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fdd8f/fast
-        make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX'
-        /usr/bin/make  -f CMakeFiles/cmTC_fdd8f.dir/build.make CMakeFiles/cmTC_fdd8f.dir/build
-        make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX'
-        Building C object CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj
-        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc   -v -o CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_776c9/fast
+        make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS'
+        /usr/bin/make  -f CMakeFiles/cmTC_776c9.dir/build.make CMakeFiles/cmTC_776c9.dir/build
+        make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS'
+        Building C object CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc   -v -o CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc
         Target: riscv32-unknown-elf
@@ -1846,8 +1590,8 @@ events:
         Thread model: single
         Supported LTO compression algorithms: zlib
         gcc version 13.2.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_fdd8f.dir/'
-         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1 -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_fdd8f.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccvxH0Y0.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_776c9.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1 -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_776c9.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccVbC0bt.s
         GNU C17 (GCC) version 13.2.0 (riscv32-unknown-elf)
         	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3), GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
         
@@ -1865,19 +1609,19 @@ events:
          /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include
         End of search list.
         Compiler executable checksum: 36c165f0b8979f7845c1f97495d4f685
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_fdd8f.dir/'
-         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj /tmp/ccvxH0Y0.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_776c9.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj /tmp/ccVbC0bt.s
         GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730
         COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/
         LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.'
-        Linking C static library libcmTC_fdd8f.a
-        /usr/bin/cmake -P CMakeFiles/cmTC_fdd8f.dir/cmake_clean_target.cmake
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fdd8f.dir/link.txt --verbose=1
-        riscv32-unknown-elf-ar qc libcmTC_fdd8f.a CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj
-        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_fdd8f.a
-        make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX'
-        make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.'
+        Linking C static library libcmTC_776c9.a
+        /usr/bin/cmake -P CMakeFiles/cmTC_776c9.dir/cmake_clean_target.cmake
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_776c9.dir/link.txt --verbose=1
+        riscv32-unknown-elf-ar qc libcmTC_776c9.a CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_776c9.a
+        make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS'
+        make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS'
         
       exitCode: 0
   -
@@ -1910,14 +1654,14 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX']
+        ignore line: [Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fdd8f/fast]
-        ignore line: [make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX']
-        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_fdd8f.dir/build.make CMakeFiles/cmTC_fdd8f.dir/build]
-        ignore line: [make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX']
-        ignore line: [Building C object CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj]
-        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc   -v -o CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_776c9/fast]
+        ignore line: [make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS']
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_776c9.dir/build.make CMakeFiles/cmTC_776c9.dir/build]
+        ignore line: [make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS']
+        ignore line: [Building C object CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc   -v -o CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-gcc]
         ignore line: [Target: riscv32-unknown-elf]
@@ -1925,8 +1669,8 @@ events:
         ignore line: [Thread model: single]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 13.2.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_fdd8f.dir/']
-        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1 -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_fdd8f.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccvxH0Y0.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_776c9.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1 -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_776c9.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccVbC0bt.s]
         ignore line: [GNU C17 (GCC) version 13.2.0 (riscv32-unknown-elf)]
         ignore line: [	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3)  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
         ignore line: []
@@ -1944,19 +1688,19 @@ events:
         ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 36c165f0b8979f7845c1f97495d4f685]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_fdd8f.dir/']
-        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj /tmp/ccvxH0Y0.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_776c9.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj /tmp/ccVbC0bt.s]
         ignore line: [GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730]
         ignore line: [COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/]
         ignore line: [LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.']
-        ignore line: [Linking C static library libcmTC_fdd8f.a]
-        ignore line: [/usr/bin/cmake -P CMakeFiles/cmTC_fdd8f.dir/cmake_clean_target.cmake]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fdd8f.dir/link.txt --verbose=1]
-        ignore line: [riscv32-unknown-elf-ar qc libcmTC_fdd8f.a CMakeFiles/cmTC_fdd8f.dir/CMakeCCompilerABI.c.obj]
-        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_fdd8f.a]
-        ignore line: [make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX']
-        ignore line: [make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-8xWlvX']
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.']
+        ignore line: [Linking C static library libcmTC_776c9.a]
+        ignore line: [/usr/bin/cmake -P CMakeFiles/cmTC_776c9.dir/cmake_clean_target.cmake]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_776c9.dir/link.txt --verbose=1]
+        ignore line: [riscv32-unknown-elf-ar qc libcmTC_776c9.a CMakeFiles/cmTC_776c9.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_776c9.a]
+        ignore line: [make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS']
+        ignore line: [make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-FwMPZS']
         ignore line: []
         ignore line: []
         implicit libs: []
@@ -1974,8 +1718,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG"
-      binary: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG"
+      source: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ"
+      binary: "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -1985,14 +1729,14 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG'
+        Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b7140/fast
-        make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG'
-        /usr/bin/make  -f CMakeFiles/cmTC_b7140.dir/build.make CMakeFiles/cmTC_b7140.dir/build
-        make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG'
-        Building CXX object CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj
-        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++   -v -o CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_99166/fast
+        make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ'
+        /usr/bin/make  -f CMakeFiles/cmTC_99166.dir/build.make CMakeFiles/cmTC_99166.dir/build
+        make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ'
+        Building CXX object CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++   -v -o CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++
         Target: riscv32-unknown-elf
@@ -2000,8 +1744,8 @@ events:
         Thread model: single
         Supported LTO compression algorithms: zlib
         gcc version 13.2.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_b7140.dir/'
-         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_b7140.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccQB85SQ.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_99166.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_99166.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccPWerik.s
         GNU C++17 (GCC) version 13.2.0 (riscv32-unknown-elf)
         	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3), GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
         
@@ -2025,19 +1769,19 @@ events:
          /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include
         End of search list.
         Compiler executable checksum: d25b0579c2889d3121af47bd6e3da33d
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_b7140.dir/'
-         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj /tmp/ccQB85SQ.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_99166.dir/'
+         /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj /tmp/ccPWerik.s
         GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730
         COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/
         LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.'
-        Linking CXX static library libcmTC_b7140.a
-        /usr/bin/cmake -P CMakeFiles/cmTC_b7140.dir/cmake_clean_target.cmake
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7140.dir/link.txt --verbose=1
-        riscv32-unknown-elf-ar qc libcmTC_b7140.a CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj
-        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_b7140.a
-        make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG'
-        make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX static library libcmTC_99166.a
+        /usr/bin/cmake -P CMakeFiles/cmTC_99166.dir/cmake_clean_target.cmake
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_99166.dir/link.txt --verbose=1
+        riscv32-unknown-elf-ar qc libcmTC_99166.a CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj
+        /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_99166.a
+        make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ'
+        make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ'
         
       exitCode: 0
   -
@@ -2076,14 +1820,14 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG']
+        ignore line: [Change Dir: '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b7140/fast]
-        ignore line: [make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG']
-        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_b7140.dir/build.make CMakeFiles/cmTC_b7140.dir/build]
-        ignore line: [make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG']
-        ignore line: [Building CXX object CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj]
-        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++   -v -o CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_99166/fast]
+        ignore line: [make[1]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ']
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_99166.dir/build.make CMakeFiles/cmTC_99166.dir/build]
+        ignore line: [make[2]: Entering directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ']
+        ignore line: [Building CXX object CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++   -v -o CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-c++]
         ignore line: [Target: riscv32-unknown-elf]
@@ -2091,8 +1835,8 @@ events:
         ignore line: [Thread model: single]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 13.2.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_b7140.dir/']
-        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_b7140.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccQB85SQ.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_99166.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/ -isysroot /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_99166.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32i -mabi=ilp32 -misa-spec=2.2 -march=rv32i -version -o /tmp/ccPWerik.s]
         ignore line: [GNU C++17 (GCC) version 13.2.0 (riscv32-unknown-elf)]
         ignore line: [	compiled by GNU C version 8.3.1 20190311 (Red Hat 8.3.1-3)  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
         ignore line: []
@@ -2116,19 +1860,19 @@ events:
         ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: d25b0579c2889d3121af47bd6e3da33d]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_b7140.dir/']
-        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj /tmp/ccQB85SQ.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_99166.dir/']
+        ignore line: [ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/as -v --traditional-format -march=rv32i -march=rv32i -mabi=ilp32 -misa-spec=2.2 -o CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj /tmp/ccPWerik.s]
         ignore line: [GNU assembler version 2.40.90 (riscv32-unknown-elf) using BFD version (GNU Binutils) 2.40.90.20230730]
         ignore line: [COMPILER_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../libexec/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/bin/]
         ignore line: [LIBRARY_PATH=/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../lib/gcc/riscv32-unknown-elf/13.2.0/../../../../riscv32-unknown-elf/lib/:/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/../riscv32-unknown-elf/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX static library libcmTC_b7140.a]
-        ignore line: [/usr/bin/cmake -P CMakeFiles/cmTC_b7140.dir/cmake_clean_target.cmake]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7140.dir/link.txt --verbose=1]
-        ignore line: [riscv32-unknown-elf-ar qc libcmTC_b7140.a CMakeFiles/cmTC_b7140.dir/CMakeCXXCompilerABI.cpp.obj]
-        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_b7140.a]
-        ignore line: [make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG']
-        ignore line: [make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-9gjnLG']
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32i' '-mabi=ilp32' '-misa-spec=2.2' '-march=rv32i' '-dumpdir' 'CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX static library libcmTC_99166.a]
+        ignore line: [/usr/bin/cmake -P CMakeFiles/cmTC_99166.dir/cmake_clean_target.cmake]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_99166.dir/link.txt --verbose=1]
+        ignore line: [riscv32-unknown-elf-ar qc libcmTC_99166.a CMakeFiles/cmTC_99166.dir/CMakeCXXCompilerABI.cpp.obj]
+        ignore line: [/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin/riscv32-unknown-elf-ranlib libcmTC_99166.a]
+        ignore line: [make[2]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ']
+        ignore line: [make[1]: Leaving directory '/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/CMakeFiles/CMakeScratch/TryCompile-vxHmWQ']
         ignore line: []
         ignore line: []
         implicit libs: []
@@ -2162,7 +1906,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -2185,12 +1928,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -2200,11 +1937,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -2254,7 +1986,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -2274,7 +2005,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar-"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar-"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar-"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar-"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar-"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar-"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar-"
@@ -2293,7 +2023,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ar-"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ar-"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ar-"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ar-"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ar-"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ar-"
       - "/usr/bin/riscv32-unknown-elf-gcc-ar-"
@@ -2316,12 +2045,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -2331,11 +2054,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
@@ -2372,7 +2090,6 @@ events:
       - "/opt/nvim/bin/"
       - "/home/notforest/.local/bin/"
       - "/home/notforest/.cargo/bin/"
-      - "/home/notforest/.local/share/lvim/mason/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
@@ -2392,7 +2109,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib-"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib-"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib-"
@@ -2411,7 +2127,6 @@ events:
       - "/opt/nvim/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/home/notforest/.local/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/home/notforest/.cargo/bin/riscv32-unknown-elf-gcc-ranlib-"
-      - "/home/notforest/.local/share/lvim/mason/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/usr/local/sbin/riscv32-unknown-elf-gcc-ranlib-"
       - "/usr/local/bin/riscv32-unknown-elf-gcc-ranlib-"
       - "/usr/bin/riscv32-unknown-elf-gcc-ranlib-"
@@ -2434,12 +2149,6 @@ events:
         - "/home/notforest/.local/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
         - "/home/notforest/.cargo/bin"
-        - "/home/notforest/.local/share/lvim/mason/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/opt/nvim/bin"
-        - "/home/notforest/.local/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/quartus/bin"
-        - "/home/notforest/.cargo/bin"
         - "/home/notforest/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
@@ -2449,11 +2158,6 @@ events:
         - "/usr/bin/core_perl"
         - "/usr/lib/rustup/bin"
         - "/var/lib/snapd/snap/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/debugger/gdbserver-riscv"
-        - "/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/nios2eds/sdk2/bin"
         - "/home/notforest/intelFPGA_lite/24.1std/niosv/bin"

@@ -58,7 +58,7 @@ architecture behavioral of batch_block_tb is
         i_data   => (others => '0'),          
         i_rd_clk => '0',
         i_rd_row => (others => '0'),          
-        o_data   => (others => (others => '0'))                         
+        o_data   => (others => (others => '0'))                       
     );
 
     -- Clock frequency generation for different domains.
@@ -69,6 +69,7 @@ architecture behavioral of batch_block_tb is
 
 
     type t_dummy_matrix is array (natural range 0 to 3) of t_word_array(0 to 3);
+    signal w_q : std_logic_vector(4 * t_word'length - 1 downto 0);
 begin 
     BATCH_BLOCK_Inst : entity batch_block
     generic map (
@@ -85,8 +86,14 @@ begin
         i_data   => sigs.i_data,
         i_rd_clk => sigs.i_rd_clk,
         i_rd_row => sigs.i_rd_row,
-        o_data   => sigs.o_data         
+        o_data   => w_q,
+        o_rd_ready => open
     );
+
+    -- Converts flattened std_logic_vector to t_word_array.
+    g_UNWRAP : for i in 0 to 3 generate
+        sigs.o_data(i) <= w_q( ( i + 1 ) * t_word'length - 1 downto i * t_word'length);
+    end generate;
 
     -- Simulates input clocks.
     p_EX_CLOCK_1 : tick(sigs.i_wr_clk, freq_nios);

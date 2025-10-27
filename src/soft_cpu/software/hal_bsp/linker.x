@@ -4,7 +4,7 @@
  * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
  * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
  *
- * Generated: Fri Oct 24 20:44:22 UTC 2025
+ * Generated: Mon Oct 27 19:55:51 UTC 2025
  */
 
 /*
@@ -51,7 +51,7 @@
 MEMORY
 {
     reset : ORIGIN = 0x28000, LENGTH = 32
-    SRAM : ORIGIN = 0x28020, LENGTH = 25568
+    SRAM : ORIGIN = 0x28020, LENGTH = 20448
 }
 
 /* Define symbols for each memory base-address */
@@ -391,7 +391,7 @@ SECTIONS
 /*
  * Don't override this, override the __alt_stack_* symbols instead.
  */
-__alt_data_end = 0x2e400;
+__alt_data_end = 0x2d000;
 
 /*
  * The next two symbols define the location of the default stack.  You can
@@ -407,4 +407,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0x2e400 );
+PROVIDE( __alt_heap_limit    = 0x2d000 );

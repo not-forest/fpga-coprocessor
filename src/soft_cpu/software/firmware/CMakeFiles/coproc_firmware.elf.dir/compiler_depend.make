@@ -5,13 +5,28 @@ CMakeFiles/coproc_firmware.elf.dir/main.c.obj: main.c \
   /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_stdio.h \
   /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stdarg.h
 
-CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.obj: spi_avalon.c
+CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.obj: spi_avalon.c \
+  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h \
+  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/io.h \
+  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi.h \
+  /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi_regs.h \
+  /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h
 
+
+/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi.h:
+
+/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/io.h:
+
+/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_spi_regs.h:
+
+/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h:
 
 spi_avalon.c:
 
 /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stdarg.h:
 
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_stdio.h:
+
+/home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h:
 
 main.c:

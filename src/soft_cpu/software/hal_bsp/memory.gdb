@@ -3,7 +3,7 @@
 # Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
 # SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
 #
-# Generated: Fri Oct 24 20:44:22 UTC 2025
+# Generated: Mon Oct 27 19:55:51 UTC 2025
 
 # DO NOT MODIFY THIS FILE
 #
@@ -47,4 +47,4 @@
 # by allowing GDB to cache memory contents on the host.
 
 # SRAM
-memory 0x28000 0x2e400 cache
+memory 0x28000 0x2d000 cache

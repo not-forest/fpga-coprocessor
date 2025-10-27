@@ -2,12 +2,12 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal2</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Oct 24, 2025 8:44:21 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1761338661821</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Oct 27, 2025 7:55:50 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1761594950351</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>./</BspGeneratedLocation>
         <BspSettingsFile>/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../coproc_soft_cpu.sopcinfo</SopcDesignFile>
-        <SystemFileHash>78607823a52ef2b7a10fca869a6b1a4068bdfad29594533c479a288e47ce33</SystemFileHash>
+        <SystemFileHash>bb8d903474d7e79cdc6c89d76566d47be624e649beefc35454a82e27cf460</SystemFileHash>
         <JdiFile>default</JdiFile>
         <Cpu>CPU</Cpu>
         <SchemaVersion>1.9</SchemaVersion>
@@ -39,7 +39,7 @@
                 <SettingName>hal.max_file_descriptors</SettingName>
                 <Identifier>ALT_MAX_FD</Identifier>
                 <Type>DecimalNumber</Type>
-                <Value>4</Value>
+                <Value>0</Value>
                 <DefaultValue>32</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Determines the number of file descriptors statically allocated. This setting defines the value of ALT_MAX_FD in system.h.</Description>
@@ -51,7 +51,7 @@
                 <SettingName>hal.enable_instruction_related_exceptions_api</SettingName>
                 <Identifier>ALT_INCLUDE_INSTRUCTION_RELATED_EXCEPTION_API</Identifier>
                 <Type>BooleanDefineOnly</Type>
-                <Value>true</Value>
+                <Value>false</Value>
                 <DefaultValue>false</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Enables API for registering handlers to service instruction-related exceptions. Enabling this setting increases the size of the exception entry code.</Description>
@@ -519,7 +519,7 @@
                 <SettingName>hal.enable_reduced_device_drivers</SettingName>
                 <Identifier>ALT_USE_SMALL_DRIVERS</Identifier>
                 <Type>BooleanDefineOnly</Type>
-                <Value>false</Value>
+                <Value>true</Value>
                 <DefaultValue>false</DefaultValue>
                 <DestinationFile>public_mk_define</DestinationFile>
                 <Description>Certain drivers are compiled with reduced functionality to reduce code footprint. Not all drivers observe this setting. The altera_avalon_uart and altera_avalon_jtag_uart drivers switch from interrupt-driven to polled operation. CAUTION: Several device drivers are disabled entirely. These include the altera_avalon_cfi_flash, altera_avalon_epcs_flash_controller, and altera_avalon_lcd_16207 drivers. This can result in certain API (HAL flash access routines) to fail. You can define a symbol provided by each driver to prevent it from being removed. If true, defines ALT_USE_SMALL_DRIVERS.</Description>
@@ -555,7 +555,7 @@
                 <SettingName>hal.log_flags</SettingName>
                 <Identifier>ALT_LOG_FLAGS</Identifier>
                 <Type>DecimalNumber</Type>
-                <Value>0</Value>
+                <Value>3</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>public_mk_define</DestinationFile>
                 <Description>The value is assigned to ALT_LOG_FLAGS in the generated public.mk. See hal.log_port setting description. Values can be -1 through 3.</Description>
@@ -607,25 +607,37 @@
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>SRAM</slaveDescriptor>
-                <addressRange>0x00028000 - 0x0002E3FF</addressRange>
-                <addressSpan>25600</addressSpan>
+                <addressRange>0x00028000 - 0x0002CFFF</addressRange>
+                <addressSpan>20480</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>CPU_timer_sw_agent</slaveDescriptor>
+                <slaveDescriptor>DATA_BATCH</slaveDescriptor>
                 <addressRange>0x00030000 - 0x0003003F</addressRange>
                 <addressSpan>64</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>WEIGHT_BATCH</slaveDescriptor>
+                <addressRange>0x00030040 - 0x0003007F</addressRange>
+                <addressSpan>64</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>CPU_timer_sw_agent</slaveDescriptor>
+                <addressRange>0x00030080 - 0x000300BF</addressRange>
+                <addressSpan>64</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>SPI_0</slaveDescriptor>
-                <addressRange>0x00030040 - 0x0003005F</addressRange>
+                <addressRange>0x000300C0 - 0x000300DF</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>DEBUG_JTAG</slaveDescriptor>
-                <addressRange>0x00030060 - 0x00030067</addressRange>
+                <addressRange>0x000300E0 - 0x000300E7</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>

@@ -6,12 +6,16 @@ Progress: Adding CLK [clock_source 24.1]
 Progress: Parameterizing module CLK
 Progress: Adding CPU [intel_niosv_m 26.0.0]
 Progress: Parameterizing module CPU
+Progress: Adding DATA_BATCH [systolic_batch_block 1.0]
+Progress: Parameterizing module DATA_BATCH
 Progress: Adding DEBUG_JTAG [altera_avalon_jtag_uart 24.1]
 Progress: Parameterizing module DEBUG_JTAG
 Progress: Adding SPI_0 [altera_avalon_spi 24.1]
 Progress: Parameterizing module SPI_0
 Progress: Adding SRAM [altera_avalon_onchip_memory2 24.1]
 Progress: Parameterizing module SRAM
+Progress: Adding WEIGHT_BATCH [systolic_batch_block 1.0]
+Progress: Parameterizing module WEIGHT_BATCH
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
@@ -23,80 +27,27 @@ Warning: coproc_soft_cpu.CPU: Properties (associatedClock,associatedReset) have 
 Info: coproc_soft_cpu.DEBUG_JTAG: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
 Info: coproc_soft_cpu: Generating "coproc_soft_cpu" for SIM_VHDL
 Info: CPU: "coproc_soft_cpu" instantiated intel_niosv_m "CPU"
-Info: DEBUG_JTAG: "coproc_soft_cpu" instantiated altera_avalon_jtag_uart "DEBUG_JTAG"
-Info: SPI_0: Starting RTL generation for module 'coproc_soft_cpu_SPI_0'
-Info: SPI_0:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi/generate_rtl.pl --name=coproc_soft_cpu_SPI_0 --dir=/tmp/alt0385_2235383756912113866.dir/0062_SPI_0_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --vhdl --config=/tmp/alt0385_2235383756912113866.dir/0062_SPI_0_gen//coproc_soft_cpu_SPI_0_component_configuration.pl  --do_build_sim=1    --sim_dir=/tmp/alt0385_2235383756912113866.dir/0062_SPI_0_gen/  ]
-Info: SPI_0: Done RTL generation for module 'coproc_soft_cpu_SPI_0'
-Info: SPI_0: "coproc_soft_cpu" instantiated altera_avalon_spi "SPI_0"
-Info: SRAM: Starting RTL generation for module 'coproc_soft_cpu_SRAM'
-Info: SRAM:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=coproc_soft_cpu_SRAM --dir=/tmp/alt0385_2235383756912113866.dir/0063_SRAM_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --vhdl --config=/tmp/alt0385_2235383756912113866.dir/0063_SRAM_gen//coproc_soft_cpu_SRAM_component_configuration.pl  --do_build_sim=1    --sim_dir=/tmp/alt0385_2235383756912113866.dir/0063_SRAM_gen/  ]
-Info: SRAM: Done RTL generation for module 'coproc_soft_cpu_SRAM'
-Info: SRAM: "coproc_soft_cpu" instantiated altera_avalon_onchip_memory2 "SRAM"
-Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
-Info: mm_interconnect_0: "coproc_soft_cpu" instantiated altera_mm_interconnect "mm_interconnect_0"
-Info: irq_mapper: "coproc_soft_cpu" instantiated altera_irq_mapper "irq_mapper"
-Info: rst_controller: "coproc_soft_cpu" instantiated altera_reset_controller "rst_controller"
-Info: niosv_reset_controller: "Generating: niosv_reset_controller"
-Info: hart: "CPU" instantiated intel_niosv_m_unit "hart"
-Info: timer_module: "CPU" instantiated intel_niosv_timer_msip "timer_module"
-Info: dbg_mod: "CPU" instantiated intel_niosv_dbg_mod "dbg_mod"
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/aldec/niosv_ram.sv
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/cadence/niosv_ram.sv
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/mentor/niosv_ram.sv
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/synopsys/niosv_ram.sv
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_reset_synchronizer.v
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_reset_controller.v
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_reset_controller.sdc
-Info: irq_mapper: "CPU" instantiated altera_irq_mapper "irq_mapper"
-Info: CPU_data_manager_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "CPU_data_manager_translator"
-Info: DEBUG_JTAG_avalon_jtag_slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "DEBUG_JTAG_avalon_jtag_slave_translator"
-Info: CPU_data_manager_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "CPU_data_manager_agent"
-Info: DEBUG_JTAG_avalon_jtag_slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "DEBUG_JTAG_avalon_jtag_slave_agent"
-Info: DEBUG_JTAG_avalon_jtag_slave_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "DEBUG_JTAG_avalon_jtag_slave_agent_rsp_fifo"
-Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
-Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
-Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
-Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_003"
-Info: CPU_data_manager_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "CPU_data_manager_limiter"
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_avalon_sc_fifo.v
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_avalon_st_pipeline_base.v
-Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
-Info: cmd_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_001"
-Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: cmd_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_001"
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_merlin_arbitrator.sv
-Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
-Info: rsp_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_001"
-Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_merlin_arbitrator.sv
-Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
-Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/submodules/altera_merlin_arbitrator.sv
-Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
-Info: niosv_reset_controller: "hart" instantiated intel_niosv_m_unit "niosv_reset_controller"
-Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: coproc_soft_cpu: Done "coproc_soft_cpu" with 33 modules, 200 files
-Info: qsys-generate succeeded.
+Error: DATA_BATCH: systolic_batch_block does not support generation for VHDL Simulation. Generation is available for: Quartus Synthesis.
+Error: Generation stopped, 18 or more modules remaining
+Info: coproc_soft_cpu: Done "coproc_soft_cpu" with 13 modules, 4 files
+Error: qsys-generate failed with exit code 1: 2 Errors, 4 Warnings
 Info: Finished: Create simulation model
 Info: Starting: Create Modelsim Project.
 Info: sim-script-gen --spd=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/coproc_soft_cpu.spd --output-directory=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ --use-relative-paths=true
 Info: Doing: ip-make-simscript --spd=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/coproc_soft_cpu.spd --output-directory=/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ --use-relative-paths=true
-Info: Generating the following file(s) for RIVIERA simulator in /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ directory:
-Info: 	aldec/rivierapro_setup.tcl
-Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
 Info: Generating the following file(s) for VCSMX simulator in /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ directory:
 Info: 	synopsys/vcsmx/synopsys_sim.setup
 Info: 	synopsys/vcsmx/vcsmx_setup.sh
-Info: Generating the following file(s) for MODELSIM simulator in /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ directory:
-Info: 	mentor/msim_setup.tcl
 Info: Generating the following file(s) for XCELIUM simulator in /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ directory:
 Info: 	xcelium/cds.lib
 Info: 	xcelium/hdl.var
 Info: 	xcelium/xcelium_setup.sh
-Info: 	31 .cds.lib files in xcelium/cds_libs/ directory
+Info: 	1 .cds.lib files in xcelium/cds_libs/ directory
+Info: Generating the following file(s) for MODELSIM simulator in /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for RIVIERA simulator in /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
 Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/simulation/.
 Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
 Info: Finished: Create Modelsim Project.
@@ -109,12 +60,16 @@ Progress: Adding CLK [clock_source 24.1]
 Progress: Parameterizing module CLK
 Progress: Adding CPU [intel_niosv_m 26.0.0]
 Progress: Parameterizing module CPU
+Progress: Adding DATA_BATCH [systolic_batch_block 1.0]
+Progress: Parameterizing module DATA_BATCH
 Progress: Adding DEBUG_JTAG [altera_avalon_jtag_uart 24.1]
 Progress: Parameterizing module DEBUG_JTAG
 Progress: Adding SPI_0 [altera_avalon_spi 24.1]
 Progress: Parameterizing module SPI_0
 Progress: Adding SRAM [altera_avalon_onchip_memory2 24.1]
 Progress: Parameterizing module SRAM
+Progress: Adding WEIGHT_BATCH [systolic_batch_block 1.0]
+Progress: Parameterizing module WEIGHT_BATCH
 Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
@@ -126,13 +81,14 @@ Warning: coproc_soft_cpu.CPU: Properties (associatedClock,associatedReset) have 
 Info: coproc_soft_cpu.DEBUG_JTAG: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
 Info: coproc_soft_cpu: Generating "coproc_soft_cpu" for QUARTUS_SYNTH
 Info: CPU: "coproc_soft_cpu" instantiated intel_niosv_m "CPU"
+Info: DATA_BATCH: "coproc_soft_cpu" instantiated systolic_batch_block "DATA_BATCH"
 Info: DEBUG_JTAG: "coproc_soft_cpu" instantiated altera_avalon_jtag_uart "DEBUG_JTAG"
 Info: SPI_0: Starting RTL generation for module 'coproc_soft_cpu_SPI_0'
-Info: SPI_0:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi/generate_rtl.pl --name=coproc_soft_cpu_SPI_0 --dir=/tmp/alt0385_2235383756912113866.dir/0091_SPI_0_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0385_2235383756912113866.dir/0091_SPI_0_gen//coproc_soft_cpu_SPI_0_component_configuration.pl  --do_build_sim=0  ]
+Info: SPI_0:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi/generate_rtl.pl --name=coproc_soft_cpu_SPI_0 --dir=/tmp/alt0388_7760714182140520683.dir/0009_SPI_0_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0388_7760714182140520683.dir/0009_SPI_0_gen//coproc_soft_cpu_SPI_0_component_configuration.pl  --do_build_sim=0  ]
 Info: SPI_0: Done RTL generation for module 'coproc_soft_cpu_SPI_0'
 Info: SPI_0: "coproc_soft_cpu" instantiated altera_avalon_spi "SPI_0"
 Info: SRAM: Starting RTL generation for module 'coproc_soft_cpu_SRAM'
-Info: SRAM:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=coproc_soft_cpu_SRAM --dir=/tmp/alt0385_2235383756912113866.dir/0092_SRAM_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0385_2235383756912113866.dir/0092_SRAM_gen//coproc_soft_cpu_SRAM_component_configuration.pl  --do_build_sim=0  ]
+Info: SRAM:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=coproc_soft_cpu_SRAM --dir=/tmp/alt0388_7760714182140520683.dir/0010_SRAM_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0388_7760714182140520683.dir/0010_SRAM_gen//coproc_soft_cpu_SRAM_component_configuration.pl  --do_build_sim=0  ]
 Info: SRAM: Done RTL generation for module 'coproc_soft_cpu_SRAM'
 Info: SRAM: "coproc_soft_cpu" instantiated altera_avalon_onchip_memory2 "SRAM"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
@@ -140,6 +96,8 @@ Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "coproc_soft_cpu" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: irq_mapper: "coproc_soft_cpu" instantiated altera_irq_mapper "irq_mapper"
 Info: rst_controller: "coproc_soft_cpu" instantiated altera_reset_controller "rst_controller"
@@ -153,31 +111,40 @@ Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/copro
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_reset_controller.sdc
 Info: irq_mapper: "CPU" instantiated altera_irq_mapper "irq_mapper"
 Info: CPU_data_manager_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "CPU_data_manager_translator"
-Info: DEBUG_JTAG_avalon_jtag_slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "DEBUG_JTAG_avalon_jtag_slave_translator"
+Info: WEIGHT_BATCH_avalon_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "WEIGHT_BATCH_avalon_translator"
 Info: CPU_data_manager_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "CPU_data_manager_agent"
-Info: DEBUG_JTAG_avalon_jtag_slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "DEBUG_JTAG_avalon_jtag_slave_agent"
-Info: DEBUG_JTAG_avalon_jtag_slave_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "DEBUG_JTAG_avalon_jtag_slave_agent_rsp_fifo"
+Info: WEIGHT_BATCH_avalon_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "WEIGHT_BATCH_avalon_agent"
+Info: WEIGHT_BATCH_avalon_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "WEIGHT_BATCH_avalon_agent_rsp_fifo"
 Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
 Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
 Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
-Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_003"
+Info: router_004: "mm_interconnect_0" instantiated altera_merlin_router "router_004"
+Info: router_005: "mm_interconnect_0" instantiated altera_merlin_router "router_005"
 Info: CPU_data_manager_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "CPU_data_manager_limiter"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: WEIGHT_BATCH_avalon_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "WEIGHT_BATCH_avalon_burst_adapter"
+Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_001"
 Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: cmd_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_001"
+Info: cmd_mux_003: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_003"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
-Info: rsp_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_001"
+Info: rsp_demux_003: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_003"
 Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: WEIGHT_BATCH_avalon_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "WEIGHT_BATCH_avalon_rsp_width_adapter"
+Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_burst_uncompressor.sv
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: avalon_st_adapter_002: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_002"
 Info: niosv_reset_controller: "hart" instantiated intel_niosv_m_unit "niosv_reset_controller"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: coproc_soft_cpu: Done "coproc_soft_cpu" with 33 modules, 89 files
+Info: error_adapter_0: "avalon_st_adapter_002" instantiated error_adapter "error_adapter_0"
+Info: coproc_soft_cpu: Done "coproc_soft_cpu" with 39 modules, 104 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

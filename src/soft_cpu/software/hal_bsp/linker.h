@@ -4,7 +4,7 @@
  * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
  * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
  *
- * Generated: Fri Oct 24 20:44:22 UTC 2025
+ * Generated: Mon Oct 27 19:55:51 UTC 2025
  */
 
 /*
@@ -68,7 +68,7 @@
 #define RESET_REGION_BASE 0x28000
 #define RESET_REGION_SPAN 32
 #define SRAM_REGION_BASE 0x28020
-#define SRAM_REGION_SPAN 25568
+#define SRAM_REGION_SPAN 20448
 
 
 /*
