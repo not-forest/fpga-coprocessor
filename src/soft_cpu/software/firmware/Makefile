@@ -205,29 +205,29 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/main.c.s
 .PHONY : main.c.s
 
-spi_avalon.obj: spi_avalon.c.obj
-.PHONY : spi_avalon.obj
+sys_io.obj: sys_io.c.obj
+.PHONY : sys_io.obj
 
 # target to build an object file
-spi_avalon.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.obj
-.PHONY : spi_avalon.c.obj
+sys_io.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/sys_io.c.obj
+.PHONY : sys_io.c.obj
 
-spi_avalon.i: spi_avalon.c.i
-.PHONY : spi_avalon.i
+sys_io.i: sys_io.c.i
+.PHONY : sys_io.i
 
 # target to preprocess a source file
-spi_avalon.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.i
-.PHONY : spi_avalon.c.i
+sys_io.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/sys_io.c.i
+.PHONY : sys_io.c.i
 
-spi_avalon.s: spi_avalon.c.s
-.PHONY : spi_avalon.s
+sys_io.s: sys_io.c.s
+.PHONY : sys_io.s
 
 # target to generate assembly for a file
-spi_avalon.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.s
-.PHONY : spi_avalon.c.s
+sys_io.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/coproc_firmware.elf.dir/build.make CMakeFiles/coproc_firmware.elf.dir/sys_io.c.s
+.PHONY : sys_io.c.s
 
 # Help Target
 help:
@@ -245,9 +245,9 @@ help:
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... spi_avalon.obj"
-	@echo "... spi_avalon.i"
-	@echo "... spi_avalon.s"
+	@echo "... sys_io.obj"
+	@echo "... sys_io.i"
+	@echo "... sys_io.s"
 .PHONY : help
 
 

@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 24.1 1077 (Future versions may contain additional information.) -->
- <!-- 2025.10.27.19:44:17 -->
+ <!-- 2025.10.28.14:02:32 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1761594257</value>
+  <value>1761660152</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -3182,7 +3182,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="printingMethod">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>

@@ -16,7 +16,7 @@ target_sources(coproc_firmware.elf
     PRIVATE
         firmware.h
         main.c
-        spi_avalon.c
+        sys_io.c
 )
 
 target_include_directories(coproc_firmware.elf

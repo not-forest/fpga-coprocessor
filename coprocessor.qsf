@@ -64,13 +64,14 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to o_pMISO
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pCLK
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name SEARCH_PATH src/soft_cpu/coproc_soft_cpu
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pRST
 set_global_assignment -name QSYS_FILE src/soft_cpu/coproc_soft_cpu.qsys
+set_global_assignment -name VHDL_FILE src/intrinsics/batch_block.vhd
 set_global_assignment -name VHDL_FILE src/binding_vendor.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/domain_fifo.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/pll.vhd
 set_global_assignment -name VHDL_FILE src/coprocessor.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/types.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/pe.vhd
-set_global_assignment -name SEARCH_PATH src/soft_cpu/coproc_soft_cpu
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pRST
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

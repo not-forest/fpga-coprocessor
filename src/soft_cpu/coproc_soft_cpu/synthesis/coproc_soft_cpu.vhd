@@ -517,7 +517,7 @@ begin
 			useRegistersForWriteBuffer => false,
 			writeBufferDepth           => 64,
 			writeIRQThreshold          => 8,
-			printingMethod             => false,
+			printingMethod             => true,
 			FIFO_WIDTH                 => 8,
 			WR_WIDTHU                  => 6,
 			RD_WIDTHU                  => 6,

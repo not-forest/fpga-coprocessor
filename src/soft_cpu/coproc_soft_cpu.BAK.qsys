@@ -218,7 +218,7 @@
   <parameter name="avalonSpec" value="2.0" />
   <parameter name="clkFreq" value="100000000" />
   <parameter name="hubInstanceID" value="0" />
-  <parameter name="printingMethod" value="true" />
+  <parameter name="printingMethod" value="false" />
   <parameter name="readBufferDepth" value="64" />
   <parameter name="readIRQThreshold" value="8" />
   <parameter name="simInputCharacterStream" value="" />

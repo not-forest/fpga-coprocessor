@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="coproc_soft_cpu" kind="system" version="24.1" fabric="QSYS">
  <!-- Format version 24.1 1077 (Future versions may contain additional information.) -->
- <!-- 2025.10.27.19:44:22 -->
+ <!-- 2025.10.28.14:02:35 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1761594257</value>
+  <value>1761660152</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -3197,7 +3197,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="printingMethod">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -12369,5 +12369,5 @@ parameters are a RESULT of the module parameters. -->
   <version>24.1</version>
  </plugin>
  <reportVersion>24.1 1077</reportVersion>
- <uniqueIdentifier>E4A8DFE5FE2D0000019A27333798</uniqueIdentifier>
+ <uniqueIdentifier>E4A8DFE5FE2D0000019A2B20ADBC</uniqueIdentifier>
 </EnsembleReport>

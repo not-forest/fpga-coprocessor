@@ -9,7 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/main.c" "CMakeFiles/coproc_firmware.elf.dir/main.c.obj" "gcc" "CMakeFiles/coproc_firmware.elf.dir/main.c.obj.d"
-  "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/spi_avalon.c" "CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.obj" "gcc" "CMakeFiles/coproc_firmware.elf.dir/spi_avalon.c.obj.d"
+  "/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/firmware/sys_io.c" "CMakeFiles/coproc_firmware.elf.dir/sys_io.c.obj" "gcc" "CMakeFiles/coproc_firmware.elf.dir/sys_io.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -1,7 +1,7 @@
 /**
-  *  @file   spi_avalon.c
+  *  @file   sys_io.c
   *  @author not-forest <sshkliaiev@gmail.com>
-  *  @brief  Driver functions to communicate with SPI Slave to Avalon-MM Interface IP.
+  *  @brief  I/O implementation for communicating with internal systolic array component. 
   *  @license BSD 
   *
   *  BSD 2-Clause 
@@ -27,7 +27,12 @@
   *  @test   Tested on Cyclone IV with Intel Quartus Lite 24.1
   **/
 
-#include <altera_avalon_spi.h>
-#include <altera_avalon_spi_regs.h>
+#include "firmware.h"
+#include <io.h>
 
+#define BBAS 6
+#define HBBAS (BBAS / 2)
 
+void write_batch_word(int batch, uint8_t row, uint8_t col, sysword_t word) {
+    IOWR_8DIRECT(batch, (row << HBBAS) | col, word);
+}
