@@ -43,7 +43,7 @@ entity pe is
 
         o_xout : out t_word;                    -- Pipelined output data X. N-bit width.
         o_wout : out t_word;                    -- Pipelined output data W. N-bit width.
-        o_aout : out t_acc                      -- Pipelined accumulator.
+        o_aout : out t_acc                      -- Accumulator output for reading.
     );
 end entity;
 

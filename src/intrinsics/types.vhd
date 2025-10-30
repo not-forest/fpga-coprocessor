@@ -39,6 +39,8 @@ package intrinsics is
 
     -- Resizable array of coprocessor words.
     type t_word_array is array (natural range <>) of t_word;
+    -- Matrix of accumulators from PE elements.
+    type t_acc_mat is array (natural range <>, natural range <>) of t_acc;
 
     -- Enum state that each PE holds.
     --
