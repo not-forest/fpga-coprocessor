@@ -13,7 +13,10 @@
 			o_spi_export_MISO                        : out std_logic;                                        -- MISO
 			o_spi_export_MOSI                        : in  std_logic                     := 'X';             -- MOSI
 			o_spi_export_SCLK                        : in  std_logic                     := 'X';             -- SCLK
-			o_spi_export_SS_n                        : in  std_logic                     := 'X'              -- SS_n
+			o_spi_export_SS_n                        : in  std_logic                     := 'X';             -- SS_n
+			o_serializer_export_i_acc                : in  std_logic_vector(23 downto 0) := (others => 'X'); -- i_acc
+			o_serializer_export_o_clr                : out std_logic;                                        -- o_clr
+			o_serializer_export_o_read               : out std_logic                                         -- o_read
 		);
 	end component coproc_soft_cpu;
 
@@ -32,6 +35,9 @@
 			o_spi_export_MISO                        => CONNECTED_TO_o_spi_export_MISO,                        --          o_spi_export.MISO
 			o_spi_export_MOSI                        => CONNECTED_TO_o_spi_export_MOSI,                        --                      .MOSI
 			o_spi_export_SCLK                        => CONNECTED_TO_o_spi_export_SCLK,                        --                      .SCLK
-			o_spi_export_SS_n                        => CONNECTED_TO_o_spi_export_SS_n                         --                      .SS_n
+			o_spi_export_SS_n                        => CONNECTED_TO_o_spi_export_SS_n,                        --                      .SS_n
+			o_serializer_export_i_acc                => CONNECTED_TO_o_serializer_export_i_acc,                --   o_serializer_export.i_acc
+			o_serializer_export_o_clr                => CONNECTED_TO_o_serializer_export_o_clr,                --                      .o_clr
+			o_serializer_export_o_read               => CONNECTED_TO_o_serializer_export_o_read                --                      .o_read
 		);
 

@@ -78,6 +78,7 @@ begin
         o_data => o_data
              );
 
+    o_rd_ready <= not av_write;
     av_waitrequest <= '0';          -- Always ready for writing.
     av_readdata <= (others => '0'); -- Writing has no use for the current wrapper.
 end architecture;

@@ -13,7 +13,10 @@ module coproc_soft_cpu (
 	o_spi_export_MISO,
 	o_spi_export_MOSI,
 	o_spi_export_SCLK,
-	o_spi_export_SS_n);	
+	o_spi_export_SS_n,
+	o_serializer_export_i_acc,
+	o_serializer_export_o_clr,
+	o_serializer_export_o_read);	
 
 	input		i_clk_clk;
 	input		i_clr_reset_n;
@@ -29,4 +32,7 @@ module coproc_soft_cpu (
 	input		o_spi_export_MOSI;
 	input		o_spi_export_SCLK;
 	input		o_spi_export_SS_n;
+	input	[23:0]	o_serializer_export_i_acc;
+	output		o_serializer_export_o_clr;
+	output		o_serializer_export_o_read;
 endmodule

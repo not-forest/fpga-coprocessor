@@ -12,6 +12,9 @@
 		.o_spi_export_MISO                        (<connected-to-o_spi_export_MISO>),                        //          o_spi_export.MISO
 		.o_spi_export_MOSI                        (<connected-to-o_spi_export_MOSI>),                        //                      .MOSI
 		.o_spi_export_SCLK                        (<connected-to-o_spi_export_SCLK>),                        //                      .SCLK
-		.o_spi_export_SS_n                        (<connected-to-o_spi_export_SS_n>)                         //                      .SS_n
+		.o_spi_export_SS_n                        (<connected-to-o_spi_export_SS_n>),                        //                      .SS_n
+		.o_serializer_export_i_acc                (<connected-to-o_serializer_export_i_acc>),                //   o_serializer_export.i_acc
+		.o_serializer_export_o_clr                (<connected-to-o_serializer_export_o_clr>),                //                      .o_clr
+		.o_serializer_export_o_read               (<connected-to-o_serializer_export_o_read>)                //                      .o_read
 	);
 

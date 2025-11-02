@@ -66,6 +66,7 @@ set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name SEARCH_PATH src/soft_cpu/coproc_soft_cpu
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pRST
+set_global_assignment -name VHDL_FILE src/intrinsics/serializer.vhd
 set_global_assignment -name QSYS_FILE src/soft_cpu/coproc_soft_cpu.qsys
 set_global_assignment -name VHDL_FILE src/intrinsics/batch_block.vhd
 set_global_assignment -name VHDL_FILE src/binding_vendor.vhd

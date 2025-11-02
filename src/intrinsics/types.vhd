@@ -32,6 +32,8 @@ package intrinsics is
     constant WORD_LENGTH : natural := 8;
     constant SPI_WORD_LENGTH : natural := 8;
 
+    -- Subtype for NIOS V soft CPU word.
+    subtype t_niosv_word is std_logic_vector(31 downto 0);
     -- Words of data moving within the system atomically.
     subtype t_word is std_logic_vector(WORD_LENGTH - 1 downto 0);
     -- Accumulated value forwarded within the systolic array structure. 

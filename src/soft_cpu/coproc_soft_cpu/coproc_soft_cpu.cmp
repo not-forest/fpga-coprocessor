@@ -10,6 +10,9 @@
 			o_batch_weight_export_conduit_i_rd_row   : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- conduit_i_rd_row
 			o_batch_weight_export_conduit_o_data     : out std_logic_vector(63 downto 0);                    -- conduit_o_data
 			o_batch_weight_export_conduit_o_rd_ready : out std_logic;                                        -- conduit_o_rd_ready
+			o_serializer_export_i_acc                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- i_acc
+			o_serializer_export_o_clr                : out std_logic;                                        -- o_clr
+			o_serializer_export_o_read               : out std_logic;                                        -- o_read
 			o_spi_export_MISO                        : out std_logic;                                        -- MISO
 			o_spi_export_MOSI                        : in  std_logic                     := 'X';             -- MOSI
 			o_spi_export_SCLK                        : in  std_logic                     := 'X';             -- SCLK

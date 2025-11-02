@@ -7,6 +7,7 @@ src/intrinsics/piso.vhd
 src/intrinsics/pe_fifo.vhd
 src/intrinsics/domain_fifo.vhd
 src/intrinsics/batch_block.vhd
+src/intrinsics/serializer.vhd
 src/systolic.vhd
 
 src/tb/tb.vhd

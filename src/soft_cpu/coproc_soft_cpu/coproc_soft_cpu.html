@@ -67,7 +67,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   </table>
   <table class="blueBar">
    <tr>
-    <td class="l">2025.10.28.14:02:32</td>
+    <td class="l">2025.11.02.22:34:17</td>
     <td class="r">Datasheet</td>
    </tr>
   </table>
@@ -99,6 +99,9 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      <br/>&#160;&#160;
      <a href="#module_DEBUG_JTAG"><b>DEBUG_JTAG</b>
      </a> altera_avalon_jtag_uart 24.1
+     <br/>&#160;&#160;
+     <a href="#module_SERIALIZER_0"><b>SERIALIZER_0</b>
+     </a> systolic_serializer 1.0
      <br/>&#160;&#160;
      <a href="#module_SPI_0"><b>SPI_0</b>
      </a> altera_avalon_spi 24.1
@@ -135,7 +138,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <tr>
     <td class="slavem">timer_sw_agent&#160;</td>
     <td class="empty"></td>
-    <td class="addr"><span style="color:#989898">0x</span>00030080</td>
+    <td class="addr"><span style="color:#989898">0x</span>00030000</td>
    </tr>
    <tr>
     <td class="slavem">dm_agent&#160;</td>
@@ -153,7 +156,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <tr>
     <td class="slaveb">avalon&#160;</td>
     <td class="empty"></td>
-    <td class="addr"><span style="color:#989898">0x</span>00030000</td>
+    <td class="addr"><span style="color:#989898">0x</span>00030040</td>
    </tr>
    <tr>
     <td class="slavemodule">&#160;
@@ -167,6 +170,19 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <td class="slaveb">avalon_jtag_slave&#160;</td>
     <td class="empty"></td>
     <td class="addr"><span style="color:#989898">0x</span>000300e0</td>
+   </tr>
+   <tr>
+    <td class="slavemodule">&#160;
+     <a href="#module_SERIALIZER_0"><b>SERIALIZER_0</b>
+     </a>
+    </td>
+    <td class="empty"></td>
+    <td class="empty"></td>
+   </tr>
+   <tr>
+    <td class="slaveb">avalon&#160;</td>
+    <td class="empty"></td>
+    <td class="addr"><span style="color:#989898">0x</span>000300e8</td>
    </tr>
    <tr>
     <td class="slavemodule">&#160;
@@ -205,7 +221,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <tr>
     <td class="slaveb">avalon&#160;</td>
     <td class="empty"></td>
-    <td class="addr"><span style="color:#989898">0x</span>00030040</td>
+    <td class="addr"><span style="color:#989898">0x</span>00030080</td>
    </tr>
   </table>
   <a name="module_CLK"> </a>
@@ -267,7 +283,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        <a href="#module_CLK">CLK</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
-      <td class="main" rowspan="32">CPU</td>
+      <td class="main" rowspan="41">CPU</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;clk</td>
@@ -288,7 +304,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td></td>
       <td class="from">data_manager&#160;&#160;</td>
-      <td class="neighbor" rowspan="2">
+      <td class="neighbor" rowspan="4">
        <a href="#module_WEIGHT_BATCH">WEIGHT_BATCH</a>
       </td>
      </tr>
@@ -297,6 +313,16 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td class="to">&#160;&#160;avalon</td>
      </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">dbg_reset_out&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset_n</td>
+     </tr>
      <tr style="height:6px">
       <td></td>
      </tr>
@@ -304,7 +330,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td></td>
       <td class="from">data_manager&#160;&#160;</td>
-      <td class="neighbor" rowspan="2">
+      <td class="neighbor" rowspan="4">
        <a href="#module_DATA_BATCH">DATA_BATCH</a>
       </td>
      </tr>
@@ -312,6 +338,42 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td></td>
       <td class="to">&#160;&#160;avalon</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">dbg_reset_out&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset_n</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">data_manager&#160;&#160;</td>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_SERIALIZER_0">SERIALIZER_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;avalon</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">dbg_reset_out&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -440,7 +502,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">dataSlaveMapParam</td>
-        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /&gt;&lt;slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='DATA_BATCH.avalon' start='0x30000' end='0x30040' type='systolic_batch_block.avalon' /&gt;&lt;slave name='WEIGHT_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /&gt;&lt;slave name='CPU.timer_sw_agent' start='0x30080' end='0x300C0' type='intel_niosv_m.timer_sw_agent' /&gt;&lt;slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;/address-map&gt;</td>
+        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /&gt;&lt;slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='CPU.timer_sw_agent' start='0x30000' end='0x30040' type='intel_niosv_m.timer_sw_agent' /&gt;&lt;slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /&gt;&lt;slave name='WEIGHT_BATCH.avalon' start='0x30080' end='0x300C0' type='systolic_batch_block.avalon' /&gt;&lt;slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300F0' type='systolic_serializer.avalon' /&gt;&lt;/address-map&gt;</td>
        </tr>
        <tr>
         <td class="parametername">enableDebug</td>
@@ -573,7 +635,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">MTIME_OFFSET</td>
-        <td class="parametervalue">0x00030080</td>
+        <td class="parametervalue">0x00030000</td>
        </tr>
        <tr>
         <td class="parametername">NIOSV_CORE_VARIANT</td>
@@ -608,14 +670,20 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <div class="greydiv">
     <table class="connectionboxes">
      <tr>
-      <td class="neighbor" rowspan="2">
+      <td class="neighbor" rowspan="4">
        <a href="#module_CPU">CPU</a>
       </td>
       <td class="from">data_manager&#160;&#160;</td>
-      <td class="main" rowspan="7">DATA_BATCH</td>
+      <td class="main" rowspan="9">DATA_BATCH</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;avalon</td>
+     </tr>
+     <tr>
+      <td class="from">dbg_reset_out&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset_n</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -862,6 +930,75 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
       </table>
      </td>
+    </tr>
+   </table>
+  </div>
+  <a name="module_SERIALIZER_0"> </a>
+  <div>
+   <hr/>
+   <h2>SERIALIZER_0</h2>systolic_serializer v1.0
+   <br/>
+   <div class="greydiv">
+    <table class="connectionboxes">
+     <tr>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_CPU">CPU</a>
+      </td>
+      <td class="from">data_manager&#160;&#160;</td>
+      <td class="main" rowspan="9">SERIALIZER_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;avalon</td>
+     </tr>
+     <tr>
+      <td class="from">dbg_reset_out&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_CLK">CLK</a>
+      </td>
+      <td class="from">clk&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clock</td>
+     </tr>
+     <tr>
+      <td class="from">clk_reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+    </table>
+   </div>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
     </tr>
    </table>
   </div>
@@ -1365,14 +1502,20 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <div class="greydiv">
     <table class="connectionboxes">
      <tr>
-      <td class="neighbor" rowspan="2">
+      <td class="neighbor" rowspan="4">
        <a href="#module_CPU">CPU</a>
       </td>
       <td class="from">data_manager&#160;&#160;</td>
-      <td class="main" rowspan="7">WEIGHT_BATCH</td>
+      <td class="main" rowspan="9">WEIGHT_BATCH</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;avalon</td>
+     </tr>
+     <tr>
+      <td class="from">dbg_reset_out&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset_n</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -1435,7 +1578,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   <table class="blueBar">
    <tr>
     <td class="l">generation took 0.00 seconds</td>
-    <td class="r">rendering took 0.02 seconds</td>
+    <td class="r">rendering took 0.01 seconds</td>
    </tr>
   </table>
  </body>
