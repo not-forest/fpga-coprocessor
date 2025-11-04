@@ -1,6 +1,6 @@
 -- ============================================================
 -- File: batch_block.vhd
--- Desc: Buffer of upcoming sample batches with transaction ids.
+-- Desc: Buffer that will be filled by NIOS V processor and sequenced to systolic array.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
 -- ============================================================
 --
@@ -35,9 +35,7 @@ use altera_mf.all;
 
 entity batch_block is
     generic (
-        g_PORTA_ADDR_SIZE : natural;       -- Size of the bus addressing from port A
-        g_PORTB_ADDR_SIZE : natural;       -- Size of the bus addressing from port B
-        g_BATCH_SIZE : natural             -- Batch of words. This is the size of parallel writes coming into the systolic array.
+        g_DIMENSION : natural         -- Dimension defines the size of internal RAM block.
     );
     port (
         na_clr    : in  std_logic := '1';                                       -- Asynchronous clear (Active Low)
@@ -45,20 +43,29 @@ entity batch_block is
 
         -- Write port (Port A)
         i_wr_clk  : in  std_logic := '1';                                       -- Clock input for writing (NIOS V domain). 
-        i_wr_row  : in  std_logic_vector(g_PORTA_ADDR_SIZE / 2 - 1 downto 0);   -- Row index.
-        i_wr_col  : in  std_logic_vector(g_PORTA_ADDR_SIZE / 2 - 1 downto 0);   -- Column index.
+        i_wr_row  : in  std_logic_vector(log2(g_DIMENSION) - 1 downto 0);       -- Row index.
+        i_wr_col  : in  std_logic_vector(log2(g_DIMENSION) - 1 downto 0);       -- Column index.
         i_data    : in  t_word;                                                 -- Input data word.
 
         -- Read port (Port B)
         i_rd_clk  : in  std_logic := '1';                                       -- Clock input for reading (systolic array domain). 
-        i_rd_row  : in  std_logic_vector(g_PORTB_ADDR_SIZE - 1 downto 0);       -- Row index.
-        o_data    : out std_logic_vector(g_BATCH_SIZE * t_word'length  - 1 downto 0);   -- Output row. Flattened.
-        o_rd_ready: out std_logic := '0'                                        -- Set when not in write mode.
+        i_rd_row  : in  std_logic_vector(log2(g_DIMENSION) - 1 downto 0);       -- Row index.
+        i_rd_col  : in  std_logic_vector(log2(g_DIMENSION) - 1 downto 0);       -- Column index.
+        o_data    : out t_word;                                                 -- Output row. Flattened.
+        o_sticky  : out std_logic_vector(0 to g_DIMENSION - 1)                  -- Sticky bit for each row that marks it as a proper read.
     );
 end entity;
 
 architecture vendor of batch_block is
-    constant c_ROW_WIDTH_BITS : natural := g_BATCH_SIZE * t_word'length;
+    constant c_ADDR_LENGTH : natural := 2 * log2(g_DIMENSION);
+    constant c_LAST_ADDR : natural :=  g_DIMENSION - 1;
+
+    -- Helper function to check whether current index value is the last one.
+    function is_last_idx (
+        sig : std_logic_vector(log2(g_DIMENSION) - 1 downto 0) 
+    ) return boolean is begin
+        return to_integer(unsigned(sig)) = c_LAST_ADDR;
+    end function;
 
     component altsyncram is
         generic (
@@ -93,7 +100,101 @@ architecture vendor of batch_block is
             q_b         : out std_logic_vector(width_b-1 downto 0)
         );
     end component;
+
+    -- -- CDC signals -- --
+    -- Toggles when row completed by writer
+    signal wr_toggle       : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+
+    -- Synchronizers for rd_toggle (ack)
+    signal rd_sync1_wr     : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+    signal rd_sync2_wr     : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+    signal rd_sync2_wr_prev: std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+
+    -- Synchronizers for wr_toggle
+    signal wr_sync1_rd     : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+    signal wr_sync2_rd     : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+    signal wr_sync2_rd_prev: std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+
+    -- Ack toggle (read -> write) - toggled when a row is consumed.
+    signal rd_toggle       : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
+
+    -- Local sticky flags, which is exposed to outside read peripheral.
+    signal r_sticky        : std_logic_vector(0 to g_DIMENSION - 1) := (others => '0');
 begin
+    -- Write-domain process: generate wr_toggle when the writer finishes a row, and synchronize ack 
+    -- (rd_toggle) back into write domain.
+    g_write_dom : process(i_wr_clk, na_clr) begin
+        if na_clr = '0' then
+            wr_toggle        <= (others => '0');
+            rd_sync1_wr      <= (others => '0');
+            rd_sync2_wr      <= (others => '0');
+            rd_sync2_wr_prev <= (others => '0');
+        elsif rising_edge(i_wr_clk) then
+            -- Toggle the write indicator for the indexed row when last write element is written.
+            if (i_wr = '1' and is_last_idx(i_wr_col)) then
+                -- flip only the addressed bit
+                wr_toggle(to_integer(unsigned(i_wr_row))) <= not wr_toggle(to_integer(unsigned(i_wr_row)));
+            end if;
+
+            -- Synchronize ack (rd_toggle) coming from read domain into write domain
+            rd_sync1_wr <= rd_toggle;
+            rd_sync2_wr <= rd_sync1_wr;
+
+            -- (optional) detect ack edges on write side if you want to react there:
+            rd_sync2_wr_prev <= rd_sync2_wr;
+            -- Example usage (not modifying wr_toggle here): if rd_sync2_wr /= rd_sync2_wr_prev then ... end if;
+            -- We intentionally don't clear wr_toggle on ack; wr_toggle is a toggle-based event source.
+        end if;
+    end process;
+
+    -- Read-domain process: synchronize wr_toggle into read domain, detect edges, set r_sticky, and when the read 
+    -- consumes the last element, clear r_sticky and toggle rd_toggle to acknowledge the read completion back to writer.
+    g_read_dom : process(i_rd_clk, na_clr) is 
+        variable edge_vec : std_logic_vector(0 to g_DIMENSION - 1);
+    begin
+        if na_clr = '0' then
+            wr_sync1_rd      <= (others => '0');
+            wr_sync2_rd      <= (others => '0');
+            wr_sync2_rd_prev <= (others => '0');
+            r_sticky         <= (others => '0');
+            rd_toggle        <= (others => '0');
+        elsif rising_edge(i_rd_clk) then
+            -- Synchronize writer toggles into read domain (two-flop)
+            wr_sync1_rd <= wr_toggle;
+            wr_sync2_rd <= wr_sync1_rd;
+
+            -- Any bit that changes means new data was posted for that row.
+            -- Set sticky for those rows (sticky latch until read consumes).
+            edge_vec := (others => '0');
+            for i in 0 to g_DIMENSION - 1 loop
+                if wr_sync2_rd(i) /= wr_sync2_rd_prev(i) then
+                    edge_vec(i) := '1';
+                else
+                    edge_vec(i) := '0';
+                end if;
+            end loop;
+
+            -- Latch sticky bits: set when new data detected
+            for i in 0 to g_DIMENSION - 1 loop
+                if edge_vec(i) = '1' then
+                    r_sticky(i) <= '1';
+                end if;
+            end loop;
+
+            -- If reader finishes a row (last element read), clear the sticky bit for that row
+            -- and toggle the read-ack for that row so writer can see the consumption (synchronized back).
+            if is_last_idx(i_rd_col) then
+                -- Clear sticky for the currently read row (the reader has consumed it)
+                r_sticky(to_integer(unsigned(i_rd_row))) <= '0';
+                -- Toggle ack for the read row
+                rd_toggle(to_integer(unsigned(i_rd_row))) <= not rd_toggle(to_integer(unsigned(i_rd_row)));
+            end if;
+
+            -- Updates previous copy for edge detection next cycle
+            wr_sync2_rd_prev <= wr_sync2_rd;
+        end if;
+    end process;
+
     ALTSYNCRAM_Inst : altsyncram
         generic map (
             address_aclr_b         => "CLEAR1",
@@ -103,29 +204,29 @@ begin
             clock_enable_output_b  => "BYPASS",
             intended_device_family => "Cyclone IV E",
             lpm_type               => "altsyncram",
-            numwords_a             => 2 ** g_PORTA_ADDR_SIZE,
-            numwords_b             => 2 ** g_PORTB_ADDR_SIZE,
+            numwords_a             => g_DIMENSION * g_DIMENSION,
+            numwords_b             => g_DIMENSION * g_DIMENSION,
             operation_mode         => "DUAL_PORT",
             outdata_aclr_b         => "CLEAR1",
             outdata_reg_b          => "CLOCK1",
             power_up_uninitialized => "FALSE",
             ram_block_type         => "M9K",
-            widthad_a              => g_PORTA_ADDR_SIZE,
-            widthad_b              => g_PORTB_ADDR_SIZE,
+            widthad_a              => c_ADDR_LENGTH,
+            widthad_b              => c_ADDR_LENGTH,
             width_a                => t_word'length,   
-            width_b                => c_ROW_WIDTH_BITS,
+            width_b                => t_word'length,
             width_byteena_a        => 1
         )
         port map (
             aclr1     => not na_clr,
             address_a => i_wr_row & i_wr_col,
-            address_b => i_rd_row,
+            address_b => i_rd_row & i_rd_col,
             clock0    => i_wr_clk,
             clock1    => i_rd_clk,
-            data_a    => std_logic_vector(i_data),
+            data_a    => i_data,
             wren_a    => i_wr,
             q_b       => o_data
         );
 
-    o_rd_ready <= not i_wr;
+    o_sticky <= r_sticky;
 end architecture;

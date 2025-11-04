@@ -1,6 +1,6 @@
 -- ============================================================
 -- File: batch_block_tb.vhd
--- Desc: Circular buffer of upcoming sample batches with transaction ids.
+-- Desc: Buffer that will be filled by NIOS V processor and sequenced to systolic array. Testing batch block is a 4x4 RAM block.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
 -- ============================================================
 --
@@ -44,7 +44,9 @@ entity batch_block_tb is
         i_data    : t_word;                                                 
         i_rd_clk  : std_logic; 
         i_rd_row  : std_logic_vector(1 downto 0);           
-        o_data    : t_word_array(0 to 3);                         
+        i_rd_col  : std_logic_vector(1 downto 0);
+        o_sticky  : std_logic_vector(0 to 3);
+        o_data    : t_word;                         
     end record;
 end entity;
 
@@ -58,24 +60,20 @@ architecture behavioral of batch_block_tb is
         i_data   => (others => '0'),          
         i_rd_clk => '0',
         i_rd_row => (others => '0'),          
-        o_data   => (others => (others => '0'))                       
+        i_rd_col => (others => '0'),          
+        o_sticky => (others => '0'),
+        o_data   => (others => '0')                       
     );
 
     -- Clock frequency generation for different domains.
     signal freq_nios   : real := 100.000e6;
     signal freq_coproc : real := 400.000e6;
 
-    signal semaphore : std_logic := '0';
-
-
     type t_dummy_matrix is array (natural range 0 to 3) of t_word_array(0 to 3);
-    signal w_q : std_logic_vector(4 * t_word'length - 1 downto 0);
 begin 
     BATCH_BLOCK_Inst : entity batch_block
     generic map (
-        g_PORTA_ADDR_SIZE => 4,
-        g_PORTB_ADDR_SIZE => 2,
-        g_BATCH_SIZE => 4
+        g_DIMENSION => 4
                 )
     port map (
         na_clr   => sigs.na_clr,
@@ -86,14 +84,10 @@ begin
         i_data   => sigs.i_data,
         i_rd_clk => sigs.i_rd_clk,
         i_rd_row => sigs.i_rd_row,
-        o_data   => w_q,
-        o_rd_ready => open
+        i_rd_col => sigs.i_rd_col,
+        o_data   => sigs.o_data,
+        o_sticky => sigs.o_sticky
     );
-
-    -- Converts flattened std_logic_vector to t_word_array.
-    g_UNWRAP : for i in 0 to 3 generate
-        sigs.o_data(i) <= w_q( ( i + 1 ) * t_word'length - 1 downto i * t_word'length);
-    end generate;
 
     -- Simulates input clocks.
     p_EX_CLOCK_1 : tick(sigs.i_wr_clk, freq_nios);
@@ -114,44 +108,57 @@ begin
         -- Filling data in a certain pattern required by PE elements.
         for i in 0 to 3 loop
             for j in 0 to 3 loop
-                sigs.i_data <= dummy(i)(j);
                 sigs.i_wr_row <= std_logic_vector(to_unsigned(i, 2));
                 sigs.i_wr_col <= std_logic_vector(to_unsigned(j, 2));
+                sigs.i_data <= dummy(i)(j);
+                report "Wrote: " & to_hstring(dummy(i)(j));
 
-                wait until falling_edge(sigs.i_wr_clk);
+                wait until rising_edge(sigs.i_wr_clk);
             end loop;
         end loop;
+        sigs.i_wr <= '0';
 
         report "Done p_MAIN_NIOS.";
-        semaphore <= '1';
         stop_clock(freq_nios);
         wait;
     end process;
 
     -- Simulates read procedure from systolic array.
     p_MAIN_SYST : process is
-        variable obtained : line;
+        variable obtained : line := null;
     begin
         report "Enter p_MAIN_SYST.";
-        wait until semaphore = '1';
-        wait until falling_edge(sigs.i_rd_clk);
 
-        -- Just reading each row as a whole parallel batch.
+        wait until rising_edge(sigs.i_rd_clk);
+
         for i in 0 to 3 loop
-            sigs.i_rd_row <= std_logic_vector(to_unsigned(i, 2));
-            wait until falling_edge(sigs.i_rd_clk);
-            wait until falling_edge(sigs.i_rd_clk);
-
-            obtained := null;
             for j in 0 to 3 loop
-                write(obtained, to_hstring(sigs.o_data(j)));
+                sigs.i_rd_row <= std_logic_vector(to_unsigned(i, 2));
+                sigs.i_rd_col <= std_logic_vector(to_unsigned(j, 2));
+
+                wait until rising_edge(sigs.i_rd_clk);
+
+                -- Never read something that is being rewritten.
+                if sigs.o_sticky(i) = '0' then
+                    report "STICKY";
+                    wait until sigs.o_sticky(i) = '1';
+                end if;
+                
+                -- RAM timeout. 
+                wait until rising_edge(sigs.i_rd_clk);
+                wait until rising_edge(sigs.i_rd_clk);
+
+                report "Read: " & to_hstring(sigs.o_data);
+                write(obtained, to_hstring(sigs.o_data));
                 if j < 3 then
                     write(obtained, string'(", "));
+                else
+                    write(obtained, LF);
                 end if;
             end loop;
-
-            report "Obtained (" & integer'image(i) & "): [" & obtained.all & "]";
         end loop;
+
+        report "Obtained " & LF & "[" & LF & obtained.all & "]";
 
         report "Done p_MAIN_SYST.";
         stop_clock(freq_coproc);
