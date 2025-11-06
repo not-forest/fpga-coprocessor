@@ -58,16 +58,18 @@ architecture structured of coprocessor is
 			o_spi_export_SS_n       : in  std_logic := 'X'; 
 
             -- WEIGHT_BATCH
-            o_batch_weight_export_conduit_i_rd_clk      : in std_logic := 'X';
-            o_batch_weight_export_conduit_i_rd_row      : in std_logic_vector(2 downto 0) := (others => 'X');
-            o_batch_weight_export_conduit_o_data        : out std_logic_vector(8 * t_word'length - 1 downto 0);
-            o_batch_weight_export_conduit_o_rd_ready    : out std_logic;
+            o_weight_batch_export_i_rd_clk      : in std_logic := 'X';
+            o_weight_batch_export_i_rd_row      : in std_logic_vector(2 downto 0) := (others => 'X');
+            o_weight_batch_export_i_rd_col      : in std_logic_vector(2 downto 0) := (others => 'X');
+            o_weight_batch_export_o_data        : out std_logic_vector(t_word'length - 1 downto 0);
+            o_weight_batch_export_o_sticky      : out std_logic_vector(0 to 7);
 
             -- DATA_BATCH
-            o_batch_data_export_conduit_i_rd_clk      : in std_logic := 'X';
-            o_batch_data_export_conduit_i_rd_row      : in std_logic_vector(2 downto 0) := (others => 'X');
-            o_batch_data_export_conduit_o_data        : out std_logic_vector(8 * t_word'length - 1 downto 0);
-            o_batch_data_export_conduit_o_rd_ready    : out std_logic;
+            o_data_batch_export_i_rd_clk      : in std_logic := 'X';
+            o_data_batch_export_i_rd_row      : in std_logic_vector(2 downto 0) := (others => 'X');
+            o_data_batch_export_i_rd_col      : in std_logic_vector(2 downto 0) := (others => 'X');
+            o_data_batch_export_o_data        : out std_logic_vector(t_word'length - 1 downto 0);
+            o_data_batch_export_o_sticky      : out std_logic_vector(0 to 7);
 
             -- SERIALIZER
             o_serializer_export_i_acc  : in t_niosv_word := (others => 'X');
@@ -79,13 +81,15 @@ architecture structured of coprocessor is
     -- Interconnect signals.
     signal wbe_i_rd_clk     : std_logic;
     signal wbe_i_rd_row     : std_logic_vector(2 downto 0);
-    signal wbe_o_data       : std_logic_vector(8 * t_word'length - 1 downto 0);
-    signal wbe_o_rd_ready   : std_logic;
+    signal wbe_i_rd_col     : std_logic_vector(2 downto 0);
+    signal wbe_o_data       : std_logic_vector(t_word'length - 1 downto 0);
+    signal wbe_o_sticky     : std_logic_vector(0 to 7);
 
     signal dbe_i_rd_clk     : std_logic;
     signal dbe_i_rd_row     : std_logic_vector(2 downto 0);
-    signal dbe_o_data       : std_logic_vector(8 * t_word'length - 1 downto 0);
-    signal dbe_o_rd_ready   : std_logic;
+    signal dbe_i_rd_col     : std_logic_vector(2 downto 0);
+    signal dbe_o_data       : std_logic_vector(t_word'length - 1 downto 0);
+    signal dbe_o_sticky     : std_logic_vector(0 to 7);
 
     signal se_i_acc     : t_acc;
     signal se_o_clr     : std_logic;
@@ -101,15 +105,17 @@ begin
         o_spi_export_MOSI => i_mosi,
         o_spi_export_MISO => o_miso,
 
-        o_batch_weight_export_conduit_i_rd_clk => wbe_i_rd_clk,
-        o_batch_weight_export_conduit_i_rd_row => wbe_i_rd_row,
-        o_batch_weight_export_conduit_o_data => wbe_o_data,
-        o_batch_weight_export_conduit_o_rd_ready => wbe_o_rd_ready,
+        o_weight_batch_export_i_rd_clk => wbe_i_rd_clk,
+        o_weight_batch_export_i_rd_row => wbe_i_rd_row,
+        o_weight_batch_export_i_rd_col => wbe_i_rd_col,
+        o_weight_batch_export_o_data => wbe_o_data,
+        o_weight_batch_export_o_sticky => wbe_o_sticky,
 
-        o_batch_data_export_conduit_i_rd_clk => dbe_i_rd_clk,
-        o_batch_data_export_conduit_i_rd_row => dbe_i_rd_row,
-        o_batch_data_export_conduit_o_data => dbe_o_data,
-        o_batch_data_export_conduit_o_rd_ready => dbe_o_rd_ready,
+        o_data_batch_export_i_rd_clk => dbe_i_rd_clk,
+        o_data_batch_export_i_rd_row => dbe_i_rd_row,
+        o_data_batch_export_i_rd_col => dbe_i_rd_col,
+        o_data_batch_export_o_data => dbe_o_data,
+        o_data_batch_export_o_sticky => dbe_o_sticky,
 
         o_serializer_export_i_acc(23 downto 0) => se_i_acc,
         o_serializer_export_o_clr => se_o_clr,

@@ -34,11 +34,11 @@ Info: DEBUG_JTAG: "coproc_soft_cpu" instantiated altera_avalon_jtag_uart "DEBUG_
 Info: SERIALIZER_0: "coproc_soft_cpu" instantiated systolic_serializer "SERIALIZER_0"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/types.vhd
 Info: SPI_0: Starting RTL generation for module 'coproc_soft_cpu_SPI_0'
-Info: SPI_0:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi/generate_rtl.pl --name=coproc_soft_cpu_SPI_0 --dir=/tmp/alt0394_2613876955709321270.dir/0262_SPI_0_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0394_2613876955709321270.dir/0262_SPI_0_gen//coproc_soft_cpu_SPI_0_component_configuration.pl  --do_build_sim=0  ]
+Info: SPI_0:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_spi/generate_rtl.pl --name=coproc_soft_cpu_SPI_0 --dir=/tmp/alt0398_6766080084166066384.dir/0143_SPI_0_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0398_6766080084166066384.dir/0143_SPI_0_gen//coproc_soft_cpu_SPI_0_component_configuration.pl  --do_build_sim=0  ]
 Info: SPI_0: Done RTL generation for module 'coproc_soft_cpu_SPI_0'
 Info: SPI_0: "coproc_soft_cpu" instantiated altera_avalon_spi "SPI_0"
 Info: SRAM: Starting RTL generation for module 'coproc_soft_cpu_SRAM'
-Info: SRAM:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=coproc_soft_cpu_SRAM --dir=/tmp/alt0394_2613876955709321270.dir/0263_SRAM_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0394_2613876955709321270.dir/0263_SRAM_gen//coproc_soft_cpu_SRAM_component_configuration.pl  --do_build_sim=0  ]
+Info: SRAM:   Generation command is [exec /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/bin/perl -I /home/notforest/intelFPGA_lite/24.1std/quartus/linux64/perl/lib -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin/europa -I /home/notforest/intelFPGA_lite/24.1std/quartus/sopc_builder/bin -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/common -I /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/notforest/intelFPGA_lite/24.1std/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=coproc_soft_cpu_SRAM --dir=/tmp/alt0398_6766080084166066384.dir/0144_SRAM_gen/ --quartus_dir=/home/notforest/intelFPGA_lite/24.1std/quartus --verilog --config=/tmp/alt0398_6766080084166066384.dir/0144_SRAM_gen//coproc_soft_cpu_SRAM_component_configuration.pl  --do_build_sim=0  ]
 Info: SRAM: Done RTL generation for module 'coproc_soft_cpu_SRAM'
 Info: SRAM: "coproc_soft_cpu" instantiated altera_avalon_onchip_memory2 "SRAM"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
@@ -62,19 +62,19 @@ Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/copro
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_reset_controller.sdc
 Info: irq_mapper: "CPU" instantiated altera_irq_mapper "irq_mapper"
 Info: CPU_data_manager_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "CPU_data_manager_translator"
-Info: WEIGHT_BATCH_avalon_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "WEIGHT_BATCH_avalon_translator"
+Info: SERIALIZER_0_avalon_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "SERIALIZER_0_avalon_translator"
 Info: CPU_data_manager_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "CPU_data_manager_agent"
-Info: WEIGHT_BATCH_avalon_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "WEIGHT_BATCH_avalon_agent"
-Info: WEIGHT_BATCH_avalon_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "WEIGHT_BATCH_avalon_agent_rsp_fifo"
+Info: SERIALIZER_0_avalon_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "SERIALIZER_0_avalon_agent"
+Info: SERIALIZER_0_avalon_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "SERIALIZER_0_avalon_agent_rsp_fifo"
 Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
 Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
 Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
-Info: router_004: "mm_interconnect_0" instantiated altera_merlin_router "router_004"
+Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_003"
 Info: router_006: "mm_interconnect_0" instantiated altera_merlin_router "router_006"
 Info: CPU_data_manager_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "CPU_data_manager_limiter"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_sc_fifo.v
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_st_pipeline_base.v
-Info: WEIGHT_BATCH_avalon_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "WEIGHT_BATCH_avalon_burst_adapter"
+Info: DATA_BATCH_avalon_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "DATA_BATCH_avalon_burst_adapter"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
@@ -88,14 +88,14 @@ Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_m
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_arbitrator.sv
-Info: WEIGHT_BATCH_avalon_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "WEIGHT_BATCH_avalon_rsp_width_adapter"
+Info: DATA_BATCH_avalon_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "DATA_BATCH_avalon_rsp_width_adapter"
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_address_alignment.sv
 Info: Reusing file /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu/synthesis/submodules/altera_merlin_burst_uncompressor.sv
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
-Info: avalon_st_adapter_002: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_002"
+Info: avalon_st_adapter_001: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_001"
 Info: niosv_reset_controller: "hart" instantiated intel_niosv_m_unit "niosv_reset_controller"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: error_adapter_0: "avalon_st_adapter_002" instantiated error_adapter "error_adapter_0"
+Info: error_adapter_0: "avalon_st_adapter_001" instantiated error_adapter "error_adapter_0"
 Info: coproc_soft_cpu: Done "coproc_soft_cpu" with 40 modules, 106 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

@@ -34,16 +34,14 @@ use coproc.batch_block;
 
 entity avalon_batch_block is
     generic (
-        g_PORTA_ADDR_SIZE   : natural := 6;
-        g_PORTB_ADDR_SIZE   : natural := 3;
-        g_BATCH_SIZE        : natural := 8
+        g_DIMENSION : natural := 8          -- Dimension defines the size of internal RAM block.
             );
     port (
         i_clk   : in std_logic;                                 -- Input clock (NIOS Domain).
         ni_clr  : in std_logic;                                 -- Synchronous reset (Active Low).
         
         -- Avalon-MM Slave interface
-        av_address      : in  std_logic_vector(g_PORTA_ADDR_SIZE - 1 downto 0); -- Only port A is expected to be exposed for NIOS V.
+        av_address      : in  std_logic_vector(2 * log2(g_DIMENSION) - 1 downto 0); -- Only port A is expected to be exposed for NIOS V.
         av_write        : in  std_logic;                                        -- Write flag. Shall only be set when writing.
         av_read         : in  std_logic;                                        -- Ignored.
         av_writedata    : in  t_word;                                           -- Input data word.
@@ -52,33 +50,37 @@ entity avalon_batch_block is
 
         -- Exported conduits.
         i_rd_clk        : in std_logic;
-        i_rd_row        : in std_logic_vector(g_PORTB_ADDR_SIZE - 1 downto 0);
-        o_data          : out std_logic_vector(g_BATCH_SIZE * t_word'length - 1 downto 0);
-        o_rd_ready      : out std_logic
+        i_rd_row        : in std_logic_vector(log2(g_DIMENSION) - 1 downto 0);
+        i_rd_col        : in std_logic_vector(log2(g_DIMENSION) - 1 downto 0);
+        o_data          : out t_word;
+        o_sticky        : buffer std_logic_vector(0 to g_DIMENSION - 1)
     );
 end entity;
 
 architecture avalon of avalon_batch_block is
+    constant c_AVALON_WIDTH : natural := 2 * log2(g_DIMENSION); 
+    alias a_avalon_wr_row is av_address(c_AVALON_WIDTH - 1 downto c_AVALON_WIDTH / 2);
+    alias a_avalon_wr_col is av_address(c_AVALON_WIDTH / 2 - 1 downto 0);
 begin
     BATCH_BLOCK_Inst : entity batch_block
     generic map (
-        g_PORTA_ADDR_SIZE => g_PORTA_ADDR_SIZE,
-        g_PORTB_ADDR_SIZE => g_PORTB_ADDR_SIZE,
-        g_BATCH_SIZE => g_BATCH_SIZE
+        g_DIMENSION => g_DIMENSION
                 )
     port map (
         na_clr   => ni_clr,
         i_wr_clk => i_clk,
         i_wr     => av_write,
-        i_wr_row => av_address(g_PORTA_ADDR_SIZE - 1 downto g_PORTA_ADDR_SIZE / 2),
-        i_wr_col => av_address(g_PORTA_ADDR_SIZE / 2 - 1 downto 0),
-        i_data   => av_writedata, -- adjust width as needed
+        i_wr_row => a_avalon_wr_row,
+        i_wr_col => a_avalon_wr_col,
+        i_data   => av_writedata,
         i_rd_clk => i_rd_clk,
         i_rd_row => i_rd_row,
+        i_rd_col => i_rd_col, 
+        o_sticky => o_sticky,
         o_data => o_data
              );
 
-    o_rd_ready <= not av_write;
-    av_waitrequest <= '0';          -- Always ready for writing.
+    -- Blocking wait until reader reads the row.
+    av_waitrequest <= o_sticky(to_integer(unsigned(a_avalon_wr_row)));
     av_readdata <= (others => '0'); -- Writing has no use for the current wrapper.
 end architecture;

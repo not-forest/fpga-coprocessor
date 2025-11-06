@@ -209,8 +209,8 @@ module coproc_soft_cpu_mm_interconnect_0_router
 
     // ( 0x30000 .. 0x30040 )
     if ( {address[RG:PAD2],{PAD2{1'b0}}} == 18'h30000   ) begin
-            src_channel = 8'b10000000;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
+            src_channel = 8'b00000100;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 7;
     end
 
     // ( 0x30040 .. 0x30080 )
@@ -221,8 +221,8 @@ module coproc_soft_cpu_mm_interconnect_0_router
 
     // ( 0x30080 .. 0x300c0 )
     if ( {address[RG:PAD4],{PAD4{1'b0}}} == 18'h30080   ) begin
-            src_channel = 8'b00000001;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 7;
+            src_channel = 8'b10000000;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
     end
 
     // ( 0x300c0 .. 0x300e0 )
@@ -239,7 +239,7 @@ module coproc_soft_cpu_mm_interconnect_0_router
 
     // ( 0x300e8 .. 0x300f0 )
     if ( {address[RG:PAD7],{PAD7{1'b0}}} == 18'h300e8   ) begin
-            src_channel = 8'b00000100;
+            src_channel = 8'b00000001;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
     end
 

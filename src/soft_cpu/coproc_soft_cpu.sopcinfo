@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 24.1 1077 (Future versions may contain additional information.) -->
- <!-- 2025.11.02.22:34:17 -->
+ <!-- 2025.11.06.12:21:30 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1762122857</value>
+  <value>1762431690</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -360,9 +360,9 @@ parameters are a RESULT of the module parameters. -->
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>WEIGHT_BATCH</moduleName>
+    <moduleName>SERIALIZER_0</moduleName>
     <slaveName>clock</slaveName>
-    <name>WEIGHT_BATCH.clock</name>
+    <name>SERIALIZER_0.clock</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
@@ -372,9 +372,9 @@ parameters are a RESULT of the module parameters. -->
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>SERIALIZER_0</moduleName>
+    <moduleName>WEIGHT_BATCH</moduleName>
     <slaveName>clock</slaveName>
-    <name>SERIALIZER_0.clock</name>
+    <name>WEIGHT_BATCH.clock</name>
    </clockDomainMember>
   </interface>
   <interface name="clk_reset" kind="reset_source" version="24.1">
@@ -492,7 +492,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MTIME_OFFSET</name>
-   <value>0x00030000</value>
+   <value>0x00030080</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.NIOSV_CORE_VARIANT</name>
@@ -596,7 +596,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dataSlaveMapParam">
    <type>java.lang.String</type>
-   <value><![CDATA[<address-map><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /><slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.timer_sw_agent' start='0x30000' end='0x30040' type='intel_niosv_m.timer_sw_agent' /><slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /><slave name='WEIGHT_BATCH.avalon' start='0x30080' end='0x300C0' type='systolic_batch_block.avalon' /><slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300F0' type='systolic_serializer.avalon' /></address-map>]]></value>
+   <value><![CDATA[<address-map><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /><slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /><slave name='WEIGHT_BATCH.avalon' start='0x30000' end='0x30040' type='systolic_batch_block.avalon' /><slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /><slave name='CPU.timer_sw_agent' start='0x30080' end='0x300C0' type='intel_niosv_m.timer_sw_agent' /><slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300F0' type='systolic_serializer.avalon' /></address-map>]]></value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -2001,11 +2001,11 @@ parameters are a RESULT of the module parameters. -->
    </port>
    <memoryBlock>
     <isBridge>false</isBridge>
-    <moduleName>WEIGHT_BATCH</moduleName>
+    <moduleName>SERIALIZER_0</moduleName>
     <slaveName>avalon</slaveName>
-    <name>WEIGHT_BATCH.avalon</name>
-    <baseAddress>196736</baseAddress>
-    <span>64</span>
+    <name>SERIALIZER_0.avalon</name>
+    <baseAddress>196840</baseAddress>
+    <span>8</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
@@ -2017,11 +2017,11 @@ parameters are a RESULT of the module parameters. -->
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
-    <moduleName>SERIALIZER_0</moduleName>
+    <moduleName>WEIGHT_BATCH</moduleName>
     <slaveName>avalon</slaveName>
-    <name>SERIALIZER_0.avalon</name>
-    <baseAddress>196840</baseAddress>
-    <span>8</span>
+    <name>WEIGHT_BATCH.avalon</name>
+    <baseAddress>196608</baseAddress>
+    <span>64</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
@@ -2060,7 +2060,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>CPU</moduleName>
     <slaveName>timer_sw_agent</slaveName>
     <name>CPU.timer_sw_agent</name>
-    <baseAddress>196608</baseAddress>
+    <baseAddress>196736</baseAddress>
     <span>64</span>
    </memoryBlock>
   </interface>
@@ -2502,23 +2502,7 @@ parameters are a RESULT of the module parameters. -->
    path="DATA_BATCH">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
-  <parameter name="g_PORTA_ADDR_SIZE">
-   <type>int</type>
-   <value>6</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="g_PORTB_ADDR_SIZE">
-   <type>int</type>
-   <value>3</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="g_BATCH_SIZE">
+  <parameter name="g_DIMENSION">
    <type>int</type>
    <value>8</value>
    <derived>false</derived>
@@ -2955,25 +2939,31 @@ parameters are a RESULT of the module parameters. -->
     <name>i_rd_clk</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>conduit_i_rd_clk</role>
+    <role>i_rd_clk</role>
    </port>
    <port>
     <name>i_rd_row</name>
     <direction>Input</direction>
     <width>3</width>
-    <role>conduit_i_rd_row</role>
+    <role>i_rd_row</role>
    </port>
    <port>
     <name>o_data</name>
     <direction>Output</direction>
-    <width>64</width>
-    <role>conduit_o_data</role>
+    <width>8</width>
+    <role>o_data</role>
    </port>
    <port>
-    <name>o_rd_ready</name>
+    <name>i_rd_col</name>
+    <direction>Input</direction>
+    <width>3</width>
+    <role>i_rd_col</role>
+   </port>
+   <port>
+    <name>o_sticky</name>
     <direction>Output</direction>
-    <width>1</width>
-    <role>conduit_o_rd_ready</role>
+    <width>8</width>
+    <role>o_sticky</role>
    </port>
   </interface>
   <interface name="reset_n" kind="reset_sink" version="24.1">
@@ -6163,23 +6153,7 @@ parameters are a RESULT of the module parameters. -->
    path="WEIGHT_BATCH">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
-  <parameter name="g_PORTA_ADDR_SIZE">
-   <type>int</type>
-   <value>6</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="g_PORTB_ADDR_SIZE">
-   <type>int</type>
-   <value>3</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="g_BATCH_SIZE">
+  <parameter name="g_DIMENSION">
    <type>int</type>
    <value>8</value>
    <derived>false</derived>
@@ -6616,25 +6590,31 @@ parameters are a RESULT of the module parameters. -->
     <name>i_rd_clk</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>conduit_i_rd_clk</role>
+    <role>i_rd_clk</role>
    </port>
    <port>
     <name>i_rd_row</name>
     <direction>Input</direction>
     <width>3</width>
-    <role>conduit_i_rd_row</role>
+    <role>i_rd_row</role>
    </port>
    <port>
     <name>o_data</name>
     <direction>Output</direction>
-    <width>64</width>
-    <role>conduit_o_data</role>
+    <width>8</width>
+    <role>o_data</role>
    </port>
    <port>
-    <name>o_rd_ready</name>
+    <name>i_rd_col</name>
+    <direction>Input</direction>
+    <width>3</width>
+    <role>i_rd_col</role>
+   </port>
+   <port>
+    <name>o_sticky</name>
     <direction>Output</direction>
-    <width>1</width>
-    <role>conduit_o_rd_ready</role>
+    <width>8</width>
+    <role>o_sticky</role>
    </port>
   </interface>
   <interface name="reset_n" kind="reset_sink" version="24.1">
@@ -6729,11 +6709,11 @@ parameters are a RESULT of the module parameters. -->
   </interface>
  </module>
  <connection
-   name="CPU.data_manager/WEIGHT_BATCH.avalon"
+   name="CPU.data_manager/SERIALIZER_0.avalon"
    kind="avalon"
    version="24.1"
    start="CPU.data_manager"
-   end="WEIGHT_BATCH.avalon">
+   end="SERIALIZER_0.avalon">
   <parameter name="arbitrationPriority">
    <type>int</type>
    <value>1</value>
@@ -6744,7 +6724,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <parameter name="baseAddress">
    <type>java.math.BigInteger</type>
-   <value>0x00030080</value>
+   <value>0x000300e8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -6776,7 +6756,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>CPU</startModule>
   <startConnectionPoint>data_manager</startConnectionPoint>
-  <endModule>WEIGHT_BATCH</endModule>
+  <endModule>SERIALIZER_0</endModule>
   <endConnectionPoint>avalon</endConnectionPoint>
  </connection>
  <connection
@@ -6831,11 +6811,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>avalon</endConnectionPoint>
  </connection>
  <connection
-   name="CPU.data_manager/SERIALIZER_0.avalon"
+   name="CPU.data_manager/WEIGHT_BATCH.avalon"
    kind="avalon"
    version="24.1"
    start="CPU.data_manager"
-   end="SERIALIZER_0.avalon">
+   end="WEIGHT_BATCH.avalon">
   <parameter name="arbitrationPriority">
    <type>int</type>
    <value>1</value>
@@ -6846,7 +6826,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <parameter name="baseAddress">
    <type>java.math.BigInteger</type>
-   <value>0x000300e8</value>
+   <value>0x00030000</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -6878,7 +6858,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>CPU</startModule>
   <startConnectionPoint>data_manager</startConnectionPoint>
-  <endModule>SERIALIZER_0</endModule>
+  <endModule>WEIGHT_BATCH</endModule>
   <endConnectionPoint>avalon</endConnectionPoint>
  </connection>
  <connection
@@ -7101,7 +7081,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <parameter name="baseAddress">
    <type>java.math.BigInteger</type>
-   <value>0x00030000</value>
+   <value>0x00030080</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -7347,11 +7327,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>clk1</endConnectionPoint>
  </connection>
  <connection
-   name="CLK.clk/WEIGHT_BATCH.clock"
+   name="CLK.clk/SERIALIZER_0.clock"
    kind="clock"
    version="24.1"
    start="CLK.clk"
-   end="WEIGHT_BATCH.clock">
+   end="SERIALIZER_0.clock">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -7370,7 +7350,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>CLK</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>WEIGHT_BATCH</endModule>
+  <endModule>SERIALIZER_0</endModule>
   <endConnectionPoint>clock</endConnectionPoint>
  </connection>
  <connection
@@ -7401,11 +7381,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>clock</endConnectionPoint>
  </connection>
  <connection
-   name="CLK.clk/SERIALIZER_0.clock"
+   name="CLK.clk/WEIGHT_BATCH.clock"
    kind="clock"
    version="24.1"
    start="CLK.clk"
-   end="SERIALIZER_0.clock">
+   end="WEIGHT_BATCH.clock">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -7424,7 +7404,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>CLK</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>SERIALIZER_0</endModule>
+  <endModule>WEIGHT_BATCH</endModule>
   <endConnectionPoint>clock</endConnectionPoint>
  </connection>
  <connection
@@ -7660,33 +7640,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>reset1</endConnectionPoint>
  </connection>
  <connection
-   name="CLK.clk_reset/WEIGHT_BATCH.reset_n"
-   kind="reset"
-   version="24.1"
-   start="CLK.clk_reset"
-   end="WEIGHT_BATCH.reset_n">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>CLK</startModule>
-  <startConnectionPoint>clk_reset</startConnectionPoint>
-  <endModule>WEIGHT_BATCH</endModule>
-  <endConnectionPoint>reset_n</endConnectionPoint>
- </connection>
- <connection
    name="CLK.clk_reset/DATA_BATCH.reset_n"
    kind="reset"
    version="24.1"
@@ -7711,6 +7664,33 @@ parameters are a RESULT of the module parameters. -->
   <startModule>CLK</startModule>
   <startConnectionPoint>clk_reset</startConnectionPoint>
   <endModule>DATA_BATCH</endModule>
+  <endConnectionPoint>reset_n</endConnectionPoint>
+ </connection>
+ <connection
+   name="CLK.clk_reset/WEIGHT_BATCH.reset_n"
+   kind="reset"
+   version="24.1"
+   start="CLK.clk_reset"
+   end="WEIGHT_BATCH.reset_n">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>CLK</startModule>
+  <startConnectionPoint>clk_reset</startConnectionPoint>
+  <endModule>WEIGHT_BATCH</endModule>
   <endConnectionPoint>reset_n</endConnectionPoint>
  </connection>
  <connection
@@ -7849,33 +7829,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>reset1</endConnectionPoint>
  </connection>
  <connection
-   name="CPU.dbg_reset_out/WEIGHT_BATCH.reset_n"
-   kind="reset"
-   version="24.1"
-   start="CPU.dbg_reset_out"
-   end="WEIGHT_BATCH.reset_n">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>CPU</startModule>
-  <startConnectionPoint>dbg_reset_out</startConnectionPoint>
-  <endModule>WEIGHT_BATCH</endModule>
-  <endConnectionPoint>reset_n</endConnectionPoint>
- </connection>
- <connection
    name="CPU.dbg_reset_out/DATA_BATCH.reset_n"
    kind="reset"
    version="24.1"
@@ -7900,6 +7853,33 @@ parameters are a RESULT of the module parameters. -->
   <startModule>CPU</startModule>
   <startConnectionPoint>dbg_reset_out</startConnectionPoint>
   <endModule>DATA_BATCH</endModule>
+  <endConnectionPoint>reset_n</endConnectionPoint>
+ </connection>
+ <connection
+   name="CPU.dbg_reset_out/WEIGHT_BATCH.reset_n"
+   kind="reset"
+   version="24.1"
+   start="CPU.dbg_reset_out"
+   end="WEIGHT_BATCH.reset_n">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>CPU</startModule>
+  <startConnectionPoint>dbg_reset_out</startConnectionPoint>
+  <endModule>WEIGHT_BATCH</endModule>
   <endConnectionPoint>reset_n</endConnectionPoint>
  </connection>
  <plugin>

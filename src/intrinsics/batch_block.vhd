@@ -123,7 +123,7 @@ architecture vendor of batch_block is
 begin
     -- Write-domain process: generate wr_toggle when the writer finishes a row, and synchronize ack 
     -- (rd_toggle) back into write domain.
-    g_write_dom : process(i_wr_clk, na_clr) begin
+    g_WRITE_DOM : process(i_wr_clk, na_clr) begin
         if na_clr = '0' then
             wr_toggle        <= (others => '0');
             rd_sync1_wr      <= (others => '0');
@@ -149,7 +149,7 @@ begin
 
     -- Read-domain process: synchronize wr_toggle into read domain, detect edges, set r_sticky, and when the read 
     -- consumes the last element, clear r_sticky and toggle rd_toggle to acknowledge the read completion back to writer.
-    g_read_dom : process(i_rd_clk, na_clr) is 
+    g_READ_DOM : process(i_rd_clk, na_clr) is 
         variable edge_vec : std_logic_vector(0 to g_DIMENSION - 1);
     begin
         if na_clr = '0' then

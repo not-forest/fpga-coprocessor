@@ -37,7 +37,7 @@
    {
       datum baseAddress
       {
-         value = "196608";
+         value = "196736";
          type = "String";
       }
    }
@@ -82,7 +82,7 @@
    {
       datum _sortIndex
       {
-         value = "7";
+         value = "5";
          type = "int";
       }
    }
@@ -130,7 +130,7 @@
    {
       datum _sortIndex
       {
-         value = "5";
+         value = "7";
          type = "int";
       }
    }
@@ -138,7 +138,23 @@
    {
       datum baseAddress
       {
-         value = "196736";
+         value = "196608";
+         type = "String";
+      }
+   }
+   element coproc_soft_cpu
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone IV E";
+         type = "String";
+      }
+   }
+   element coproc_soft_cpu
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone IV E";
          type = "String";
       }
    }
@@ -182,13 +198,8 @@
  <interface name="i_clk" internal="CLK.clk_in" type="clock" dir="end" />
  <interface name="i_clr" internal="CLK.clk_in_reset" type="reset" dir="end" />
  <interface
-   name="o_batch_data_export"
+   name="o_data_batch_export"
    internal="DATA_BATCH.conduit"
-   type="conduit"
-   dir="end" />
- <interface
-   name="o_batch_weight_export"
-   internal="WEIGHT_BATCH.conduit"
    type="conduit"
    dir="end" />
  <interface
@@ -199,6 +210,11 @@
  <interface
    name="o_spi_export"
    internal="SPI_0.external"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="o_weight_batch_export"
+   internal="WEIGHT_BATCH.conduit"
    type="conduit"
    dir="end" />
  <module name="CLK" kind="clock_source" version="24.1" enabled="1">
@@ -214,7 +230,7 @@
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
   <parameter name="AUTO_PLATFORM_IRQ_RX_INTERRUPTS_USED" value="32800" />
   <parameter name="clockFrequency" value="100000000" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /><slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /><slave name='CPU.timer_sw_agent' start='0x30000' end='0x30040' type='intel_niosv_m.timer_sw_agent' /><slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /><slave name='WEIGHT_BATCH.avalon' start='0x30080' end='0x300C0' type='systolic_batch_block.avalon' /><slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300EE' type='systolic_serializer.avalon' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /><slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /><slave name='WEIGHT_BATCH.avalon' start='0x30000' end='0x30040' type='systolic_batch_block.avalon' /><slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /><slave name='CPU.timer_sw_agent' start='0x30080' end='0x300C0' type='intel_niosv_m.timer_sw_agent' /><slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /><slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300F0' type='systolic_serializer.avalon' /></address-map>]]></parameter>
   <parameter name="deviceFamily" value="Cyclone IV E" />
   <parameter name="enableAvalonInterface" value="true" />
   <parameter name="enableDebug" value="true" />
@@ -234,9 +250,7 @@
    kind="systolic_batch_block"
    version="1.0"
    enabled="1">
-  <parameter name="g_BATCH_SIZE" value="8" />
-  <parameter name="g_PORTA_ADDR_SIZE" value="6" />
-  <parameter name="g_PORTB_ADDR_SIZE" value="3" />
+  <parameter name="g_DIMENSION" value="8" />
  </module>
  <module
    name="DEBUG_JTAG"
@@ -316,17 +330,15 @@
    kind="systolic_batch_block"
    version="1.0"
    enabled="1">
-  <parameter name="g_BATCH_SIZE" value="8" />
-  <parameter name="g_PORTA_ADDR_SIZE" value="6" />
-  <parameter name="g_PORTB_ADDR_SIZE" value="3" />
+  <parameter name="g_DIMENSION" value="8" />
  </module>
  <connection
    kind="avalon"
    version="24.1"
    start="CPU.data_manager"
-   end="WEIGHT_BATCH.avalon">
+   end="SERIALIZER_0.avalon">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00030080" />
+  <parameter name="baseAddress" value="0x000300e8" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -342,9 +354,9 @@
    kind="avalon"
    version="24.1"
    start="CPU.data_manager"
-   end="SERIALIZER_0.avalon">
+   end="WEIGHT_BATCH.avalon">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x000300e8" />
+  <parameter name="baseAddress" value="0x00030000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -385,7 +397,7 @@
    start="CPU.data_manager"
    end="CPU.timer_sw_agent">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00030000" />
+  <parameter name="baseAddress" value="0x00030080" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -410,9 +422,9 @@
  <connection kind="clock" version="24.1" start="CLK.clk" end="DEBUG_JTAG.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="SPI_0.clk" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="SRAM.clk1" />
- <connection kind="clock" version="24.1" start="CLK.clk" end="WEIGHT_BATCH.clock" />
- <connection kind="clock" version="24.1" start="CLK.clk" end="DATA_BATCH.clock" />
  <connection kind="clock" version="24.1" start="CLK.clk" end="SERIALIZER_0.clock" />
+ <connection kind="clock" version="24.1" start="CLK.clk" end="DATA_BATCH.clock" />
+ <connection kind="clock" version="24.1" start="CLK.clk" end="WEIGHT_BATCH.clock" />
  <connection
    kind="interrupt"
    version="24.1"
@@ -449,12 +461,12 @@
    kind="reset"
    version="24.1"
    start="CLK.clk_reset"
-   end="WEIGHT_BATCH.reset_n" />
+   end="DATA_BATCH.reset_n" />
  <connection
    kind="reset"
    version="24.1"
    start="CLK.clk_reset"
-   end="DATA_BATCH.reset_n" />
+   end="WEIGHT_BATCH.reset_n" />
  <connection
    kind="reset"
    version="24.1"
@@ -484,12 +496,12 @@
    kind="reset"
    version="24.1"
    start="CPU.dbg_reset_out"
-   end="WEIGHT_BATCH.reset_n" />
+   end="DATA_BATCH.reset_n" />
  <connection
    kind="reset"
    version="24.1"
    start="CPU.dbg_reset_out"
-   end="DATA_BATCH.reset_n" />
+   end="WEIGHT_BATCH.reset_n" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

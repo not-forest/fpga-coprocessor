@@ -67,7 +67,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   </table>
   <table class="blueBar">
    <tr>
-    <td class="l">2025.11.02.22:34:17</td>
+    <td class="l">2025.11.06.12:21:30</td>
     <td class="r">Datasheet</td>
    </tr>
   </table>
@@ -138,7 +138,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <tr>
     <td class="slavem">timer_sw_agent&#160;</td>
     <td class="empty"></td>
-    <td class="addr"><span style="color:#989898">0x</span>00030000</td>
+    <td class="addr"><span style="color:#989898">0x</span>00030080</td>
    </tr>
    <tr>
     <td class="slavem">dm_agent&#160;</td>
@@ -221,7 +221,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <tr>
     <td class="slaveb">avalon&#160;</td>
     <td class="empty"></td>
-    <td class="addr"><span style="color:#989898">0x</span>00030080</td>
+    <td class="addr"><span style="color:#989898">0x</span>00030000</td>
    </tr>
   </table>
   <a name="module_CLK"> </a>
@@ -305,7 +305,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td class="from">data_manager&#160;&#160;</td>
       <td class="neighbor" rowspan="4">
-       <a href="#module_WEIGHT_BATCH">WEIGHT_BATCH</a>
+       <a href="#module_SERIALIZER_0">SERIALIZER_0</a>
       </td>
      </tr>
      <tr>
@@ -321,7 +321,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      <tr>
       <td></td>
       <td></td>
-      <td class="to">&#160;&#160;reset_n</td>
+      <td class="to">&#160;&#160;reset</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -357,7 +357,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td class="from">data_manager&#160;&#160;</td>
       <td class="neighbor" rowspan="4">
-       <a href="#module_SERIALIZER_0">SERIALIZER_0</a>
+       <a href="#module_WEIGHT_BATCH">WEIGHT_BATCH</a>
       </td>
      </tr>
      <tr>
@@ -373,7 +373,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      <tr>
       <td></td>
       <td></td>
-      <td class="to">&#160;&#160;reset</td>
+      <td class="to">&#160;&#160;reset_n</td>
      </tr>
      <tr style="height:6px">
       <td></td>
@@ -502,7 +502,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">dataSlaveMapParam</td>
-        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /&gt;&lt;slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='CPU.timer_sw_agent' start='0x30000' end='0x30040' type='intel_niosv_m.timer_sw_agent' /&gt;&lt;slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /&gt;&lt;slave name='WEIGHT_BATCH.avalon' start='0x30080' end='0x300C0' type='systolic_batch_block.avalon' /&gt;&lt;slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300F0' type='systolic_serializer.avalon' /&gt;&lt;/address-map&gt;</td>
+        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='CPU.dm_agent' start='0x10000' end='0x20000' type='intel_niosv_m.dm_agent' /&gt;&lt;slave name='SRAM.s1' start='0x28000' end='0x2D000' type='altera_avalon_onchip_memory2.s1' /&gt;&lt;slave name='WEIGHT_BATCH.avalon' start='0x30000' end='0x30040' type='systolic_batch_block.avalon' /&gt;&lt;slave name='DATA_BATCH.avalon' start='0x30040' end='0x30080' type='systolic_batch_block.avalon' /&gt;&lt;slave name='CPU.timer_sw_agent' start='0x30080' end='0x300C0' type='intel_niosv_m.timer_sw_agent' /&gt;&lt;slave name='SPI_0.spi_control_port' start='0x300C0' end='0x300E0' type='altera_avalon_spi.spi_control_port' /&gt;&lt;slave name='DEBUG_JTAG.avalon_jtag_slave' start='0x300E0' end='0x300E8' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;slave name='SERIALIZER_0.avalon' start='0x300E8' end='0x300F0' type='systolic_serializer.avalon' /&gt;&lt;/address-map&gt;</td>
        </tr>
        <tr>
         <td class="parametername">enableDebug</td>
@@ -635,7 +635,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">MTIME_OFFSET</td>
-        <td class="parametervalue">0x00030000</td>
+        <td class="parametervalue">0x00030080</td>
        </tr>
        <tr>
         <td class="parametername">NIOSV_CORE_VARIANT</td>
@@ -713,15 +713,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <h2>Parameters</h2>
       <table>
        <tr>
-        <td class="parametername">g_PORTA_ADDR_SIZE</td>
-        <td class="parametervalue">6</td>
-       </tr>
-       <tr>
-        <td class="parametername">g_PORTB_ADDR_SIZE</td>
-        <td class="parametervalue">3</td>
-       </tr>
-       <tr>
-        <td class="parametername">g_BATCH_SIZE</td>
+        <td class="parametername">g_DIMENSION</td>
         <td class="parametervalue">8</td>
        </tr>
        <tr>
@@ -1545,15 +1537,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <h2>Parameters</h2>
       <table>
        <tr>
-        <td class="parametername">g_PORTA_ADDR_SIZE</td>
-        <td class="parametervalue">6</td>
-       </tr>
-       <tr>
-        <td class="parametername">g_PORTB_ADDR_SIZE</td>
-        <td class="parametervalue">3</td>
-       </tr>
-       <tr>
-        <td class="parametername">g_BATCH_SIZE</td>
+        <td class="parametername">g_DIMENSION</td>
         <td class="parametervalue">8</td>
        </tr>
        <tr>

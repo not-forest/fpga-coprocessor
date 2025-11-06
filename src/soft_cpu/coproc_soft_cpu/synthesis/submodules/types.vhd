@@ -57,6 +57,9 @@ package intrinsics is
         ADD
     );
 
+    -- Helper function to retrieve log2 of natural value for generics.
+    function log2(n : natural) return natural;
+
     -- Custom procedure to ensure timing constrains for FIFO interfaces.
     -- 
     -- Both read and write requests must be asserted for one clock cycle only. This procedure ensures,
@@ -80,6 +83,16 @@ package intrinsics is
 end package;
 
 package body intrinsics is
+    function log2(n : natural) return natural is
+        variable x : natural := 0;
+        variable y : natural := n - 1;
+    begin
+        while y > 0 loop
+            y := y / 2;
+            x := x + 1;
+        end loop;
+        return x;
+    end function;
 
     -- Custom pipelining procedure, to pipeline any type of data for one clock cycle. 
     procedure pipeline (
