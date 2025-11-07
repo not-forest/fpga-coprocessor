@@ -37,6 +37,7 @@ entity pe is
     port (
         ni_clr : in std_logic := '1';           -- Clear PE's accumulator (Active low)
         i_clk : in std_logic := '1';            -- Clock signal.
+        i_en  : in std_logic := '1';            -- Clock enable signal. Stalls the PE when unset.
 
         i_xin : in t_word;                      -- Input data from vector X. N-bit width.
         i_win : in t_word;                      -- Input data from vector W. N-bit width.
@@ -51,7 +52,7 @@ architecture rtl of pe is
     signal r_x, r_w : t_word := (others => '0');
     signal r_a      : t_acc := (others => '0');
 begin
-    process (i_clk) is
+    process (all) is
         variable xin : signed(i_xin'range);
         variable win : signed(i_win'range);
         variable acc : signed(o_aout'range);
@@ -63,7 +64,7 @@ begin
         if falling_edge(i_clk) then
             if ni_clr = '0' then
                 r_a <= (others => '0');
-            else
+            elsif i_en = '1' then
                 -- Assignment
                 xin := signed(i_xin);
                 win := signed(i_win);

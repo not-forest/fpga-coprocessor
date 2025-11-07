@@ -17,7 +17,7 @@ NIOS_SOFT_DIR := $(SRC_DIR)/soft_cpu/software
 
 ## Path configuration
 # Test bench environment variable to show the results in GTKWare.
-BENCH 		?= batch_block_tb
+BENCH 		?= systolic_tb
 
 ## Toolchain configuration. 
 GG 			?= ghdl

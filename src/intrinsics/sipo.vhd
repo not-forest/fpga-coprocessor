@@ -40,7 +40,8 @@ entity word_shifter is
         i_clk   : in std_logic := '1';      -- Clock input. Shifts and pushes elements at the same time.
         i_write : in std_logic := '1';      -- Starts writing procedure.
         i_data  : in t_word;                -- Data input. One value at a time.
-        o_batch : out t_word_array          -- Batch output. Data from each register is always seen.
+        o_full  : out std_logic;            -- Sets when batch if fully filled with words.
+        o_batch : out t_word_array(g_LENGTH - 1 downto 0)          -- Batch output. Data from each register is always seen.
     );
 end entity;
 
@@ -69,23 +70,31 @@ architecture vendor of word_shifter is
         );
     end component;
 
-    signal r_batchfull : std_logic := '0';  -- Says whether the full batch is written into the SIPO and ready to be flushed.
+    signal r_batchfull : std_logic := '0';          -- Says whether the full batch is written into the SIPO and ready to be flushed.
     signal w_taps : std_logic_vector(g_LENGTH * t_word'length - 1 downto 0) := (others => '0');
-    signal w_clear : std_logic := '0';
-    signal cnt : integer := 0; 
+    signal r_write_latency : std_logic := '0';      -- Latency of one clock cycle for i_write signal.
 begin
     -- Detects whether batch is full.
-    process (all) is
+    process (all) is 
+        variable cnt : natural := 0;
     begin
-        r_batchfull <= '0';
-        if i_write = '1' then
-            if falling_edge(i_clk) then
-                cnt <= cnt + 1;
-                if cnt = g_LENGTH then
-                    cnt <= 0;
+        if rising_edge(i_clk) then
+            if r_write_latency = '1' then
+                if r_batchfull = '1' then
+                    r_batchfull <= '0';
+                end if;
+
+                if cnt < g_LENGTH - 1 then
+                   cnt := cnt + 1;
+                else
+                    cnt := 0;
                     r_batchfull <= '1';
                 end if;
+            else
+                r_batchfull <= '0';
             end if;
+
+            r_write_latency <= i_write;
         end if;
     end process;
 
@@ -98,7 +107,7 @@ begin
         lpm_hint => "RAM_BLOCK_TYPE=M9K"
     )
     port map (
-        aclr => w_clear,
+        aclr => not ni_clr,
         clken => i_write,
         clock => i_clk,
         shiftin => i_data,
@@ -106,13 +115,11 @@ begin
         taps => w_taps
     );
 
-    -- Flushing the buffer when full or on clear event.
-    w_clear <= not ni_clr or r_batchfull;
+    o_full <= r_batchfull;
 
-    -- Splitting big taps vector into array of words. For some reason taps output from altshift_taps is shifted to left.
-    g_SPLIT : for i in 0 to o_batch'length - 2 generate
+    g_BATCHMAP: for i in 0 to o_batch'length - 2 generate
+        -- Splitting big taps vector into array of words. For some reason taps output from altshift_taps is shifted to left by one.
         o_batch(i + 1) <= w_taps((g_LENGTH - i) * t_word'length - 1 downto (g_LENGTH - i - 1) * t_word'length);
     end generate;
     o_batch(0) <= w_taps(t_word'length - 1 downto 0);
-
 end architecture;
