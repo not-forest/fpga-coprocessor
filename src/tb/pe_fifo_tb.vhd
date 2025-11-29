@@ -38,8 +38,8 @@ entity pe_fifo_tb is
         na_clr          : std_logic;
         i_clk           : std_logic;
 
-        i_data          : t_word;
-        o_data          : t_word;
+        i_data          : t_acc;
+        o_data          : t_acc;
 
         i_tx_ready      : std_logic;
         i_rx_ready      : std_logic;
@@ -87,21 +87,25 @@ begin
         variable counter : natural := 0;
     begin
         report "Enter p_MAIN_PROD.";
+        wait for 10 ns;
 
         for i in 0 to 10 loop
             if sigs.o_tx_ready /= '1' then
                 wait until sigs.o_tx_ready;
+                wait until rising_edge(sigs.i_clk);
             end if;
+
             counter := counter + 1;
-            sigs.i_data <= t_word(to_signed(counter, t_word'length));
+            sigs.i_data <= t_acc(to_signed(counter, t_acc'length));
             sigs.i_tx_ready <= '0';
 
             report "Written: " & integer'image(counter);
             
-            wait until falling_edge(sigs.i_clk);
+            wait until rising_edge(sigs.i_clk);
             sigs.i_tx_ready <= '1';
-            wait until falling_edge(sigs.i_clk);
+            wait until rising_edge(sigs.i_clk);
         end loop;
+        sigs.i_tx_ready <= '0';
 
         report "Done: p_MAIN_PROD";
         wait;
@@ -110,20 +114,19 @@ begin
     -- Main consumer thread.
     p_MAIN_CONS : process begin
         report "Enter p_MAIN_CONS.";
-
         wait for 25 ns;
 
         for i in 0 to 10 loop
             if sigs.o_rx_ready /= '1' then
                 wait until sigs.o_rx_ready;
+                wait until rising_edge(sigs.i_clk);
             end if;
-
+   
             sigs.i_rx_ready <= '1';
-            
-            wait until falling_edge(sigs.i_clk);
-            sigs.i_rx_ready <= '0';
-            wait until falling_edge(sigs.i_clk);
+            wait until rising_edge(sigs.i_clk);
             report "Read: " & integer'image(to_integer(signed(sigs.o_data)));
+            sigs.i_rx_ready <= '0';
+            wait until rising_edge(sigs.i_clk);
         end loop;
 
         report "Done: p_MAIN_CONS";

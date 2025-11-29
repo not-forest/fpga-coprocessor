@@ -38,9 +38,16 @@ entity systolic_tb is
         ni_clr  : std_logic;
         i_write : std_logic;
 
+        i_se_clr : std_logic;
+        i_se_iterations : t_niosv_word;
+        i_se_iterations_write : std_logic;
+
+        i_rx_ready : std_logic; 
+        o_rx_ready : std_logic;
+
         i_dataX : t_word;
         i_dataW : t_word;
-        o_dataA : t_acc_mat(0 to 1, 0 to 1);
+        o_dataA : t_acc;
     end record;
 end entity;
 
@@ -49,9 +56,14 @@ architecture behavioral of systolic_tb is
         i_clk => '1',
         ni_clr => '1',
         i_write => '0',
+        i_se_clr => '0',
+        i_se_iterations => (others => '0'),
+        i_se_iterations_write => '0',
+        i_rx_ready => '0', 
+        o_rx_ready => '0',
         i_dataX => (others => '0'),
         i_dataW => (others => '0'),
-        o_dataA => (others => (others => (others => '0')))
+        o_dataA => (others => '0')
     ); 
 
     -- Used FPGA includes 50MHz external crystal.
@@ -65,6 +77,14 @@ begin
         ni_clr => sigs.ni_clr,
         i_clk => sigs.i_clk,
         i_write => sigs.i_write,
+    
+        i_se_clr => sigs.i_se_clr,
+        i_se_iterations => sigs.i_se_iterations,
+        i_se_iterations_write => sigs.i_se_iterations_write,
+
+        i_rx_ready => sigs.i_rx_ready,
+        o_rx_ready => sigs.o_rx_ready,
+
         i_dataX => sigs.i_dataX,
         i_dataW => sigs.i_dataW,
         o_dataA => sigs.o_dataA
@@ -89,9 +109,14 @@ begin
     begin
         report "Enter p_MATRIX_MULTIPLICATION.";
 
-        sigs.i_write <= '1';
+        -- Preparing iteration value.
+        sigs.i_se_iterations <= x"00000002";
+        sigs.i_se_iterations_write <= '1';
+        wait until falling_edge(sigs.i_clk);
+        sigs.i_se_iterations_write <= '0';
         wait until falling_edge(sigs.i_clk);
 
+        sigs.i_write <= '1';
         for i in 0 to c_AMOUNT - 1 loop
             wait until falling_edge(sigs.i_clk);
             sigs.i_dataX <= c_X(i);
@@ -104,18 +129,35 @@ begin
         wait for 500 ns;
 
         report "Done: p_MATRIX_MULTIPLICATION.";
-        stop_clock(freq);
         wait;
     end process;
 
-    -- Main testing.
-    --p_MAIN : process begin
-    --    report "Enter p_MAIN.";
+    -- Obtaining computed multiplication output.
+    p_MAIN : process is 
+        constant c_EXPECTED : t_acc_array := (x"000013", x"000016", x"00002B", x"000032");
+    begin
+        report "Enter p_MAIN.";
 
-    --    wait for 1 ms;
+        for i in 0 to 3 loop
+            if sigs.o_rx_ready /= '1' then
+                wait until sigs.o_rx_ready = '1';
+                wait until falling_edge(sigs.i_clk);
+            end if;
+            sigs.i_rx_ready <= '1';
+            wait until falling_edge(sigs.i_clk);
 
-    --    report "Done: p_MAIN";
-    --    stop_clock(freq);
-    --    wait;
-    --end process;
+            assert sigs.o_dataA = c_EXPECTED(i) 
+                report "Matrix multiplication error. Expected: " & to_hstring(c_EXPECTED(i)) & ", got: " & to_hstring(sigs.o_dataA) 
+                severity error;
+            report "Output: " & to_hstring(sigs.o_dataA);
+
+            sigs.i_rx_ready <= '0';
+            wait until falling_edge(sigs.i_clk);
+        end loop;
+
+        report "Done: p_MAIN";
+
+        stop_clock(freq);
+        wait;
+    end process;
 end architecture;

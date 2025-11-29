@@ -37,7 +37,7 @@ entity pll_tb is
         o_clk0      : std_logic; 
         o_clk1      : std_logic; 
         o_clk2      : std_logic; 
-        ni_sleep    : std_logic;
+        i_rst       : std_logic;
         o_locked    : std_logic;
     end record;
 end entity;
@@ -48,7 +48,7 @@ architecture behavioral of pll_tb is
         o_clk0      => 'X',
         o_clk1      => 'X',
         o_clk2      => 'X',
-        ni_sleep    => '1',
+        i_rst    => '0',
         o_locked    => 'X'
     );
 
@@ -59,7 +59,7 @@ begin
     PLL_Inst : entity pll
     port map (
         i_clk0 => sigs.i_clk,
-        ni_sleep => sigs.ni_sleep,
+        i_rst => sigs.i_rst,
         o_clk0 => sigs.o_clk0,
         o_clk1 => sigs.o_clk1,
         o_clk2 => sigs.o_clk2,
@@ -80,11 +80,11 @@ begin
         wait for 1 us;
 
         -- PLL clocks stop check.
-        sigs.ni_sleep <= '0';
+        sigs.i_rst <= '1';
         wait for 1 us;
 
         -- Resuming PLL action.
-        sigs.ni_sleep <= '1';
+        sigs.i_rst <= '0';
         wait for 1 us;
 
         report "Done: p_MAIN";

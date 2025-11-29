@@ -34,6 +34,7 @@ use coproc.intrinsics.all;
 use coproc.pe;
 use coproc.word_shifter;
 use coproc.pe_fifo;
+use coproc.serializer;
 
 entity systolic_arr is
     generic (
@@ -44,9 +45,16 @@ entity systolic_arr is
         ni_clr  : in std_logic := '1';  -- Global reset. (Active low).
         i_write : in std_logic := '0';  -- Enables writing procedure.
 
-        i_dataX : in t_word;                                        -- Serial input X.
-        i_dataW : in t_word;                                        -- Serial input W.
-        o_dataA : out t_acc_mat(0 to g_OMD - 1, 0 to g_OMD - 1)     -- Serial data output A.
+        i_se_clr : in std_logic := '0';                         -- Clear flag for serializer block.
+        i_se_iterations : in t_niosv_word := (others => '0');   -- Iterations word forwarded to serializer unit.
+        i_se_iterations_write : in std_logic := '0';            -- Iteration write flag. 
+
+        i_dataX : in t_word;            -- Serial input X.
+        i_dataW : in t_word;            -- Serial input W.
+
+        i_rx_ready : in std_logic := '0';   -- FIFO read ready input.
+        o_rx_ready : out std_logic;         -- FIFO read ready output.
+        o_dataA : out t_acc                 -- Serial output of accumulators A.
     );
 
     type t_forward_mesh is array (0 to g_OMD) of t_word_array(0 to g_OMD);  -- X/W values traverse horizontally/vertically and stop at the lest PE element.
@@ -55,6 +63,7 @@ end entity;
 architecture structured of systolic_arr is
     signal w_tempX_array, w_tempW_array : t_word_array(0 to g_OMD - 1) := (others => (others => '0'));
     signal w_dataX_matrix, w_dataW_matrix : t_forward_mesh := (others => (others => (others => '0')));  
+    signal w_dataA_matrix : t_acc_mat(0 to g_OMD - 1, 0 to g_OMD - 1) := (others => (others => (others => '0')));
     -- Connection wires between PE elements for X and W inputs.
 
     -- Word shifter full booleans.
@@ -124,9 +133,27 @@ begin
 
                 o_xout => w_dataX_matrix(i)(j + 1),     -- Forward vector [0, 1]
                 o_wout => w_dataW_matrix(i + 1)(j),     -- Forward vector [1, 0]
-                o_aout => o_dataA(i, j)                 -- Accumulator outputs.
+                o_aout => w_dataA_matrix(i, j)          -- Accumulator outputs.
             );
         end generate;
     end generate;
+
+    -- Converts accumulated PE's output to serial stream of values for NIOS V to read.
+    SERIALIZER_Inst : entity serializer
+    generic map (
+        g_OMD => g_OMD
+                )
+    port map (
+        i_clk => i_clk,
+        na_clr => ni_clr,
+        i_clr => i_se_clr,
+        o_acc => o_dataA,
+        i_iterations => i_se_iterations,
+        i_iterations_write => i_se_iterations_write,
+        i_rx_ready => i_rx_ready,
+        o_rx_ready => o_rx_ready,
+        i_batch_sampled => w_syst_enable,
+        i_accs => w_dataA_matrix
+             );
 end architecture;
 
