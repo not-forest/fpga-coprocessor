@@ -74,7 +74,10 @@ architecture structured of coprocessor is
             -- SERIALIZER
             o_serializer_export_i_acc  : in t_niosv_word := (others => 'X');
             o_serializer_export_o_clr  : out std_logic; 
-            o_serializer_export_o_read : out std_logic 
+            o_serializer_export_o_rx_ready : out std_logic;
+            o_serializer_export_i_rx_ready : in std_logic;
+            o_serializer_export_o_iterations : out t_niosv_word;
+            o_serializer_export_o_iterations_write : out std_logic
         );
     end component;
 
@@ -91,9 +94,12 @@ architecture structured of coprocessor is
     signal dbe_o_data       : std_logic_vector(t_word'length - 1 downto 0);
     signal dbe_o_sticky     : std_logic_vector(0 to 7);
 
-    signal se_i_acc     : t_acc;
-    signal se_o_clr     : std_logic;
-    signal se_o_read    : std_logic;
+    signal se_i_acc         : t_acc;
+    signal se_o_clr         : std_logic;
+    signal se_o_rx_ready    : std_logic;
+    signal se_i_rx_ready    : std_logic;
+    signal se_o_iterations  : t_niosv_word;
+    signal se_o_iterations_write : std_Logic;
 begin
     -- Generating internal NIOS V/m soft CPU core to parse upcoming SPI traffic
     COPROC_SOFT_CPU_Inst : coproc_soft_cpu
@@ -119,20 +125,9 @@ begin
 
         o_serializer_export_i_acc(23 downto 0) => se_i_acc,
         o_serializer_export_o_clr => se_o_clr,
-        o_serializer_export_o_read => se_o_read
-             );
-
-    -- Converts accumulated PE's output to serial stream of values for NIOS V to read.
-    SERIALIZER_Inst : entity coproc.serializer
-    generic map (
-        g_OMD => 64
-                )
-    port map (
-        i_clk => i_clk,
-        na_clr => ni_rst,
-        i_clr => se_o_clr,
-        o_acc => se_i_acc,
-        i_read => se_o_read,
-        i_accs => (others => (others => (others => '0')))   -- Temp
+        o_serializer_export_o_rx_ready => se_o_rx_ready,
+        o_serializer_export_i_rx_ready => se_i_rx_ready,
+        o_serializer_export_o_iterations => se_o_iterations,
+        o_serializer_export_o_iterations_write => se_o_iterations_write
              );
 end architecture;

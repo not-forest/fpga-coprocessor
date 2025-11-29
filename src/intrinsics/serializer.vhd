@@ -66,17 +66,19 @@ architecture rtl of serializer is
     signal lc : natural := 0;
 begin
     process (i_clk, na_clr, i_clr, r_read) is 
-        -- Resets the state machine after last element and dirung asynchronous/synchronous resets.
+        -- Resets the state machine after last element and dirung asynchronous/synchronous resets. This does not clear iterations.
         procedure serializer_reset is begin
             r_dir <= UR;
             r_i <= 0;
             r_j <= 0;
             r_read <= '0';
+            lc <= 0;
         end procedure;
     begin
         -- Main state machine behavior.
         if na_clr = '0' then
             serializer_reset;
+            r_iterations <= (others => '0');
         elsif falling_edge(i_clk) then
             if i_clr = '1' then
                 serializer_reset;

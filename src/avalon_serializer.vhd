@@ -38,24 +38,29 @@ entity avalon_serializer is
         ni_clr  : in std_logic;                 -- Synchronous reset (Active Low). Required by avalon inteface.
         
         -- Avalon-MM Slave interface
-        av_address      : in  std_logic_vector(0 to 0); -- Ignored in current serializer implementation.
-        av_write        : in  std_logic;                -- Write flag is used for synchronous clear.
-        av_read         : in  std_logic;                -- Ignored. Always ready to read.
-        av_writedata    : in  t_niosv_word;             -- Ignored. Read only component.
+        av_address      : in  std_logic_vector(0 to 0); -- Ignored since writes only change `iterations` register value.
+        av_write        : in  std_logic;                -- Writes new iterations value and clears the internal state machine.
+        av_read         : in  std_logic;                -- Read flag.
+        av_writedata    : in  t_niosv_word;             -- Must be a proper value of iterations. Also equal to input matrix dimension.
         av_readdata     : out t_niosv_word;             -- Obtains output from serializer.
-        av_waitrequest  : out std_logic;                -- Always enabled to reading.
+        av_waitrequest  : out std_logic;                -- Only when FIFO is not empty.
 
         -- Exported conduits.
-        o_clr           : out std_logic;        -- Connected to real component via av_write
-        o_read          : out std_logic;        -- Read enable signal.
-        i_acc           : in t_niosv_word       -- Input accumulator data from real component.
+        o_clr               : out std_logic;        -- Connected to real component via av_write
+        o_iterations        : out t_niosv_word;     -- Amount of iterations before serializer shall begin sampling.
+        o_iterations_write  : out std_logic;        -- Writes new amount of iterations. 
+        o_rx_ready          : out std_logic;        -- Signal to enable read from internal FIFO. 
+        i_rx_ready          : in std_logic;         -- Signal to check whether internal FIFO is ready to be read.
+        i_acc               : in t_niosv_word       -- Input accumulator data from real component.
     );
 end entity;
 
 architecture avalon of avalon_serializer is
 begin
-    av_waitrequest <= '0';  -- TODO! Maybe blocking read.
-    av_readdata <= i_acc;
-    o_read <= av_read;
-    o_clr <= av_write;
+    o_rx_ready <= av_read when i_rx_ready = '1' else '0';   -- Setting read signal only when FIFO is ready.
+    o_iterations_write <= av_write;                         -- Iterations are written when write command is used. 
+    o_iterations <= av_writedata;                           
+    av_waitrequest <= not i_rx_ready;                       -- When FIFO is empty, blocking wait request.
+    av_readdata <= i_acc;                                   -- Reads each next accumulator value from the FIFO.
+    o_clr <= av_write;                                      -- Writes also reset the internal state machine.
 end architecture;
