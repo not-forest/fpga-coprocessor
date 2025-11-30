@@ -115,10 +115,8 @@ begin
                     end if;
                 end if;
             end if;
-        end if;
 
-        -- Starts the state machine after the first PE(00) is filled with proper data.
-        if falling_edge(i_clk) then
+            -- Starts the state machine after the first PE(00) is filled with proper data.
             if i_iterations_write = '1' then
                 r_iterations <= i_iterations;
             else
@@ -131,7 +129,6 @@ begin
                     end if;
                 end if;
             end if;
-
         end if;
 
         -- When in read state, always ready to buffer data into FIFO queue.

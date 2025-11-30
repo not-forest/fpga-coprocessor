@@ -29,7 +29,10 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use coproc.intrinsics.all;
+use ieee.numeric_std.all;
 use coproc_soft_cpu.all;
+use coproc.systolic_arr;
+use coproc.word_shifter;
 
 entity coprocessor is
     port (
@@ -100,7 +103,40 @@ architecture structured of coprocessor is
     signal se_i_rx_ready    : std_logic;
     signal se_o_iterations  : t_niosv_word;
     signal se_o_iterations_write : std_Logic;
+
+    signal r_systolic_write : std_logic := '0';
 begin
+    -- Synchronizing batch blocks inputs.
+    process (all) is 
+        variable i, j: natural := 0;
+    begin
+        if falling_edge(i_clk) then
+            dbe_i_rd_row <= std_logic_vector(to_unsigned(i, dbe_i_rd_row'length));
+            dbe_i_rd_col <= std_logic_vector(to_unsigned(j, dbe_i_rd_col'length));
+            wbe_i_rd_row <= std_logic_vector(to_unsigned(i, wbe_i_rd_row'length));
+            wbe_i_rd_col <= std_logic_vector(to_unsigned(j, wbe_i_rd_col'length)); 
+
+            -- If both batches are ready, starting to fill into both X, W word shifters.
+            if wbe_o_sticky(i) = '1' and dbe_o_sticky(i) = '1' then
+                r_systolic_write <= not r_systolic_write;
+            end if;
+
+            if r_systolic_write = '1' then
+                if i < 3 then
+                    if j < 3 then
+                        j := j + 1;
+                    else
+                        j := 0;
+                        i := i + 1;
+                    end if;
+                else
+                    i := 0;
+                    j := 0;
+                end if;
+            end if;
+        end if;
+    end process;
+
     -- Generating internal NIOS V/m soft CPU core to parse upcoming SPI traffic
     COPROC_SOFT_CPU_Inst : coproc_soft_cpu
     port map (
@@ -129,5 +165,26 @@ begin
         o_serializer_export_i_rx_ready => se_i_rx_ready,
         o_serializer_export_o_iterations => se_o_iterations,
         o_serializer_export_o_iterations_write => se_o_iterations_write
+             );
+
+    SYSTOLIC_ARR_Inst : entity systolic_arr
+    generic map (
+        g_OMD => 8
+                )
+    port map (
+        ni_clr => ni_rst,
+        i_clk => i_clk,
+        i_write => r_systolic_write,
+    
+        i_se_clr => se_o_clr,
+        i_se_iterations => se_o_iterations,
+        i_se_iterations_write => se_o_iterations_write,
+
+        i_rx_ready => se_i_rx_ready,
+        o_rx_ready => se_o_rx_ready,
+
+        i_dataX => dbe_o_data,
+        i_dataW => wbe_o_data,
+        o_dataA => se_i_acc
              );
 end architecture;

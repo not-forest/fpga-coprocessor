@@ -81,8 +81,7 @@ architecture vendor of pe_fifo is
         aclr    : in std_logic;
 		empty	: out std_logic;
 		full	: out std_logic;
-		q	    : out t_acc;
-		usedw	: out t_word
+		q	    : out t_acc
 	);
     end component;
 begin
@@ -103,7 +102,7 @@ begin
 		lpm_showahead => "ON",
 		lpm_type => "scfifo",
 		lpm_width => t_acc'length,
-		lpm_widthu => t_word'length,
+		lpm_widthu => log2(g_BLOCK_SIZE),
 		overflow_checking => "OFF",
 		underflow_checking => "OFF",
 		use_eab => "ON"
@@ -116,7 +115,6 @@ begin
 		wrreq => r_wrreq,
 		empty => w_rdempty,
 		full => w_wrfull,
-		q => o_data,
-		usedw => open
+		q => o_data
 	);
 end architecture;
