@@ -97,7 +97,7 @@ begin
 
     -- Maps X inputs vertically.
     g_XMAP : for i in 0 to g_OMD - 1 generate
-        w_dataX_matrix(i)(0) <= w_tempX_array(g_OMD - 1 - i);
+        w_dataX_matrix(i)(0) <= w_tempX_array(i);
     end generate;
 
     -- Word shifter instance for W inputs.
@@ -116,7 +116,7 @@ begin
 
     -- Maps W inputs horizontally.
     g_WMAP : for i in 0 to g_OMD - 1 generate
-        w_dataW_matrix(0)(i) <= w_tempW_array(g_OMD - 1 - i);
+        w_dataW_matrix(0)(i) <= w_tempW_array(i);
     end generate;
 
     -- Generates g_OMD^2 interconnected PE elements for systolic processing.

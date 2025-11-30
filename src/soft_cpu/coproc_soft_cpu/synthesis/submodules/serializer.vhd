@@ -30,44 +30,61 @@ library coproc;
 library ieee;
 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use coproc.intrinsics.all;
+use coproc.pe_fifo;
 
 entity serializer is
     generic (
         g_OMD : natural             -- Operating matrix dimensions.
     );
     port (
-        i_clk   : in std_logic := '1';                      -- Input clock source.
-        na_clr  : in std_logic := '1';                      -- Asynchronous clear (Active Low).
+        i_clk   : in std_logic := '1';                              -- Input clock source.
+        na_clr  : in std_logic := '1';                              -- Asynchronous clear (Active Low).
+
+        i_batch_sampled : in std_logic := '0';                      -- Signal that shall notify about that next batch is sampled.
+        i_iterations_write: in std_logic := '0';                    -- Write signal to write iterations value.
+        i_iterations : in t_niosv_word := (others => '0');          -- Iterations that correspond to amount of iterations needed until PE(00) is ready.
         
         i_accs  : in t_acc_mat(0 to g_OMD - 1, 0 to g_OMD - 1);     -- Input matrix of PE's accumulators.
-        i_read  : in std_logic := '0';                      -- Starts reading procedure when set.
-        i_clr   : in std_logic := '0';                      -- Synchronous clear. Clears the state machine.
-        o_acc   : out t_acc                                 -- Output word.
+        i_clr   : in std_logic := '0';                              -- Synchronous clear. Clears the state machine.
+        i_rx_ready : in std_logic := '0';                           -- FIFO read ready input.
+        o_rx_ready : out std_logic;                                 -- FIFO read ready output.
+        o_acc   : out t_acc                                         -- Output word.
     );
 end entity;
 
 architecture rtl of serializer is
-    type t_direction is (UR, DL);
-    signal r_dir : t_direction := UR;
-    signal r_i, r_j : natural := 0; 
+    type t_direction is (UR, DL);                           
+    signal r_dir : t_direction := UR;                       -- State machine for zig-zag directions.
+    signal r_i, r_j : natural := 0;                         -- Local indexes of systolic array accumulators.
+    signal r_read : std_logic := '0';                       -- When set, local state machine progresses.
+    signal r_iterations : t_niosv_word := (others => '0');  -- Contains the length of input vector for PE(00).
 
+    signal w_acc : t_acc := (others => '0');
+    signal wo_tx_ready, wi_tx_ready : std_logic := '0';
+    signal lc : natural := 0;
 begin
-    process (i_clk, na_clr, i_clr, i_read) is 
-        -- Resets the state machine after last element and dirung asynchronous/synchronous resets.
+    process (i_clk, na_clr, i_clr, r_read) is 
+        -- Resets the state machine after last element and dirung asynchronous/synchronous resets. This does not clear iterations.
         procedure serializer_reset is begin
             r_dir <= UR;
             r_i <= 0;
             r_j <= 0;
+            r_read <= '0';
+            lc <= 0;
         end procedure;
     begin
+        -- Main state machine behavior.
         if na_clr = '0' then
             serializer_reset;
+            r_iterations <= (others => '0');
         elsif falling_edge(i_clk) then
             if i_clr = '1' then
                 serializer_reset;
             else
-                if i_read = '1' then
+                -- Data shall be prepared for sampling to FIFO when `wi_tx_ready` gets high.
+                if r_read = '1' and wi_tx_ready = '0' then
                     if r_dir = UR then
                         if r_j = g_OMD - 1 then
                             r_i <= r_i + 1;
@@ -99,7 +116,45 @@ begin
                 end if;
             end if;
         end if;
+
+        -- Starts the state machine after the first PE(00) is filled with proper data.
+        if falling_edge(i_clk) then
+            if i_iterations_write = '1' then
+                r_iterations <= i_iterations;
+            else
+                if i_batch_sampled = '1' then
+                    if lc < to_integer(unsigned(r_iterations)) then
+                        lc <= lc + 1;
+                    else
+                        r_read <= '1';
+                        lc <= 0;
+                    end if;
+                end if;
+            end if;
+
+        end if;
+
+        -- When in read state, always ready to buffer data into FIFO queue.
+        if rising_edge(i_clk) then
+            if wo_tx_ready = '1' and r_read = '1' then
+                wi_tx_ready <= not wi_tx_ready;
+            end if;
+        end if;
     end process;
 
-    o_acc <= i_accs(r_i, r_j);
+    w_acc <= i_accs(r_i, r_j) when r_read = '1' else (others => '0');
+
+    PE_FIFO_Inst : entity pe_fifo
+    generic map (
+        g_BLOCK_SIZE => 6
+                )
+    port map (
+        i_clk => i_clk,
+        i_data => w_acc,
+        i_rx_ready => i_rx_ready,
+        i_tx_ready => wi_tx_ready,
+        o_rx_ready => o_rx_ready,
+        o_tx_ready => wo_tx_ready,
+        o_data => o_acc
+             );
 end architecture;

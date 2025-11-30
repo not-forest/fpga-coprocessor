@@ -41,6 +41,8 @@ package intrinsics is
 
     -- Resizable array of coprocessor words.
     type t_word_array is array (natural range <>) of t_word;
+    -- Resizable array of coprocessor accumulators.
+    type t_acc_array is array (natural range <>) of t_acc;
     -- Matrix of accumulators from PE elements.
     type t_acc_mat is array (natural range <>, natural range <>) of t_acc;
 
@@ -118,7 +120,7 @@ package body intrinsics is
         signal io_dt        : inout std_logic;  -- Delta logic semaphore to clock requests only for one clock cycle.
         signal o_req        : out std_logic     -- Wire to FIFO's request inputs.
     ) is begin
-        if rising_edge(i_clk) then
+        if falling_edge(i_clk) then
             -- On each TX ready signal, putting the write request for one clock cycle.
             if ni_clr = '0' then
                 o_req <= '0';

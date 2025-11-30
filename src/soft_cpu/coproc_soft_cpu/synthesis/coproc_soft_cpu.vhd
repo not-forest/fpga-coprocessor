@@ -8,25 +8,28 @@ use IEEE.numeric_std.all;
 
 entity coproc_soft_cpu is
 	port (
-		i_clk_clk                      : in  std_logic                     := '0';             --                 i_clk.clk
-		i_clr_reset_n                  : in  std_logic                     := '0';             --                 i_clr.reset_n
-		o_data_batch_export_i_rd_clk   : in  std_logic                     := '0';             --   o_data_batch_export.i_rd_clk
-		o_data_batch_export_i_rd_row   : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_row
-		o_data_batch_export_o_data     : out std_logic_vector(7 downto 0);                     --                      .o_data
-		o_data_batch_export_i_rd_col   : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_col
-		o_data_batch_export_o_sticky   : out std_logic_vector(7 downto 0);                     --                      .o_sticky
-		o_serializer_export_i_acc      : in  std_logic_vector(31 downto 0) := (others => '0'); --   o_serializer_export.i_acc
-		o_serializer_export_o_clr      : out std_logic;                                        --                      .o_clr
-		o_serializer_export_o_read     : out std_logic;                                        --                      .o_read
-		o_spi_export_MISO              : out std_logic;                                        --          o_spi_export.MISO
-		o_spi_export_MOSI              : in  std_logic                     := '0';             --                      .MOSI
-		o_spi_export_SCLK              : in  std_logic                     := '0';             --                      .SCLK
-		o_spi_export_SS_n              : in  std_logic                     := '0';             --                      .SS_n
-		o_weight_batch_export_i_rd_clk : in  std_logic                     := '0';             -- o_weight_batch_export.i_rd_clk
-		o_weight_batch_export_i_rd_row : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_row
-		o_weight_batch_export_o_data   : out std_logic_vector(7 downto 0);                     --                      .o_data
-		o_weight_batch_export_i_rd_col : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_col
-		o_weight_batch_export_o_sticky : out std_logic_vector(7 downto 0)                      --                      .o_sticky
+		i_clk_clk                              : in  std_logic                     := '0';             --                 i_clk.clk
+		i_clr_reset_n                          : in  std_logic                     := '0';             --                 i_clr.reset_n
+		o_data_batch_export_i_rd_clk           : in  std_logic                     := '0';             --   o_data_batch_export.i_rd_clk
+		o_data_batch_export_i_rd_row           : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_row
+		o_data_batch_export_o_data             : out std_logic_vector(7 downto 0);                     --                      .o_data
+		o_data_batch_export_i_rd_col           : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_col
+		o_data_batch_export_o_sticky           : out std_logic_vector(7 downto 0);                     --                      .o_sticky
+		o_serializer_export_i_acc              : in  std_logic_vector(31 downto 0) := (others => '0'); --   o_serializer_export.i_acc
+		o_serializer_export_o_clr              : out std_logic;                                        --                      .o_clr
+		o_serializer_export_i_rx_ready         : in  std_logic                     := '0';             --                      .i_rx_ready
+		o_serializer_export_o_iterations       : out std_logic_vector(31 downto 0);                    --                      .o_iterations
+		o_serializer_export_o_iterations_write : out std_logic;                                        --                      .o_iterations_write
+		o_serializer_export_o_rx_ready         : out std_logic;                                        --                      .o_rx_ready
+		o_spi_export_MISO                      : out std_logic;                                        --          o_spi_export.MISO
+		o_spi_export_MOSI                      : in  std_logic                     := '0';             --                      .MOSI
+		o_spi_export_SCLK                      : in  std_logic                     := '0';             --                      .SCLK
+		o_spi_export_SS_n                      : in  std_logic                     := '0';             --                      .SS_n
+		o_weight_batch_export_i_rd_clk         : in  std_logic                     := '0';             -- o_weight_batch_export.i_rd_clk
+		o_weight_batch_export_i_rd_row         : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_row
+		o_weight_batch_export_o_data           : out std_logic_vector(7 downto 0);                     --                      .o_data
+		o_weight_batch_export_i_rd_col         : in  std_logic_vector(2 downto 0)  := (others => '0'); --                      .i_rd_col
+		o_weight_batch_export_o_sticky         : out std_logic_vector(7 downto 0)                      --                      .o_sticky
 	);
 end entity coproc_soft_cpu;
 
@@ -127,17 +130,20 @@ architecture rtl of coproc_soft_cpu is
 
 	component avalon_serializer is
 		port (
-			i_acc          : in  std_logic_vector(31 downto 0) := (others => 'X'); -- i_acc
-			o_clr          : out std_logic;                                        -- o_clr
-			o_read         : out std_logic;                                        -- o_read
-			ni_clr         : in  std_logic                     := 'X';             -- reset_n
-			i_clk          : in  std_logic                     := 'X';             -- clk
-			av_address     : in  std_logic                     := 'X';             -- address
-			av_write       : in  std_logic                     := 'X';             -- write
-			av_read        : in  std_logic                     := 'X';             -- read
-			av_writedata   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			av_readdata    : out std_logic_vector(31 downto 0);                    -- readdata
-			av_waitrequest : out std_logic                                         -- waitrequest
+			i_acc              : in  std_logic_vector(31 downto 0) := (others => 'X'); -- i_acc
+			o_clr              : out std_logic;                                        -- o_clr
+			i_rx_ready         : in  std_logic                     := 'X';             -- i_rx_ready
+			o_iterations       : out std_logic_vector(31 downto 0);                    -- o_iterations
+			o_iterations_write : out std_logic;                                        -- o_iterations_write
+			o_rx_ready         : out std_logic;                                        -- o_rx_ready
+			ni_clr             : in  std_logic                     := 'X';             -- reset_n
+			i_clk              : in  std_logic                     := 'X';             -- clk
+			av_address         : in  std_logic                     := 'X';             -- address
+			av_write           : in  std_logic                     := 'X';             -- write
+			av_read            : in  std_logic                     := 'X';             -- read
+			av_writedata       : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			av_readdata        : out std_logic_vector(31 downto 0);                    -- readdata
+			av_waitrequest     : out std_logic                                         -- waitrequest
 		);
 	end component avalon_serializer;
 
@@ -572,17 +578,20 @@ begin
 
 	serializer_0 : component avalon_serializer
 		port map (
-			i_acc          => o_serializer_export_i_acc,                         -- conduit.i_acc
-			o_clr          => o_serializer_export_o_clr,                         --        .o_clr
-			o_read         => o_serializer_export_o_read,                        --        .o_read
-			ni_clr         => rst_controller_001_reset_out_reset_ports_inv,      --   reset.reset_n
-			i_clk          => i_clk_clk,                                         --   clock.clk
-			av_address     => mm_interconnect_0_serializer_0_avalon_address(0),  --  avalon.address
-			av_write       => mm_interconnect_0_serializer_0_avalon_write,       --        .write
-			av_read        => mm_interconnect_0_serializer_0_avalon_read,        --        .read
-			av_writedata   => mm_interconnect_0_serializer_0_avalon_writedata,   --        .writedata
-			av_readdata    => mm_interconnect_0_serializer_0_avalon_readdata,    --        .readdata
-			av_waitrequest => mm_interconnect_0_serializer_0_avalon_waitrequest  --        .waitrequest
+			i_acc              => o_serializer_export_i_acc,                         -- conduit.i_acc
+			o_clr              => o_serializer_export_o_clr,                         --        .o_clr
+			i_rx_ready         => o_serializer_export_i_rx_ready,                    --        .i_rx_ready
+			o_iterations       => o_serializer_export_o_iterations,                  --        .o_iterations
+			o_iterations_write => o_serializer_export_o_iterations_write,            --        .o_iterations_write
+			o_rx_ready         => o_serializer_export_o_rx_ready,                    --        .o_rx_ready
+			ni_clr             => rst_controller_001_reset_out_reset_ports_inv,      --   reset.reset_n
+			i_clk              => i_clk_clk,                                         --   clock.clk
+			av_address         => mm_interconnect_0_serializer_0_avalon_address(0),  --  avalon.address
+			av_write           => mm_interconnect_0_serializer_0_avalon_write,       --        .write
+			av_read            => mm_interconnect_0_serializer_0_avalon_read,        --        .read
+			av_writedata       => mm_interconnect_0_serializer_0_avalon_writedata,   --        .writedata
+			av_readdata        => mm_interconnect_0_serializer_0_avalon_readdata,    --        .readdata
+			av_waitrequest     => mm_interconnect_0_serializer_0_avalon_waitrequest  --        .waitrequest
 		);
 
 	spi_0 : component coproc_soft_cpu_SPI_0

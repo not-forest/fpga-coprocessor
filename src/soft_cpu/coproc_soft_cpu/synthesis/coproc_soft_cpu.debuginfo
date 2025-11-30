@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="coproc_soft_cpu" kind="system" version="24.1" fabric="QSYS">
  <!-- Format version 24.1 1077 (Future versions may contain additional information.) -->
- <!-- 2025.11.06.12:21:34 -->
+ <!-- 2025.11.30.12:58:32 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1762431690</value>
+  <value>1764507506</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -3949,10 +3949,28 @@ parameters are a RESULT of the module parameters. -->
     <role>o_clr</role>
    </port>
    <port>
-    <name>o_read</name>
+    <name>i_rx_ready</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>i_rx_ready</role>
+   </port>
+   <port>
+    <name>o_iterations</name>
+    <direction>Output</direction>
+    <width>32</width>
+    <role>o_iterations</role>
+   </port>
+   <port>
+    <name>o_iterations_write</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>o_read</role>
+    <role>o_iterations_write</role>
+   </port>
+   <port>
+    <name>o_rx_ready</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>o_rx_ready</role>
    </port>
   </interface>
   <interface name="reset" kind="reset_sink" version="24.1">
@@ -13409,5 +13427,5 @@ parameters are a RESULT of the module parameters. -->
   <version>24.1</version>
  </plugin>
  <reportVersion>24.1 1077</reportVersion>
- <uniqueIdentifier>D039574945AD0000019A591D6C4F</uniqueIdentifier>
+ <uniqueIdentifier>D039574945AD0000019AD4D7DE5B</uniqueIdentifier>
 </EnsembleReport>

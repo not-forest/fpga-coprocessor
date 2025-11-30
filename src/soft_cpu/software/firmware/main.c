@@ -106,7 +106,6 @@ int main() {
         alt_avalon_spi_command(SPI_0_BASE, 0, txp, tx, BUFF_SIZE, rx, 0);
 
         for (int i = 0; i < BUFF_SIZE; ++i) {
-
             switch (inner_state) {
                 case NonSync:       /* Must synchronize with upcoming command by finding the synchronization sequence. */
                     if (sync_compare(rx[i]) == 0)
