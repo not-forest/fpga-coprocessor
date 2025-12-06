@@ -1,0 +1,33 @@
+hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_putstr.c.obj: \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/alt_putstr.c \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/stdio.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/_ansi.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/newlib.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/picolibc.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/config.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/ieeefp.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/features.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/float.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/cdefs.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/_default_types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/inttypes.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/_intsup.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/stdint.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/_stdint.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/_locale.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stdarg.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/_ansi.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/_types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/_types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/endian.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/_endian.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/string.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/strings.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/string.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/./system.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/./linker.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_driver.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_stdio.h

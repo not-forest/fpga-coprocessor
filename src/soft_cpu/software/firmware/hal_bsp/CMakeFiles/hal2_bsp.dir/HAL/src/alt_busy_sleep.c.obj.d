@@ -1,0 +1,19 @@
+hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_busy_sleep.c.obj: \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/alt_busy_sleep.c \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/limits.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/newlib.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/picolibc.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/cdefs.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/_default_types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/features.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/syslimits.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/limits.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/./system.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/./linker.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_timestamp.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/intel_niosv.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/io.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_busy_sleep.h

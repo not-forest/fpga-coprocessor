@@ -28,11 +28,23 @@
   **/
 
 #include "firmware.h"
+#include "system.h"
 #include <io.h>
 
 #define BBAS 6
 #define HBBAS (BBAS / 2)
 
 void write_batch_word(int batch, uint8_t row, uint8_t col, sysword_t word) {
+    // Writing word into internal matrix to prepare each batch for systolic array.
     IOWR_8DIRECT(batch, (row << HBBAS) | col, word);
+}
+
+void write_serializer(uint32_t iterations) {
+    // Current Avalon-MM component is not addressable.
+    IOWR_32DIRECT(SERIALIZER_0_BASE, 0xdeadbeef, iterations);
+}
+
+void read_serializer(sysword_t *buf, uint32_t iteration) {
+    // Current Avalon-MM component is not addressable. A new word will always be presented after each read.
+    uint32_t acc = IORD_32DIRECT(SERIALIZER_0_BASE, 0xdeadbeef);
 }

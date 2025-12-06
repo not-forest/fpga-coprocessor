@@ -11,7 +11,7 @@ coproc.files = [
 
 # QSYS generated soft core.
 coproc_soft_cpu.files = [
-    "soft_cpu/coproc_soft_cpu/synthesis/*.vhd",
+    "soft_cpu/coproc_soft/synthesis/*.vhd",
 ]
 
 # Vendor specific libraries.

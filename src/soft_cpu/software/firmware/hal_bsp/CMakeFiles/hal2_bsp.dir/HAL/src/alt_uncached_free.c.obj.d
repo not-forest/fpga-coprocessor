@@ -1,0 +1,17 @@
+hal_bsp/CMakeFiles/hal2_bsp.dir/HAL/src/alt_uncached_free.c.obj: \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/alt_uncached_free.c \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_cache.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/stdlib.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/ieeefp.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/picolibc.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/_ansi.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/newlib.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/config.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/features.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/float.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/lib/gcc/riscv32-unknown-elf/13.2.0/include/stddef.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/sys/cdefs.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/_default_types.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/machine/stdlib.h \
+ /home/notforest/intelFPGA_lite/24.1std/riscfree/toolchain/riscv32-unknown-elf/picolibc/riscv32-unknown-elf/include/alloca.h \
+ /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h

@@ -17,9 +17,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
 endif()
 
-set(CMAKE_C_FLAGS_DEBUG "")
+set(CMAKE_C_FLAGS_DEBUG "-g")
 
-set(CMAKE_C_FLAGS_RELEASE "-Os")
+set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 add_compile_options(
     $<$<COMPILE_LANGUAGE:ASM>:-Wa,-gdwarf2>
@@ -41,9 +41,8 @@ add_link_options(
 )
 
 add_compile_definitions(
-    ALTERA_AVALON_JTAG_UART_IGNORE_FIFO_FULL_ERROR
-    ALT_LOG_ENABLE
-    ALT_LOG_FLAGS=3
+    ALTERA_AVALON_UART_SMALL
+    ALT_LOG_FLAGS=0
     ALT_NO_CLEAN_EXIT
     ALT_NO_C_PLUS_PLUS
     ALT_NO_EXIT

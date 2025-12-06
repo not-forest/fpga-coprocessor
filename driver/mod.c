@@ -65,7 +65,7 @@ static long fc_ioctl(struct file *file, unsigned int cmd, unsigned long arg) {
   * Driver shares it's DMA kernel buffers with userspace to provide zero-cost DMA operations
   * from the userspace and reduce copying time.
   *
-  * @note Tx buffer is mapped with offset of 0. Rx buffer always comes just afterwads, which means it
+  * @note Tx buffer is mapped with offset of 0. Rx buffer always comes just afterwards, which means it
   * shall have an offset of BUF_SIZE. Buffer swaps are seamless to the user.
   **/
 static int coproc_mmap(struct file *file, struct vm_area_struct *vma) {

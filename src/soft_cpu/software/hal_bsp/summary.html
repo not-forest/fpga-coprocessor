@@ -7,7 +7,7 @@
 <td width="20%" bgcolor="#77BBFF">BSP Type:</td><td>hal2</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">SOPC Design File:</td><td>../../coproc_soft_cpu.sopcinfo</td>
+<td width="20%" bgcolor="#77BBFF">SOPC Design File:</td><td>../../niosv_cpu.sopcinfo</td>
 </tr>
 <tr mode="wrap">
 <td width="20%" bgcolor="#77BBFF">Quartus JDI File:</td><td>default</td>
@@ -22,10 +22,10 @@
 <td width="20%" bgcolor="#77BBFF">BSP Version:</td><td>default</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Oct 27, 2025 7:55:50 PM</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Dec 6, 2025 10:38:11 PM</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1761594950351</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1765060691638</td>
 </tr>
 <tr mode="wrap">
 <td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>./</td>
@@ -38,25 +38,22 @@
 <th align="left" width="20%">Slave Descriptor</th><th align="left" width="40%">Address Range</th><th align="left" width="20%">Size</th><th align="left" width="20%">Attributes</th>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>DEBUG_JTAG</td><td>0x000300E0 - 0x000300E7</td><td>8</td><td class="listing">printable</td>
+<td>SERIALIZER_0</td><td>0x000300E0 - 0x000300E7</td><td>8</td><td class="listing">&nbsp;</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
 <td>SPI_0</td><td>0x000300C0 - 0x000300DF</td><td>32</td><td class="listing">&nbsp;</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>CPU_timer_sw_agent</td><td>0x00030080 - 0x000300BF</td><td>64</td><td class="listing">&nbsp;</td>
+<td>DATA_BATCH</td><td>0x00030040 - 0x0003007F</td><td>64</td><td class="listing">&nbsp;</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>WEIGHT_BATCH</td><td>0x00030040 - 0x0003007F</td><td>64</td><td class="listing">&nbsp;</td>
+<td>WEIGHT_BATCH</td><td>0x00030000 - 0x0003003F</td><td>64</td><td class="listing">&nbsp;</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>DATA_BATCH</td><td>0x00030000 - 0x0003003F</td><td>64</td><td class="listing">&nbsp;</td>
+<td>MEM</td><td>0x00028000 - 0x0002CFFF</td><td>20480</td><td class="listing">memory</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>SRAM</td><td>0x00028000 - 0x0002CFFF</td><td>20480</td><td class="listing">memory</td>
-</tr>
-<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>CPU_dm_agent</td><td>0x00010000 - 0x0001FFFF</td><td>65536</td><td class="listing">&nbsp;</td>
+<td>DEBUG</td><td>0x00000000 - 0x0000001F</td><td>32</td><td class="listing">printable</td>
 </tr>
 </table>
 <br>
@@ -75,40 +72,40 @@
 <th align="left" width="50%">Section</th><th align="left" width="50%">Region</th>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.text</td><td>SRAM</td>
+<td>.text</td><td>MEM</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.exceptions</td><td>SRAM</td>
+<td>.exceptions</td><td>MEM</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.rodata</td><td>SRAM</td>
+<td>.rodata</td><td>MEM</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.rwdata</td><td>SRAM</td>
+<td>.rwdata</td><td>MEM</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.bss</td><td>SRAM</td>
+<td>.bss</td><td>MEM</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.heap</td><td>SRAM</td>
+<td>.heap</td><td>MEM</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.stack</td><td>SRAM</td>
+<td>.stack</td><td>MEM</td>
 </tr>
 </table>
 <h3>Settings</h3>
 <table border="1" bgcolor="#FFFFCC" width="60%">
 <tr bgcolor="#77BBFF">
-<td align="left" width="15%">Setting Name:</td><td align="left">altera_avalon_jtag_uart_driver.enable_jtag_uart_ignore_fifo_full_error</td>
+<td align="left" width="15%">Setting Name:</td><td align="left">altera_avalon_uart_driver.enable_ioctl</td>
 </tr>
 <tr>
-<td width="20%">Identifier:</td><td>ALTERA_AVALON_JTAG_UART_IGNORE_FIFO_FULL_ERROR</td>
+<td width="20%">Identifier:</td><td>ALTERA_AVALON_UART_USE_IOCTL</td>
 </tr>
 <tr>
 <td width="20%">Default Value:</td><td>false</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>true</td>
+<td width="20%">Value:</td><td>false</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>BooleanDefineOnly</td>
@@ -117,7 +114,7 @@
 <td width="20%">Destination:</td><td>public_mk_define</td>
 </tr>
 <tr mode="wrap">
-<td width="20%">Description:</td><td>Enable JTAG UART driver to recover when host is inactive causing buffer to full without returning error. Printf will not fail with this recovery.</td>
+<td width="20%">Description:</td><td>Enable driver ioctl() support. This feature is not compatible with the 'small' driver; ioctl() support will not be compiled if either the UART 'enable_small_driver' or HAL 'enable_reduced_device_drivers' settings are enabled.</td>
 </tr>
 <tr mode="wrap">
 <td width="20%">Restrictions:</td><td>none</td>
@@ -126,16 +123,16 @@
 <br>
 <table border="1" bgcolor="#FFFFCC" width="60%">
 <tr bgcolor="#77BBFF">
-<td align="left" width="15%">Setting Name:</td><td align="left">altera_avalon_jtag_uart_driver.enable_small_driver</td>
+<td align="left" width="15%">Setting Name:</td><td align="left">altera_avalon_uart_driver.enable_small_driver</td>
 </tr>
 <tr>
-<td width="20%">Identifier:</td><td>ALTERA_AVALON_JTAG_UART_SMALL</td>
+<td width="20%">Identifier:</td><td>ALTERA_AVALON_UART_SMALL</td>
 </tr>
 <tr>
 <td width="20%">Default Value:</td><td>false</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>false</td>
+<td width="20%">Value:</td><td>true</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>BooleanDefineOnly</td>
@@ -567,7 +564,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>SRAM</td>
+<td width="20%">Value:</td><td>MEM</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -648,7 +645,7 @@
 <td width="20%">Default Value:</td><td>0</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>3</td>
+<td width="20%">Value:</td><td>0</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>DecimalNumber</td>
@@ -675,7 +672,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>DEBUG_JTAG</td>
+<td width="20%">Value:</td><td>none</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -729,7 +726,7 @@
 <td width="20%">Default Value:</td><td>-g</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>none</td>
+<td width="20%">Value:</td><td>-g</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -783,7 +780,7 @@
 <td width="20%">Default Value:</td><td>-O2</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>-Os</td>
+<td width="20%">Value:</td><td>-O3</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1053,7 +1050,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>DEBUG_JTAG</td>
+<td width="20%">Value:</td><td>DEBUG</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1080,7 +1077,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>DEBUG_JTAG</td>
+<td width="20%">Value:</td><td>DEBUG</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1107,7 +1104,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>DEBUG_JTAG</td>
+<td width="20%">Value:</td><td>DEBUG</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1134,7 +1131,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>CPU</td>
+<td width="20%">Value:</td><td>none</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1161,7 +1158,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>CPU</td>
+<td width="20%">Value:</td><td>none</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1387,33 +1384,6 @@
 </tr>
 <tr mode="wrap">
 <td width="20%">Description:</td><td>Determines whether to include the DFL walker code in fpga_platform_init() to discover interface information to use fpga_open() to obtain a handle.</td>
-</tr>
-<tr mode="wrap">
-<td width="20%">Restrictions:</td><td>none</td>
-</tr>
-</table>
-<br>
-<table border="1" bgcolor="#FFFFCC" width="60%">
-<tr bgcolor="#77BBFF">
-<td align="left" width="15%">Setting Name:</td><td align="left">intel_niosv_m_hal_driver.internal_timer_ticks_per_sec</td>
-</tr>
-<tr>
-<td width="20%">Identifier:</td><td>NIOSV_INTERNAL_TIMER_TICKS_PER_SECOND</td>
-</tr>
-<tr>
-<td width="20%">Default Value:</td><td>1000</td>
-</tr>
-<tr>
-<td width="20%">Value:</td><td>1000</td>
-</tr>
-<tr>
-<td width="20%">Type:</td><td>DecimalNumber</td>
-</tr>
-<tr mode="wrap">
-<td width="20%">Destination:</td><td>system_h_define</td>
-</tr>
-<tr mode="wrap">
-<td width="20%">Description:</td><td>Sets the tick rate in ticks per second for the internal timer.</td>
 </tr>
 <tr mode="wrap">
 <td width="20%">Restrictions:</td><td>none</td>

@@ -14,16 +14,6 @@
 alt_types.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/alt_types.h
 
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/os/alt_flag.h
-priv/alt_no_error.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/os/priv/alt_no_error.h
-
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/os/alt_hooks.h
-
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/os/alt_sem.h
-priv/alt_no_error.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/os/priv/alt_no_error.h
-
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_alarm.h
 alt_types.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_types.h
@@ -31,10 +21,6 @@ alt_types.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_dev_llist.h
 sys/alt_llist.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/sys/alt_llist.h
-alt_types.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_types.h
-
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_no_error.h
 alt_types.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/priv/alt_types.h
 
@@ -74,8 +60,6 @@ altera_avalon_jtag_uart_regs.h
 altera_avalon_uart_regs.h
 -
 
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/inc/sys/alt_warning.h
-
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/alt_ecc_exception_entry.S
 system.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/system.h
@@ -102,35 +86,9 @@ system.h
 sys/alt_log_printf.h
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/sys/alt_log_printf.h
 
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/machine_trap.S
-linker.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/linker.h
-system.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/HAL/src/system.h
-
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart.h
-stddef.h
--
-sys/alt_alarm.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/sys/alt_alarm.h
-sys/alt_warning.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/sys/alt_warning.h
-os/alt_hooks.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/os/alt_hooks.h
-os/alt_sem.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/os/alt_sem.h
-os/alt_flag.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/os/alt_flag.h
-altera_avalon_jtag_uart_fd.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart_fd.h
-
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart_fd.h
-sys/alt_dev.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/sys/alt_dev.h
-
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_jtag_uart_regs.h
+/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/altera_avalon_uart_regs.h
 io.h
-/home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/drivers/inc/io.h
+-
 
 /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/software/hal_bsp/linker.h
 

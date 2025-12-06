@@ -1,10 +1,10 @@
 /*
  * alt_sys_init.c - HAL initialization source
  *
- * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
- * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
+ * Machine generated for CPU 'CPU' in SOPC Builder design 'niosv_cpu'
+ * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/niosv_cpu.sopcinfo
  *
- * Generated: Mon Oct 27 19:55:51 UTC 2025
+ * Generated: Sat Dec 06 22:38:11 UTC 2025
  */
 
 /*
@@ -58,19 +58,17 @@
  * Device headers
  */
 
-#include "intel_niosv_m_irq.h"
-#include "altera_avalon_jtag_uart.h"
 #include "altera_avalon_spi.h"
-#include "intel_niosv_m.h"
+#include "altera_avalon_uart.h"
+#include "intel_niosv_c.h"
 
 /*
  * Allocate the device storage
  */
 
-INTEL_NIOSV_M_IRQ_INSTANCE ( CPU, CPU);
-ALTERA_AVALON_JTAG_UART_INSTANCE ( DEBUG_JTAG, DEBUG_JTAG);
 ALTERA_AVALON_SPI_INSTANCE ( SPI_0, SPI_0);
-INTEL_NIOSV_M_INSTANCE ( CPU, CPU);
+ALTERA_AVALON_UART_INSTANCE ( DEBUG, DEBUG);
+INTEL_NIOSV_C_INSTANCE ( CPU, CPU);
 
 /*
  * Initialize the interrupt controller devices
@@ -82,7 +80,6 @@ INTEL_NIOSV_M_INSTANCE ( CPU, CPU);
 
 void alt_irq_init ( const void* base )
 {
-    INTEL_NIOSV_M_IRQ_INIT ( CPU, CPU);
     alt_irq_cpu_enable_interrupts();
 }
 
@@ -93,7 +90,7 @@ void alt_irq_init ( const void* base )
 
 void alt_sys_init( void )
 {
-    ALTERA_AVALON_JTAG_UART_INIT ( DEBUG_JTAG, DEBUG_JTAG);
     ALTERA_AVALON_SPI_INIT ( SPI_0, SPI_0);
-    INTEL_NIOSV_M_INIT ( CPU, CPU);
+    ALTERA_AVALON_UART_INIT ( DEBUG, DEBUG);
+    INTEL_NIOSV_C_INIT ( CPU, CPU);
 }

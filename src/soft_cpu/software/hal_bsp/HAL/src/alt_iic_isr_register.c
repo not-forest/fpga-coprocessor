@@ -34,25 +34,18 @@
 
 /*
  * Provides an interrupt registry mechanism for the any CPUs internal interrupt
- * controller (IIC) when the enhanced interrupt API is active.
+ * controller (IIC).
  */
 #ifndef ALT_CPU_EIC_PRESENT
-#ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
 
 #include "alt_types.h"
 #include "sys/alt_irq.h"
+#include "sys/alt_warning.h"
 #include "priv/alt_iic_isr_register.h"
 
-/*
- * The header, alt_irq_table.h contains a table describing which function
- * handles each interrupt.
- */
-
-#include "priv/alt_irq_table.h"
-
-/** @Function Description:  This function registers an interrupt handler. 
-  * If the function is succesful, then the requested interrupt will be enabled
-  * upon return. Registering a NULL handler will disable the interrupt.
+/** @Function Description:  This function is stubbed to provide HAL compatibility
+  * and compilation to succeed, however it will always fail if used by the application
+  * since Nios V/c does not provide interrupt support.
   *
   * @API Type:              External
   * @param ic_id            Interrupt controller ID
@@ -65,30 +58,10 @@
 int alt_iic_isr_register(alt_u32 ic_id, alt_u32 irq, alt_isr_func isr, 
   void *isr_context, void *flags)
 {
-  int rc = -EINVAL;  
-  int id = irq;             /* IRQ interpreted as the interrupt ID. */
-  alt_irq_context status;
-
-  if (id < ALT_NIRQ)
-  {
-    /* 
-     * interrupts are disabled while the handler tables are updated to ensure
-     * that an interrupt doesn't occur while the tables are in an inconsistant
-     * state.
-     */
-
-    status = alt_irq_disable_all();
-
-    alt_irq[id].handler = isr;
-    alt_irq[id].context = isr_context;
-
-    rc = (isr) ? alt_ic_irq_enable(ic_id, id) : alt_ic_irq_disable(ic_id, id);
-
-    alt_irq_enable_all(status);
-  }
-
+  ALT_STUB_WARNING(alt_iic_isr_register);
+  
+  int rc = -ENOSYS;
   return rc; 
 }
 
-#endif /* ALT_ENHANCED_INTERRUPT_API_PRESENT */
 #endif /* ALT_CPU_EIC_PRESENT */

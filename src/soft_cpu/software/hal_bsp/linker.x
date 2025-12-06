@@ -1,10 +1,10 @@
 /*
  * linker.x - Linker script
  *
- * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
- * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
+ * Machine generated for CPU 'CPU' in SOPC Builder design 'niosv_cpu'
+ * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/niosv_cpu.sopcinfo
  *
- * Generated: Mon Oct 27 19:55:51 UTC 2025
+ * Generated: Sat Dec 06 22:38:11 UTC 2025
  */
 
 /*
@@ -51,11 +51,11 @@
 MEMORY
 {
     reset : ORIGIN = 0x28000, LENGTH = 32
-    SRAM : ORIGIN = 0x28020, LENGTH = 20448
+    MEM : ORIGIN = 0x28020, LENGTH = 20448
 }
 
 /* Define symbols for each memory base-address */
-__alt_mem_SRAM = 0x28000;
+__alt_mem_MEM = 0x28000;
 
 OUTPUT_FORMAT( "elf32-littleriscv",
                "elf32-littleriscv",
@@ -111,7 +111,7 @@ SECTIONS
         KEEP (*(.exceptions.exit));
         KEEP (*(.exceptions));
         PROVIDE (__ram_exceptions_end = ABSOLUTE(.));
-    } > SRAM
+    } > MEM
 
     PROVIDE (__flash_exceptions_start = LOADADDR(.exceptions));
 
@@ -208,7 +208,7 @@ SECTIONS
         PROVIDE (__DTOR_END__ = ABSOLUTE(.));
         KEEP (*(.jcr))
         . = ALIGN(4);
-    } > SRAM = 0x13000000 /* NOP instruction (always in big-endian byte ordering) */
+    } > MEM = 0x13000000 /* NOP instruction (always in big-endian byte ordering) */
 
     .rodata :
     {
@@ -219,7 +219,7 @@ SECTIONS
         *(.srodata .srodata.*)
         . = ALIGN(4);
         PROVIDE (__ram_rodata_end = ABSOLUTE(.));
-    } > SRAM
+    } > MEM
 
     PROVIDE (__flash_rodata_start = LOADADDR(.rodata));
 
@@ -271,7 +271,7 @@ SECTIONS
         _edata = ABSOLUTE(.);
         PROVIDE (edata = ABSOLUTE(.));
         PROVIDE (__ram_rwdata_end = ABSOLUTE(.));
-    } > SRAM
+    } > MEM
 
     PROVIDE(__tdata_size = (__tdata_end - __tdata_start));
     PROVIDE(__tbss_size = (__tbss_end - __tbss_start));
@@ -306,7 +306,7 @@ SECTIONS
 
         . = ALIGN(4);
         __bss_end = ABSOLUTE(.);
-    } > SRAM
+    } > MEM
 
     /*
      *
@@ -331,18 +331,18 @@ SECTIONS
      *
      */
 
-    .SRAM LOADADDR (.bss) + SIZEOF (.bss) : AT ( LOADADDR (.bss) + SIZEOF (.bss) )
+    .MEM LOADADDR (.bss) + SIZEOF (.bss) : AT ( LOADADDR (.bss) + SIZEOF (.bss) )
     {
-        PROVIDE (_alt_partition_SRAM_start = ABSOLUTE(.));
-        *(.SRAM .SRAM. SRAM.*)
+        PROVIDE (_alt_partition_MEM_start = ABSOLUTE(.));
+        *(.MEM .MEM. MEM.*)
         . = ALIGN(4);
-        PROVIDE (_alt_partition_SRAM_end = ABSOLUTE(.));
+        PROVIDE (_alt_partition_MEM_end = ABSOLUTE(.));
         _end = ABSOLUTE(.);
         end = ABSOLUTE(.);
         __alt_stack_base = ABSOLUTE(.);
-    } > SRAM
+    } > MEM
 
-    PROVIDE (_alt_partition_SRAM_load_addr = LOADADDR(.SRAM));
+    PROVIDE (_alt_partition_MEM_load_addr = LOADADDR(.MEM));
 
     /*
      * Stabs debugging sections.

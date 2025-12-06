@@ -47,7 +47,7 @@ entity coprocessor is
 end entity;
 
 architecture structured of coprocessor is 
-    component coproc_soft_cpu is
+    component niosv_cpu is
         port (
             i_clk_clk               : in    std_logic := '0';
             i_clr_reset_n           : in    std_logic := '0';
@@ -138,7 +138,7 @@ begin
     end process;
 
     -- Generating internal NIOS V/m soft CPU core to parse upcoming SPI traffic
-    COPROC_SOFT_CPU_Inst : coproc_soft_cpu
+    NIOSV_CPU_Inst : niosv_cpu
     port map (
         i_clk_clk => i_clk,
         i_clr_reset_n => ni_rst,

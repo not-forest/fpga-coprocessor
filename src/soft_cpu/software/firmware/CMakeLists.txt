@@ -58,10 +58,10 @@ add_custom_target(niosv-stack-report ALL DEPENDS "${stack_report_file}")
 # Generate HEX file(s) from coproc_firmware.elf using elf2hex tool.
 # Note : If ECC Full is enabled, width of 39 is set for NiosV TCM. Otherwise, 32.
 add_custom_command(
-    OUTPUT "SRAM.hex"
+    OUTPUT "MEM.hex"
     DEPENDS coproc_firmware.elf
-    COMMAND elf2hex coproc_firmware.elf -o SRAM.hex -b 0x00028000 -w 32 -e 0x0002CFFF -r 4
-    COMMENT "Creating SRAM.hex."
+    COMMAND elf2hex coproc_firmware.elf -o MEM.hex -b 0x00028000 -w 32 -e 0x0002CFFF -r 4
+    COMMENT "Creating MEM.hex."
     VERBATIM
 )
-add_custom_target(create-hex ALL DEPENDS "SRAM.hex")
+add_custom_target(create-hex ALL DEPENDS "MEM.hex")

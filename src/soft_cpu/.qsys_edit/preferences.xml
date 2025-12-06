@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable filter="All Interfaces">
+  <columns>
+   <connections preferredWidth="95" />
+   <irq preferredWidth="34" />
+  </columns>
+ </systemtable>
+ <library
+   expandedCategories="Library,Project,Library/University Program,Library/University Program/Communications,Library/Interface Protocols,Library/Interface Protocols/Serial" />
+ <window width="1088" height="1930" x="-4" y="-4" />
+ <generation synthesis="VHDL" block_symbol_file="0" simulation="NONE" greybox="0" />
+</preferences>

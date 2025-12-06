@@ -2,7 +2,6 @@
   *  @file spi.c
   *  @brief SPI bus initialization and control module.
   *
-  *  Double-buffering allows user to keep writing/reading data to Rx/Tx buffers, while 
   *
   *  @test Tested on Raspberry Pi 4 with Linux kernel 5.10  
   **/

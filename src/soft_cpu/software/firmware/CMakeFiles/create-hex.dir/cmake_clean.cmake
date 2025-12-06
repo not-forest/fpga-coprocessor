@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/create-hex"
-  "SRAM.hex"
+  "MEM.hex"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -41,7 +41,11 @@ entity serializer_tb is
         na_clr  : std_logic;                 
         
         i_accs  : t_acc_mat(0 to 2, 0 to 2);
-        i_read  : std_logic;                 
+        i_se_iterations : t_niosv_word;
+        i_se_iterations_write : std_logic;
+        i_batch_sampled : std_logic;
+        i_rx_ready : std_logic;
+        o_rx_ready : std_logic;
         i_clr   : std_logic;                 
         o_acc  : t_acc;
     end record;
@@ -82,7 +86,11 @@ architecture behavioral of serializer_tb is
         i_clk  => '0',                 
         na_clr => '1',                 
         i_accs => (others => (others => (others => '0'))),
-        i_read => '0', 
+        i_se_iterations => (others => '0'),
+        i_se_iterations_write => '0',
+        i_batch_sampled => '0',
+        i_rx_ready => '0',
+        o_rx_ready => '0',
         i_clr  => '0',                 
         o_acc => (others => '0')
     );
@@ -98,7 +106,13 @@ begin
         i_clk  => sigs.i_clk,                 
         na_clr => sigs.na_clr,                 
         i_accs => sigs.i_accs,
-        i_read => sigs.i_read, 
+
+        i_iterations => sigs.i_se_iterations,
+        i_iterations_write => sigs.i_se_iterations_write,
+        i_batch_sampled => sigs.i_batch_sampled,
+        i_rx_ready => sigs.i_rx_ready,
+        o_rx_ready => sigs.o_rx_ready,
+
         i_clr  => sigs.i_clr,                 
         o_acc => sigs.o_acc
              );
@@ -113,17 +127,41 @@ begin
     -- Simulates input clock.
     p_EX_CLOCK : tick(sigs.i_clk, freq);
 
+    -- Side task for systolic array.
+    p_SYST : process begin 
+        report "Enter p_SYST.";
+        wait for 15 ns;
+
+        sigs.i_se_iterations <= x"00000003";    -- Preparing iteration value beforehand.
+        sigs.i_se_iterations_write <= '1';
+        wait until falling_edge(sigs.i_clk);
+
+        for i in 0 to 3 loop
+            wait until falling_edge(sigs.i_clk);
+            sigs.i_batch_sampled <= '1';
+            wait until falling_edge(sigs.i_clk);
+            sigs.i_batch_sampled <= '0';
+        end loop;
+
+        report "Done: p_SYST";
+        wait;
+    end process;
+
     -- Simulation main.
     p_MAIN : process begin
         report "Enter p_MAIN.";
 
-        wait for 10 ns;     -- Prevents delta cycle issue.
-        assert_output(sigs.o_acc, x"000001", "Reset output error. This is an implementation bug.");
-
-        sigs.i_read <= '1';
         for i in 0 to 8 loop
+            if sigs.o_rx_ready /= '1' then
+                wait until sigs.o_rx_ready = '1';
+                wait until falling_edge(sigs.i_clk);
+            end if;
+
+            sigs.i_rx_ready <= '1';
             wait until falling_edge(sigs.i_clk);
-            assert_output(sigs.o_acc, c_EXPECTED_ARRAY(i), "Output error. Wrong expected value.");
+            assert_output(c_EXPECTED_ARRAY(i), sigs.o_acc, "Output error. Wrong expected value.");
+            sigs.i_rx_ready <= '0';
+            wait until falling_edge(sigs.i_clk);
         end loop;
 
         report "Done: p_MAIN";

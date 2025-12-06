@@ -1,10 +1,10 @@
 /*
  * linker.h - Linker script mapping information
  *
- * Machine generated for CPU 'CPU' in SOPC Builder design 'coproc_soft_cpu'
- * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/coproc_soft_cpu.sopcinfo
+ * Machine generated for CPU 'CPU' in SOPC Builder design 'niosv_cpu'
+ * SOPC Builder design path: /home/notforest/Documents/fpga-coprocessor/src/soft_cpu/niosv_cpu.sopcinfo
  *
- * Generated: Mon Oct 27 19:55:51 UTC 2025
+ * Generated: Sat Dec 06 22:38:11 UTC 2025
  */
 
 /*
@@ -65,10 +65,10 @@
  *
  */
 
+#define MEM_REGION_BASE 0x28020
+#define MEM_REGION_SPAN 20448
 #define RESET_REGION_BASE 0x28000
 #define RESET_REGION_SPAN 32
-#define SRAM_REGION_BASE 0x28020
-#define SRAM_REGION_SPAN 20448
 
 
 /*
@@ -76,11 +76,11 @@
  *
  */
 
-#define ALT_EXCEPTIONS_DEVICE SRAM
-#define ALT_RESET_DEVICE SRAM
-#define ALT_RODATA_DEVICE SRAM
-#define ALT_RWDATA_DEVICE SRAM
-#define ALT_TEXT_DEVICE SRAM
+#define ALT_EXCEPTIONS_DEVICE MEM
+#define ALT_RESET_DEVICE MEM
+#define ALT_RODATA_DEVICE MEM
+#define ALT_RWDATA_DEVICE MEM
+#define ALT_TEXT_DEVICE MEM
 
 
 /*

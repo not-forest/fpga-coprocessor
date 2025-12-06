@@ -51,13 +51,11 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_location_assignment PIN_23 -to i_pCLK
-set_location_assignment PIN_25 -to i_pRST
-set_location_assignment PIN_88 -to i_pSCLK
-set_location_assignment PIN_85 -to ni_pSS
-set_location_assignment PIN_86 -to o_pMISO
-set_location_assignment PIN_87 -to i_pMOSI
+set_location_assignment PIN_120 -to i_pSCLK
+set_location_assignment PIN_115 -to ni_pSS
+set_location_assignment PIN_113 -to o_pMISO
+set_location_assignment PIN_111 -to i_pMOSI
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pMOSI
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pRST
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pSCLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to ni_pSS
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to o_pMISO
@@ -65,14 +63,19 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pCLK
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name SEARCH_PATH src/soft_cpu/coproc_soft_cpu
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_pRST
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_location_assignment PIN_25 -to ni_pRST
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tms
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tdo
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tdi
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tck
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to ni_pRST
+set_global_assignment -name QSYS_FILE src/soft_cpu/niosv_cpu.qsys
 set_global_assignment -name VHDL_FILE src/intrinsics/sipo.vhd
 set_global_assignment -name VHDL_FILE src/systolic.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/pe_fifo.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/serializer.vhd
-set_global_assignment -name QSYS_FILE src/soft_cpu/coproc_soft_cpu.qsys
 set_global_assignment -name VHDL_FILE src/intrinsics/batch_block.vhd
 set_global_assignment -name VHDL_FILE src/binding_vendor.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/domain_fifo.vhd

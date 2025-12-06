@@ -1,0 +1,29 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst niosv_cpu -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst niosv_cpu.SERIALIZER_0 -pg 1 -lvl 3 -y 250
+preplace inst niosv_cpu.JTAG -pg 1 -lvl 3 -y 150
+preplace inst niosv_cpu.SCPU.dbg_mod -pg 1
+preplace inst niosv_cpu.SCPU -pg 1 -lvl 2 -y 160
+preplace inst niosv_cpu.MEM -pg 1 -lvl 3 -y 350
+preplace inst niosv_cpu.CLK -pg 1 -lvl 1 -y 130
+preplace inst niosv_cpu.WEIGHT_BATCH -pg 1 -lvl 3 -y 430
+preplace inst niosv_cpu.SPI_0 -pg 1 -lvl 3 -y 30
+preplace inst niosv_cpu.SCPU.reset_bridge -pg 1
+preplace inst niosv_cpu.SCPU.clock_bridge -pg 1
+preplace inst niosv_cpu.DATA_BATCH -pg 1 -lvl 3 -y 530
+preplace inst niosv_cpu.SCPU.debug_reset_bridge -pg 1
+preplace inst niosv_cpu.SCPU.hart -pg 1
+preplace inst niosv_cpu.SCPU.timer_module -pg 1
+preplace netloc EXPORT<net_container>niosv_cpu</net_container>(SLAVE)DATA_BATCH.conduit,(SLAVE)niosv_cpu.o_data_batch_export) 1 0 3 NJ 580 NJ 580 NJ
+preplace netloc FAN_OUT<net_container>niosv_cpu</net_container>(MASTER)CLK.clk,(SLAVE)JTAG.clk,(SLAVE)WEIGHT_BATCH.clock,(SLAVE)SPI_0.clk,(SLAVE)SCPU.clk,(SLAVE)MEM.clk1,(SLAVE)DATA_BATCH.clock,(SLAVE)SERIALIZER_0.clock) 1 1 2 370 80 740
+preplace netloc EXPORT<net_container>niosv_cpu</net_container>(SLAVE)CLK.clk_in,(SLAVE)niosv_cpu.i_clk) 1 0 1 NJ
+preplace netloc INTERCONNECT<net_container>niosv_cpu</net_container>(SLAVE)SERIALIZER_0.reset_n,(SLAVE)MEM.reset1,(SLAVE)SCPU.ndm_reset_in,(SLAVE)JTAG.reset,(MASTER)CLK.clk_reset,(SLAVE)SCPU.reset,(SLAVE)SPI_0.reset,(SLAVE)WEIGHT_BATCH.reset_n,(MASTER)SCPU.dbg_reset_out,(SLAVE)DATA_BATCH.reset_n) 1 1 2 350 100 720
+preplace netloc EXPORT<net_container>niosv_cpu</net_container>(SLAVE)niosv_cpu.o_serializer_export,(SLAVE)SERIALIZER_0.conduit_end) 1 0 3 NJ 300 NJ 300 NJ
+preplace netloc INTERCONNECT<net_container>niosv_cpu</net_container>(SLAVE)DATA_BATCH.av,(SLAVE)SERIALIZER_0.av,(SLAVE)SCPU.timer_sw_agent,(SLAVE)WEIGHT_BATCH.av,(SLAVE)JTAG.avalon_jtag_slave,(SLAVE)SCPU.dm_agent,(SLAVE)SPI_0.spi_control_port,(SLAVE)MEM.s1,(MASTER)SCPU.instruction_manager,(MASTER)SCPU.data_manager) 1 1 2 390 120 700
+preplace netloc EXPORT<net_container>niosv_cpu</net_container>(SLAVE)WEIGHT_BATCH.conduit,(SLAVE)niosv_cpu.o_weight_batch_export) 1 0 3 NJ 480 NJ 480 NJ
+preplace netloc EXPORT<net_container>niosv_cpu</net_container>(SLAVE)niosv_cpu.i_clr,(SLAVE)CLK.clk_in_reset) 1 0 1 NJ
+preplace netloc FAN_OUT<net_container>niosv_cpu</net_container>(SLAVE)SPI_0.irq,(SLAVE)JTAG.irq,(MASTER)SCPU.platform_irq_rx) 1 2 1 760
+preplace netloc EXPORT<net_container>niosv_cpu</net_container>(SLAVE)niosv_cpu.o_spi_export,(SLAVE)SPI_0.external) 1 0 3 NJ 60 NJ 60 NJ
+levelinfo -pg 1 0 140 950
+levelinfo -hier niosv_cpu 150 180 500 800 940

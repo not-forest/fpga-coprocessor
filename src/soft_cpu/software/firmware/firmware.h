@@ -32,20 +32,27 @@
 #ifndef FIRMWARE_NIOSV_COPROC_H
 #define FIRMWARE_NIOSV_COPROC_H
 
-#include <system.h>
+#include <unistd.h>
 #include <stdint.h>
+#include <stddef.h>
+#include <system.h>
+
 #include <sys/alt_irq.h>
 #include <sys/alt_stdio.h>
 #include <sys/alt_timestamp.h>
+#include <sys/alt_irq.h>
 
-/* Synchronization sequence with master. (TODO! Must be dynamin. Not enough security.) */
-#define COPROCESSOR_SYNC_ARRAY_PATTERN {0xDE, 0xAD, 0xBE, 0xEF}
+#include <altera_avalon_spi_regs.h>
+
+#define BUFF_SIZE 256
 
 /**
-  * @brief Single core critical section macro.
+  * @brief Critical section macro.
+  *
+  * Acts as a mutex in single-core environment.
   **/
 #define _CS(...)                                    \
-    alt_irq_context _ctx = alt_irq_disable_all();   \
+    alt_irq_context __ctx = alt_irq_disable_all();  \
     __VA_ARGS__                                     \
     alt_irq_enable_all(__ctx);
 
@@ -77,7 +84,18 @@ typedef struct {
     } type;
 } syscmd_t;
 
-#define PROPER_STATE Sleep: case Unknown: case MatMul: case Filter
+/**
+  * @brief  Type definition for SPI interface device.
+  *
+  * @note   Buffer counters shall be changed within a critical section.
+  *         All counters are automatically wrapped on overflow, allowing
+  *         the circular buffer behavior.
+  **/
+typedef struct {
+    uint8_t rx_buf[BUFF_SIZE], tx_buf[BUFF_SIZE];
+    volatile uint8_t rx_tail, rx_head, tx_tail, tx_head;
+    volatile uint8_t rx_empty, tx_full;
+} spi_context_t;
 
 /**
   * @brief Deserialize next command from upcoming bytes.
@@ -97,12 +115,46 @@ void syscmd_deserialize(sysword_t *buf);
   **/
 void write_batch_word(int batch, uint8_t row, uint8_t col, sysword_t word);
 
+/**
+  * @brief Writes data word to Avalom MM weight batch component.
+  *
+  * @param row      row index in internal matrix.
+  * @param col      column index in internal matrix.
+  * @param word     word to write.
+  **/
 static void write_batch_weight_word(uint8_t row, uint8_t col, sysword_t word) {
     write_batch_word(WEIGHT_BATCH_BASE, row, col, word);
 }
 
+/**
+  * @brief Writes data word to Avalom MM weight batch component.
+  *
+  * @param row      row index in internal matrix.
+  * @param col      column index in internal matrix.
+  * @param word     word to write.
+  **/
 static void write_batch_data_word(uint8_t row, uint8_t col, sysword_t word) {
     write_batch_word(DATA_BATCH_BASE, row, col, word);
 }
+
+/**
+  * @brief Writes amount of iterations into serializer component.
+  *
+  * @param iterations   Amount of iterations before serializer will start it's 
+  *                     internal state machine.
+  **/
+void write_serializer(uint32_t iterations);
+
+/**
+  * @brief Read next accumulator data from systolic array output.
+  *
+  * @note               This call might be blocking if internal FIFO queue is empty.
+  *
+  * @param buf          Pointer to current buffer location. At least three
+  *                     free addresses must always be within the tx buffer,
+  *                     because each accumulator value occupies 24-bits.
+  * @param iteration    Current iteration value.
+  **/
+void read_serializer(sysword_t *buf, uint32_t iteration);
 
 #endif // !FIRMWARE_NIOSV_COPROC_H
