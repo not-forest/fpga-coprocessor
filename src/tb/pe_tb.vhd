@@ -43,10 +43,10 @@ entity pe_tb is
         i_clk : t_clock;
         i_xin : t_word;
         i_win : t_word;
-        i_ain : t_acc;
+        i_ain : t_word;
         o_xout : t_word;
         o_wout : t_word;
-        o_aout : t_acc;
+        o_aout : t_word;
     end record;
 end entity;
 
@@ -71,7 +71,7 @@ architecture behavioral of pe_tb is
         constant aout : in integer
     ) is 
         variable ret : boolean := false;
-        variable acc : t_acc := (others => '0');
+        variable acc : t_word := (others => '0');
     begin
         assert sigs.ni_clr = '1'
         report "Unexpected procedure usage. The procedure is expected to be used with non-cleared PE"
@@ -91,7 +91,7 @@ architecture behavioral of pe_tb is
             ", found: " & integer'image(to_integer(signed(sigs.o_xout)))
             severity error;
 
-        ret := sigs.o_aout = t_acc(to_signed(aout, sigs.o_aout'length));
+        ret := sigs.o_aout = t_word(to_signed(aout, sigs.o_aout'length));
         assert ret
         report "Implementation error. Expected Aout = " & integer'image(aout) &
             ", found: " & integer'image(to_integer(signed(sigs.o_aout)))

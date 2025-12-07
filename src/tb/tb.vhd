@@ -27,11 +27,16 @@ library coproc;
 library ieee;
 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use coproc.intrinsics.all;
 
 -- Defines different data types for writing test benches.
 package tb is
     -- Custom clock type for testbench simulations.
     subtype t_clock is std_logic;
+
+    -- Function to wrap an input integer to 32-bit word format.
+    function w(x : integer) return t_word;
 
     -- Provides a constant simulation of clock ticks with certain frequency --
     procedure tick (signal clk : inout t_clock; signal freq : in real);
@@ -40,6 +45,11 @@ package tb is
 end package;
 
 package body tb is
+    -- Function to wrap an input integer to 32-bit word format.
+    function w(x : integer) return t_word is begin
+        return t_word(to_unsigned(x, 32));
+    end function;
+
     -- Provides a constant simulation of clock ticks with certain frequency --
     procedure tick (
         signal clk      : inout t_clock;  -- This signal will simulate the clock behavior.

@@ -40,22 +40,22 @@ entity serializer_tb is
         i_clk   : std_logic;                 
         na_clr  : std_logic;                 
         
-        i_accs  : t_acc_mat(0 to 2, 0 to 2);
-        i_se_iterations : t_niosv_word;
+        i_accs  : t_word_mat(0 to 2, 0 to 2);
+        i_se_iterations : t_word;
         i_se_iterations_write : std_logic;
         i_batch_sampled : std_logic;
         i_rx_ready : std_logic;
         o_rx_ready : std_logic;
         i_clr   : std_logic;                 
-        o_acc  : t_acc;
+        o_acc  : t_word;
     end record;
 end entity;
 
 architecture behavioral of serializer_tb is
     -- Assertion procedure.
     procedure assert_output (
-        constant expected : in t_acc;
-        constant actual   : in t_acc;
+        constant expected : in t_word;
+        constant actual   : in t_word;
         constant msg      : in string := "Mismatch in serializer output."
     ) is
         variable ret : boolean := false;
@@ -72,14 +72,14 @@ architecture behavioral of serializer_tb is
     end procedure;
 
     -- Virtual PE's output.
-    constant c_VIRTUAL_PE_MATRIX : t_acc_mat(0 to 2, 0 to 2) := (
+    constant c_VIRTUAL_PE_MATRIX : t_word_mat(0 to 2, 0 to 2) := (
         (x"000001", x"000002", x"000003"),
         (x"000004", x"000005", x"000006"),
         (x"000007", x"000008", x"000009")
     );
-    type t_acc_array is array (natural range 0 to 8) of t_acc;
+    type t_word_array is array (natural range 0 to 8) of t_word;
     -- Expected sequence from serializer.
-    constant c_EXPECTED_ARRAY : t_acc_array := 
+    constant c_EXPECTED_ARRAY : t_word_array := 
         (x"000001", x"000002", x"000004", x"000007", x"000005", x"000003", x"000006", x"000008", x"000009"); 
 
     signal sigs : tb_dut := (

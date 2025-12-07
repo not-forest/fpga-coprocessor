@@ -13,7 +13,6 @@ COPROC_LIB  := $(SRC_DIR)/ord.coproc
 VHDL_ALTERA_LIBS := /usr/local/lib/ghdl/vendors/intel/
 
 QUARTUS_ROOT_DIR ?= $(HOME)/intelFPGA_lite/24.1std
-NIOS_SOFT_DIR := $(SRC_DIR)/soft_cpu/software
 
 ## Path configuration
 # Test bench environment variable to show the results in GTKWare.
@@ -26,48 +25,6 @@ GTKW		?= gtkwave
 NIOS		?= niosv
 
 GG_FLAGS := --ieee=synopsys --workdir=build --work=coproc --std=08 -P${VHDL_ALTERA_LIBS}
-NIOS_TOOLCHAIN_FLAGS := --bsp-dir=$(NIOS_SOFT_DIR)/hal_bsp
-NIOS_TOOLCHAIN_FLAGS += --app-dir=$(NIOS_SOFT_DIR)/firmware
-NIOS_TOOLCHAIN_FLAGS += --srcs=$(NIOS_SOFT_DIR)/firmware
-NIOS_TOOLCHAIN_FLAGS += --elf-name=coproc_firmware.elf
-
-NIOS_TOOLCHAIN := $(QUARTUS_ROOT_DIR)/riscfree/toolchain/riscv32-unknown-elf/bin
-
-### Coprocessor Firmware ###
-
-### Opens BSP editor for used NIOS soft CPU.
-firmware_bsp_editor:
-	$(NIOS)-bsp-editor
-
-## Regenerates the compilation toolchain for NIOS soft CPU firmware.
-firmware_toolchain_regenerate:
-	$(NIOS)-app $(NIOS_TOOLCHAIN_FLAGS)
-
-## Compiles the inner firmware for NIOS processor with required toolchain.
-firmware_compile: firmware_toolchain_regenerate
-	cd $(NIOS_SOFT_DIR)/hal_bsp && \
-	PATH=$(NIOS_TOOLCHAIN):$$PATH \
-	CMAKE_C_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-gcc \
-	CMAKE_CXX_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-g++ \
-	CMAKE_ASM_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-gcc \
-	CMAKE_AR=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-ar \
-	CMAKE_RANLIB=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-ranlib \
-	bash -c 'cmake . && make'
-
-	cd $(NIOS_SOFT_DIR)/firmware && \
-	PATH=$(NIOS_TOOLCHAIN):$$PATH \
-	CMAKE_C_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-gcc \
-	CMAKE_CXX_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-g++ \
-	CMAKE_ASM_COMPILER=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-gcc \
-	CMAKE_AR=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-ar \
-	CMAKE_RANLIB=$(NIOS_TOOLCHAIN)/riscv32-unknown-elf-ranlib \
-	bash -c 'cmake . && make'
-
-## Flashed output elf file to internal SRAM via JTAG.
-firmware_flash: firmware_compile
-	niosv-download --go $(NIOS_SOFT_DIR)/firmware/coproc_firmware.elf
-
-### Coprocessor Firmware ###
 
 ### LINUX ###
 

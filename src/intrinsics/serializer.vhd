@@ -44,13 +44,13 @@ entity serializer is
 
         i_batch_sampled : in std_logic := '0';                      -- Signal that shall notify about that next batch is sampled.
         i_iterations_write: in std_logic := '0';                    -- Write signal to write iterations value.
-        i_iterations : in t_niosv_word := (others => '0');          -- Iterations that correspond to amount of iterations needed until PE(00) is ready.
+        i_iterations : in t_word := (others => '0');                -- Iterations that correspond to amount of iterations needed until PE(00) is ready.
         
-        i_accs  : in t_acc_mat(0 to g_OMD - 1, 0 to g_OMD - 1);     -- Input matrix of PE's accumulators.
+        i_accs  : in t_word_mat(0 to g_OMD - 1, 0 to g_OMD - 1);    -- Input matrix of PE's accumulators.
         i_clr   : in std_logic := '0';                              -- Synchronous clear. Clears the state machine.
         i_rx_ready : in std_logic := '0';                           -- FIFO read ready input.
         o_rx_ready : out std_logic;                                 -- FIFO read ready output.
-        o_acc   : out t_acc                                         -- Output word.
+        o_acc   : out t_word                                        -- Output word.
     );
 end entity;
 
@@ -59,9 +59,9 @@ architecture rtl of serializer is
     signal r_dir : t_direction := UR;                       -- State machine for zig-zag directions.
     signal r_i, r_j : natural := 0;                         -- Local indexes of systolic array accumulators.
     signal r_read : std_logic := '0';                       -- When set, local state machine progresses.
-    signal r_iterations : t_niosv_word := (others => '0');  -- Contains the length of input vector for PE(00).
+    signal r_iterations : t_word := (others => '0');  -- Contains the length of input vector for PE(00).
 
-    signal w_acc : t_acc := (others => '0');
+    signal w_acc : t_word := (others => '0');
     signal wo_tx_ready, wi_tx_ready : std_logic := '0';
     signal lc : natural := 0;
 begin

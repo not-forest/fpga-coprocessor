@@ -44,13 +44,13 @@ entity pe is
 
         o_xout : out t_word;                    -- Pipelined output data X. N-bit width.
         o_wout : out t_word;                    -- Pipelined output data W. N-bit width.
-        o_aout : out t_acc                      -- Accumulator output for reading.
+        o_aout : out t_word                      -- Accumulator output for reading.
     );
 end entity;
 
 architecture rtl of pe is
     signal r_x, r_w : t_word := (others => '0');
-    signal r_a      : t_acc := (others => '0');
+    signal r_a      : t_word := (others => '0');
 begin
     process (all) is
         variable xin : signed(i_xin'range);
@@ -58,8 +58,8 @@ begin
         variable acc : signed(o_aout'range);
         variable aout : integer;
 
-        constant MAX_ACC : integer := 2 ** (t_acc'length - 1) - 1;
-        constant MIN_ACC : integer := -2 ** (t_acc'length - 1);
+        constant MAX_ACC : integer := 2 ** ((t_word'length - 1) / 2 - 1);
+        constant MIN_ACC : integer := -2 ** ((t_word'length - 1) / 2);
     begin
         if falling_edge(i_clk) then
             if ni_clr = '0' then
@@ -72,7 +72,7 @@ begin
                 aout := 0;
 
                 -- MAC
-                aout := to_integer(acc + resize(xin, t_acc'length) * resize(win, t_acc'length));
+                aout := to_integer(acc + resize(xin, t_word'length) * resize(win, t_word'length));
 
                 -- Saturating on both sides.
                 if aout > MAX_ACC then
@@ -83,7 +83,7 @@ begin
 
                 r_x <= i_xin;                                            -- X inputs forwarded horizontally.
                 r_w <= i_win;                                            -- W inputs forwarded vertically.
-                r_a <= std_logic_vector(to_signed(aout, t_acc'length));  -- Accumulator output forwarded diagonally.
+                r_a <= std_logic_vector(to_signed(aout, t_word'length));  -- Accumulator output forwarded diagonally.
             end if;
         end if;
     end process;

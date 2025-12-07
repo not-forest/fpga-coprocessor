@@ -40,8 +40,8 @@ entity pe_fifo is
         na_clr : in std_logic := '1';
         i_clk : in std_logic := '1';  
         
-        i_data : in t_acc := (others => '0');
-        o_data : out t_acc;
+        i_data : in t_word := (others => '0');
+        o_data : out t_word;
 
         i_tx_ready      : in std_logic := '0';      -- Producer is ready to send some data to the FIFO.
         i_rx_ready      : in std_logic := '0';      -- Consumer is ready to get some data from the FIFO.
@@ -75,13 +75,13 @@ architecture vendor of pe_fifo is
 	);
 	port (
 		clock	: in std_logic;
-		data	: in t_acc;
+		data	: in t_word;
 		rdreq	: in std_logic;
 		wrreq	: in std_logic;
         aclr    : in std_logic;
 		empty	: out std_logic;
 		full	: out std_logic;
-		q	    : out t_acc
+		q	    : out t_word
 	);
     end component;
 begin
@@ -101,7 +101,7 @@ begin
 		lpm_numwords => g_BLOCK_SIZE,
 		lpm_showahead => "ON",
 		lpm_type => "scfifo",
-		lpm_width => t_acc'length,
+		lpm_width => t_word'length,
 		lpm_widthu => log2(g_BLOCK_SIZE),
 		overflow_checking => "OFF",
 		underflow_checking => "OFF",

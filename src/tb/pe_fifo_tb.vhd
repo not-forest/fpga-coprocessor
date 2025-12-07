@@ -38,8 +38,8 @@ entity pe_fifo_tb is
         na_clr          : std_logic;
         i_clk           : std_logic;
 
-        i_data          : t_acc;
-        o_data          : t_acc;
+        i_data          : t_word;
+        o_data          : t_word;
 
         i_tx_ready      : std_logic;
         i_rx_ready      : std_logic;
@@ -96,7 +96,7 @@ begin
             end if;
 
             counter := counter + 1;
-            sigs.i_data <= t_acc(to_signed(counter, t_acc'length));
+            sigs.i_data <= t_word(to_signed(counter, t_word'length));
             sigs.i_tx_ready <= '0';
 
             report "Written: " & integer'image(counter);

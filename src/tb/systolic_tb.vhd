@@ -39,7 +39,7 @@ entity systolic_tb is
         i_write : std_logic;
 
         i_se_clr : std_logic;
-        i_se_iterations : t_niosv_word;
+        i_se_iterations : t_word;
         i_se_iterations_write : std_logic;
 
         i_rx_ready : std_logic; 
@@ -47,7 +47,7 @@ entity systolic_tb is
 
         i_dataX : t_word;
         i_dataW : t_word;
-        o_dataA : t_acc;
+        o_dataA : t_word;
     end record;
 end entity;
 
@@ -101,11 +101,11 @@ begin
         -- This part is fully handles by NIOS V firmware and must not be implemented in hardware.
         -- Last zero padding can be changed to next pipelined data if multiple operations with
         -- one operation mode is used.
-        constant c_X : t_word_array(0 to c_AMOUNT - 1) := (x"01", x"00", x"02", x"03", x"00", x"04", x"00");
-        constant c_W : t_word_array(0 to c_AMOUNT - 1) := (x"05", x"00", x"07", x"06", x"00", x"08", x"00");
+        constant c_X : t_word_array(0 to c_AMOUNT - 1) := (w(01), w(00), w(02), w(03), w(00), w(04), w(00));
+        constant c_W : t_word_array(0 to c_AMOUNT - 1) := (w(05), w(00), w(07), w(06), w(00), w(08), w(00));
         -- Here we multiply:
-        -- | 1  2 | X | 5  6 | = | 0x13  0x16 |
-        -- | 3  4 |   | 7  9 |   | 0x2B  0x32 |
+        -- | 1  2 | X | 5  6 | = | 19  43 |
+        -- | 3  4 |   | 7  9 |   | 22  50 |
     begin
         report "Enter p_MATRIX_MULTIPLICATION.";
 
@@ -134,7 +134,7 @@ begin
 
     -- Obtaining computed multiplication output.
     p_MAIN : process is 
-        constant c_EXPECTED : t_acc_array := (x"000013", x"000016", x"00002B", x"000032");
+        constant c_EXPECTED : t_word_array := (w(19), w(22), w(43), w(50));
     begin
         report "Enter p_MAIN.";
 

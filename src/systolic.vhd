@@ -46,7 +46,7 @@ entity systolic_arr is
         i_write : in std_logic := '0';  -- Enables writing procedure.
 
         i_se_clr : in std_logic := '0';                         -- Clear flag for serializer block.
-        i_se_iterations : in t_niosv_word := (others => '0');   -- Iterations word forwarded to serializer unit.
+        i_se_iterations : in t_word := (others => '0');         -- Iterations word forwarded to serializer unit.
         i_se_iterations_write : in std_logic := '0';            -- Iteration write flag. 
 
         i_dataX : in t_word;            -- Serial input X.
@@ -54,7 +54,7 @@ entity systolic_arr is
 
         i_rx_ready : in std_logic := '0';   -- FIFO read ready input.
         o_rx_ready : out std_logic;         -- FIFO read ready output.
-        o_dataA : out t_acc                 -- Serial output of accumulators A.
+        o_dataA : out t_word                -- Serial output of accumulators A.
     );
 
     type t_forward_mesh is array (0 to g_OMD) of t_word_array(0 to g_OMD);  -- X/W values traverse horizontally/vertically and stop at the lest PE element.
@@ -63,7 +63,7 @@ end entity;
 architecture structured of systolic_arr is
     signal w_tempX_array, w_tempW_array : t_word_array(0 to g_OMD - 1) := (others => (others => '0'));
     signal w_dataX_matrix, w_dataW_matrix : t_forward_mesh := (others => (others => (others => '0')));  
-    signal w_dataA_matrix : t_acc_mat(0 to g_OMD - 1, 0 to g_OMD - 1) := (others => (others => (others => '0')));
+    signal w_dataA_matrix : t_word_mat(0 to g_OMD - 1, 0 to g_OMD - 1) := (others => (others => (others => '0')));
     -- Connection wires between PE elements for X and W inputs.
 
     -- Word shifter full booleans.

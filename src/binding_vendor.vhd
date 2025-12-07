@@ -34,21 +34,24 @@ use coproc.coprocessor;
 use coproc.pll;
 
 entity binding_vendor is
+    generic (
+        g_OMD       : natural := 8              -- Operating matrix dimensions.
+            );
     port (
-        i_pCLK        : in std_logic;               -- External FPGA Oscillator.
-        ni_pRST       : in std_logic;               -- Hard reset button (Active Low).
+        i_pCLK      : in std_logic;             -- External FPGA Oscillator.
+        ni_pRST     : in std_logic;             -- Hard reset button (Active Low).
         
-        i_pSCLK       : in  std_logic;              -- SPI clock
-        ni_pSS        : in  std_logic;              -- Slave select (active low)
-        i_pMOSI       : in  std_logic;              -- Master Out Slave In
-        o_pMISO       : out std_logic               -- Master In Slave Out
+        i_pSCLK     : in  std_logic;            -- SPI clock
+        ni_pSS      : in  std_logic;            -- Slave select (active low)
+        i_pMOSI     : in  std_logic;            -- Master Out Slave In
+        o_pMISO     : out std_logic             -- Master In Slave Out
          );
 end entity;
 
 architecture structured of binding_vendor is
-    signal w_clk50MHz  : std_logic := '1';          -- Lowest 50 MHz clock.
-    signal w_clk100MHz : std_logic := '1';          -- Moderate frequency used for NIOS V Core.
-    signal w_clk475Mhz : std_logic := '1';          -- Fastest 475 MHz clock.
+    signal w_clk50MHz  : std_logic := '1';      -- Lowest 50 MHz clock.
+    signal w_clk100MHz : std_logic := '1';      -- Moderate frequency used for NIOS V Core.
+    signal w_clk475Mhz : std_logic := '1';      -- Fastest 475 MHz clock.
 begin
     -- Global coprocessor clock source.
     PLL_Inst : entity pll
@@ -62,6 +65,9 @@ begin
 
     -- SPI slave module acting as an interface between coprocessor and master microcontroller.
     COPROCESSOR_Inst : entity coprocessor
+    generic map (
+        g_OMD => g_OMD
+                )
     port map(
         i_clk  => w_clk100MHz,
         ni_rst => ni_pRST,
