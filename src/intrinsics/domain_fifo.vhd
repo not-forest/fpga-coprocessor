@@ -2,6 +2,8 @@
 -- File: domain_fifo.vhd
 -- Desc: Two dual-clock FIFO queue wrapper used to separate coprocessor's interfaces and internal elements.
 --      This element ensures isolation between two different clock domains and provides proper data transfer.
+--      It also allows for transmiting data of different widths, which is perfect for communication with SPI
+--      peripheral.
 -- Warn: Vendor specific content ahead. This file is compatible with Quartus Prime software.
 -- ============================================================
 --
@@ -36,15 +38,17 @@ use coproc.intrinsics.all;
 
 entity domain_fifo is
     generic (
-        g_LENGTH : natural := 64                    -- Amount of words the FIFO can hold.
+        g_LENGTH : natural := 64;                           -- Amount of words the FIFO can hold.
+        g_INPUT_DATA_SIZE  : natural := t_spi_word'length;  -- Length of input data.
+        g_OUTPUT_DATA_SIZE : natural := t_word'length       -- Length of output data.
             );
     port (
         ni_clr          : in std_logic := '1';      -- Asynchronous clear (Active low).
         i_clk_producer  : in std_logic := '1';      -- Internal clock for producer.
         i_clk_consumer  : in std_logic := '1';      -- Internal clock for producer.
 
-        i_tx            : in t_word;
-        o_rx            : out t_word;
+        i_tx            : in std_logic_vector(g_INPUT_DATA_SIZE - 1 downto 0);
+        o_rx            : out std_logic_vector(g_OUTPUT_DATA_SIZE - 1 downto 0);
 
         i_tx_ready      : in std_logic := '0';      -- Producer is ready to send some data to the FIFO.
         i_rx_ready      : in std_logic := '0';      -- Consumer is ready to get some data from the FIFO.
@@ -63,36 +67,37 @@ architecture vendor of domain_fifo is
     signal r_write_dt : std_logic := '0';       -- Delta logic semaphore to lock write requests only for one clock cycle. 
     signal r_read_dt : std_logic := '0';        -- Delta logic semaphore to lock read requests only for one clock cycle. 
 
-    -- Vendor specific dual-clock FIFO. This entity uses two such queues to provide duplex communication.
-	component dcfifo
-	generic (
-		intended_device_family		: string;
-		lpm_hint		            : string;
-		lpm_numwords		        : natural;
-		lpm_showahead		        : string;
-		lpm_type		            : string;
-		lpm_width		            : natural;
-		lpm_widthu		            : natural;
-		overflow_checking		    : string;
-		rdsync_delaypipe		    : natural;
-		read_aclr_synch		        : string;
-		underflow_checking		    : string;
-		use_eab		                : string;
-		write_aclr_synch		    : string;
-		wrsync_delaypipe		    : natural
-	);
-	port (
-			aclr : in std_logic ;
-			data : in t_word;
-			rdclk : in std_logic ;
-			rdreq : in std_logic ;
-			wrclk : in std_logic ;
-			wrreq : in std_logic ;
-			q : out t_word;
-			rdempty : out std_logic ;
-			wrfull : out std_logic 
-	);
-	end component;
+    -- Vendor specific dual-clock FIFO with mixed widths. This entity uses two such queues to provide duplex communication.
+	component dcfifo_mixed_widths
+    generic (
+        intended_device_family : string;
+        lpm_hint              : string;
+        lpm_numwords          : natural;
+        lpm_showahead         : string;
+        lpm_type              : string;
+        lpm_width             : natural;
+        lpm_width_r           : natural;
+        lpm_widthu            : natural;
+        overflow_checking     : string;
+        rdsync_delaypipe      : natural;
+        read_aclr_synch       : string;
+        underflow_checking    : string;
+        use_eab               : string;
+        write_aclr_synch      : string;
+        wrsync_delaypipe      : natural
+    );
+    port (
+        aclr    : in std_logic;
+        data    : in std_logic_vector(g_INPUT_DATA_SIZE - 1 downto 0);
+        rdclk   : in std_logic;
+        rdreq   : in std_logic;
+        wrclk   : in std_logic;
+        wrreq   : in std_logic;
+        q       : out std_logic_vector(g_OUTPUT_DATA_SIZE - 1 downto 0);
+        rdempty : out std_logic;
+        wrfull  : out std_logic
+    );
+    end component;
 begin 
     -- Process for handling producer's and consumer's timing constraints.
     p_PROD_TIMINGS : delta_ready(ni_clr, i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq);
@@ -102,33 +107,33 @@ begin
     o_tx_ready <= not w_wrfull;
     o_rx_ready <= not w_rdempty;
 
-	DCFIFO_Inst : dcfifo
-	GENERIC MAP (
-		intended_device_family => "Cyclone IV E",
-		lpm_hint => "RAM_BLOCK_TYPE=M9K",
-		lpm_numwords => g_LENGTH,
-		lpm_showahead => "OFF",
-		lpm_type => "dcfifo",
-		lpm_width => t_word'length,
-		lpm_widthu => t_word'length + 1,
-        rdsync_delaypipe => 4,
-        wrsync_delaypipe => 4,
-        use_eab => "ON",
-		overflow_checking => "ON",
-		read_aclr_synch => "OFF",
-		underflow_checking => "ON",
-		write_aclr_synch => "OFF"
-	)
-	PORT MAP (
-		aclr => not ni_clr,
-		data => i_tx,
-        q => o_rx,
-		rdclk => i_clk_consumer,
-		wrclk => i_clk_producer,
-
-        rdreq => r_rdreq,
-		wrreq => r_wrreq,
-		rdempty => w_rdempty,
-		wrfull => w_wrfull
-	);
+	DCFIFO_Inst : dcfifo_mixed_widths
+    generic map (
+        intended_device_family => "Cyclone IV E",
+        lpm_hint              => "RAM_BLOCK_TYPE=M9K",
+        lpm_numwords          => g_LENGTH,
+        lpm_showahead         => "OFF",
+        lpm_type              => "dcfifo",
+        lpm_width             => g_INPUT_DATA_SIZE,
+        lpm_width_r           => g_OUTPUT_DATA_SIZE,
+        lpm_widthu            => integer(log2(g_LENGTH)),
+        rdsync_delaypipe      => 4,
+        wrsync_delaypipe      => 4,
+        use_eab               => "ON",
+        overflow_checking     => "ON",
+        read_aclr_synch       => "OFF",
+        underflow_checking    => "ON",
+        write_aclr_synch      => "OFF"
+    )
+    port map (
+        aclr    => not ni_clr,
+        data    => i_tx,
+        q       => o_rx,
+        rdclk   => i_clk_consumer,
+        wrclk   => i_clk_producer,
+        rdreq   => r_rdreq,
+        wrreq   => r_wrreq,
+        rdempty => w_rdempty,
+        wrfull  => w_wrfull
+    );
 end architecture;

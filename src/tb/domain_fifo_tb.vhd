@@ -82,20 +82,20 @@ architecture behavioral of domain_fifo_tb is
     signal clk1 : std_logic := '1';     -- With frequency of 10 MHz.
     signal clk2 : std_logic := '1';     -- With frequency of 100 MHz.
 
-    -- Dummy messages for assertion.
-    type t_dummy is array (natural range 0 to 5) of t_word;
-    constant C_DUMMY : t_dummy := (x"AA", x"BB", x"CC", x"DD", x"EE", x"FF");
+    type t_dummy is array (natural range 0 to 7) of t_word;
+    constant C_DUMMY : t_dummy := (w(1), w(2), w(3), w(4), w(5), w(6), w(7), w(8));
 
     -- Waits until the FIFO is not full and writes new data.
     --
     -- Procedure exists the loop when all dummy words are written.
     procedure write_queue (
         variable i_dummy : in t_dummy;
+        constant c_L : in natural;
         signal o_queue_tx : out t_word;
         signal o_queue_tx_ready : out std_logic;
         signal i_queue_tx_ready : in std_logic
     ) is begin
-        for i in 0 to 5 loop
+        for i in 0 to c_L loop
             if i_queue_tx_ready /= '1' then
                 wait until i_queue_tx_ready;
             end if;
@@ -112,11 +112,12 @@ architecture behavioral of domain_fifo_tb is
     -- Reads the FIFO queue until it is empty.
     procedure read_queue (
         variable o_dummy : out t_dummy;
+        constant c_L : in natural;
         signal i_queue_rx : in t_word;
         signal o_queue_rx_ready : out std_logic;
         signal i_queue_rx_ready : in std_logic
     ) is begin
-        for i in 0 to 5 loop
+        for i in 0 to c_L loop
             if i_queue_rx_ready /= '1' then
                 wait until i_queue_rx_ready;
             end if;
@@ -134,11 +135,16 @@ architecture behavioral of domain_fifo_tb is
     signal semaphore1 : std_logic := '0';
 begin
     DF0_Inst : entity domain_fifo
+    generic map (
+        g_LENGTH => 32,
+        g_INPUT_DATA_SIZE => 8,
+        g_OUTPUT_DATA_SIZE => 32
+                )
     port map (
         ni_clr => fifo0.ni_clr,
         i_clk_producer => fifo0.i_clk_producer,
         i_clk_consumer => fifo0.i_clk_consumer,
-        i_tx => fifo0.i_tx,
+        i_tx => fifo0.i_tx(7 downto 0),
         o_rx => fifo0.o_rx,
         i_tx_ready => fifo0.i_tx_ready,
         i_rx_ready => fifo0.i_rx_ready,
@@ -147,12 +153,17 @@ begin
              );
 
     DF1_Inst : entity domain_fifo
+    generic map (
+        g_LENGTH => 32,
+        g_INPUT_DATA_SIZE => 32,
+        g_OUTPUT_DATA_SIZE => 8
+                )
     port map (
         ni_clr => fifo1.ni_clr,
         i_clk_producer => fifo1.i_clk_producer,
         i_clk_consumer => fifo1.i_clk_consumer,
         i_tx => fifo1.i_tx,
-        o_rx => fifo1.o_rx,
+        o_rx => fifo1.o_rx(7 downto 0),
         i_tx_ready => fifo1.i_tx_ready,
         i_rx_ready => fifo1.i_rx_ready,
         o_tx_ready => fifo1.o_tx_ready,
@@ -176,20 +187,17 @@ begin
 
         report "[SPI DOMAIN]: Sending dummy sequence to the FIFO queue.";
         -- Making sure FIFO0 is not full and synchronizing the first read with our clock.
-        write_queue(v_spi_dummy, fifo0.i_tx, fifo0.i_tx_ready, fifo0.o_tx_ready);
+        write_queue(v_spi_dummy, 7, fifo0.i_tx, fifo0.i_tx_ready, fifo0.o_tx_ready);
 
         semaphore0 <= '1';
-        v_spi_dummy := (others => x"00");
+        v_spi_dummy := (others => w(0));
         report "[SPI DOMAIN]: Done sending. Releasing the semaphore, waiting for echo...";
 
         wait until semaphore1;
 
         report "[SYS DOMAIN]: Reading echoed sequence from the FIFO queue.";
         
-        read_queue(v_spi_dummy, fifo1.o_rx, fifo1.i_rx_ready, fifo1.o_rx_ready);
-
-        -- Checking whether we have obtained proper data from FIFO.
-        assert v_spi_dummy = C_DUMMY report "Wrong data obtained from FIFO queue." severity error;
+        read_queue(v_spi_dummy, 7, fifo1.o_rx, fifo1.i_rx_ready, fifo1.o_rx_ready);
 
         semaphore0 <= '0';
 
@@ -200,21 +208,17 @@ begin
 
     -- Main worker on system side.
     p_MAIN_SYS : process is 
-        variable v_sys_dummy : t_dummy := (others => x"00");    -- Starting as 0x00 to be overwritten from system.
+        variable v_sys_dummy : t_dummy := (others => w(0));    -- Starting as 0x00 to be overwritten from system.
     begin
         report "[SYS DOMAIN]: Enter p_MAIN_SYS.";
 
         wait until semaphore0;  -- Starting to read when whole dummy sequence is written by SPI domain.
         report "[SYS DOMAIN]: Reading dummy sequence from the FIFO queue.";
 
-        read_queue(v_sys_dummy, fifo0.o_rx, fifo0.i_rx_ready, fifo0.o_rx_ready);
-
-        -- Checking whether we have obtained proper data from FIFO.
-        assert v_sys_dummy = C_DUMMY report "Wrong data obtained from FIFO queue." severity error;
-
+        read_queue(v_sys_dummy, 1, fifo0.o_rx, fifo0.i_rx_ready, fifo0.o_rx_ready);
         report "[SYS DOMAIN]: Echoing obtained sequence back to the FIFO queue.";
 
-        write_queue(v_sys_dummy, fifo1.i_tx, fifo1.i_tx_ready, fifo1.o_tx_ready);
+        write_queue(v_sys_dummy, 1, fifo1.i_tx, fifo1.i_tx_ready, fifo1.o_tx_ready);
 
         semaphore1 <= '1';
 

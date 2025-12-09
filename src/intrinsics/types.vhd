@@ -41,18 +41,46 @@ package intrinsics is
     -- Matrix of PE words.
     type t_word_mat is array (natural range <>, natural range <>) of t_word;
 
-    -- Enum state that each PE holds.
+    -- Internal state machine for coprocessor.
     --
-    -- It provides information to the PE about which operation it shall perform with the
-    -- currently obtained data and where the data flow shall continue on going. 
-    type t_pe_command is (
-        -- When PE elements holds this command, it will be cleared on the next clock cycle.
-        CLEAR, 
-        -- Next data coming from X data bus shall be loaded into internal weight register.
-        WEIGHT,
-        -- Next obtained values shall be added together.
-        ADD
+    -- Parses uses this state to decide which data words shall be considered as
+    -- data or weights and pushes them to the corresponding queue.
+    type t_state is (
+        -- Default state value after reset or failure. Must be synchronized before first command.
+        UNKNOWN,
+        -- Next step after synchronization. Listens to next raw words as a proper command values.
+        CMDLISTENA, CMDLISTENB, CMDLISTENC,
+        -- Low power state when SPI master deselects the chip.
+        SLEEP,
+        -- Next raw word is expected to be a data one.
+        DATA,
+        -- Next raw word is expected to be a weight one.
+        WEIGHT
     );
+    attribute enum_encoding : string;
+    attribute enum_encoding of t_state : type is "000 001 010 011 100";
+
+    -- Command to be executed by the coprocessor.
+    type t_command_type is (
+        -- Unknown command type. Probably badly encoded structure.
+        UNDEFINED,
+        -- Basic matrix multiplication.
+        MATRIX_MULT
+    );
+
+    -- Command data type parsed from master microcontroller.
+    type t_command is record
+        ctype   : t_command_type;
+        n, m    : t_word;
+    end record;
+
+    -- Constant command values representation.
+    constant c_MATRIX_MULT_VAL : t_word := x"FA0000AF";
+
+    -- Converts input numeric value into command type. 
+    function cmd2enum(d: t_word) return t_command_type;
+    -- Converts command type to it's corresponding word representation. 
+    function enum2cmd(e: t_command_type) return t_word;
 
     -- Helper function to retrieve log2 of natural value for generics.
     function log2(n : natural) return natural;
@@ -80,6 +108,23 @@ package intrinsics is
 end package;
 
 package body intrinsics is
+    -- Converts input numeric value into command type. 
+    function cmd2enum(d: t_word) return t_command_type is begin
+        case d is
+            when c_MATRIX_MULT_VAL => return MATRIX_MULT;
+            when others => return UNDEFINED;
+        end case;
+    end function;
+
+    -- Converts command type to it's corresponding word representation. 
+    function enum2cmd(e: t_command_type) return t_word is begin
+        case e is
+            when MATRIX_MULT => return c_MATRIX_MULT_VAL;
+            when UNDEFINED => return (others => '1');
+        end case;
+    end function;
+
+    -- Helper function to retrieve log2 of natural value for generics.
     function log2(n : natural) return natural is
         variable x : natural := 0;
         variable y : natural := n - 1;
