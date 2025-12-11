@@ -44,7 +44,7 @@ entity binding_vendor is
         i_pSCLK     : in  std_logic;            -- SPI clock
         ni_pSS      : in  std_logic;            -- Slave select (active low)
         i_pMOSI     : in  std_logic;            -- Master Out Slave In
-        o_pMISO     : out std_logic             -- Master In Slave Out
+        io_pMISO    : inout std_logic           -- Master In Slave Out
          );
 end entity;
 
@@ -75,6 +75,6 @@ begin
         i_sclk => i_pSCLK,
         ni_ss  => ni_pSS,
         i_mosi => i_pMOSI,
-        o_miso => o_pMISO
+        io_miso => io_pMISO
     );
 end architecture;

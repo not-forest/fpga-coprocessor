@@ -1,0 +1,15 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate /home/notforest/Documents/fpga-coprocessor/src/intrinsics/spi_vendor.qsys --synthesis=VHDL --output-directory=/home/notforest/Documents/fpga-coprocessor/src/intrinsics/spi_vendor/synthesis --family="Cyclone IV E" --part=EP4CE6E22C8
+Progress: Loading intrinsics/spi_vendor.qsys
+Progress: Reading input file
+Progress: Adding spislave_0 [spislave 24.1]
+Progress: Parameterizing module spislave_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: spi_vendor: Generating "spi_vendor" for QUARTUS_SYNTH
+Info: spislave_0: "spi_vendor" instantiated spislave "spislave_0"
+Info: spi_vendor: Done "spi_vendor" with 2 modules, 2 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

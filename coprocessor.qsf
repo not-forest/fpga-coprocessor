@@ -71,6 +71,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tdo
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tdi
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tck
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to ni_pRST
+set_global_assignment -name VHDL_FILE src/intrinsics/spi_vendor/synthesis/spi_vendor.vhd
+set_global_assignment -name QIP_FILE src/intrinsics/spi_vendor/synthesis/spi_vendor.qip
+set_global_assignment -name VHDL_FILE src/intrinsics/parser.vhd
+set_global_assignment -name VHDL_FILE src/sequencer.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/spi.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/sipo.vhd
 set_global_assignment -name VHDL_FILE src/systolic.vhd

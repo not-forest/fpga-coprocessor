@@ -41,9 +41,10 @@ entity systolic_arr is
         g_OMD   : natural               -- Operating matrix dimension. 
     );
     port (
-        i_clk   : in std_logic := '1';  -- Clock signal.
-        ni_clr  : in std_logic := '1';  -- Global reset. (Active low).
-        i_write : in std_logic := '0';  -- Enables writing procedure.
+        i_clk       : in std_logic := '1';  -- Clock signal.
+        ni_clr      : in std_logic := '1';  -- Global reset. (Active low).
+        i_writew    : in std_logic := '0';  -- Enables writing procedure for weights.
+        i_writex    : in std_logic := '0';  -- Enables writing procedure for data.
 
         i_se_clr : in std_logic := '0';                         -- Clear flag for serializer block.
         i_se_iterations : in t_word := (others => '0');         -- Iterations word forwarded to serializer unit.
@@ -90,7 +91,7 @@ begin
         ni_clr => ni_clr,
         i_clk => i_clk,
         i_data => i_dataX,
-        i_write => i_write,
+        i_write => i_writex,
         o_full => w_full_x,
         o_batch => w_tempX_array
              );
@@ -109,7 +110,7 @@ begin
         ni_clr => ni_clr,
         i_clk => i_clk,
         i_data => i_dataW,
-        i_write => i_write,
+        i_write => i_writew,
         o_full => w_full_w,
         o_batch => w_tempW_array
              );

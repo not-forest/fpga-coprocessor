@@ -36,7 +36,8 @@ entity systolic_tb is
     type tb_dut is record
         i_clk   : std_logic;
         ni_clr  : std_logic;
-        i_write : std_logic;
+        i_writew : std_logic;
+        i_writex : std_logic;
 
         i_se_clr : std_logic;
         i_se_iterations : t_word;
@@ -55,7 +56,8 @@ architecture behavioral of systolic_tb is
     signal sigs : tb_dut := (
         i_clk => '1',
         ni_clr => '1',
-        i_write => '0',
+        i_writew => '0',
+        i_writex => '0',
         i_se_clr => '0',
         i_se_iterations => (others => '0'),
         i_se_iterations_write => '0',
@@ -76,7 +78,8 @@ begin
     port map (
         ni_clr => sigs.ni_clr,
         i_clk => sigs.i_clk,
-        i_write => sigs.i_write,
+        i_writex => sigs.i_writex,
+        i_writew => sigs.i_writew,
     
         i_se_clr => sigs.i_se_clr,
         i_se_iterations => sigs.i_se_iterations,
@@ -116,7 +119,8 @@ begin
         sigs.i_se_iterations_write <= '0';
         wait until falling_edge(sigs.i_clk);
 
-        sigs.i_write <= '1';
+        sigs.i_writex <= '1';
+        sigs.i_writew <= '1';
         for i in 0 to c_AMOUNT - 1 loop
             wait until falling_edge(sigs.i_clk);
             sigs.i_dataX <= c_X(i);
@@ -124,7 +128,8 @@ begin
         end loop;
         
         wait until falling_edge(sigs.i_clk);
-        sigs.i_write <= '0';
+        sigs.i_writex <= '0';
+        sigs.i_writew <= '0';
 
         wait for 500 ns;
 

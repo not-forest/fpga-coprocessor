@@ -57,8 +57,6 @@ package intrinsics is
         -- Next raw word is expected to be a weight one.
         WEIGHT
     );
-    attribute enum_encoding : string;
-    attribute enum_encoding of t_state : type is "000 001 010 011 100";
 
     -- Command to be executed by the coprocessor.
     type t_command_type is (
@@ -74,6 +72,17 @@ package intrinsics is
         n, m    : t_word;
     end record;
 
+    -- Undefined coprocessor command.
+    constant c_UDEFCMD : t_command := ( 
+        ctype => UNDEFINED, 
+        n => (others => '0'), 
+        m => (others => '0')
+    );
+
+    -- Domain FIFO size for Master-Slave communication.
+    constant c_DFIFO_M2S_SIZE : natural := 64;
+    -- Domain FIFO size for Slave-Master communication.
+    constant c_DFIFO_S2M_SIZE : natural := 16;
     -- Constant command values representation.
     constant c_MATRIX_MULT_VAL : t_word := x"FA0000AF";
 
