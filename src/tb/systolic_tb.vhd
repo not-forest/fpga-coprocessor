@@ -35,6 +35,7 @@ use coproc.systolic_arr;
 entity systolic_tb is
     type tb_dut is record
         i_clk   : std_logic;
+        i_spi_clk   : std_logic;
         ni_clr  : std_logic;
         i_writew : std_logic;
         i_writex : std_logic;
@@ -48,13 +49,14 @@ entity systolic_tb is
 
         i_dataX : t_word;
         i_dataW : t_word;
-        o_dataA : t_word;
+        o_dataA : t_spi_word;
     end record;
 end entity;
 
 architecture behavioral of systolic_tb is
     signal sigs : tb_dut := (
         i_clk => '1',
+        i_spi_clk => '1',
         ni_clr => '1',
         i_writew => '0',
         i_writex => '0',
@@ -68,8 +70,11 @@ architecture behavioral of systolic_tb is
         o_dataA => (others => '0')
     ); 
 
-    -- Used FPGA includes 50MHz external crystal.
-    signal freq : real := 50.000e6;
+    type t_spi_word_array is array (natural range <>) of t_spi_word;
+
+    -- Two different clock domains.
+    signal freq1 : real := 200.000e6;
+    signal freq2 : real := 50.000e6;
 begin
     SYSTOLIC_ARR_Inst : entity systolic_arr 
     generic map (
@@ -78,6 +83,7 @@ begin
     port map (
         ni_clr => sigs.ni_clr,
         i_clk => sigs.i_clk,
+        i_spi_clk => sigs.i_spi_clk,
         i_writex => sigs.i_writex,
         i_writew => sigs.i_writew,
     
@@ -93,8 +99,9 @@ begin
         o_dataA => sigs.o_dataA
              );
 
-    -- Simulates external oscillator ticks.
-    p_EX_CLOCK : tick(sigs.i_clk, freq);
+    -- Simulating two clocks.
+    p_EX_CLOCK1 : tick(sigs.i_clk, freq1);
+    p_EX_CLOCK2 : tick(sigs.i_spi_clk, freq2);
 
     -- Peforms matrix multiplication.
     p_MATRIX_MULTIPLICATION : process is
@@ -134,22 +141,28 @@ begin
         wait for 500 ns;
 
         report "Done: p_MATRIX_MULTIPLICATION.";
+        stop_clock(freq1);
         wait;
     end process;
 
     -- Obtaining computed multiplication output.
     p_MAIN : process is 
-        constant c_EXPECTED : t_word_array := (w(19), w(22), w(43), w(50));
+        constant c_EXPECTED : t_spi_word_array := (
+            x"00", x"00", x"00", x"13", 
+            x"00", x"00", x"00", x"16",
+            x"00", x"00", x"00", x"2B",
+            x"00", x"00", x"00", x"32"
+        ); 
     begin
         report "Enter p_MAIN.";
 
-        for i in 0 to 3 loop
+        for i in 0 to c_EXPECTED'length - 1 loop
             if sigs.o_rx_ready /= '1' then
                 wait until sigs.o_rx_ready = '1';
-                wait until falling_edge(sigs.i_clk);
+                wait until falling_edge(sigs.i_spi_clk);
             end if;
             sigs.i_rx_ready <= '1';
-            wait until falling_edge(sigs.i_clk);
+            wait until falling_edge(sigs.i_spi_clk);
 
             assert sigs.o_dataA = c_EXPECTED(i) 
                 report "Matrix multiplication error. Expected: " & to_hstring(c_EXPECTED(i)) & ", got: " & to_hstring(sigs.o_dataA) 
@@ -157,12 +170,12 @@ begin
             report "Output: " & to_hstring(sigs.o_dataA);
 
             sigs.i_rx_ready <= '0';
-            wait until falling_edge(sigs.i_clk);
+            wait until falling_edge(sigs.i_spi_clk);
         end loop;
 
         report "Done: p_MAIN";
 
-        stop_clock(freq);
+        stop_clock(freq2);
         wait;
     end process;
 end architecture;

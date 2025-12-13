@@ -54,6 +54,7 @@ architecture structured of coprocessor is
     signal w_spi_sink_i_ready, w_spi_sink_o_ready : std_logic := '0';       -- SPI sink FIFO communication signals.
     signal w_spi_source : t_spi_word := (others => '0');                    -- SPI source data lane.
     signal w_spi_source_i_ready, w_spi_source_o_ready : std_logic := '0';   -- SPI source FIFO communication signals.
+    signal w_new_cmd : std_logic := '0';
 begin
     -- SPI slave controller IP wrapper.
     SPI_SLAVE_Inst : entity coproc.spi_slave
@@ -83,6 +84,7 @@ begin
         o_dataX => w_dataX,
         o_shiftX_ready => w_writex, 
         o_shiftW_ready => w_writew, 
+        o_new_cmd => w_new_cmd,
         o_read_ready => w_spi_sink_o_ready,  
         i_read_ready => w_spi_sink_i_ready,
         i_read => w_spi_sink
@@ -100,14 +102,14 @@ begin
         i_writew => w_writew,
     
         i_se_clr => open,
-        i_se_iterations => open,
-        i_se_iterations_write => open,
+        i_se_iterations => r_cmd.n,
+        i_se_iterations_write => w_new_cmd,
 
-        i_rx_ready => open,
-        o_rx_ready => open,
+        i_rx_ready => w_spi_source_i_ready,
+        o_rx_ready => w_spi_source_o_ready,
 
         i_dataX => w_dataX,
         i_dataW => w_dataW,
-        o_dataA => open
+        o_dataA => w_spi_source
              );
 end architecture;

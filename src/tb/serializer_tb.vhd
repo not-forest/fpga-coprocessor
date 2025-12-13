@@ -38,6 +38,7 @@ use coproc.serializer;
 entity serializer_tb is
     type tb_dut is record
         i_clk   : std_logic;                 
+        i_spi_clk   : std_logic;                 
         na_clr  : std_logic;                 
         
         i_accs  : t_word_mat(0 to 2, 0 to 2);
@@ -47,15 +48,15 @@ entity serializer_tb is
         i_rx_ready : std_logic;
         o_rx_ready : std_logic;
         i_clr   : std_logic;                 
-        o_acc  : t_word;
+        o_acc  : t_spi_word;
     end record;
 end entity;
 
 architecture behavioral of serializer_tb is
     -- Assertion procedure.
     procedure assert_output (
-        constant expected : in t_word;
-        constant actual   : in t_word;
+        constant expected : in t_spi_word;
+        constant actual   : in t_spi_word;
         constant msg      : in string := "Mismatch in serializer output."
     ) is
         variable ret : boolean := false;
@@ -73,17 +74,18 @@ architecture behavioral of serializer_tb is
 
     -- Virtual PE's output.
     constant c_VIRTUAL_PE_MATRIX : t_word_mat(0 to 2, 0 to 2) := (
-        (x"000001", x"000002", x"000003"),
-        (x"000004", x"000005", x"000006"),
-        (x"000007", x"000008", x"000009")
+        (w(1), w(2), w(3)),
+        (w(4), w(5), w(6)),
+        (w(7), w(8), w(9))
     );
-    type t_word_array is array (natural range 0 to 8) of t_word;
+    type t_spi_word_array is array (natural range 0 to 8) of t_spi_word;
     -- Expected sequence from serializer.
-    constant c_EXPECTED_ARRAY : t_word_array := 
-        (x"000001", x"000002", x"000004", x"000007", x"000005", x"000003", x"000006", x"000008", x"000009"); 
+    constant c_EXPECTED_ARRAY : t_spi_word_array := 
+        (x"01", x"02", x"04", x"07", x"05", x"03", x"06", x"08", x"09"); 
 
     signal sigs : tb_dut := (
         i_clk  => '0',                 
+        i_spi_clk  => '0',                 
         na_clr => '1',                 
         i_accs => (others => (others => (others => '0'))),
         i_se_iterations => (others => '0'),
@@ -95,8 +97,8 @@ architecture behavioral of serializer_tb is
         o_acc => (others => '0')
     );
 
-    -- Test is performed with 1MHz clock.
-    signal freq : real := 1.000e6;
+    signal freq1 : real := 100.000e6;
+    signal freq2 : real := 50.000e6;
 begin
     SERIALIZER_Inst : entity serializer 
     generic map (
@@ -104,6 +106,7 @@ begin
                 )
     port map (
         i_clk  => sigs.i_clk,                 
+        i_spi_clk => sigs.i_spi_clk,
         na_clr => sigs.na_clr,                 
         i_accs => sigs.i_accs,
 
@@ -124,8 +127,9 @@ begin
         end generate;
     end generate;
 
-    -- Simulates input clock.
-    p_EX_CLOCK : tick(sigs.i_clk, freq);
+    -- Simulates input clocks in two domains.
+    p_EX_CLOCK1 : tick(sigs.i_clk, freq1);
+    p_EX_CLOCK2 : tick(sigs.i_spi_clk, freq2);
 
     -- Side task for systolic array.
     p_SYST : process begin 
@@ -144,6 +148,7 @@ begin
         end loop;
 
         report "Done: p_SYST";
+        stop_clock(freq1);
         wait;
     end process;
 
@@ -154,18 +159,18 @@ begin
         for i in 0 to 8 loop
             if sigs.o_rx_ready /= '1' then
                 wait until sigs.o_rx_ready = '1';
-                wait until falling_edge(sigs.i_clk);
+                wait until falling_edge(sigs.i_spi_clk);
             end if;
 
             sigs.i_rx_ready <= '1';
-            wait until falling_edge(sigs.i_clk);
+            wait until falling_edge(sigs.i_spi_clk);
             assert_output(c_EXPECTED_ARRAY(i), sigs.o_acc, "Output error. Wrong expected value.");
             sigs.i_rx_ready <= '0';
-            wait until falling_edge(sigs.i_clk);
+            wait until falling_edge(sigs.i_spi_clk);
         end loop;
 
         report "Done: p_MAIN";
-        stop_clock(freq);
+        stop_clock(freq2);
         wait;
     end process;
 end architecture;

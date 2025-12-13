@@ -41,7 +41,8 @@ entity systolic_arr is
         g_OMD   : natural               -- Operating matrix dimension. 
     );
     port (
-        i_clk       : in std_logic := '1';  -- Clock signal.
+        i_clk       : in std_logic := '1';  -- Systolic array domain clock signal.
+        i_spi_clk   : in std_logic := '1';  -- SPI domain clock signal
         ni_clr      : in std_logic := '1';  -- Global reset. (Active low).
         i_writew    : in std_logic := '0';  -- Enables writing procedure for weights.
         i_writex    : in std_logic := '0';  -- Enables writing procedure for data.
@@ -55,7 +56,7 @@ entity systolic_arr is
 
         i_rx_ready : in std_logic := '0';   -- FIFO read ready input.
         o_rx_ready : out std_logic;         -- FIFO read ready output.
-        o_dataA : out t_word                -- Serial output of accumulators A.
+        o_dataA : out t_spi_word            -- Serial output of accumulators A converted to SPI bytes.
     );
 
     type t_forward_mesh is array (0 to g_OMD) of t_word_array(0 to g_OMD);  -- X/W values traverse horizontally/vertically and stop at the lest PE element.
@@ -146,6 +147,7 @@ begin
                 )
     port map (
         i_clk => i_clk,
+        i_spi_clk => i_spi_clk,
         na_clr => ni_clr,
         i_clr => i_se_clr,
         o_acc => o_dataA,

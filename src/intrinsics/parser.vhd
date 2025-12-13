@@ -45,6 +45,7 @@ entity parser is
 
         o_dataX_ready : buffer std_logic;  -- Signal for filling next data word.
         o_dataW_ready : buffer std_logic;  -- Signal for filling next weight word.
+        o_new_cmd : out std_logic;         -- Only set for one clock cycles, when new command is parsed. 
         
         i_dataR : in t_word;            -- Raw unparsed input data.
         i_dataR_ready : in std_logic;   -- Flag which informs that new data is ready.
@@ -62,6 +63,7 @@ architecture rtl of parser is
     );
 
     signal r_ready : std_logic := '0';
+    signal r_parsed : std_logic := '0';     -- Set when a command is properly parsed.
 begin
     -- Based on current command, parses upcoming data as either widths or data.
     process (all) is
@@ -73,6 +75,7 @@ begin
             state := UNKNOWN;
             r_ready <= '0';
         elsif falling_edge(i_clk) then
+            r_parsed <= '0';
             -- Communicating with external FIFO queue.
             if i_dataR_ready = '1' then
                 r_ready <= not r_ready;
@@ -103,6 +106,7 @@ begin
                             state := CMDLISTENC;
                         when CMDLISTENC => 
                             io_cmd.m <= i_dataR; 
+                            r_parsed <= '1';
                             state := DATA;
                         -- Next input word is expected to be width.
                         when DATA => 
@@ -124,4 +128,5 @@ begin
     end process;
 
     o_dataR_ready <= r_ready;
+    o_new_cmd <= r_parsed;
 end architecture;

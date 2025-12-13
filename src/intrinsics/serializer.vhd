@@ -32,14 +32,14 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use coproc.intrinsics.all;
-use coproc.pe_fifo;
 
 entity serializer is
     generic (
         g_OMD : natural             -- Operating matrix dimensions.
     );
     port (
-        i_clk   : in std_logic := '1';                              -- Input clock source.
+        i_clk       : in std_logic := '1';                          -- Systolic array domain clock signal.
+        i_spi_clk   : in std_logic := '1';                          -- SPI domain clock signal
         na_clr  : in std_logic := '1';                              -- Asynchronous clear (Active Low).
 
         i_batch_sampled : in std_logic := '0';                      -- Signal that shall notify about that next batch is sampled.
@@ -50,7 +50,7 @@ entity serializer is
         i_clr   : in std_logic := '0';                              -- Synchronous clear. Clears the state machine.
         i_rx_ready : in std_logic := '0';                           -- FIFO read ready input.
         o_rx_ready : out std_logic;                                 -- FIFO read ready output.
-        o_acc   : out t_word                                        -- Output word.
+        o_acc   : out t_spi_word                                    -- Byte-sized output word for SPI sending.
     );
 end entity;
 
@@ -141,17 +141,23 @@ begin
 
     w_acc <= i_accs(r_i, r_j) when r_read = '1' else (others => '0');
 
-    PE_FIFO_Inst : entity pe_fifo
+    DOMAIN_FIFO_Inst : entity coproc.domain_fifo
     generic map (
-        g_BLOCK_SIZE => 6
+        g_LENGTH => c_DFIFO_S2M_SIZE,
+        g_INPUT_DATA_SIZE => t_word'length,
+        g_OUTPUT_DATA_SIZE => t_spi_word'length
                 )
     port map (
-        i_clk => i_clk,
-        i_data => w_acc,
+        ni_clr => na_clr,
+        i_clk_producer => i_clk,
+        i_clk_consumer => i_spi_clk,
+        
+        i_tx => w_acc,
+        o_rx => o_acc,
+
         i_rx_ready => i_rx_ready,
         i_tx_ready => wi_tx_ready,
         o_rx_ready => o_rx_ready,
-        o_tx_ready => wo_tx_ready,
-        o_data => o_acc
+        o_tx_ready => wo_tx_ready
              );
 end architecture;
