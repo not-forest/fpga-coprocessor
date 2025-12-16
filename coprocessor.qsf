@@ -53,12 +53,10 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_location_assignment PIN_23 -to i_pCLK
 set_location_assignment PIN_120 -to i_pSCLK
 set_location_assignment PIN_115 -to ni_pSS
-set_location_assignment PIN_113 -to o_pMISO
 set_location_assignment PIN_111 -to i_pMOSI
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pMOSI
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pSCLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to ni_pSS
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to o_pMISO
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to i_pCLK
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
@@ -66,13 +64,8 @@ set_global_assignment -name SEARCH_PATH src/soft_cpu/coproc_soft_cpu
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
 set_location_assignment PIN_25 -to ni_pRST
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tms
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tdo
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tdi
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to altera_reserved_tck
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to ni_pRST
-set_global_assignment -name VHDL_FILE src/intrinsics/spi_vendor/synthesis/spi_vendor.vhd
-set_global_assignment -name QIP_FILE src/intrinsics/spi_vendor/synthesis/spi_vendor.qip
+set_global_assignment -name VERILOG_FILE src/intrinsics/spi_vendor/synthesis/submodules/spiphyslave.v
 set_global_assignment -name VHDL_FILE src/intrinsics/parser.vhd
 set_global_assignment -name VHDL_FILE src/sequencer.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/spi.vhd

@@ -40,7 +40,7 @@ entity spi_slave is
 		o_stsinkready       : out std_logic;                            --                        .ready
 		i_stsourceready     : in std_logic                    := '0';   -- avalon_streaming_source.ready
 		o_stsourcevalid     : out std_logic;                            --                        .valid
-		o_stsourcedata      : out t_spi_word;                               --                        .data
+		o_stsourcedata      : out t_spi_word := (others => '0');        --                        .data
 		i_sysclk            : in std_logic                    := '0';   --              clock_sink.clk
 		i_nreset            : in std_logic                    := '0';   --        clock_sink_reset.reset_n
 		i_mosi              : in std_logic                    := '0';   --                export_0.mosi

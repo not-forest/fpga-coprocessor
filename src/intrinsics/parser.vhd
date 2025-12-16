@@ -74,8 +74,8 @@ begin
         if na_clr = '0' then
             state := UNKNOWN;
             r_ready <= '0';
-        elsif falling_edge(i_clk) then
             r_parsed <= '0';
+        elsif falling_edge(i_clk) then
             -- Communicating with external FIFO queue.
             if i_dataR_ready = '1' then
                 r_ready <= not r_ready;

@@ -39,9 +39,9 @@ entity sequencer is
 
         o_dataW : out t_word;                       -- Output parsed word for serial weight.
         o_dataX : out t_word;                       -- Output parsed word for serial data.
-        o_shiftX_ready : buffer std_logic := '0';          -- Activates data shifter. 
-        o_shiftW_ready : buffer std_logic := '0';          -- Activates weight shifter.
-
+        o_shiftX_ready : buffer std_logic := '0';   -- Activates data shifter. 
+        o_shiftW_ready : buffer std_logic := '0';   -- Activates weight shifter.
+        o_new_cmd : out std_logic := '0';           -- Set when new command is properly parsed.
 
         o_read_ready    : out std_logic;            -- Read ready flag from SPI slave inteface. 
         i_read_ready    : in std_logic;             -- Read ready flag from inner fifo (not full).
@@ -88,8 +88,9 @@ begin
         o_dataX_ready => o_shiftX_ready,
         o_dataW_ready => o_shiftW_ready,
         i_dataR => w_parser_raw_data,          
-        i_dataR_ready => w_parser_i_rx_ready, 
-        o_dataR_ready => w_parser_o_rx_ready,
+        i_dataR_ready => w_parser_o_rx_ready, 
+        o_dataR_ready => w_parser_i_rx_ready,
+        o_new_cmd => o_new_cmd,
         o_dataX => o_dataX,
         o_dataW => o_dataW 
              );

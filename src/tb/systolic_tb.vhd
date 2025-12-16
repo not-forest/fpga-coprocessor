@@ -148,10 +148,10 @@ begin
     -- Obtaining computed multiplication output.
     p_MAIN : process is 
         constant c_EXPECTED : t_spi_word_array := (
-            x"00", x"00", x"00", x"13", 
-            x"00", x"00", x"00", x"16",
-            x"00", x"00", x"00", x"2B",
-            x"00", x"00", x"00", x"32"
+            x"13", x"00", x"00", x"00", 
+            x"16", x"00", x"00", x"00",
+            x"2B", x"00", x"00", x"00",
+            x"32", x"00", x"00", x"00"
         ); 
     begin
         report "Enter p_MAIN.";
@@ -162,8 +162,10 @@ begin
                 wait until falling_edge(sigs.i_spi_clk);
             end if;
             sigs.i_rx_ready <= '1';
-            wait until falling_edge(sigs.i_spi_clk);
 
+            wait until falling_edge(sigs.i_spi_clk);
+            wait until falling_edge(sigs.i_spi_clk);
+            -- Outputs are expected to be little-endian 8-bit stream ready for SPI.
             assert sigs.o_dataA = c_EXPECTED(i) 
                 report "Matrix multiplication error. Expected: " & to_hstring(c_EXPECTED(i)) & ", got: " & to_hstring(sigs.o_dataA) 
                 severity error;

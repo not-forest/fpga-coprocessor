@@ -99,8 +99,8 @@ architecture vendor of domain_fifo is
 	end component;
 begin 
     -- Process for handling producer's and consumer's timing constraints.
-    p_PROD_TIMINGS : delta_ready(ni_clr, i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq);
-    p_CONS_TIMINGS : delta_ready(ni_clr, i_clk_consumer, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq);
+    process (all) begin p_PROD_TIMINGS : delta_ready(ni_clr, i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq); end process;
+    process (all) begin p_CONS_TIMINGS : delta_ready(ni_clr, i_clk_consumer, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq); end process;
 
     -- Sending ready flags straight from FIFO interface.
     o_tx_ready <= not w_wrfull;

@@ -35,7 +35,7 @@ use coproc.pll;
 
 entity binding_vendor is
     generic (
-        g_OMD       : natural := 8              -- Operating matrix dimensions.
+        g_OMD       : natural := 4              -- Operating matrix dimensions.
             );
     port (
         i_pCLK      : in std_logic;             -- External FPGA Oscillator.

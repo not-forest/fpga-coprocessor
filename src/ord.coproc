@@ -4,7 +4,6 @@ src/intrinsics/pll.vhd
 src/intrinsics/sipo.vhd
 src/intrinsics/pe_fifo.vhd
 src/intrinsics/domain_fifo.vhd
-src/intrinsics/batch_block.vhd
 src/intrinsics/serializer.vhd
 src/intrinsics/parser.vhd
 src/systolic.vhd
