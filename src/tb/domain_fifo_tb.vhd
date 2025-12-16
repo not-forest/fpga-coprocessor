@@ -42,13 +42,13 @@ entity domain_fifo_tb is
         i_clk_producer  : std_logic;
         i_clk_consumer  : std_logic;
 
-        i_tx            : t_word;
+        i_tx            : t_spi_word;
         o_rx            : t_word;
 
         i_tx_ready      : std_logic;
         i_rx_ready      : std_logic;
-        o_tx_ready      :  std_logic;
-        o_rx_ready      :  std_logic; 
+        o_tx_ready      : std_logic;
+        o_rx_ready      : std_logic; 
     end record;
 end entity;
 
@@ -65,78 +65,18 @@ architecture behavioral of domain_fifo_tb is
         o_rx_ready => '0' 
     );
 
-    signal fifo1 : tb_dut := (
-        ni_clr => '1',
-        i_clk_producer => '1',
-        i_clk_consumer => '1',
-        i_tx => (others => '0'),
-        o_rx => (others => '0'),
-        i_tx_ready => '0',
-        i_rx_ready => '0',
-        o_tx_ready => '0',
-        o_rx_ready => '0' 
-    );
+    type t_spi_word_array is array (natural range <>) of t_spi_word;
 
-    signal freq1 : real := 10.000e6;    -- Slow clock (10 MHz).
-    signal freq2 : real := 100.000e6;   -- Fast clock (100 MHz).
+    signal freq1 : real := 1.000e6;    -- Slow clock (10 MHz).
+    signal freq2 : real := 10.000e6;   -- Fast clock (100 MHz).
     signal clk1 : std_logic := '1';     -- With frequency of 10 MHz.
     signal clk2 : std_logic := '1';     -- With frequency of 100 MHz.
 
-    type t_dummy is array (natural range 0 to 7) of t_word;
-    constant C_DUMMY : t_dummy := (w(1), w(2), w(3), w(4), w(5), w(6), w(7), w(8));
-
-    -- Waits until the FIFO is not full and writes new data.
-    --
-    -- Procedure exists the loop when all dummy words are written.
-    procedure write_queue (
-        variable i_dummy : in t_dummy;
-        constant c_L : in natural;
-        signal o_queue_tx : out t_word;
-        signal o_queue_tx_ready : out std_logic;
-        signal i_queue_tx_ready : in std_logic
-    ) is begin
-        for i in 0 to c_L loop
-            if i_queue_tx_ready /= '1' then
-                wait until i_queue_tx_ready;
-            end if;
-
-            o_queue_tx_ready <= '0';
-            o_queue_tx <= i_dummy(i);
-            report "Writing word to queue: " & to_hstring(i_dummy(i));
-            wait for 1 us;
-            o_queue_tx_ready <= '1';
-            wait for 1 us;
-        end loop;
-    end procedure;
-
-    -- Reads the FIFO queue until it is empty.
-    procedure read_queue (
-        variable o_dummy : out t_dummy;
-        constant c_L : in natural;
-        signal i_queue_rx : in t_word;
-        signal o_queue_rx_ready : out std_logic;
-        signal i_queue_rx_ready : in std_logic
-    ) is begin
-        for i in 0 to c_L loop
-            if i_queue_rx_ready /= '1' then
-                wait until i_queue_rx_ready;
-            end if;
-            o_queue_rx_ready <= '1';
-            wait for 1 us;
-            o_queue_rx_ready <= '0';
-            o_dummy(i) := i_queue_rx;
-            report "Reading word from queue: " & to_hstring(o_dummy(i));
-            wait for 1 us;
-        end loop;
-    end procedure;
-
-    -- Synchronization semaphore flags (Symulation purposes only).
-    signal semaphore0 : std_logic := '0';
-    signal semaphore1 : std_logic := '0';
+    signal semaphore0, semaphore1 : std_logic := '0';
 begin
-    DF0_Inst : entity domain_fifo
+    DOMAIN_FIFO_Inst : entity domain_fifo
     generic map (
-        g_LENGTH => 32,
+        g_LENGTH => 64,
         g_INPUT_DATA_SIZE => 8,
         g_OUTPUT_DATA_SIZE => 32
                 )
@@ -144,7 +84,7 @@ begin
         ni_clr => fifo0.ni_clr,
         i_clk_producer => fifo0.i_clk_producer,
         i_clk_consumer => fifo0.i_clk_consumer,
-        i_tx => fifo0.i_tx(7 downto 0),
+        i_tx => fifo0.i_tx,
         o_rx => fifo0.o_rx,
         i_tx_ready => fifo0.i_tx_ready,
         i_rx_ready => fifo0.i_rx_ready,
@@ -152,79 +92,85 @@ begin
         o_rx_ready => fifo0.o_rx_ready 
              );
 
-    DF1_Inst : entity domain_fifo
-    generic map (
-        g_LENGTH => 32,
-        g_INPUT_DATA_SIZE => 32,
-        g_OUTPUT_DATA_SIZE => 8
-                )
-    port map (
-        ni_clr => fifo1.ni_clr,
-        i_clk_producer => fifo1.i_clk_producer,
-        i_clk_consumer => fifo1.i_clk_consumer,
-        i_tx => fifo1.i_tx,
-        o_rx => fifo1.o_rx(7 downto 0),
-        i_tx_ready => fifo1.i_tx_ready,
-        i_rx_ready => fifo1.i_rx_ready,
-        o_tx_ready => fifo1.o_tx_ready,
-        o_rx_ready => fifo1.o_rx_ready 
-             );
-
     -- Simulates input clocks from both sides.
     p_EX_CLOCK_1 : tick(clk1, freq1);
     p_EX_CLOCK_2 : tick(clk2, freq2);
 
-    fifo0.i_clk_consumer <= clk1;
-    fifo0.i_clk_producer <= clk2;
-    fifo1.i_clk_consumer <= clk1;
-    fifo1.i_clk_producer <= clk2;
+    fifo0.i_clk_producer <= clk1;
+    fifo0.i_clk_consumer <= clk2;
 
     -- Main worker on SPI side.
     p_MAIN_SPI : process is 
-        variable v_spi_dummy : t_dummy := C_DUMMY;
+        variable v_spi_dummy : t_spi_word_array(0 to 15) := (
+            x"00", x"01", x"02", x"03", 
+            x"04", x"05", x"06", x"07",
+            x"08", x"09", x"0A", x"0B",
+            x"0C", x"0D", x"0E", x"0F"
+        );
     begin
         report "[SPI DOMAIN]: Enter p_MAIN_SPI.";
 
-        report "[SPI DOMAIN]: Sending dummy sequence to the FIFO queue.";
-        -- Making sure FIFO0 is not full and synchronizing the first read with our clock.
-        write_queue(v_spi_dummy, 7, fifo0.i_tx, fifo0.i_tx_ready, fifo0.o_tx_ready);
+        wait for 10 ns;
 
-        semaphore0 <= '1';
-        v_spi_dummy := (others => w(0));
-        report "[SPI DOMAIN]: Done sending. Releasing the semaphore, waiting for echo...";
+        for i in 0 to v_spi_dummy'length - 1 loop
+            if fifo0.o_tx_ready = '0' then
+                wait until fifo0.o_tx_ready;
+                wait until rising_edge(fifo0.i_clk_producer);
+            end if;
 
-        wait until semaphore1;
-
-        report "[SYS DOMAIN]: Reading echoed sequence from the FIFO queue.";
-        
-        read_queue(v_spi_dummy, 7, fifo1.o_rx, fifo1.i_rx_ready, fifo1.o_rx_ready);
-
-        semaphore0 <= '0';
+            fifo0.i_tx_ready <= '1';
+            fifo0.i_tx <= v_spi_dummy(i);
+            report "Writing byte: " & to_hstring(v_spi_dummy(i));
+            wait until rising_edge(fifo0.i_clk_producer);
+            fifo0.i_tx_ready <= '0';
+            wait until rising_edge(fifo0.i_clk_producer);
+        end loop;
 
         report "[SPI DOMAIN]: Done: p_MAIN_SPI";
-        stop_clock(freq1);
+        semaphore0 <= '1';
         wait;
     end process;
 
     -- Main worker on system side.
     p_MAIN_SYS : process is 
-        variable v_sys_dummy : t_dummy := (others => w(0));    -- Starting as 0x00 to be overwritten from system.
+        variable v_sys_dummy : t_word_array(0 to 3) := (others => (others => '0'));
+        variable v_sys_check : t_word_array(0 to 3) := (x"03020100", x"07060504", x"0B0A0908", x"0F0E0D0C"); 
     begin
         report "[SYS DOMAIN]: Enter p_MAIN_SYS.";
+        
+        wait for 10 ns;
 
-        wait until semaphore0;  -- Starting to read when whole dummy sequence is written by SPI domain.
-        report "[SYS DOMAIN]: Reading dummy sequence from the FIFO queue.";
+        for i in 0 to v_sys_dummy'length - 1 loop
+            if fifo0.o_rx_ready = '0' then
+                wait until fifo0.o_rx_ready;
+                wait until rising_edge(fifo0.i_clk_consumer);
+            end if;
 
-        read_queue(v_sys_dummy, 1, fifo0.o_rx, fifo0.i_rx_ready, fifo0.o_rx_ready);
-        report "[SYS DOMAIN]: Echoing obtained sequence back to the FIFO queue.";
-
-        write_queue(v_sys_dummy, 1, fifo1.i_tx, fifo1.i_tx_ready, fifo1.o_tx_ready);
-
-        semaphore1 <= '1';
-
-        wait until semaphore0 = '0';
+            fifo0.i_rx_ready <= '1';
+            wait until rising_edge(fifo0.i_clk_consumer);
+            wait until rising_edge(fifo0.i_clk_consumer);
+            v_sys_dummy(i) := fifo0.o_rx;
+            report "Reading word: " & to_hstring(v_sys_dummy(i));
+            assert v_sys_dummy(i) = v_sys_check(i)
+                report "Obtained word mismatch" severity error;
+            fifo0.i_rx_ready <= '0';
+            wait until rising_edge(fifo0.i_clk_consumer);
+        end loop;
 
         report "[SYS DOMAIN]: Done: p_MAIN_SYS";
+        semaphore1 <= '1';
+        wait;
+    end process;
+
+    p_END : process begin
+        if semaphore0 = '0' then
+            wait until semaphore0 = '1';
+        end if;
+        if semaphore1 = '0' then
+            wait until semaphore1 = '1';
+        end if;
+        report "Done p_END";
+        stop_clock(freq1);
         stop_clock(freq2);
         wait;
     end process;
