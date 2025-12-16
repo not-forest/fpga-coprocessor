@@ -56,9 +56,6 @@ entity domain_fifo is
 end entity;
 
 architecture vendor of domain_fifo is
-    -- Ratio for output addressing.
-    constant c_RW_RATIO : natural := (g_OUTPUT_DATA_SIZE / g_INPUT_DATA_SIZE);
-
     -- Handshake Communication Wires.
     signal r_wrreq      : std_logic := '0';
     signal r_rdreq      : std_logic := '0';
@@ -119,7 +116,7 @@ begin
 		lpm_width => g_INPUT_DATA_SIZE,
 		lpm_width_r => g_OUTPUT_DATA_SIZE,
 		lpm_widthu => log2(g_LENGTH),
-		lpm_widthu_r => log2(g_LENGTH / c_RW_RATIO),
+		lpm_widthu_r => log2(g_LENGTH * g_INPUT_DATA_SIZE / g_OUTPUT_DATA_SIZE),
         rdsync_delaypipe => 4,
         wrsync_delaypipe => 4,
         use_eab => "ON",
