@@ -56,3 +56,5 @@ drivers/*
 db/*
 incremental_db/*
 .qsys_edit/*
+build/*
+
