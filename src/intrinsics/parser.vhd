@@ -59,7 +59,7 @@ end entity;
 architecture rtl of parser is
     -- Plain synchronization preamble, used before setting a new command.
     constant c_SYNC_PREAMBLE : t_word_array(0 to 3) := (
-        x"AAAAAAAA", x"F00DCAFE", x"DEADBEEF", x"10000001"
+        x"AAAA", x"F00D", x"DEAD", x"BEEF"
     );
 
     signal r_ready : std_logic := '0';

@@ -29,7 +29,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 package intrinsics is 
-    constant WORD_LENGTH : natural := 32;
+    constant WORD_LENGTH : natural := 16;
     constant SPI_WORD_LENGTH : natural := 8;
 
     -- Words of data moving within the system atomically.
@@ -84,7 +84,7 @@ package intrinsics is
     -- Domain FIFO size for Slave-Master communication.
     constant c_DFIFO_S2M_SIZE : natural := 16;
     -- Constant command values representation.
-    constant c_MATRIX_MULT_VAL : t_word := x"FA0000AF";
+    constant c_MATRIX_MULT_VAL : t_word := x"FAAF";
 
     -- Converts input numeric value into command type. 
     function cmd2enum(d: t_word) return t_command_type;
