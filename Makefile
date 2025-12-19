@@ -16,7 +16,7 @@ QUARTUS_ROOT_DIR ?= $(HOME)/intelFPGA_lite/24.1std
 
 ## Path configuration
 # Test bench environment variable to show the results in GTKWare.
-BENCH 		?= parser_tb
+BENCH 		?= coprocessor_tb
 
 ## Toolchain configuration. 
 GG 			?= ghdl

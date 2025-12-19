@@ -94,6 +94,9 @@ package intrinsics is
     -- Helper function to retrieve log2 of natural value for generics.
     function log2(n : natural) return natural;
 
+    -- Swaps the endianness of the word.
+    function swap_endianness(inw: std_logic_vector) return std_logic_vector;
+
     -- Custom procedure to ensure timing constrains for FIFO interfaces.
     -- 
     -- Both read and write requests must be asserted for one clock cycle only. This procedure ensures,
@@ -143,6 +146,17 @@ package body intrinsics is
             x := x + 1;
         end loop;
         return x;
+    end function;
+
+    -- Swaps the endianness of the word.
+    function swap_endianness(inw : std_logic_vector) return std_logic_vector is
+        variable output_vec : std_logic_vector(inw'range);
+        variable len : integer := inw'length;
+    begin
+        for i in 0 to len - 1 loop
+            output_vec(i) := inw(len - 1 - i);
+        end loop;
+        return output_vec;
     end function;
 
     -- Custom pipelining procedure, to pipeline any type of data for one clock cycle. 

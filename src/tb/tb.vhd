@@ -47,7 +47,7 @@ end package;
 package body tb is
     -- Function to wrap an input integer to 32-bit word format.
     function w(x : integer) return t_word is begin
-        return t_word(to_unsigned(x, 32));
+        return t_word(to_unsigned(x, t_word'length));
     end function;
 
     -- Provides a constant simulation of clock ticks with certain frequency --

@@ -38,7 +38,9 @@ entity domain_fifo is
     generic (
         g_LENGTH : natural := 64;                           -- Amount of words the FIFO can hold.
         g_INPUT_DATA_SIZE  : natural := t_spi_word'length;  -- Length of input data.
-        g_OUTPUT_DATA_SIZE : natural := t_word'length       -- Length of output data.
+        g_OUTPUT_DATA_SIZE : natural := t_word'length;      -- Length of output data.
+        g_INPUT_DELTA_SLACK : boolean := TRUE;              -- Include delta-slack procedure for inputs.
+        g_OUTPUT_DELTA_SLACK : boolean := TRUE              -- Include delta-slack procedure for outputs.
             );
     port (
         ni_clr          : in std_logic := '1';      -- Asynchronous clear (Active low).
@@ -99,8 +101,20 @@ architecture vendor of domain_fifo is
 	end component;
 begin 
     -- Process for handling producer's and consumer's timing constraints.
-    process (all) begin p_PROD_TIMINGS : delta_ready(ni_clr, i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq); end process;
-    process (all) begin p_CONS_TIMINGS : delta_ready(ni_clr, i_clk_consumer, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq); end process;
+    g_DSI : if g_INPUT_DELTA_SLACK generate
+        process (all) begin p_PROD_TIMINGS : delta_ready(ni_clr, i_clk_producer, o_tx_ready, i_tx_ready, r_write_dt, r_wrreq); end process;
+    end generate;
+    g_DSNI : if not g_INPUT_DELTA_SLACK generate
+        r_wrreq <= i_tx_ready when o_tx_ready else '0';
+    end generate;
+
+    g_DSO : if g_OUTPUT_DELTA_SLACK generate
+        process (all) begin p_CONS_TIMINGS : delta_ready(ni_clr, i_clk_consumer, o_rx_ready, i_rx_ready, r_read_dt, r_rdreq); end process;
+    end generate;
+    g_DSNO : if not g_OUTPUT_DELTA_SLACK generate
+        r_rdreq <= i_rx_ready when o_rx_ready else '0';
+    end generate;
+
 
     -- Sending ready flags straight from FIFO interface.
     o_tx_ready <= not w_wrfull;

@@ -120,7 +120,7 @@ begin
         report "Enter p_MATRIX_MULTIPLICATION.";
 
         -- Preparing iteration value.
-        sigs.i_se_iterations <= x"00000002";
+        sigs.i_se_iterations <= w(2);
         sigs.i_se_iterations_write <= '1';
         wait until falling_edge(sigs.i_clk);
         sigs.i_se_iterations_write <= '0';
