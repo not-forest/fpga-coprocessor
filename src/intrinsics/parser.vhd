@@ -43,8 +43,6 @@ entity parser is
 
         io_cmd : inout t_command;       -- Current coprocessor command.
 
-        o_dataX_ready : buffer std_logic;  -- Signal for filling next data word.
-        o_dataW_ready : buffer std_logic;  -- Signal for filling next weight word.
         o_new_cmd : out std_logic;         -- Only set for one clock cycles, when new command is parsed. 
         
         i_dataR : in t_word;            -- Raw unparsed input data.
@@ -52,7 +50,8 @@ entity parser is
         o_dataR_ready : out std_logic;  -- Flag which informs that parser is ready to read new raw data.
 
         o_dataX : buffer t_word;        -- Output data.
-        o_dataW : buffer t_word         -- Output word.
+        o_dataW : buffer t_word;        -- Output word.
+        o_data_ready : buffer std_logic -- Signal when data is ready to be sent for word shifters.
          );
 end entity;
 
@@ -64,26 +63,34 @@ architecture rtl of parser is
 
     signal r_ready : std_logic := '0';
     signal r_parsed : std_logic := '0';     -- Set when a command is properly parsed.
+
+    -- Calculates the amount of parser iterations based on the poly: n^2 + 4n + 2.
+    function quadratic_poly(word : in t_word) return natural is 
+        constant n : natural := to_integer(unsigned(word)); 
+    begin
+        return n ** 2 + 4 * n + 1;
+    end function;
 begin
     -- Based on current command, parses upcoming data as either widths or data.
     process (all) is
         -- Simple counter-based 
-        variable preamble_counter : natural := 0;
-        variable state : t_state := UNKNOWN;
+        variable preamble_counter : natural := 0;   -- Counter for preamble synchronization sequence.
+        variable iterations_counter : natural := 0; -- Counter for amount of execution words.
+        variable state : t_state := UNKNOWN;        -- Internal state machine.
     begin
         if na_clr = '0' then
             state := UNKNOWN;
             r_ready <= '0';
             r_parsed <= '0';
         elsif falling_edge(i_clk) then
+            o_data_ready <= '0';
+
             -- Communicating with external FIFO queue.
             if i_dataR_ready = '1' then
                 r_ready <= not r_ready;
+                r_parsed <= '0';
 
                 if r_ready = '1' then
-                    o_dataW_ready <= '0';
-                    o_dataX_ready <= '0';
-
                     -- Behavior differs based on currently used command.
                     case state is
                         -- Trying to synchronize with preamble.
@@ -95,6 +102,7 @@ begin
                             end if;
 
                             if preamble_counter >= c_SYNC_PREAMBLE'length then
+                                preamble_counter := 0;
                                 state := CMDLISTENA;
                             end if;
                         -- Three step command acquiring.
@@ -103,24 +111,31 @@ begin
                             state := CMDLISTENB;
                         when CMDLISTENB => 
                             io_cmd.n <= i_dataR; 
+                            iterations_counter := quadratic_poly(i_dataR);
                             state := CMDLISTENC;
                         when CMDLISTENC => 
                             io_cmd.m <= i_dataR; 
-                            r_parsed <= '1';
+                            r_parsed <= '1';        -- Writes new amount of iterations.
                             state := DATA;
                         -- Next input word is expected to be width.
                         when DATA => 
-                            state := WEIGHT; 
                             o_dataW <= i_dataR;
-                            o_dataW_ready <= '1';
+
+                            state := WEIGHT; 
                         -- Next input word is expected to be data.
                         when WEIGHT => 
-                            state := DATA; 
                             o_dataX <= i_dataR;
-                            o_dataX_ready <= '1';
+                            o_data_ready <= '1';
+
+                            -- If amount of iterations has passed, we expect next operation
+                            if iterations_counter = 0 then
+                                state := UNKNOWN;
+                            else
+                                iterations_counter := iterations_counter - 1;
+                                state := DATA;
+                            end if;
                         when SLEEP => -- Does nothing during sleep.
-                                      -- Undefined.
-                        when others => state := UNKNOWN;
+                        when others => state := UNKNOWN; -- Undefined.
                     end case;
                 end if;
             end if;

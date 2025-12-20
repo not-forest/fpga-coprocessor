@@ -45,48 +45,150 @@ entity spi_slave is
 		i_nreset            : in std_logic                    := '0';   --        clock_sink_reset.reset_n
 		i_mosi              : in std_logic                    := '0';   --                export_0.mosi
 		i_nss               : in std_logic                    := '0';   --                        .nss
-		io_miso             : inout std_logic                 := '0';   --                        .miso
+		io_miso             : out std_logic                 := '0';   --                        .miso
 		i_sclk              : in std_logic                    := '0'    --                        .sclk
 	);
 end entity;
 
-architecture vendor of spi_slave is
-	component SPIPhy is
-		generic (
-			SYNC_DEPTH : integer := 2
-		);
-		port (
-			sysclk        : in    std_logic                    := 'X';             -- clk
-			nreset        : in    std_logic                    := 'X';             -- reset_n
-			mosi          : in    std_logic                    := 'X';             -- export
-			nss           : in    std_logic                    := 'X';             -- export
-			miso          : inout std_logic                    := 'X';             -- export
-			sclk          : in    std_logic                    := 'X';             -- export
-			stsourceready : in    std_logic                    := 'X';             -- ready
-			stsourcevalid : out   std_logic;                                       -- valid
-			stsourcedata  : out   std_logic_vector(7 downto 0);                    -- data
-			stsinkvalid   : in    std_logic                    := 'X';             -- valid
-			stsinkdata    : in    std_logic_vector(7 downto 0) := (others => 'X'); -- data
-			stsinkready   : out   std_logic                                        -- ready
-		);
-	end component SPIPhy;
+-- Vendor architecture based on SPIPhy generated verilog file.
+--architecture vendor of spi_slave is
+--	component SPIPhy is
+--		generic (
+--			SYNC_DEPTH : integer := 2
+--		);
+--		port (
+--			sysclk        : in    std_logic                    := 'X';             -- clk
+--			nreset        : in    std_logic                    := 'X';             -- reset_n
+--			mosi          : in    std_logic                    := 'X';             -- export
+--			nss           : in    std_logic                    := 'X';             -- export
+--			miso          : inout std_logic                    := 'X';             -- export
+--			sclk          : in    std_logic                    := 'X';             -- export
+--			stsourceready : in    std_logic                    := 'X';             -- ready
+--			stsourcevalid : out   std_logic;                                       -- valid
+--			stsourcedata  : out   std_logic_vector(7 downto 0);                    -- data
+--			stsinkvalid   : in    std_logic                    := 'X';             -- valid
+--			stsinkdata    : in    std_logic_vector(7 downto 0) := (others => 'X'); -- data
+--			stsinkready   : out   std_logic                                        -- ready
+--		);
+--	end component SPIPhy;
+--begin
+--	SPIPHY_Inst : component SPIPhy
+--		generic map (
+--			SYNC_DEPTH => 3
+--		)
+--		port map (
+--			sysclk        => i_sysclk,        --              clock_sink.clk
+--			nreset        => i_nreset,        --        clock_sink_reset.reset_n
+--			mosi          => i_mosi,          --                export_0.export
+--			nss           => i_nss,           --                        .export
+--			miso          => io_miso,         --                        .export
+--			sclk          => i_sclk,          --                        .export
+--			stsourceready => i_stsourceready, -- avalon_streaming_source.ready
+--			stsourcevalid => o_stsourcevalid, --                        .valid
+--			stsourcedata  => o_stsourcedata,  --                        .data
+--			stsinkvalid   => i_stsinkvalid,   --   avalon_streaming_sink.valid
+--			stsinkdata    => i_stsinkdata,    --                        .data
+--			stsinkready   => o_stsinkready    --                        .ready
+--		);
+--end architecture;
+
+-- Custom RTL architecture.
+architecture rtl of spi_slave is
+
+    -- SPI domain
+    signal rx_shift       : std_logic_vector(7 downto 0) := (others => '0');
+    signal tx_shift       : std_logic_vector(7 downto 0) := (others => '0');
+    signal rx_count       : integer range 0 to 7 := 0;
+    signal tx_count       : integer range 0 to 7 := 0;
+
+    signal rx_byte_sclk   : std_logic_vector(7 downto 0) := (others => '0');
+    signal rx_pulse_sclk  : std_logic := '0';
+
+    signal tx_byte_sclk   : std_logic_vector(7 downto 0) := (others => '0');
+    signal tx_load_sclk   : std_logic := '0';
+
+    -- System domain
+    signal rx_pulse_sys   : std_logic := '0';
+    signal tx_valid_sys   : std_logic := '0';
+
 begin
-	SPIPHY_Inst : component SPIPhy
-		generic map (
-			SYNC_DEPTH => 3
-		)
-		port map (
-			sysclk        => i_sysclk,        --              clock_sink.clk
-			nreset        => i_nreset,        --        clock_sink_reset.reset_n
-			mosi          => i_mosi,          --                export_0.export
-			nss           => i_nss,           --                        .export
-			miso          => io_miso,         --                        .export
-			sclk          => i_sclk,          --                        .export
-			stsourceready => i_stsourceready, -- avalon_streaming_source.ready
-			stsourcevalid => o_stsourcevalid, --                        .valid
-			stsourcedata  => o_stsourcedata,  --                        .data
-			stsinkvalid   => i_stsinkvalid,   --   avalon_streaming_sink.valid
-			stsinkdata    => i_stsinkdata,    --                        .data
-			stsinkready   => o_stsinkready    --                        .ready
-		);
+    spi_proc : process(all)
+    begin
+        if i_nss = '1' then
+            rx_count      <= 0;
+            tx_count      <= 0;
+            rx_pulse_sclk <= '0';
+            tx_load_sclk  <= '0';
+
+        elsif rising_edge(i_sclk) then
+            -- CPHA=1 → sample on rising edge
+            rx_shift <= rx_shift(6 downto 0) & i_mosi;
+
+            if rx_count = 7 then
+                rx_byte_sclk  <= rx_shift(6 downto 0) & i_mosi;
+                rx_pulse_sclk <= '1';
+                rx_count      <= 0;
+            else
+                rx_count      <= rx_count + 1;
+                rx_pulse_sclk <= '0';
+            end if;
+
+        elsif falling_edge(i_sclk) then
+            -- CPHA=1 → change data on falling edge
+            if tx_count = 0 then
+                tx_shift     <= tx_byte_sclk;
+                tx_count     <= 7;
+                tx_load_sclk <= '1';
+            else
+                tx_shift     <= tx_shift(6 downto 0) & '0';
+                tx_count     <= tx_count - 1;
+                tx_load_sclk <= '0';
+            end if;
+        end if;
+    end process;
+
+    io_miso <= tx_shift(7) when i_nss = '0' else 'Z';
+
+        sync_rx : process(i_sysclk)
+    begin
+        if rising_edge(i_sysclk) then
+            rx_pulse_sys <= rx_pulse_sclk;
+        end if;
+    end process;
+
+    sys_proc : process(i_sysclk)
+    begin
+        if rising_edge(i_sysclk) then
+            if i_nreset = '0' then
+                o_stsourcevalid <= '0';
+                o_stsinkready   <= '0';
+                tx_valid_sys    <= '0';
+
+            else
+                -- RX path (SPI → FIFO)
+                if rx_pulse_sys = '1' then
+                    o_stsourcedata  <= rx_byte_sclk;
+                    o_stsourcevalid <= '1';
+                elsif i_stsourceready = '1' then
+                    o_stsourcevalid <= '0';
+                end if;
+
+                -- TX path (FIFO → SPI)
+                if i_stsinkvalid = '1' and tx_valid_sys = '0' then
+                    tx_byte_sclk <= i_stsinkdata;
+                    tx_valid_sys <= '1';
+                    o_stsinkready <= '1';
+                else
+                    o_stsinkready <= '0';
+                end if;
+
+                -- SPI consumed byte
+                if tx_load_sclk = '1' then
+                    tx_valid_sys <= '0';
+                end if;
+            end if;
+        end if;
+    end process;
+
 end architecture;
+

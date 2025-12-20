@@ -39,8 +39,7 @@ entity sequencer is
 
         o_dataW : out t_word;                       -- Output parsed word for serial weight.
         o_dataX : out t_word;                       -- Output parsed word for serial data.
-        o_shiftX_ready : buffer std_logic := '0';   -- Activates data shifter. 
-        o_shiftW_ready : buffer std_logic := '0';   -- Activates weight shifter.
+        o_shift_ready : buffer std_logic := '0';    -- Activates data shifters.
         o_new_cmd : out std_logic := '0';           -- Set when new command is properly parsed.
 
         o_read_ready    : out std_logic;            -- Read ready flag from SPI slave inteface. 
@@ -60,11 +59,12 @@ begin
     -- over SCLK line. Domain FIFO allows to obtain SPI data, separating two clock
     -- domains. Data is also buffered into 32-bit words. This mandates 4-byte alignment
     -- for SPI transfer from the master side.
-    PE_FIFO_Inst : entity coproc.domain_fifo
+    DOMAIN_FIFO_Inst : entity coproc.domain_fifo
     generic map (
         g_LENGTH => 64,
         g_INPUT_DATA_SIZE => t_spi_word'length,
-        g_OUTPUT_DATA_SIZE => t_word'length
+        g_OUTPUT_DATA_SIZE => t_word'length,
+        g_INPUT_DELTA_SLACK => FALSE
                 )
     port map (
         ni_clr => na_clr,
@@ -85,8 +85,7 @@ begin
         i_clk  => i_clk, 
         na_clr => na_clr,
         io_cmd => io_cmd,    
-        o_dataX_ready => o_shiftX_ready,
-        o_dataW_ready => o_shiftW_ready,
+        o_data_ready => o_shift_ready,
         i_dataR => w_parser_raw_data,          
         i_dataR_ready => w_parser_o_rx_ready, 
         o_dataR_ready => w_parser_i_rx_ready,

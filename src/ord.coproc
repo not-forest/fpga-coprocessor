@@ -6,6 +6,10 @@ src/intrinsics/pe_fifo.vhd
 src/intrinsics/domain_fifo.vhd
 src/intrinsics/serializer.vhd
 src/intrinsics/parser.vhd
+src/intrinsics/spi.vhd
 src/systolic.vhd
+src/sequencer.vhd
+
+src/coprocessor.vhd
 
 src/tb/tb.vhd

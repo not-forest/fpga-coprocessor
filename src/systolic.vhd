@@ -44,12 +44,11 @@ entity systolic_arr is
         i_clk       : in std_logic := '1';  -- Systolic array domain clock signal.
         i_spi_clk   : in std_logic := '1';  -- SPI domain clock signal
         ni_clr      : in std_logic := '1';  -- Global reset. (Active low).
-        i_writew    : in std_logic := '0';  -- Enables writing procedure for weights.
-        i_writex    : in std_logic := '0';  -- Enables writing procedure for data.
 
         i_se_clr : in std_logic := '0';                         -- Clear flag for serializer block.
         i_se_iterations : in t_word := (others => '0');         -- Iterations word forwarded to serializer unit.
         i_se_iterations_write : in std_logic := '0';            -- Iteration write flag. 
+        i_shift_ready : in std_logic := '0';                    -- Goes high when new parsed data is ready to being shifted.
 
         i_dataX : in t_word;            -- Serial input X.
         i_dataW : in t_word;            -- Serial input W.
@@ -92,7 +91,7 @@ begin
         ni_clr => ni_clr,
         i_clk => i_clk,
         i_data => i_dataX,
-        i_write => i_writex,
+        i_write => i_shift_ready,
         o_full => w_full_x,
         o_batch => w_tempX_array
              );
@@ -111,7 +110,7 @@ begin
         ni_clr => ni_clr,
         i_clk => i_clk,
         i_data => i_dataW,
-        i_write => i_writew,
+        i_write => i_shift_ready,
         o_full => w_full_w,
         o_batch => w_tempW_array
              );

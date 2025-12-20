@@ -94,10 +94,10 @@ begin
     p_MAIN : process is 
         constant c_SPI_UPCOMING_WORDS : t_word_array := (
             -- Synchronizing SHA256 sequence.
-            x"AAAAAAAA", 
-            x"F00DCAFE", 
-            x"DEADBEEF", 
-            x"10000001",
+            x"AAAA", 
+            x"F00D", 
+            x"DEAD", 
+            x"BEEF",
             -- Command write (Matrix multiplication, Dimensions: 200x100).
             c_MATRIX_MULT_VAL, w(200), w(100)
         );

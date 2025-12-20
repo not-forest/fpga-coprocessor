@@ -47,7 +47,7 @@ end entity;
 
 architecture structured of coprocessor is 
     signal r_cmd : t_command := c_UDEFCMD;                  -- Internally stored coprocessor command.
-    signal w_writew, w_writex : std_logic := '0';           -- Word shift enable signals.
+    signal w_shift_ready : std_logic := '0';                -- Goes high when new parsed data is ready to shift.
     signal w_dataW, w_dataX : t_word := (others => '0');    -- Data and weight signals.
 
     signal w_spi_sink : t_spi_word := (others => '0');                      -- SPI sink data lane.
@@ -55,13 +55,31 @@ architecture structured of coprocessor is
     signal w_spi_source : t_spi_word := (others => '0');                    -- SPI source data lane.
     signal w_spi_source_ready, w_spi_source_valid : std_logic := '0';   -- SPI source FIFO communication signals.
     signal w_new_cmd : std_logic := '0';
+
+    -- Declaring component for the ability to choose a configuration.
+    component C_spi_slave is
+        port (
+		    i_stsinkvalid       : in std_logic                    := '0';   --   avalon_streaming_sink.valid
+		    i_stsinkdata        : in t_spi_word := (others => '0');         --                        .data
+		    o_stsinkready       : out std_logic;                            --                        .ready
+		    i_stsourceready     : in std_logic                    := '0';   -- avalon_streaming_source.ready
+		    o_stsourcevalid     : out std_logic;                            --                        .valid
+		    o_stsourcedata      : out t_spi_word := (others => '0');        --                        .data
+		    i_sysclk            : in std_logic                    := '0';   --              clock_sink.clk
+		    i_nreset            : in std_logic                    := '0';   --        clock_sink_reset.reset_n
+		    i_mosi              : in std_logic                    := '0';   --                export_0.mosi
+		    i_nss               : in std_logic                    := '0';   --                        .nss
+		    io_miso             : inout std_logic                 := '0';   --                        .miso
+		    i_sclk              : in std_logic                    := '0'    --                        .sclk
+             );
+    end component;
 begin
     -- SPI slave controller IP wrapper.
     SPI_SLAVE_Inst : entity coproc.spi_slave
     port map (
-		i_stsinkvalid => w_spi_sink_ready,
+		i_stsinkvalid => w_spi_sink_valid,
 		i_stsinkdata => w_spi_sink,
-		o_stsinkready => w_spi_sink_valid,
+		o_stsinkready => w_spi_sink_ready,
 		i_stsourceready => w_spi_source_ready,
 		o_stsourcevalid => w_spi_source_valid,
 		o_stsourcedata => w_spi_source,
@@ -82,8 +100,7 @@ begin
         io_cmd => r_cmd,
         o_dataW => w_dataW,
         o_dataX => w_dataX,
-        o_shiftX_ready => w_writex, 
-        o_shiftW_ready => w_writew, 
+        o_shift_ready => w_shift_ready,
         o_new_cmd => w_new_cmd,
         o_read_ready => w_spi_source_ready,  
         i_read_ready => w_spi_source_valid,
@@ -98,18 +115,27 @@ begin
     port map (
         ni_clr => ni_rst,
         i_clk => i_clk,
-        i_writex => w_writex,
-        i_writew => w_writew,
+        i_spi_clk => i_sclk,
+        i_shift_ready => w_shift_ready,
     
         i_se_clr => '0',
         i_se_iterations => r_cmd.n,
         i_se_iterations_write => w_new_cmd,
 
-        i_rx_ready => w_spi_sink_valid,
-        o_rx_ready => w_spi_sink_ready,
+        i_rx_ready => w_spi_sink_ready,
+        o_rx_ready => w_spi_sink_valid,
 
         i_dataX => w_dataX,
         i_dataW => w_dataW,
         o_dataA => w_spi_sink
              );
 end architecture;
+
+-- Additional configuration of SPI slave architecture (vendor/simulation).
+--configuration CoprocessorConfig of coprocessor is
+--    for structured
+--        for SPI_SLAVE_Inst : C_spi_slave
+--            use entity coproc.spi_slave(rtl);
+--        end for;
+--    end for;
+--end configuration;

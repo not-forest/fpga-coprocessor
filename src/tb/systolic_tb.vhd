@@ -37,8 +37,7 @@ entity systolic_tb is
         i_clk   : std_logic;
         i_spi_clk   : std_logic;
         ni_clr  : std_logic;
-        i_writew : std_logic;
-        i_writex : std_logic;
+        i_shift_ready : std_logic;
 
         i_se_clr : std_logic;
         i_se_iterations : t_word;
@@ -58,8 +57,7 @@ architecture behavioral of systolic_tb is
         i_clk => '1',
         i_spi_clk => '1',
         ni_clr => '1',
-        i_writew => '0',
-        i_writex => '0',
+        i_shift_ready => '0',
         i_se_clr => '0',
         i_se_iterations => (others => '0'),
         i_se_iterations_write => '0',
@@ -84,8 +82,7 @@ begin
         ni_clr => sigs.ni_clr,
         i_clk => sigs.i_clk,
         i_spi_clk => sigs.i_spi_clk,
-        i_writex => sigs.i_writex,
-        i_writew => sigs.i_writew,
+        i_shift_ready => sigs.i_shift_ready,
     
         i_se_clr => sigs.i_se_clr,
         i_se_iterations => sigs.i_se_iterations,
@@ -106,9 +103,8 @@ begin
     -- Peforms matrix multiplication.
     p_MATRIX_MULTIPLICATION : process is
         constant c_AMOUNT : natural := 7;
-        -- 2x2 Inputs padded with zeroes, where last zero padding is required for 2 * (N - 1) + 1 additional cycle.
-        --                                                                                         |this one|
-        -- This part is fully handles by NIOS V firmware and must not be implemented in hardware.
+        -- 2x2 Inputs padded with zeroes, where last zero padding is required for (n^2 + 4n + 1) + 1 additional cycle.
+        --                                                                                          |this one|
         -- Last zero padding can be changed to next pipelined data if multiple operations with
         -- one operation mode is used.
         constant c_X : t_word_array(0 to c_AMOUNT - 1) := (w(01), w(00), w(02), w(03), w(00), w(04), w(00));
@@ -126,8 +122,7 @@ begin
         sigs.i_se_iterations_write <= '0';
         wait until falling_edge(sigs.i_clk);
 
-        sigs.i_writex <= '1';
-        sigs.i_writew <= '1';
+        sigs.i_shift_ready <= '1';
         for i in 0 to c_AMOUNT - 1 loop
             wait until falling_edge(sigs.i_clk);
             sigs.i_dataX <= c_X(i);
@@ -135,8 +130,7 @@ begin
         end loop;
         
         wait until falling_edge(sigs.i_clk);
-        sigs.i_writex <= '0';
-        sigs.i_writew <= '0';
+        sigs.i_shift_ready <= '0';
 
         wait for 500 ns;
 
@@ -148,10 +142,10 @@ begin
     -- Obtaining computed multiplication output.
     p_MAIN : process is 
         constant c_EXPECTED : t_spi_word_array := (
-            x"13", x"00", x"00", x"00", 
-            x"16", x"00", x"00", x"00",
-            x"2B", x"00", x"00", x"00",
-            x"32", x"00", x"00", x"00"
+            x"13", x"00", 
+            x"16", x"00",
+            x"2B", x"00",
+            x"32", x"00"
         ); 
     begin
         report "Enter p_MAIN.";

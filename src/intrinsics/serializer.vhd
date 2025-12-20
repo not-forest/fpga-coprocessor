@@ -1,9 +1,9 @@
 -- ============================================================
 -- File: serializer.vhd
 -- Desc: Allows to read accumulator values from the systolic array by providing required
---  id value. RTL of this component is basically a multiplexer for matrix of accumulators, where
---  higher id's provides next value in zigzag matter, corresponding to the way how PEs are filled
---  within the systolic array.
+--  id value. Internal state machine samples diagonals of PE elements once they become ready
+--  in a wave-like manner and pushes them into FIFO. This allows to sample out proper outputs
+--  without the need of stalling the entire systolic array pipeline.
 -- ============================================================
 --
 -- BSD 2-Clause 
@@ -55,109 +55,144 @@ entity serializer is
 end entity;
 
 architecture rtl of serializer is
-    type t_direction is (UR, DL);                           
-    signal r_dir : t_direction := UR;                       -- State machine for zig-zag directions.
-    signal r_i, r_j : natural := 0;                         -- Local indexes of systolic array accumulators.
-    signal r_read : std_logic := '0';                       -- When set, local state machine progresses.
-    signal r_iterations : t_word := (others => '0');  -- Contains the length of input vector for PE(00).
+    constant C_DIAGS : natural := 2 * g_OMD - 1;
 
-    signal w_acc : t_word := (others => '0');
+    signal lc         : natural := 0;
+    signal iters      : natural := 0;
+
+    signal d_sample   : natural range 0 to C_DIAGS := 0;
+    signal armed      : std_logic := '0';
+
+    signal r_i, r_j   : natural range 0 to g_OMD-1 := 0;
+    signal r_subclk   : std_logic := '0';
+
+    signal w_acc      : t_word := (others => '0');
+
     signal wo_tx_ready, wi_tx_ready : std_logic := '0';
-    signal lc : natural := 0;
+
+    type t_state is (IDLE, START_DIAG, WALK_DIAG);
+    signal state : t_state := IDLE;
+
 begin
-    process (i_clk, na_clr, i_clr, r_read) is 
-        -- Resets the state machine after last element and dirung asynchronous/synchronous resets. This does not clear iterations.
-        procedure serializer_reset is begin
-            r_dir <= UR;
-            r_i <= 0;
-            r_j <= 0;
-            r_read <= '0';
-            lc <= 0;
-        end procedure;
+
+    ----------------------------------------------------------------------------
+    -- LC and iteration tracking
+    ----------------------------------------------------------------------------
+    process(i_clk, na_clr)
     begin
-        -- Main state machine behavior.
         if na_clr = '0' then
-            serializer_reset;
-            r_iterations <= (others => '0');
-        elsif falling_edge(i_clk) then
+            lc <= 0;
+            iters <= 0;
+        elsif rising_edge(i_clk) then
             if i_clr = '1' then
-                serializer_reset;
-            else
-                -- Data shall be prepared for sampling to FIFO when `wi_tx_ready` gets high.
-                if r_read = '1' and wi_tx_ready = '0' then
-                    if r_dir = UR then
-                        if r_j = g_OMD - 1 then
-                            r_i <= r_i + 1;
-                            r_dir <= DL;
-                        elsif r_i = 0 then
-                            r_j <= r_j + 1;
-                            r_dir <= DL;
-                        else
-                            r_i <= r_i - 1;
-                            r_j <= r_j + 1;
-                        end if;
-                    else
-                        if r_i = g_OMD - 1 then
-                            r_j <= r_j + 1;
-                            r_dir <= UR;
-                        elsif r_j = 0 then
-                            r_i <= r_i + 1;
-                            r_dir <= UR;
-                        else
-                            r_i <= r_i + 1;
-                            r_j <= r_j - 1;
-                        end if;
-                    end if;
-
-                    -- Reset when finished.
-                    if r_i = g_OMD - 1 and r_j = g_OMD - 1 then
-                        serializer_reset; 
-                    end if;
-                end if;
+                lc <= 0;
+            elsif i_batch_sampled = '1' then
+                lc <= lc + 1;
             end if;
 
-            -- Starts the state machine after the first PE(00) is filled with proper data.
             if i_iterations_write = '1' then
-                r_iterations <= i_iterations;
-            else
-                if i_batch_sampled = '1' then
-                    if lc < to_integer(unsigned(r_iterations)) then
-                        lc <= lc + 1;
-                    else
-                        r_read <= '1';
-                        lc <= 0;
-                    end if;
-                end if;
-            end if;
-        end if;
-
-        -- When in read state, always ready to buffer data into FIFO queue.
-        if rising_edge(i_clk) then
-            if wo_tx_ready = '1' and r_read = '1' then
-                wi_tx_ready <= not wi_tx_ready;
+                iters <= to_integer(unsigned(i_iterations));
             end if;
         end if;
     end process;
 
-    w_acc <= i_accs(r_i, r_j) when r_read = '1' else (others => '0');
+    ----------------------------------------------------------------------------
+    -- Armed flag to enable FSM only after valid batch sampling
+    ----------------------------------------------------------------------------
+    process(i_clk, na_clr)
+    begin
+        if na_clr = '0' then
+            armed <= '0';
+        elsif rising_edge(i_clk) then
+            if i_clr = '1' then
+                armed <= '0';
+            elsif i_batch_sampled = '1' then
+                armed <= '1';
+            end if;
+        end if;
+    end process;
 
+    ----------------------------------------------------------------------------
+    -- Diagonal sampling FSM on rising edge
+    ----------------------------------------------------------------------------
+    process(i_clk, na_clr)
+    begin
+        if na_clr = '0' then
+            state <= IDLE;
+            d_sample <= 0;
+            r_i <= 0;
+            r_j <= 0;
+            wi_tx_ready <= '0';
+        elsif falling_edge(i_clk) then
+            if r_subclk = '0' then
+                if state = WALK_DIAG then
+                    wi_tx_ready <= '1';
+                end if;
+            end if;
+        elsif rising_edge(i_clk) then
+            r_subclk <= not r_subclk;
+
+            if r_subclk = '1' then
+                wi_tx_ready <= '0';
+                case state is
+                    when IDLE =>
+                        if armed = '1' and d_sample < C_DIAGS and lc >= iters + d_sample then
+                            state <= START_DIAG;
+                        end if;
+
+                    when START_DIAG =>
+                    -- Calculate start of diagonal indexes
+                        if d_sample > g_OMD - 1 then
+                            r_i <= d_sample - (g_OMD - 1);
+                            r_j <= g_OMD - 1;
+                        else
+                            r_i <= 0;
+                            r_j <= d_sample;
+                        end if;
+                        state <= WALK_DIAG;
+
+                    when WALK_DIAG =>
+                        if wo_tx_ready = '1' then
+                            if r_i = g_OMD - 1 or r_j = 0 then
+                                d_sample <= d_sample + 1;
+                                state <= IDLE;
+                            else
+                                r_i <= r_i + 1;
+                                r_j <= r_j - 1;
+                            end if;
+                        end if;
+                end case;
+            end if;
+        end if;
+    end process;
+
+    ----------------------------------------------------------------------------
+    -- Data selection for FIFO input
+    ----------------------------------------------------------------------------
+    w_acc <= i_accs(r_i, r_j);
+
+    ----------------------------------------------------------------------------
+    -- FIFO instance
+    ----------------------------------------------------------------------------
     DOMAIN_FIFO_Inst : entity coproc.domain_fifo
-    generic map (
-        g_LENGTH => c_DFIFO_S2M_SIZE,
-        g_INPUT_DATA_SIZE => t_word'length,
-        g_OUTPUT_DATA_SIZE => t_spi_word'length
-                )
-    port map (
-        ni_clr => na_clr,
-        i_clk_producer => i_clk,
-        i_clk_consumer => i_spi_clk,
-        
-        i_tx => w_acc,
-        o_rx => o_acc,
+        generic map (
+            g_LENGTH => c_DFIFO_S2M_SIZE,
+            g_INPUT_DATA_SIZE => t_word'length,
+            g_OUTPUT_DATA_SIZE => t_spi_word'length,
+            g_OUTPUT_DELTA_SLACK => FALSE
+        )
+        port map (
+            ni_clr => na_clr,
+            i_clk_producer => i_clk,
+            i_clk_consumer => i_spi_clk,
 
-        i_rx_ready => i_rx_ready,
-        i_tx_ready => wi_tx_ready,
-        o_rx_ready => o_rx_ready,
-        o_tx_ready => wo_tx_ready
-             );
+            i_tx => w_acc,
+            o_rx => o_acc,
+
+            i_rx_ready => i_rx_ready,
+            i_tx_ready => wi_tx_ready,
+            o_rx_ready => o_rx_ready,
+            o_tx_ready => wo_tx_ready
+        );
+
 end architecture;
