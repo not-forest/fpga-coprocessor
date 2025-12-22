@@ -40,7 +40,7 @@ entity serializer is
     port (
         i_clk       : in std_logic := '1';                          -- Systolic array domain clock signal.
         i_spi_clk   : in std_logic := '1';                          -- SPI domain clock signal
-        na_clr  : in std_logic := '1';                              -- Asynchronous clear (Active Low).
+        na_clr      : in std_logic := '1';                          -- Asynchronous clear (Active Low).
 
         i_batch_sampled : in std_logic := '0';                      -- Signal that shall notify about that next batch is sampled.
         i_iterations_write: in std_logic := '0';                    -- Write signal to write iterations value.
@@ -75,9 +75,7 @@ architecture rtl of serializer is
 
 begin
 
-    ----------------------------------------------------------------------------
-    -- LC and iteration tracking
-    ----------------------------------------------------------------------------
+    -- Iteration control process.
     process(i_clk, na_clr)
     begin
         if na_clr = '0' then
@@ -96,9 +94,7 @@ begin
         end if;
     end process;
 
-    ----------------------------------------------------------------------------
     -- Armed flag to enable FSM only after valid batch sampling
-    ----------------------------------------------------------------------------
     process(i_clk, na_clr)
     begin
         if na_clr = '0' then
@@ -112,10 +108,8 @@ begin
         end if;
     end process;
 
-    ----------------------------------------------------------------------------
-    -- Diagonal sampling FSM on rising edge
-    ----------------------------------------------------------------------------
-    process(i_clk, na_clr)
+    -- Diagonal wave sampling FSM.
+    process(all)
     begin
         if na_clr = '0' then
             state <= IDLE;
@@ -141,7 +135,7 @@ begin
                         end if;
 
                     when START_DIAG =>
-                    -- Calculate start of diagonal indexes
+                        -- Calculates the start of diagonal indexes.
                         if d_sample > g_OMD - 1 then
                             r_i <= d_sample - (g_OMD - 1);
                             r_j <= g_OMD - 1;
@@ -166,14 +160,8 @@ begin
         end if;
     end process;
 
-    ----------------------------------------------------------------------------
-    -- Data selection for FIFO input
-    ----------------------------------------------------------------------------
     w_acc <= i_accs(r_i, r_j);
 
-    ----------------------------------------------------------------------------
-    -- FIFO instance
-    ----------------------------------------------------------------------------
     DOMAIN_FIFO_Inst : entity coproc.domain_fifo
         generic map (
             g_LENGTH => c_DFIFO_S2M_SIZE,
@@ -194,5 +182,4 @@ begin
             o_rx_ready => o_rx_ready,
             o_tx_ready => wo_tx_ready
         );
-
 end architecture;

@@ -35,18 +35,18 @@ use altera_mf.all;
 
 entity spi_slave is
 	port (
-		i_stsinkvalid       : in std_logic                    := '0';   --   avalon_streaming_sink.valid
-		i_stsinkdata        : in t_spi_word := (others => '0');             --                        .data
-		o_stsinkready       : out std_logic;                            --                        .ready
-		i_stsourceready     : in std_logic                    := '0';   -- avalon_streaming_source.ready
-		o_stsourcevalid     : out std_logic;                            --                        .valid
-		o_stsourcedata      : out t_spi_word := (others => '0');        --                        .data
-		i_sysclk            : in std_logic                    := '0';   --              clock_sink.clk
-		i_nreset            : in std_logic                    := '0';   --        clock_sink_reset.reset_n
-		i_mosi              : in std_logic                    := '0';   --                export_0.mosi
-		i_nss               : in std_logic                    := '0';   --                        .nss
-		io_miso             : out std_logic                 := '0';   --                        .miso
-		i_sclk              : in std_logic                    := '0'    --                        .sclk
+		i_stsinkvalid       : in std_logic                    := '0';   -- Sink valid.
+		i_stsinkdata        : in t_spi_word := (others => '0');         -- Sink data.
+		o_stsinkready       : out std_logic;                            -- Sink ready.
+		i_stsourceready     : in std_logic                    := '0';   -- Source ready.
+		o_stsourcevalid     : out std_logic;                            -- Source valid.
+		o_stsourcedata      : out t_spi_word := (others => '0');        -- Source data.
+		i_sysclk            : in std_logic                    := '0';   -- System clock
+		i_nreset            : in std_logic                    := '0';   -- Reset (Active low)
+		i_mosi              : in std_logic                    := '0';   -- MOSI
+		i_nss               : in std_logic                    := '0';   -- SS (Active Low).
+		io_miso             : out std_logic                 := '0';     -- MISO
+		i_sclk              : in std_logic                    := '0'    -- SCLK
 	);
 end entity;
 
@@ -94,101 +94,57 @@ end entity;
 
 -- Custom RTL architecture.
 architecture rtl of spi_slave is
+    signal rx_shift    : std_logic_vector(7 downto 0) := (others => '0');
+    signal tx_shift    : std_logic_vector(7 downto 0) := (others => '0');
+    signal r_bit_count : integer range 0 to 7 := 0;
 
-    -- SPI domain
-    signal rx_shift       : std_logic_vector(7 downto 0) := (others => '0');
-    signal tx_shift       : std_logic_vector(7 downto 0) := (others => '0');
-    signal rx_count       : integer range 0 to 7 := 0;
-    signal tx_count       : integer range 0 to 7 := 0;
-
-    signal rx_byte_sclk   : std_logic_vector(7 downto 0) := (others => '0');
-    signal rx_pulse_sclk  : std_logic := '0';
-
-    signal tx_byte_sclk   : std_logic_vector(7 downto 0) := (others => '0');
-    signal tx_load_sclk   : std_logic := '0';
-
-    -- System domain
-    signal rx_pulse_sys   : std_logic := '0';
-    signal tx_valid_sys   : std_logic := '0';
-
+    signal rd_pending  : std_logic := '0';
 begin
-    spi_proc : process(all)
-    begin
-        if i_nss = '1' then
-            rx_count      <= 0;
-            tx_count      <= 0;
-            rx_pulse_sclk <= '0';
-            tx_load_sclk  <= '0';
-
+    process(all) begin
+        if i_nss = '1' or i_nreset = '0' then
+            r_bit_count       <= 0;
+            o_stsinkready   <= '0';
+            o_stsourcevalid <= '0';
+            rd_pending      <= '0';
+            tx_shift        <= (others => '0');
         elsif rising_edge(i_sclk) then
-            -- CPHA=1 → sample on rising edge
-            rx_shift <= rx_shift(6 downto 0) & i_mosi;
 
-            if rx_count = 7 then
-                rx_byte_sclk  <= rx_shift(6 downto 0) & i_mosi;
-                rx_pulse_sclk <= '1';
-                rx_count      <= 0;
-            else
-                rx_count      <= rx_count + 1;
-                rx_pulse_sclk <= '0';
+            -- Each rising edge shall deliver one bit for shifting.
+            if i_stsourceready = '1' then
+                rx_shift <= rx_shift(6 downto 0) & i_mosi;
+
+            -- On 8th rising edge we are ready to send the next aligned byte.
+                if r_bit_count = 7 then
+                    o_stsourcedata  <= rx_shift(6 downto 0) & i_mosi;
+                    o_stsourcevalid <= '1';
+                    r_bit_count <= 0;
+                else
+                    o_stsourcevalid <= '0';
+                    r_bit_count     <= r_bit_count + 1;
+                end if;
             end if;
 
-        elsif falling_edge(i_sclk) then
-            -- CPHA=1 → change data on falling edge
-            if tx_count = 0 then
-                tx_shift     <= tx_byte_sclk;
-                tx_count     <= 7;
-                tx_load_sclk <= '1';
+            -- When new data is within the FIFO, sending a pending flag. 
+            if i_stsinkvalid = '1' and rd_pending = '0' then
+                o_stsinkready   <= '1';
+                rd_pending      <= '1';
             else
-                tx_shift     <= tx_shift(6 downto 0) & '0';
-                tx_count     <= tx_count - 1;
-                tx_load_sclk <= '0';
+                o_stsinkready   <= '0';
+            end if;
+        elsif falling_edge(i_sclk) then
+            -- Each falling edge shifts sink byte via SPI.
+            if r_bit_count = 0 then
+                if rd_pending = '1' then
+                    tx_shift    <= i_stsinkdata;
+                    rd_pending  <= '0';
+                else
+                    tx_shift <= (others => '0');
+                end if;
+            else
+                tx_shift <= tx_shift(6 downto 0) & '0';
             end if;
         end if;
     end process;
 
     io_miso <= tx_shift(7) when i_nss = '0' else 'Z';
-
-        sync_rx : process(i_sysclk)
-    begin
-        if rising_edge(i_sysclk) then
-            rx_pulse_sys <= rx_pulse_sclk;
-        end if;
-    end process;
-
-    sys_proc : process(i_sysclk)
-    begin
-        if rising_edge(i_sysclk) then
-            if i_nreset = '0' then
-                o_stsourcevalid <= '0';
-                o_stsinkready   <= '0';
-                tx_valid_sys    <= '0';
-
-            else
-                -- RX path (SPI → FIFO)
-                if rx_pulse_sys = '1' then
-                    o_stsourcedata  <= rx_byte_sclk;
-                    o_stsourcevalid <= '1';
-                elsif i_stsourceready = '1' then
-                    o_stsourcevalid <= '0';
-                end if;
-
-                -- TX path (FIFO → SPI)
-                if i_stsinkvalid = '1' and tx_valid_sys = '0' then
-                    tx_byte_sclk <= i_stsinkdata;
-                    tx_valid_sys <= '1';
-                    o_stsinkready <= '1';
-                else
-                    o_stsinkready <= '0';
-                end if;
-
-                -- SPI consumed byte
-                if tx_load_sclk = '1' then
-                    tx_valid_sys <= '0';
-                end if;
-            end if;
-        end if;
-    end process;
-
 end architecture;
-

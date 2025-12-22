@@ -39,8 +39,9 @@ entity coprocessor_tb is
         
         i_sclk  : std_logic;
         ni_ss   : std_logic;
-        i_mosi  : std_logic;  -- Master Out Slave In (serial data out from master)
-        io_miso : std_logic;  -- Master In Slave Out (serial data in to master)
+        i_mosi  : std_logic;
+        io_miso : std_logic;
+        o_ready : std_logic;
     end record;
 end entity;
 
@@ -52,7 +53,8 @@ architecture behavioral of coprocessor_tb is
         i_sclk  => '1',  
         ni_ss   => '1',
         i_mosi  => '0',
-        io_miso => 'Z'
+        io_miso => 'Z',
+        o_ready => '0'
     );
 
     signal freq1 : real := 50.0e6;  -- SPI clock frequency
@@ -101,6 +103,8 @@ architecture behavioral of coprocessor_tb is
             rx(i) := sigs.io_miso; -- Sample bit on rising edge
         end loop;
     end procedure;
+
+    signal clk_stall : std_logic := '1';
 begin
     COPROCESSOR_Inst : entity coproc.coprocessor
         generic map (
@@ -109,10 +113,11 @@ begin
         port map (
             i_clk   => sigs.i_clk,
             ni_rst  => sigs.ni_rst,
-            i_sclk  => sigs.i_sclk,
+            i_sclk  => sigs.i_sclk or clk_stall,
             ni_ss   => sigs.ni_ss,
             i_mosi  => sigs.i_mosi,
-            io_miso => sigs.io_miso
+            io_miso => sigs.io_miso,
+            o_ready => sigs.o_ready
         );
 
     p_EX_CLOCK1 : tick(sigs.i_sclk, freq1); -- SPI clock
@@ -129,6 +134,8 @@ begin
         wait for 200 ns;
 
         sigs.ni_ss <= '0';
+        wait until rising_edge(sigs.i_sclk);
+        clk_stall <= '0';
 
         -- Just garbage on the line before proper usage.
         for i in 0 to ZERO_PREAMBLE_COUNT - 1 loop
@@ -138,16 +145,26 @@ begin
 
         -- Synchronization sequence + command + data.
         for i in SPI_SEQUENCE'range loop
+            if sigs.o_ready = '1' then
+                report "READY";
+            end if;
+
             spi_transfer_byte(sigs.i_mosi, SPI_SEQUENCE(i), rx_word);
             report "RX: 0x" & to_hstring(rx_word);
         end loop;
 
-        -- Little bit more zeroes just for reading the data.
-        for i in 0 to ZERO_PREAMBLE_COUNT - 1 loop
+        -- Waiting for ready bit and read data.
+        for i in 0 to 8 loop
+            if sigs.o_ready = '1' then
+                report "READY";
+            end if;
+
             spi_transfer_byte(sigs.i_mosi, x"00", rx_word);
             report "RX: 0x" & to_hstring(rx_word);
         end loop;
 
+        wait until rising_edge(sigs.i_sclk);
+        clk_stall <= '1';
         sigs.ni_ss <= '1';
         sigs.i_mosi <= '0';
 

@@ -40,8 +40,7 @@ entity parser_tb is
 
         io_cmd : t_command;    
 
-        o_dataX_ready : std_logic;
-        o_dataW_ready : std_logic;
+        o_data_ready : std_logic;
         
         i_dataR : t_word;          
         i_dataR_ready : std_logic; 
@@ -61,8 +60,7 @@ architecture behavioral of parser_tb is
             n => (others => '0'),
             m => (others => '0')
         ),    
-        o_dataX_ready => '0',
-        o_dataW_ready => '0',
+        o_data_ready => '0',
         i_dataR => (others => '0'),          
         i_dataR_ready => '0', 
         o_dataR_ready => '0',
@@ -79,8 +77,7 @@ begin
         i_clk  => sigs.i_clk, 
         na_clr => sigs.na_clr,
         io_cmd => sigs.io_cmd,    
-        o_dataX_ready => sigs.o_dataX_ready,
-        o_dataW_ready => sigs.o_dataW_ready,
+        o_data_ready => sigs.o_data_ready,
         i_dataR => sigs.i_dataR,          
         i_dataR_ready => sigs.i_dataR_ready, 
         o_dataR_ready => sigs.o_dataR_ready,
