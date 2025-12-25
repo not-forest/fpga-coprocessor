@@ -114,7 +114,7 @@ begin
                             iterations_counter := quadratic_poly(i_dataR);
                             state := CMDLISTENC;
                         when CMDLISTENC => 
-                            io_cmd.m <= i_dataR; 
+                            io_cmd.m <= t_word(unsigned(i_dataR) - 1); 
                             r_parsed <= '1';        -- Writes new amount of iterations.
                             state := DATA;
                         -- Next input word is expected to be width.

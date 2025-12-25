@@ -44,7 +44,8 @@ entity systolic_arr is
         i_clk       : in std_logic := '1';  -- Systolic array domain clock signal.
         i_spi_clk   : in std_logic := '1';  -- SPI domain clock signal
         ni_clr      : in std_logic := '1';  -- Global reset. (Active low).
-
+    
+        i_batch_length : in std_logic_vector(log2(g_OMD) - 1 downto 0);
         i_se_clr : in std_logic := '0';                         -- Clear flag for serializer block.
         i_se_iterations : in t_word := (others => '0');         -- Iterations word forwarded to serializer unit.
         i_se_iterations_write : in std_logic := '0';            -- Iteration write flag. 
@@ -88,11 +89,12 @@ begin
         g_LENGTH => g_OMD
                 )
     port map (
-        ni_clr => ni_clr,
+        na_clr => ni_clr,
         i_clk => i_clk,
         i_data => i_dataX,
         i_write => i_shift_ready,
         o_full => w_full_x,
+        i_batch_length => i_batch_length,
         o_batch => w_tempX_array
              );
 
@@ -107,11 +109,12 @@ begin
         g_LENGTH => g_OMD
                 )
     port map (
-        ni_clr => ni_clr,
+        na_clr => ni_clr,
         i_clk => i_clk,
         i_data => i_dataW,
         i_write => i_shift_ready,
         o_full => w_full_w,
+        i_batch_length => i_batch_length,
         o_batch => w_tempW_array
              );
 
@@ -150,6 +153,7 @@ begin
         na_clr => ni_clr,
         i_clr => i_se_clr,
         o_acc => o_dataA,
+        i_batch_length => i_batch_length,
         i_iterations => i_se_iterations,
         i_iterations_write => i_se_iterations_write,
         i_rx_ready => i_rx_ready,

@@ -42,6 +42,7 @@ entity serializer is
         i_spi_clk   : in std_logic := '1';                          -- SPI domain clock signal
         na_clr      : in std_logic := '1';                          -- Asynchronous clear (Active Low).
 
+        i_batch_length : in std_logic_vector(log2(g_OMD) - 1 downto 0);    -- Defines square size for sampling.
         i_batch_sampled : in std_logic := '0';                      -- Signal that shall notify about that next batch is sampled.
         i_iterations_write: in std_logic := '0';                    -- Write signal to write iterations value.
         i_iterations : in t_word := (others => '0');                -- Iterations that correspond to amount of iterations needed until PE(00) is ready.
@@ -74,10 +75,8 @@ architecture rtl of serializer is
     signal state : t_state := IDLE;
 
 begin
-
     -- Iteration control process.
-    process(i_clk, na_clr)
-    begin
+    process(i_clk, na_clr) begin
         if na_clr = '0' then
             lc <= 0;
             iters <= 0;
@@ -95,8 +94,7 @@ begin
     end process;
 
     -- Armed flag to enable FSM only after valid batch sampling
-    process(i_clk, na_clr)
-    begin
+    process(i_clk, na_clr) begin
         if na_clr = '0' then
             armed <= '0';
         elsif rising_edge(i_clk) then
@@ -109,7 +107,8 @@ begin
     end process;
 
     -- Diagonal wave sampling FSM.
-    process(all)
+    process(all) is
+        variable square_lim : natural;
     begin
         if na_clr = '0' then
             state <= IDLE;
@@ -125,6 +124,7 @@ begin
             end if;
         elsif rising_edge(i_clk) then
             r_subclk <= not r_subclk;
+            square_lim := to_integer(unsigned(i_batch_length));
 
             if r_subclk = '1' then
                 wi_tx_ready <= '0';
@@ -136,9 +136,9 @@ begin
 
                     when START_DIAG =>
                         -- Calculates the start of diagonal indexes.
-                        if d_sample > g_OMD - 1 then
-                            r_i <= d_sample - (g_OMD - 1);
-                            r_j <= g_OMD - 1;
+                        if d_sample > square_lim then
+                            r_i <= d_sample - square_lim;
+                            r_j <= square_lim;
                         else
                             r_i <= 0;
                             r_j <= d_sample;
@@ -147,7 +147,7 @@ begin
 
                     when WALK_DIAG =>
                         if wo_tx_ready = '1' then
-                            if r_i = g_OMD - 1 or r_j = 0 then
+                            if r_i = square_lim or r_j = 0 then
                                 d_sample <= d_sample + 1;
                                 state <= IDLE;
                             else

@@ -39,6 +39,7 @@ entity systolic_tb is
         ni_clr  : std_logic;
         i_shift_ready : std_logic;
 
+        i_batch_length : std_logic_vector(0 downto 0);
         i_se_clr : std_logic;
         i_se_iterations : t_word;
         i_se_iterations_write : std_logic;
@@ -59,6 +60,7 @@ architecture behavioral of systolic_tb is
         ni_clr => '1',
         i_shift_ready => '0',
         i_se_clr => '0',
+        i_batch_length => (others => '0'),
         i_se_iterations => (others => '0'),
         i_se_iterations_write => '0',
         i_rx_ready => '0', 
@@ -84,6 +86,7 @@ begin
         i_spi_clk => sigs.i_spi_clk,
         i_shift_ready => sigs.i_shift_ready,
     
+        i_batch_length => sigs.i_batch_length,
         i_se_clr => sigs.i_se_clr,
         i_se_iterations => sigs.i_se_iterations,
         i_se_iterations_write => sigs.i_se_iterations_write,
@@ -107,16 +110,17 @@ begin
         --                                                                                          |this one|
         -- Last zero padding can be changed to next pipelined data if multiple operations with
         -- one operation mode is used.
-        constant c_X : t_word_array(0 to c_AMOUNT - 1) := (w(01), w(00), w(02), w(03), w(00), w(04), w(00));
-        constant c_W : t_word_array(0 to c_AMOUNT - 1) := (w(05), w(00), w(07), w(06), w(00), w(08), w(00));
+        constant c_X : t_word_array(0 to c_AMOUNT - 1) := (w(00), w(01), w(03), w(02), w(04), w(00), w(00));
+        constant c_W : t_word_array(0 to c_AMOUNT - 1) := (w(00), w(05), w(06), w(07), w(08), w(00), w(00));
         -- Here we multiply:
         -- | 1  2 | X | 5  6 | = | 19  43 |
-        -- | 3  4 |   | 7  9 |   | 22  50 |
+        -- | 3  4 |   | 7  8 |   | 22  50 |
     begin
         report "Enter p_MATRIX_MULTIPLICATION.";
 
         -- Preparing iteration value.
         sigs.i_se_iterations <= w(2);
+        sigs.i_batch_length <= b"1";
         sigs.i_se_iterations_write <= '1';
         wait until falling_edge(sigs.i_clk);
         sigs.i_se_iterations_write <= '0';

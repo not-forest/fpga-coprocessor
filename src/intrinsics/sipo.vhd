@@ -28,6 +28,7 @@ library coproc;
 library ieee;
 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use coproc.intrinsics.all;
 
 entity word_shifter is
@@ -35,12 +36,13 @@ entity word_shifter is
         g_LENGTH : natural      -- Describes how many words can be held in this shifter.
             );
     port (
-        ni_clr  : in std_logic := '1';      -- Synchronous clear (Active low).
-        i_clk   : in std_logic := '1';      -- Clock input. Shifts and pushes elements at the same time.
-        i_write : in std_logic := '1';      -- Starts writing procedure.
+        na_clr  : in std_logic := '1';                                      -- Asynchronous clear (Active low).
+        i_clk   : in std_logic := '1';                                      -- Clock input. Shifts and pushes elements at the same time.
+        i_write : in std_logic := '1';                                      -- Starts writing procedure.
+        i_batch_length : std_logic_vector(log2(g_LENGTH) - 1 downto 0);    --
         i_data  : in t_word;                -- Data input. One value at a time.
         o_full  : out std_logic;            -- Sets when batch if fully filled with words.
-        o_batch : out t_word_array(g_LENGTH - 1 downto 0)   -- Batch output. Data from each register is always seen.
+        o_batch : out t_word_array(0 to g_LENGTH - 1)   -- Batch output. Data from each register is always seen.
     );
 end entity;
 
@@ -48,25 +50,25 @@ library altera_mf;
 use altera_mf.all;
 
 architecture rtl of word_shifter is
-    signal r_batch_mat : t_word_array(g_LENGTH - 1 downto 0) := (others => (others => '0'));
+    signal r_batch_mat : t_word_array(0 to g_LENGTH - 1) := (others => (others => '0'));
 
     signal r_cnt       : natural range 0 to g_LENGTH := 0;
     signal r_full      : std_logic := '0';
 begin
     -- Shifting process.
     process(i_clk) begin
-        if rising_edge(i_clk) then
-            if ni_clr = '0' then
-                r_batch_mat <= (others => (others => '0'));
-                r_cnt       <= 0;
-                r_full      <= '0';
-            elsif i_write = '1' then
+        if na_clr = '0' then
+            r_batch_mat <= (others => (others => '0'));
+            r_cnt       <= 0;
+            r_full      <= '0';
+        elsif rising_edge(i_clk) then
+            if i_write = '1' then
                 r_batch_mat(0) <= i_data;
-                for i in 1 to g_LENGTH - 1 loop
+                for i in 1 to to_integer(unsigned(i_batch_length)) loop
                     r_batch_mat(i) <= r_batch_mat(i-1);
                 end loop;
 
-                if r_cnt = g_LENGTH - 1 then
+                if r_cnt = to_integer(unsigned(i_batch_length)) then
                     r_cnt  <= 0;
                     r_full <= '1';
                 else

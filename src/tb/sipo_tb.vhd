@@ -39,22 +39,24 @@ use coproc.word_shifter;
 
 entity sipo_tb is
     type tb_dut is record
-        ni_clr : std_logic;
+        na_clr : std_logic;
         i_clk : std_logic;
         i_write : std_logic;
         i_data : t_word;          
         o_full : std_logic;
+        i_batch_length : std_logic_vector(1 downto 0);
         o_batch : t_word_array(3 downto 0);   
     end record;
 end entity;
 
 architecture behavioral of sipo_tb is
     signal sigs : tb_dut := (
-        ni_clr => '1',
+        na_clr => '1',
         i_clk => '1',
         i_write => '0',
         i_data => (others => '0'),
         o_full => '0',
+        i_batch_length => (others => '0'),
         o_batch => (others => (others => '0'))
     );
 
@@ -92,11 +94,12 @@ begin
         g_LENGTH => 4
                 )
     port map (
-        ni_clr => sigs.ni_clr,
+        na_clr => sigs.na_clr,
         i_clk => sigs.i_clk,
         i_write => sigs.i_write,
         i_data => sigs.i_data,   
         o_full => sigs.o_full,
+        i_batch_length => sigs.i_batch_length,
         o_batch => sigs.o_batch   
          );
 
@@ -105,10 +108,11 @@ begin
 
     p_APPENDER : process is 
         -- Values that will be pushed into the shifter.
-        variable seq : t_word_array(0 to 7) := (x"AA", x"AA", x"AA", x"AA", x"BB", x"BB", x"BB", x"BB");
+        variable seq : t_word_array(0 to 7) := (x"AAAA", x"AAAA", x"AAAA", x"AAAA", x"BBBB", x"BBBB", x"BBBB", x"BBBB");
     begin
         report "Enter p_APPENDER";
 
+        sigs.i_batch_length <= b"11";
         sigs.i_write <= '1';
         wait until falling_edge(sigs.i_clk);
         -- Sending each word sequence per clock tick.
@@ -128,11 +132,11 @@ begin
 
         wait until sigs.o_full = '1';
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"AA", x"AA", x"AA", x"AA"), sigs.o_batch);
+        assert_shift_regs((x"AAAA", x"AAAA", x"AAAA", x"AAAA"), sigs.o_batch);
  
         wait until sigs.o_full = '1';
         wait until falling_edge(sigs.i_clk);
-        assert_shift_regs((x"BB", x"BB", x"BB", x"BB"), sigs.o_batch);
+        assert_shift_regs((x"BBBB", x"BBBB", x"BBBB", x"BBBB"), sigs.o_batch);
 
         report "Done: p_MAIN";
         stop_clock(freq);

@@ -72,18 +72,18 @@ architecture behavioral of coprocessor_tb is
         x"AF", x"FA",
         x"02", x"00",
         x"02", x"00",
+        x"00", x"00",
+        x"00", x"00",
         x"01", x"00",
         x"05", x"00",
-        x"00", x"00",
-        x"00", x"00",
-        x"02", x"00",
-        x"07", x"00",
         x"03", x"00",
         x"06", x"00",
-        x"00", x"00",
-        x"00", x"00",
+        x"02", x"00",
+        x"07", x"00",
         x"04", x"00",
         x"08", x"00",
+        x"00", x"00",
+        x"00", x"00",
         x"00", x"00",
         x"00", x"00"
     );
@@ -108,7 +108,7 @@ architecture behavioral of coprocessor_tb is
 begin
     COPROCESSOR_Inst : entity coproc.coprocessor
         generic map (
-            g_OMD => 2
+            g_OMD => 6
         )
         port map (
             i_clk   => sigs.i_clk,
