@@ -98,6 +98,7 @@ begin
     port map (
         i_sclk => i_sclk,
         i_clk => i_clk,
+        ni_ss => ni_ss,
         na_clr => ni_rst,
         io_cmd => r_cmd,
         o_dataW => w_dataW,
@@ -115,8 +116,9 @@ begin
         g_OMD => g_OMD
                 )
     port map (
-        ni_clr => ni_rst,
+        na_clr => ni_rst,
         i_clk => i_clk,
+        ni_ss => ni_ss,
         i_spi_clk => i_sclk,
         i_shift_ready => w_shift_ready,
     

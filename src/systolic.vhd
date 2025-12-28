@@ -42,8 +42,9 @@ entity systolic_arr is
     );
     port (
         i_clk       : in std_logic := '1';  -- Systolic array domain clock signal.
+        ni_ss       : in std_logic := '0';  -- SPI SS signal.
         i_spi_clk   : in std_logic := '1';  -- SPI domain clock signal
-        ni_clr      : in std_logic := '1';  -- Global reset. (Active low).
+        na_clr      : in std_logic := '1';  -- Global asynchronous reset. (Active low).
     
         i_batch_length : in std_logic_vector(log2(g_OMD) - 1 downto 0);
         i_se_clr : in std_logic := '0';                         -- Clear flag for serializer block.
@@ -89,7 +90,7 @@ begin
         g_LENGTH => g_OMD
                 )
     port map (
-        na_clr => ni_clr,
+        na_clr => na_clr,
         i_clk => i_clk,
         i_data => i_dataX,
         i_write => i_shift_ready,
@@ -109,7 +110,7 @@ begin
         g_LENGTH => g_OMD
                 )
     port map (
-        na_clr => ni_clr,
+        na_clr => na_clr,
         i_clk => i_clk,
         i_data => i_dataW,
         i_write => i_shift_ready,
@@ -127,10 +128,17 @@ begin
     g_SystolicGenI : for i in 0 to g_OMD - 1 generate
         g_SystolicGenJ : for j in 0 to g_OMD - 1 generate 
             PE_Inst : entity pe
+            generic map (
+                g_LATENCY_CYCLES => i + j               -- Delay cycles for each wave.
+                        )
             port map (
-                ni_clr => ni_clr,
+                na_clr => na_clr,
+                i_clr => ni_ss,
                 i_clk => i_clk,
                 i_en => w_syst_enable,
+
+                i_iterations => i_se_iterations,
+                i_iterations_write => i_se_iterations_write,
                 
                 i_xin => w_dataX_matrix(i)(j),
                 i_win => w_dataW_matrix(i)(j),
@@ -150,7 +158,7 @@ begin
     port map (
         i_clk => i_clk,
         i_spi_clk => i_spi_clk,
-        na_clr => ni_clr,
+        na_clr => na_clr,
         i_clr => i_se_clr,
         o_acc => o_dataA,
         i_batch_length => i_batch_length,

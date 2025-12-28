@@ -34,56 +34,80 @@ use ieee.numeric_std.all;
 use coproc.intrinsics.all;
 
 entity pe is
+    generic (
+        g_LATENCY_CYCLES : natural := 0             -- Amount of latency cycles before reset.
+            );
     port (
-        ni_clr : in std_logic := '1';           -- Clear PE's accumulator (Active low)
-        i_clk : in std_logic := '1';            -- Clock signal.
-        i_en  : in std_logic := '1';            -- Clock enable signal. Stalls the PE when unset.
+        na_clr : in std_logic := '1';               -- Asynchronous clear (Active low).
+        i_clr : in std_logic := '0';                -- Synchronous clear.
+        i_clk : in std_logic := '1';                -- Clock signal.
+        i_en  : in std_logic := '1';                -- Clock enable signal. Stalls the PE when unset.
 
-        i_xin : in t_word;                      -- Input data from vector X. N-bit width.
-        i_win : in t_word;                      -- Input data from vector W. N-bit width.
+        i_iterations : in t_word := (others => '0');    -- Iterations amount, before first PE00 will be ready.
+        i_iterations_write : std_logic := '0';          -- Iterations amount write enable flag.
 
-        o_xout : out t_word;                    -- Pipelined output data X. N-bit width.
-        o_wout : out t_word;                    -- Pipelined output data W. N-bit width.
-        o_aout : out t_word                      -- Accumulator output for reading.
+        i_xin : in t_word;                          -- Input data from vector X. N-bit width.
+        i_win : in t_word;                          -- Input data from vector W. N-bit width.
+
+        o_xout : out t_word;                        -- Pipelined output data X. N-bit width.
+        o_wout : out t_word;                        -- Pipelined output data W. N-bit width.
+        o_aout : out t_word                         -- Accumulator output for reading.
     );
 end entity;
 
 architecture rtl of pe is
-    signal r_x, r_w : t_word := (others => '0');
-    signal r_a      : t_word := (others => '0');
+    signal r_x, r_w     : t_word := (others => '0');
+    signal r_a          : t_word := (others => '0');
+    signal r_itdelay    : natural := 0;                 -- Iterations delay, after which the PE shall be reset.
 begin
-    process (all) is
-        variable xin : signed(i_xin'range);
-        variable win : signed(i_win'range);
-        variable acc : signed(o_aout'range);
-        variable aout : integer;
-
-        constant MAX_ACC : integer := 2 ** ((t_word'length - 1) / 2 - 1);
-        constant MIN_ACC : integer := -2 ** ((t_word'length - 1) / 2);
+    process (i_clk, na_clr) is
+        variable xin    : signed(t_word'length-1 downto 0);
+        variable win    : signed(t_word'length-1 downto 0);
+        variable prod   : signed((t_word'length * 2) - 1 downto 0);
+        variable sum    : signed((t_word'length * 2) downto 0); -- 33 bits to prevent overflow
+        
+        -- 16-bit signed numbers limits.
+        constant MAX_VAL : signed(t_word'length-1 downto 0) := to_signed(32767, t_word'length);
+        constant MIN_VAL : signed(t_word'length-1 downto 0) := to_signed(-32768, t_word'length);
     begin
-        if falling_edge(i_clk) then
-            if ni_clr = '0' then
+        if na_clr = '0' then
+            r_a <= (others => '0');
+            r_x <= (others => '0');
+            r_w <= (others => '0');
+            r_itdelay <= 0;
+        elsif rising_edge(i_clk) then
+            if i_clr = '1' then
+                r_a <= (others => '0');
+                r_x <= (others => '0');
+                r_w <= (others => '0');
+                r_itdelay <= 0;
+            end if;
+
+            if i_iterations_write = '1' then
+                r_itdelay <= to_integer(unsigned(i_iterations)) + 1 + g_LATENCY_CYCLES;
+            elsif r_itdelay = 0 then
+                -- Restarting the PE elemeent with new delayed reset.
                 r_a <= (others => '0');
             elsif i_en = '1' then
-                -- Assignment
-                xin := signed(i_xin);
-                win := signed(i_win);
-                acc := signed(r_a);
-                aout := 0;
+                xin  := signed(i_xin);
+                win  := signed(i_win);
+                
+                prod := xin * win;
+                sum  := resize(signed(r_a), sum'length) + resize(prod, sum'length);
 
-                -- MAC
-                aout := to_integer(acc + resize(xin, t_word'length) * resize(win, t_word'length));
-
-                -- Saturating on both sides.
-                if aout > MAX_ACC then
-                    aout := MAX_ACC;
-                elsif aout < MIN_ACC then
-                    aout := MIN_ACC;
+                -- Saturation logic for 16-bit output
+                if sum > resize(MAX_VAL, sum'length) then
+                    r_a <= std_logic_vector(MAX_VAL);
+                elsif sum < resize(MIN_VAL, sum'length) then
+                    r_a <= std_logic_vector(MIN_VAL);
+                else
+                    r_a <= std_logic_vector(resize(sum, t_word'length));
                 end if;
 
-                r_x <= i_xin;                                            -- X inputs forwarded horizontally.
-                r_w <= i_win;                                            -- W inputs forwarded vertically.
-                r_a <= std_logic_vector(to_signed(aout, t_word'length));  -- Accumulator output forwarded diagonally.
+                r_itdelay <= r_itdelay - 1;
+
+                r_x <= i_xin;
+                r_w <= i_win;
             end if;
         end if;
     end process;

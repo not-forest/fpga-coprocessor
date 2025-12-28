@@ -33,6 +33,7 @@ entity sequencer is
     port (
         i_sclk          : in std_logic := '1';      -- SPI domain clock.
         i_clk           : in std_logic := '1';      -- System clock.
+        ni_ss           : in std_logic := '1';      -- SPI SS line.
         na_clr          : in std_logic := '1';      -- Asynchronous clear (Active Low).
 
         io_cmd : inout t_command;                   -- Coprocessor command bus.
@@ -84,6 +85,7 @@ begin
     port map (
         i_clk  => i_clk, 
         na_clr => na_clr,
+        i_clr => ni_ss,
         io_cmd => io_cmd,    
         o_data_ready => o_shift_ready,
         i_dataR => w_parser_raw_data,          

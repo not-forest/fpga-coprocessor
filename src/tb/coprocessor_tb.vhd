@@ -1,7 +1,7 @@
 -- ============================================================
 -- File: coprocessor_tb.vhd
 -- Desc: Testbench for whole coprocessor unit acting as a master microcontroller that communicates with it via
---      SPI interface.
+--      SPI interface. The below code tests different coprocessor commands with different data size.
 -- ============================================================
 --
 -- BSD 2-Clause 
@@ -60,55 +60,154 @@ architecture behavioral of coprocessor_tb is
     signal freq1 : real := 50.0e6;  -- SPI clock frequency
     signal freq2 : real := 200.0e6; -- Coprocessor PLL clock frequency
 
-    constant ZERO_PREAMBLE_COUNT : natural := 8;
-
-    type t_spi_word_array is array (natural range <>) of t_spi_word;
-
-    constant SPI_SEQUENCE : t_spi_word_array := (
-        x"AA", x"AA",
-        x"0D", x"F0",
-        x"AD", x"DE",
-        x"EF", x"BE",
-        x"AF", x"FA",
-        x"02", x"00",
-        x"02", x"00",
-        x"00", x"00",
-        x"00", x"00",
-        x"01", x"00",
-        x"05", x"00",
-        x"03", x"00",
-        x"06", x"00",
-        x"02", x"00",
-        x"07", x"00",
-        x"04", x"00",
-        x"08", x"00",
-        x"00", x"00",
-        x"00", x"00",
-        x"00", x"00",
-        x"00", x"00"
+    -- 2x2 matrix multiplication. (Compatible with g_OMD >= 2):
+    --
+    -- | 1  2 | X | 5  6 | = | 19  43 |
+    -- | 3  4 |   | 7  8 |   | 22  50 |
+    constant c_COPROC_MULT_2X2 : t_word_array := (
+        -- Synchronization / Header
+        x"AAAA", x"F00D", x"DEAD", x"BEEF", 
+        -- Command words.
+        x"FAAF", x"0002", x"0002", 
+        -- Payload.
+        x"0000", x"0000", 
+        x"0001", x"0005", 
+        x"0003", x"0006", 
+        x"0002", x"0007",
+        x"0004", x"0008", 
+        x"0000", x"0000", 
+        -- +1 Padding.
+        x"0000", x"0000"
     );
 
-    -- Procedure to communicate via SPI (full-duplex).
+    -- 1x4 * 4x1 matrix multiplication. (Compatible with g_OMD >= 1);
+    --                  | 255 |
+    -- | 1  1  1  1 | X | 255 | = | 1020 |
+    --                  | 255 |
+    --                  | 255 |
+    constant c_COPROC_MULT_4X1X4 : t_word_array := (
+        -- Synchronization / Header
+        x"AAAA", x"F00D", x"DEAD", x"BEEF", 
+        -- Command words.
+        x"FAAF", x"0004", x"0001", 
+        -- Payload.
+        x"0001", x"00FF",
+        x"0001", x"00FF",
+        x"0001", x"00FF",
+        x"0001", x"00FF",
+        -- +1 Padding.
+        x"0000", x"0000"
+    );
+
+    -- 3x3 matrix multiplication. (Compatible with g_OMD >= 3):
+    --
+    -- | 1  2  3 |   | 1  0  0 |   | 1  2  3 |
+    -- | 4  5  6 | X | 0  1  0 | = | 4  5  6 |
+    -- | 7  8  9 |   | 0  0  1 |   | 7  8  9 |
+    constant c_COPROC_MULT_3X3 : t_word_array := (
+        -- Synchronization / Header
+        x"AAAA", x"F00D", x"DEAD", x"BEEF", 
+        -- Command words.
+        x"FAAF", x"0003", x"0003", 
+        -- Payload.
+        x"0000", x"0000",
+        x"0000", x"0000",
+        x"0001", x"0001",
+        x"0000", x"0000",
+        x"0004", x"0000",
+        x"0002", x"0000",
+        x"0007", x"0000",
+        x"0005", x"0001",
+        x"0003", x"0000",
+        x"0008", x"0000",
+        x"0006", x"0000",
+        x"0000", x"0000",
+        x"0009", x"0001",
+        x"0000", x"0000",
+        x"0000", x"0000",
+        
+        -- +1 Padding.
+        x"0000", x"0000"
+    );
+
+    -- Procedure to communicate via SPI (full-duplex) for CPHA=1, CPOL=1.
     procedure spi_transfer_byte (
-        signal mosi : out std_logic;
-        constant tx : in  t_spi_word;
-        variable rx : out t_spi_word
+        signal sclk     : in  std_logic;
+        signal miso     : in  std_logic;
+        signal mosi     : out std_logic;
+        constant tx     : in  t_spi_word;
+        variable rx     : out t_spi_word
     ) is
     begin
         for i in t_spi_word'length - 1 downto 0 loop
-            wait until falling_edge(sigs.i_sclk);
-            mosi <= tx(i);  -- Output bit on falling edge (CPHA=1)
+            wait until falling_edge(sclk);
+            mosi <= tx(i);
 
-            wait until rising_edge(sigs.i_sclk);
-            rx(i) := sigs.io_miso; -- Sample bit on rising edge
+            wait until rising_edge(sclk);
+            rx(i) := miso;
         end loop;
+    end procedure;
+
+    -- Helper procedure to produce one proper SPI communication cycle.
+    procedure run_coproc_test (
+        constant words       : in  t_word_array;
+        constant timeout     : in  natural;
+        signal ss_line       : out std_logic;
+        signal stall_line    : out std_logic;
+        signal mosi_line     : out std_logic;
+        signal sclk_line     : in  std_logic;
+        signal miso_line     : inout  std_logic;
+        signal ready_flag    : in  std_logic
+    ) is
+        variable rx_byte : t_spi_word := (others => '0');
+        variable tx_byte : t_spi_word := (others => '0');
+    begin
+        wait until rising_edge(sclk_line);
+        ss_line <= '0';
+        stall_line <= '0';
+
+        -- Synchronization sequence + command + data.
+        for i in words'range loop
+            if ready_flag = '1' then
+                report "READY";
+            end if;
+
+            -- Low Byte
+            tx_byte := words(i)(7 downto 0);
+            spi_transfer_byte(sclk_line, miso_line, mosi_line, tx_byte, rx_byte);
+            report to_hstring(rx_byte);
+
+            if ready_flag = '1' then
+                report "READY";
+            end if;
+
+            -- High Byte
+            tx_byte := words(i)(15 downto 8);
+            spi_transfer_byte(sclk_line, miso_line, mosi_line, tx_byte, rx_byte); 
+            report to_hstring(rx_byte);
+        end loop;
+
+        -- Slack timeout.
+        for i in 0 to timeout loop
+            if ready_flag = '1' then
+                report "READY";
+            end if;
+
+            spi_transfer_byte(sclk_line, miso_line, mosi_line, x"00", rx_byte);
+            report to_hstring(rx_byte);
+        end loop;
+
+        ss_line <= '1';
+        mosi_line <= '0';
+        stall_line <= '1';
+        wait until rising_edge(sclk_line);
     end procedure;
 
     signal clk_stall : std_logic := '1';
 begin
     COPROCESSOR_Inst : entity coproc.coprocessor
         generic map (
-            g_OMD => 6
+            g_OMD => 3
         )
         port map (
             i_clk   => sigs.i_clk,
@@ -124,7 +223,6 @@ begin
     p_EX_CLOCK2 : tick(sigs.i_clk,  freq2); -- system clock
 
     p_MAIN : process
-        variable rx_word : t_spi_word;
     begin
         report "Enter p_MAIN.";
 
@@ -133,40 +231,48 @@ begin
         sigs.ni_rst <= '1';
         wait for 200 ns;
 
-        sigs.ni_ss <= '0';
-        wait until rising_edge(sigs.i_sclk);
-        clk_stall <= '0';
+        report "MULT 2x2";
+        -- 2x2 multiplication.
+        run_coproc_test(
+            words       => c_COPROC_MULT_2X2,
+            timeout     => 10,
+            ss_line     => sigs.ni_ss,
+            stall_line  => clk_stall,
+            mosi_line   => sigs.i_mosi,
+            sclk_line   => sigs.i_sclk,
+            miso_line   => sigs.io_miso,
+            ready_flag  => sigs.o_ready
+        );
 
-        -- Just garbage on the line before proper usage.
-        for i in 0 to ZERO_PREAMBLE_COUNT - 1 loop
-            spi_transfer_byte(sigs.i_mosi, x"00", rx_word);
-            report "RX: 0x" & to_hstring(rx_word);
-        end loop;
+        wait for 100 ns;
 
-        -- Synchronization sequence + command + data.
-        for i in SPI_SEQUENCE'range loop
-            if sigs.o_ready = '1' then
-                report "READY";
-            end if;
+        report "MULT 2x2";
+        -- 2x2 multiplication.
+        run_coproc_test(
+            words       => c_COPROC_MULT_4X1X4,
+            timeout     => 4,
+            ss_line     => sigs.ni_ss,
+            stall_line  => clk_stall,
+            mosi_line   => sigs.i_mosi,
+            sclk_line   => sigs.i_sclk,
+            miso_line   => sigs.io_miso,
+            ready_flag  => sigs.o_ready
+        );
 
-            spi_transfer_byte(sigs.i_mosi, SPI_SEQUENCE(i), rx_word);
-            report "RX: 0x" & to_hstring(rx_word);
-        end loop;
+        wait for 100 ns;
 
-        -- Waiting for ready bit and read data.
-        for i in 0 to 8 loop
-            if sigs.o_ready = '1' then
-                report "READY";
-            end if;
-
-            spi_transfer_byte(sigs.i_mosi, x"00", rx_word);
-            report "RX: 0x" & to_hstring(rx_word);
-        end loop;
-
-        wait until rising_edge(sigs.i_sclk);
-        clk_stall <= '1';
-        sigs.ni_ss <= '1';
-        sigs.i_mosi <= '0';
+        report "MULT 3x3";
+        -- 3x3 multiplication.
+        run_coproc_test(
+            words       => c_COPROC_MULT_3X3,
+            timeout     => 16,
+            ss_line     => sigs.ni_ss,
+            stall_line  => clk_stall,
+            mosi_line   => sigs.i_mosi,
+            sclk_line   => sigs.i_sclk,
+            miso_line   => sigs.io_miso,
+            ready_flag  => sigs.o_ready
+        );
 
         report "Done: p_MAIN";
 
@@ -174,6 +280,4 @@ begin
         stop_clock(freq2);
         wait;
     end process;
-
 end architecture;
-

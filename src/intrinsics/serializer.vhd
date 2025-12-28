@@ -58,104 +58,118 @@ end entity;
 architecture rtl of serializer is
     constant C_DIAGS : natural := 2 * g_OMD - 1;
 
-    signal lc         : natural := 0;
-    signal iters      : natural := 0;
-
-    signal d_sample   : natural range 0 to C_DIAGS := 0;
-    signal armed      : std_logic := '0';
-
-    signal r_i, r_j   : natural range 0 to g_OMD-1 := 0;
-    signal r_subclk   : std_logic := '0';
-
-    signal w_acc      : t_word := (others => '0');
-
+    signal lc          : natural := 0;
+    signal iters       : natural := 0;
+    signal d_sample    : natural range 0 to C_DIAGS := 0;
+    signal armed       : std_logic := '0';
+    signal r_i, r_j    : natural range 0 to g_OMD-1 := 0;
+    signal r_subclk    : std_logic := '0';
+    signal square_lim  : natural := 0;
+    signal w_acc       : t_word := (others => '0');
     signal wo_tx_ready, wi_tx_ready : std_logic := '0';
 
     type t_state is (IDLE, START_DIAG, WALK_DIAG);
     signal state : t_state := IDLE;
 
 begin
-    -- Iteration control process.
+
+    -- Main Control Process (Single Driver for State, Counters, and Indices)
+   -- Main Control Process (Single Driver for State, Counters, and Indices)
     process(i_clk, na_clr) begin
         if na_clr = '0' then
-            lc <= 0;
-            iters <= 0;
+            lc          <= 0;
+            iters       <= 0;
+            armed       <= '0';
+            state       <= IDLE;
+            d_sample    <= 0;
+            r_i         <= 0;
+            r_j         <= 0;
+            r_subclk    <= '0';
         elsif rising_edge(i_clk) then
             if i_clr = '1' then
-                lc <= 0;
-            elsif i_batch_sampled = '1' then
-                lc <= lc + 1;
-            end if;
+                lc       <= 0;
+                armed    <= '0';
+                state    <= IDLE;
+                d_sample <= 0;
+            else
+                -- Toggle subclock for internal timing
+                r_subclk <= not r_subclk;
 
-            if i_iterations_write = '1' then
-                iters <= to_integer(unsigned(i_iterations));
-            end if;
-        end if;
-    end process;
+                -- 1. Iteration & Armed Logic (Capture pulse from parser)
+                if i_batch_sampled = '1' then
+                    lc <= lc + 1;
+                    armed <= '1';
+                end if;
 
-    -- Armed flag to enable FSM only after valid batch sampling
-    process(i_clk, na_clr) begin
-        if na_clr = '0' then
-            armed <= '0';
-        elsif rising_edge(i_clk) then
-            if i_clr = '1' then
-                armed <= '0';
-            elsif i_batch_sampled = '1' then
-                armed <= '1';
-            end if;
-        end if;
-    end process;
+                -- 2. Configuration Write (Full Reset)
+                if i_iterations_write = '1' then
+                    square_lim <= to_integer(unsigned(i_batch_length));
+                    iters    <= to_integer(unsigned(i_iterations));
+                    state    <= IDLE;
+                    armed    <= '0';
+                    lc       <= 0;
+                    d_sample <= 0;
+                    r_i      <= 0;
+                    r_j      <= 0;
+                
+                -- 3. FSM Logic (Executes on the '1' phase of r_subclk)
+                elsif r_subclk = '1' then
+                    case state is
+                        when IDLE =>
+                            -- Wait for armed pulse and ensure pipeline depth (iters) is met
+                            if armed = '1' and d_sample < C_DIAGS and lc >= iters + d_sample then
+                                state <= START_DIAG;
+                            end if;
 
-    -- Diagonal wave sampling FSM.
-    process(all) is
-        variable square_lim : natural;
-    begin
-        if na_clr = '0' then
-            state <= IDLE;
-            d_sample <= 0;
-            r_i <= 0;
-            r_j <= 0;
-            wi_tx_ready <= '0';
-        elsif falling_edge(i_clk) then
-            if r_subclk = '0' then
-                if state = WALK_DIAG then
-                    wi_tx_ready <= '1';
+                        when START_DIAG =>
+                            -- Start from the top-right and walk down-left
+                            if d_sample > square_lim then
+                                -- We are in the lower-right triangle
+                                r_i <= d_sample - square_lim;
+                                r_j <= square_lim;
+                            else
+                                -- We are in the upper-left triangle
+                                r_i <= 0;
+                                r_j <= d_sample;
+                            end if;
+                            state <= WALK_DIAG;
+
+                        when WALK_DIAG =>
+                            if wo_tx_ready = '1' then
+                                -- Termination condition: hit the bottom row or the first column
+                                if (r_i = square_lim) or (r_j = 0) then
+                                    armed <= '0'; 
+
+                                    if d_sample = (2 * square_lim) then
+                                        d_sample <= 0;
+                                        lc       <= 0; 
+                                    else
+                                        d_sample <= d_sample + 1;
+                                    end if;
+                                    state <= IDLE;
+                                else
+                                    -- Zigzag step: Down one row, Left one column
+                                    r_i <= r_i + 1;
+                                    r_j <= r_j - 1;
+                                end if;
+                            end if;
+                    end case;
                 end if;
             end if;
-        elsif rising_edge(i_clk) then
-            r_subclk <= not r_subclk;
-            square_lim := to_integer(unsigned(i_batch_length));
+        end if;
+    end process;
 
-            if r_subclk = '1' then
+    -- FIFO Ready Signaling Process
+    -- Separated to handle the falling edge / sub-clock pulse logic specifically
+    process(i_clk, na_clr)
+    begin
+        if na_clr = '0' then
+            wi_tx_ready <= '0';
+        elsif falling_edge(i_clk) then
+            if r_subclk = '0' and state = WALK_DIAG then
+                wi_tx_ready <= '1';
+            else
                 wi_tx_ready <= '0';
-                case state is
-                    when IDLE =>
-                        if armed = '1' and d_sample < C_DIAGS and lc >= iters + d_sample then
-                            state <= START_DIAG;
-                        end if;
-
-                    when START_DIAG =>
-                        -- Calculates the start of diagonal indexes.
-                        if d_sample > square_lim then
-                            r_i <= d_sample - square_lim;
-                            r_j <= square_lim;
-                        else
-                            r_i <= 0;
-                            r_j <= d_sample;
-                        end if;
-                        state <= WALK_DIAG;
-
-                    when WALK_DIAG =>
-                        if wo_tx_ready = '1' then
-                            if r_i = square_lim or r_j = 0 then
-                                d_sample <= d_sample + 1;
-                                state <= IDLE;
-                            else
-                                r_i <= r_i + 1;
-                                r_j <= r_j - 1;
-                            end if;
-                        end if;
-                end case;
             end if;
         end if;
     end process;
@@ -173,10 +187,8 @@ begin
             ni_clr => na_clr,
             i_clk_producer => i_clk,
             i_clk_consumer => i_spi_clk,
-
             i_tx => w_acc,
             o_rx => o_acc,
-
             i_rx_ready => i_rx_ready,
             i_tx_ready => wi_tx_ready,
             o_rx_ready => o_rx_ready,
