@@ -249,7 +249,6 @@ begin
         wait for 200 ns;
 
         report "MULT 2x2";
-        -- 2x2 multiplication.
         run_coproc_test(
             words       => c_COPROC_MULT_2X2,
             timeout     => 8,
@@ -263,8 +262,7 @@ begin
 
         wait for 100 ns;
 
-        report "MULT 2x2";
-        -- 2x2 multiplication.
+        report "MULT 4x1 * 1x4";
         run_coproc_test(
             words       => c_COPROC_MULT_4X1X4,
             timeout     => 0,
@@ -278,8 +276,7 @@ begin
 
         wait for 100 ns;
 
-        report "MULT 3x3 (Pipelined X2)";
-        -- 3x3 multiplication.
+        report "MULT 3x3 (Pipelined x2)";
         run_coproc_test(
             words       => c_COPROC_MULT_3X3,
             timeout     => 48,
