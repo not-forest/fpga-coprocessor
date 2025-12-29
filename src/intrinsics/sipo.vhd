@@ -68,7 +68,7 @@ begin
                     r_batch_mat(i) <= r_batch_mat(i-1);
                 end loop;
 
-                if r_cnt = to_integer(unsigned(i_batch_length)) then
+                if r_cnt >= to_integer(unsigned(i_batch_length)) then
                     r_cnt  <= 0;
                     r_full <= '1';
                 else

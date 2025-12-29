@@ -56,8 +56,9 @@ entity pe is
 end entity;
 
 architecture rtl of pe is
-    signal r_x, r_w     : t_word := (others => '0');
-    signal r_a          : t_word := (others => '0');
+    signal r_x, r_w     : t_word := (others => '0');    -- Data and weight forwarding register.
+    signal r_a          : t_word := (others => '0');    -- Accumulator register.
+    signal r_iterations : t_word := (others => '0');    -- Holds current amount of iterations.
     signal r_itdelay    : natural := 0;                 -- Iterations delay, after which the PE shall be reset.
 begin
     process (i_clk, na_clr) is
@@ -83,19 +84,27 @@ begin
                 r_itdelay <= 0;
             end if;
 
+            -- Writing new amount of iterations when new command appears.
             if i_iterations_write = '1' then
-                r_itdelay <= to_integer(unsigned(i_iterations)) + 1 + g_LATENCY_CYCLES;
-            elsif r_itdelay = 0 then
-                -- Restarting the PE elemeent with new delayed reset.
-                r_a <= (others => '0');
+                r_iterations <= i_iterations;
+                r_itdelay <= to_integer(unsigned(r_iterations)) + g_LATENCY_CYCLES + 2;
+            -- Clearing PEs accumulator on timeout.
             elsif i_en = '1' then
+
                 xin  := signed(i_xin);
                 win  := signed(i_win);
-                
-                prod := xin * win;
-                sum  := resize(signed(r_a), sum'length) + resize(prod, sum'length);
 
-                -- Saturation logic for 16-bit output
+                prod := xin * win;
+                if r_itdelay = 0 then
+                    r_a <= (others => '0');
+                    r_itdelay <= to_integer(unsigned(r_iterations)) + g_LATENCY_CYCLES + 2;
+                    sum  := resize(prod, sum'length);
+                else
+                    sum  := resize(signed(r_a), sum'length) + resize(prod, sum'length);
+                    r_itdelay <= r_itdelay - 1;
+                end if;
+
+                    -- Saturation logic for 16-bit output
                 if sum > resize(MAX_VAL, sum'length) then
                     r_a <= std_logic_vector(MAX_VAL);
                 elsif sum < resize(MIN_VAL, sum'length) then
@@ -103,8 +112,6 @@ begin
                 else
                     r_a <= std_logic_vector(resize(sum, t_word'length));
                 end if;
-
-                r_itdelay <= r_itdelay - 1;
 
                 r_x <= i_xin;
                 r_w <= i_win;

@@ -64,31 +64,12 @@ architecture rtl of parser is
 
     signal r_ready : std_logic := '0';
     signal r_parsed : std_logic := '0';     -- Set when a command is properly parsed.
-
-    -- Calculates the amount of parser iterations based on the poly: 2 * n^2.
-    function quadratic_poly(word : in t_word) return natural is 
-        constant n : natural := to_integer(unsigned(word)); 
-    begin
-        return 2 * n ** 2;
-    end function;
 begin
     -- Based on current command, parses upcoming data as either widths or data.
     process (all) is
         -- Simple counter-based 
         variable preamble_counter : natural := 0;   -- Counter for preamble synchronization sequence.
-        variable iterations_counter : natural := 0; -- Counter for amount of execution words.
         variable state : t_state := UNKNOWN;        -- Internal state machine.
-
-        -- Helper sub-procedure to reset state after iterations.
-        procedure iterations_progress is begin
-            -- If amount of iterations has passed, we expect next operation
-            if iterations_counter = 0 then
-                state := UNKNOWN;
-                io_cmd <= c_UDEFCMD;
-            else
-                iterations_counter := iterations_counter - 1;
-            end if;
-        end procedure;
     begin
         if na_clr = '0' then
             state := UNKNOWN;
@@ -130,7 +111,6 @@ begin
                             state := CMDLISTENB;
                         when CMDLISTENB => 
                             io_cmd.n <= i_dataR; 
-                            iterations_counter := quadratic_poly(i_dataR);
                             state := CMDLISTENC;
                         when CMDLISTENC => 
                             io_cmd.m <= t_word(unsigned(i_dataR) - 1); 
@@ -147,7 +127,6 @@ begin
                             o_data_ready <= '1';
                             state := DATA;
 
-                            iterations_progress;
                         when SLEEP => -- Does nothing during sleep.
                         when others => state := UNKNOWN; -- Undefined.
                     end case;

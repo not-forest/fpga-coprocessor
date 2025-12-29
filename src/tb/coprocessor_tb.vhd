@@ -109,7 +109,24 @@ architecture behavioral of coprocessor_tb is
         x"AAAA", x"F00D", x"DEAD", x"BEEF", 
         -- Command words.
         x"FAAF", x"0003", x"0003", 
-        -- Payload.
+        -- Payload number one..
+        x"0000", x"0000",
+        x"0000", x"0000",
+        x"0001", x"0001",
+        x"0000", x"0000",
+        x"0004", x"0000",
+        x"0002", x"0000",
+        x"0007", x"0000",
+        x"0005", x"0001",
+        x"0003", x"0000",
+        x"0008", x"0000",
+        x"0006", x"0000",
+        x"0000", x"0000",
+        x"0009", x"0001",
+        x"0000", x"0000",
+        x"0000", x"0000",
+
+        -- Payload number two..
         x"0000", x"0000",
         x"0000", x"0000",
         x"0001", x"0001",
@@ -235,7 +252,7 @@ begin
         -- 2x2 multiplication.
         run_coproc_test(
             words       => c_COPROC_MULT_2X2,
-            timeout     => 10,
+            timeout     => 8,
             ss_line     => sigs.ni_ss,
             stall_line  => clk_stall,
             mosi_line   => sigs.i_mosi,
@@ -250,7 +267,7 @@ begin
         -- 2x2 multiplication.
         run_coproc_test(
             words       => c_COPROC_MULT_4X1X4,
-            timeout     => 4,
+            timeout     => 0,
             ss_line     => sigs.ni_ss,
             stall_line  => clk_stall,
             mosi_line   => sigs.i_mosi,
@@ -261,11 +278,11 @@ begin
 
         wait for 100 ns;
 
-        report "MULT 3x3";
+        report "MULT 3x3 (Pipelined X2)";
         -- 3x3 multiplication.
         run_coproc_test(
             words       => c_COPROC_MULT_3X3,
-            timeout     => 16,
+            timeout     => 48,
             ss_line     => sigs.ni_ss,
             stall_line  => clk_stall,
             mosi_line   => sigs.i_mosi,
