@@ -136,7 +136,7 @@ begin
              );
 end architecture;
 
--- Additional configuration of SPI slave architecture (vendor/simulation).
+-- Additional configuration of SPI slave architecture (vendor/simulation(rtl)).
 --configuration CoprocessorConfig of coprocessor is
 --    for structured
 --        for SPI_SLAVE_Inst : C_spi_slave

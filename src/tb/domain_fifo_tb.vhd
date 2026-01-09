@@ -67,8 +67,8 @@ architecture behavioral of domain_fifo_tb is
 
     type t_spi_word_array is array (natural range <>) of t_spi_word;
 
-    signal freq1 : real := 1.000e6;    -- Slow clock (10 MHz).
-    signal freq2 : real := 10.000e6;   -- Fast clock (100 MHz).
+    signal freq1 : real := 50.000e6;    -- Slow clock (50 MHz).
+    signal freq2 : real := 200.000e6;   -- Fast clock (200 MHz).
     signal clk1 : std_logic := '1';     -- With frequency of 10 MHz.
     signal clk2 : std_logic := '1';     -- With frequency of 100 MHz.
 
@@ -78,7 +78,7 @@ begin
     generic map (
         g_LENGTH => 64,
         g_INPUT_DATA_SIZE => 8,
-        g_OUTPUT_DATA_SIZE => 32
+        g_OUTPUT_DATA_SIZE => 16
                 )
     port map (
         ni_clr => fifo0.ni_clr,
@@ -102,10 +102,14 @@ begin
     -- Main worker on SPI side.
     p_MAIN_SPI : process is 
         variable v_spi_dummy : t_spi_word_array(0 to 15) := (
-            x"00", x"01", x"02", x"03", 
-            x"04", x"05", x"06", x"07",
-            x"08", x"09", x"0A", x"0B",
-            x"0C", x"0D", x"0E", x"0F"
+            x"00", x"01", 
+            x"02", x"03", 
+            x"04", x"05", 
+            x"06", x"07",
+            x"08", x"09", 
+            x"0A", x"0B",
+            x"0C", x"0D", 
+            x"0E", x"0F"
         );
     begin
         report "[SPI DOMAIN]: Enter p_MAIN_SPI.";
@@ -133,8 +137,8 @@ begin
 
     -- Main worker on system side.
     p_MAIN_SYS : process is 
-        variable v_sys_dummy : t_word_array(0 to 3) := (others => (others => '0'));
-        variable v_sys_check : t_word_array(0 to 3) := (x"03020100", x"07060504", x"0B0A0908", x"0F0E0D0C"); 
+        variable v_sys_dummy : t_word_array(0 to 7) := (others => (others => '0'));
+        variable v_sys_check : t_word_array(0 to 7) := (x"0100", x"0302", x"0504", x"0706", x"0908", x"0B0A", x"0D0C", x"0F0E"); 
     begin
         report "[SYS DOMAIN]: Enter p_MAIN_SYS.";
         

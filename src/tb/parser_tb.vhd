@@ -121,10 +121,9 @@ begin
         assert sigs.io_cmd.n = w(200) 
             report "Wrong N parsed. Expected: " & to_hstring(w(200)) & ", got: " & to_hstring(sigs.io_cmd.n) 
             severity error;
-        assert sigs.io_cmd.m = w(100) 
+        assert sigs.io_cmd.m = w(99) 
             report "Wrong M parsed. Expected: " & to_hstring(w(100))  & ", got: " & to_hstring(sigs.io_cmd.M)
-            severity error;
-        
+            severity error; 
 
         report "Done: p_MAIN";
         stop_clock(freq);

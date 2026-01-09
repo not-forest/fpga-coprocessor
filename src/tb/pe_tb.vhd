@@ -39,11 +39,14 @@ entity pe_tb is
     -- - Perform proper MAC operation and forward all parameters to their corresponding axes.
     -- - Prevent integer arithmetic overflows (saturate).
     type tb_dut is record
-        ni_clr : std_logic;
+        na_clr : std_logic;
         i_clk : t_clock;
         i_xin : t_word;
         i_win : t_word;
         i_ain : t_word;
+        i_en : std_logic;
+        i_iterations : t_word;
+        i_iterations_write : std_logic;
         o_xout : t_word;
         o_wout : t_word;
         o_aout : t_word;
@@ -52,11 +55,14 @@ end entity;
 
 architecture behavioral of pe_tb is
     signal sigs : tb_dut := (
-        ni_clr => '1',
+        na_clr => '1',
         i_clk => '1',
         i_xin => (others => '0'),
         i_win => (others => '0'),
         i_ain => (others => '0'),
+        i_en => '0',
+        i_iterations => (others => '0'),
+        i_iterations_write => '0',
         o_xout => (others => '0'),
         o_wout => (others => '0'),
         o_aout => (others => '0')
@@ -66,6 +72,7 @@ architecture behavioral of pe_tb is
     procedure assert_pe (
         signal o_xin : out t_word;
         signal o_win : out t_word;
+        signal o_en : out std_logic;
         constant xin : in integer;
         constant win : in integer;
         constant aout : in integer
@@ -73,17 +80,18 @@ architecture behavioral of pe_tb is
         variable ret : boolean := false;
         variable acc : t_word := (others => '0');
     begin
-        assert sigs.ni_clr = '1'
+        assert sigs.na_clr = '1'
         report "Unexpected procedure usage. The procedure is expected to be used with non-cleared PE"
             severity error;
 
         o_xin <= t_word(to_signed(xin, sigs.i_xin'length));
         o_win <= t_word(to_signed(win, sigs.i_win'length));
         acc := sigs.o_aout;
+        o_en <= '1';
 
         -- Performing one clock cycle.
         wait until falling_edge(sigs.i_clk);
-        wait until rising_edge(sigs.i_clk);
+        o_en <= '0';
 
         ret := sigs.o_xout = sigs.i_xin; 
         assert ret
@@ -113,8 +121,15 @@ architecture behavioral of pe_tb is
     signal freq : real := 1.000e6;
 begin
     PE_Inst : entity pe
+        generic map (
+            g_LATENCY_CYCLES => 6
+                    )
         port map(
-            ni_clr => sigs.ni_clr,
+            na_clr => sigs.na_clr,
+            i_clr => '0',
+            i_en => sigs.i_en,
+            i_iterations => sigs.i_iterations,
+            i_iterations_write => sigs.i_iterations_write,
             i_clk => sigs.i_clk,
             i_xin => sigs.i_xin,
             i_win => sigs.i_win,
@@ -129,13 +144,19 @@ begin
     p_MAIN : process begin
         report "Enter p_MAIN.";
 
+        -- Writing iterations amount.
+        sigs.i_iterations <= w(6);
+        sigs.i_iterations_write <= '1';
+        wait until falling_edge(sigs.i_clk);
+        sigs.i_iterations_write <= '0';
+
         -- Default MAC calculations.
-        assert_pe(sigs.i_xin, sigs.i_win, 2, 2, 4);
-        assert_pe(sigs.i_xin, sigs.i_win, 1, 4, 8);
-        assert_pe(sigs.i_xin, sigs.i_win, 6, 6, 44);
-        assert_pe(sigs.i_xin, sigs.i_win, -7, -8, 100);
-        assert_pe(sigs.i_xin, sigs.i_win, -1, 100, 0);
-        assert_pe(sigs.i_xin, sigs.i_win, 127, 127, 127 * 127);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_en, 2, 2, 4);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_en, 1, 4, 8);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_en, 6, 6, 44);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_en, -7, -8, 100);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_en, -1, 100, 0);
+        assert_pe(sigs.i_xin, sigs.i_win, sigs.i_en, 127, 127, 127 * 127);
 
         report "Done: p_MAIN";
         stop_clock(freq);

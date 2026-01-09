@@ -36,7 +36,7 @@ entity systolic_tb is
     type tb_dut is record
         i_clk   : std_logic;
         i_spi_clk   : std_logic;
-        ni_clr  : std_logic;
+        na_clr  : std_logic;
         i_shift_ready : std_logic;
 
         i_batch_length : std_logic_vector(0 downto 0);
@@ -57,7 +57,7 @@ architecture behavioral of systolic_tb is
     signal sigs : tb_dut := (
         i_clk => '1',
         i_spi_clk => '1',
-        ni_clr => '1',
+        na_clr => '1',
         i_shift_ready => '0',
         i_se_clr => '0',
         i_batch_length => (others => '0'),
@@ -81,7 +81,7 @@ begin
         g_OMD => 2          -- Testing on 2x2 systolic array.
                 )
     port map (
-        ni_clr => sigs.ni_clr,
+        na_clr => sigs.na_clr,
         i_clk => sigs.i_clk,
         i_spi_clk => sigs.i_spi_clk,
         i_shift_ready => sigs.i_shift_ready,
