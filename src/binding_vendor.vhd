@@ -35,12 +35,13 @@ use coproc.pll;
 
 entity binding_vendor is
     generic (
-        g_OMD       : natural := 5              -- Operating matrix dimensions.
+        g_OMD       : natural := 8              -- Operating matrix dimensions.
             );
     port (
         i_pCLK      : in std_logic;             -- External FPGA Oscillator.
         ni_pRST     : in std_logic;             -- Hard reset button (Active Low).
         
+        o_RDY       : out std_logic;            -- Output data ready flag.
         i_pSCLK     : in  std_logic;            -- SPI clock
         ni_pSS      : in  std_logic;            -- Slave select (active low)
         i_pMOSI     : in  std_logic;            -- Master Out Slave In
@@ -50,7 +51,7 @@ end entity;
 
 architecture structured of binding_vendor is
     signal w_clk50MHz  : std_logic := '1';      -- Lowest 50 MHz clock.
-    signal w_clk100MHz : std_logic := '1';      -- Moderate frequency used for NIOS V Core.
+    signal w_clk100MHz : std_logic := '1';
     signal w_clk475Mhz : std_logic := '1';      -- Fastest 475 MHz clock.
 begin
     -- Global coprocessor clock source.
@@ -71,6 +72,7 @@ begin
     port map(
         i_clk  => w_clk100MHz,
         ni_rst => ni_pRST,
+        o_ready => o_RDY,
         
         i_sclk => i_pSCLK,
         ni_ss  => ni_pSS,
