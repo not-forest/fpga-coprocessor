@@ -80,4 +80,8 @@ set_global_assignment -name VHDL_FILE src/intrinsics/pll.vhd
 set_global_assignment -name VHDL_FILE src/coprocessor.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/types.vhd
 set_global_assignment -name VHDL_FILE src/intrinsics/pe.vhd
+set_location_assignment PIN_113 -to io_pMISO
+set_location_assignment PIN_124 -to o_RDY
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to o_RDY
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to io_pMISO
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

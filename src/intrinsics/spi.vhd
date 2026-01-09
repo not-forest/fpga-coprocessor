@@ -131,12 +131,17 @@ begin
             else
                 o_stsinkready   <= '0';
             end if;
+
+            if r_bit_count = 0 then
+                if rd_pending = '1' then
+                    rd_pending  <= '0';
+                end if;
+            end if;
         elsif falling_edge(i_sclk) then
             -- Each falling edge shifts sink byte via SPI.
             if r_bit_count = 0 then
                 if rd_pending = '1' then
                     tx_shift    <= i_stsinkdata;
-                    rd_pending  <= '0';
                 else
                     tx_shift <= (others => '0');
                 end if;

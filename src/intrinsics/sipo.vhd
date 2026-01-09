@@ -39,7 +39,7 @@ entity word_shifter is
         na_clr  : in std_logic := '1';                                      -- Asynchronous clear (Active low).
         i_clk   : in std_logic := '1';                                      -- Clock input. Shifts and pushes elements at the same time.
         i_write : in std_logic := '1';                                      -- Starts writing procedure.
-        i_batch_length : std_logic_vector(log2(g_LENGTH) - 1 downto 0);    --
+        i_batch_length : std_logic_vector(log2(g_LENGTH) - 1 downto 0);     -- Length of current batch (equals to m value in coprocessor command).
         i_data  : in t_word;                -- Data input. One value at a time.
         o_full  : out std_logic;            -- Sets when batch if fully filled with words.
         o_batch : out t_word_array(0 to g_LENGTH - 1)   -- Batch output. Data from each register is always seen.
@@ -56,19 +56,25 @@ architecture rtl of word_shifter is
     signal r_full      : std_logic := '0';
 begin
     -- Shifting process.
-    process(i_clk) begin
+    process(i_clk) is 
+        variable batch_length : natural := 0;
+    begin
         if na_clr = '0' then
             r_batch_mat <= (others => (others => '0'));
             r_cnt       <= 0;
             r_full      <= '0';
         elsif rising_edge(i_clk) then
             if i_write = '1' then
+                batch_length := to_integer(unsigned(i_batch_length)); 
+
                 r_batch_mat(0) <= i_data;
-                for i in 1 to to_integer(unsigned(i_batch_length)) loop
-                    r_batch_mat(i) <= r_batch_mat(i-1);
+                for i in 1 to g_LENGTH - 1 loop
+                    if i <= batch_length then
+                        r_batch_mat(i) <= r_batch_mat(i-1);
+                    end if;
                 end loop;
 
-                if r_cnt >= to_integer(unsigned(i_batch_length)) then
+                if r_cnt >= batch_length then
                     r_cnt  <= 0;
                     r_full <= '1';
                 else
