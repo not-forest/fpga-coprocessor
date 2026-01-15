@@ -55,11 +55,25 @@ typedef int16_t coproc_handle_t;
   **/
 __attribute__((packed))
 typedef struct {
-    uint32_t n, m;
+    uint16_t n, m;
     enum {
-        MatMul, Filter, Sleep
+        Sleep   = 0xABBA,
+
+        MatMul  = 0xFAAF, 
+        Filter  = 0xF11F, 
     } type;
 } coproc_cmd_t;
+
+/* Alias for convolution */
+#define Conv MatMul
+
+/**
+  * @brief Changes the command for next write cycle.
+  *
+  * @param h Coprocessor handle.
+  * @return Zero if successful. Otherwise the process shall be repeated.
+  **/
+int coproc_change_cmd(coproc_handle_t h, const coproc_cmd_t *cmd);
 
 /**
   * @brief Obtain pointer to the memory-mapped transmit (TX) DMA buffer.

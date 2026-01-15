@@ -21,6 +21,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 cmake_minimum_required(VERSION 3.10)
+set(CMAKE_TOOLCHAIN_FILE toolchains/aarch64-rpi.cmake)
 project(coproc_api C CXX)
 
 add_library(coproc_api STATIC
@@ -28,3 +29,11 @@ add_library(coproc_api STATIC
 )
 
 target_include_directories(coproc_api PUBLIC include)
+
+set_target_properties(coproc_api PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+)
+
+target_compile_options(coproc_api PRIVATE
+    -march=armv8-a
+)
