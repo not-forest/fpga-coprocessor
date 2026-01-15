@@ -78,7 +78,7 @@ The Linux kernel device driver manages seamless communication with the accelerat
 
 Features include:
 - DMA-based double buffering for efficient data transfer without CPU intervention.
-- Character device interface under `/dev/coproc-spiN` for user-space access.
+- Character device interface under `/dev/fpga_coprocN` for user-space access.
 - SPI device registration using Device Tree Overlay (DTO).
 - Interrupt based completion checker.
 
