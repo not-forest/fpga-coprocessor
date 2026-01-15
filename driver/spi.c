@@ -3,7 +3,7 @@
   *  @brief SPI bus initialization and control module.
   *
   *
-  *  @test Tested on Raspberry Pi 4 with Linux kernel 5.10  
+  *  @test Tested on Raspberry Pi 4 with Linux kernel 6.12 
   **/
 
 #include "coproc.h"
@@ -23,15 +23,37 @@ struct spi_net {
     struct cdev cdev;
     double_buffer_t dbuff;
 
+    bool completion;
+    int irq;
+
     struct mutex lock;
 };
 
+static irqreturn_t coproc_gpio_irq(int irq, void *data) {
+    struct spi_net *net = data;
+
+    if (!net->completion)
+        net->completion = true;
+
+    return IRQ_HANDLED;
+}
+
 /** 
-  * @brief Completion function for asynchronous SPI write.
+  * @brief Checks SPI transfer completion.
   *
+  * @return true if coprocessor command is fully completed. False otherwise.
   **/
-static void coproc_spi_complete(void *ctx) {
-    complete((struct completion*)ctx);
+bool coproc_spi_check_completion(struct file *file, size_t len) {
+    struct spi_net *net = file->private_data;
+    bool ret = false;
+    mutex_lock(&net->lock);
+
+    ret = net->completion;
+    if (ret)
+        net->completion = false;
+
+    mutex_unlock(&net->lock);
+    return ret;
 }
 
 /** 
@@ -52,10 +74,27 @@ static int coproc_spi_probe(struct spi_device *spi) {
     }
     buf = &net->dbuff;
 
+    net->completion = false;
     net->spi = spi;
     mutex_init(&net->lock);
 
     spi_set_drvdata(spi, net);
+
+    net->irq = spi->irq;
+    if (net->irq <= 0) {
+        dev_err(&spi->dev, "No IRQ provided from device tree\n");
+        return -EINVAL;
+    }
+
+    if (devm_request_irq(&spi->dev,
+                net->irq,
+                coproc_gpio_irq,
+                IRQF_TRIGGER_RISING,
+                "coproc-gpio-irq",
+                net)) {
+        dev_err(&spi->dev, "Failed to request IRQ\n");
+        return -EBUSY;
+    }
 
     // Allocating doubled DMA Rx/Tx buffers.
     for (i = 0; i < 2; ++i) {
@@ -75,7 +114,7 @@ static int coproc_spi_probe(struct spi_device *spi) {
 
     /* Initializing the character driver.  */
     if(cdev_add(&net->cdev, dev, 1) < 0) {
-        pr_err("%s: ERROR: Unable to add the character device for raspberry pi fan.\n", THIS_MODULE->name);
+        pr_err("%s: ERROR: Unable to add the character device for coprocessor unit.\n", THIS_MODULE->name);
         cdev_del(&net->cdev);
     }
 
@@ -89,7 +128,7 @@ static int coproc_spi_probe(struct spi_device *spi) {
   *
   * Frees SPI net structure and DMA buffers.
   **/
-static int coproc_spi_remove(struct spi_device *spi) {
+static void coproc_spi_remove(struct spi_device *spi) {
     struct spi_net *net;
     double_buffer_t *buf;
     int i;
@@ -106,8 +145,6 @@ static int coproc_spi_remove(struct spi_device *spi) {
     }
 
     cdev_del(&net->cdev);
-
-    return 0;
 }
 
 static const struct of_device_id coproc_spi_dt_ids[] = {
@@ -147,17 +184,12 @@ double_buffer_t* unwrap_buffer_from_file(struct file *file) {
   **/
 void coproc_spi_async(struct file *file, size_t len) {
     struct spi_message m;
-    struct completion c;
-
-    spi_message_init(&m);
-    init_completion(&c);
-
     struct spi_net *net = file->private_data;
     double_buffer_t *buf = &net->dbuff;
 
     mutex_lock(&buf->lock);
     int idx = buf->buf_select;
-    
+
     struct spi_transfer t = {
         .tx_buf = buf->tx_buf[idx],
         .rx_buf = buf->rx_buf[idx],
@@ -167,21 +199,44 @@ void coproc_spi_async(struct file *file, size_t len) {
         .cs_change = 0,
         .speed_hz = net->spi->max_speed_hz,
         .bits_per_word = SPI_WORD_BITS,
-        .delay_usecs = 0,
     };
 
-    // Buffer swapping.
     buf->buf_select ^= 1;
-
     mutex_unlock(&buf->lock);
 
+    spi_message_init(&m);
     spi_message_add_tail(&t, &m);
-    m.complete = coproc_spi_complete;
-    m.context = &c;
+
+    spi_async(net->spi, &m);
+}
+
+
+/** 
+  * @brief Sends command data before proceding to the next asynchronous write.
+  *
+  * @note The behavior of CMD write is blocking.
+  **/
+ssize_t coproc_spi_cmd(struct file *file,
+                       const char __user *ubuf,
+                       size_t len) {
+    struct spi_net *net = file->private_data;
+    u8 *kbuf;
+    int ret;
+
+    kbuf = memdup_user(ubuf, len);
+    if (IS_ERR(kbuf))
+        return PTR_ERR(kbuf);
 
     mutex_lock(&net->lock);
-    spi_async(net->spi, &m);
+    ret = spi_write(net->spi, kbuf, len);
     mutex_unlock(&net->lock);
+
+    kfree(kbuf);
+
+    if (ret)
+        return ret;
+
+    return len;
 }
 
 int coproc_spi_load(void) {

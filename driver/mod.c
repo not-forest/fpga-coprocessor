@@ -2,7 +2,7 @@
   *  @file mod.c
   *  @brief Main driver initialization module. Defines all function related to driver's load, unload states and error handling.
   *
-  *  @test Tested on Raspberry Pi 4 with Linux kernel 5.10  
+  *  @test Tested on Raspberry Pi 4 with Linux kernel 6.12  
   **/
 
 #include "coproc.h"
@@ -38,7 +38,16 @@ static int fc_release(struct inode *inode, struct file *file) {
   * Both read and write do not use user buffers in any way.
   **/
 static ssize_t fc_read(struct file *file, char __user *buf, size_t size, loff_t *off) {
-    return 0;
+    int ret = 0;
+    if (size < sizeof(ret))
+        return -EINVAL;
+
+    ret = coproc_spi_check_completion(file, size);
+
+    if (copy_to_user(buf, &ret, sizeof(ret)))
+        return -EFAULT;
+
+    return sizeof(ret);
 }
 
 /** 
@@ -48,8 +57,22 @@ static ssize_t fc_read(struct file *file, char __user *buf, size_t size, loff_t 
   * Both read and write do not use user buffers in any way.
   **/
 static ssize_t fc_write(struct file *file, const char *buf, size_t len, loff_t *off) {
-    coproc_spi_async(file, len); 
-    return len;
+    u8 first;
+
+    if (len < 1)
+        return -EINVAL;
+
+    if (copy_from_user(&first, buf, 1))
+        return -EFAULT;
+
+    if (first != 0) {
+        /* Blocking command transfer */
+        return coproc_spi_cmd(file, buf, len);
+    } else {
+        /* Async DMA transfer */
+        coproc_spi_async(file, len);
+        return len;
+    }
 }
 
 /** 
@@ -112,6 +135,7 @@ struct file_operations fops = {
     .open           = fc_open,
     .release        = fc_release,
     .unlocked_ioctl = fc_ioctl,
+    .mmap           = coproc_mmap
 };
 
 /** 
@@ -128,7 +152,7 @@ static int __init __driver_init(void) {
     }
 
     /* 
-     * Trying to initialize SPI submodule for comminicating with coprocessor. 
+     * Trying to initialize SPI submodule for communicating with coprocessor. 
      * This function will block until a proper initialization routine is done.
      */
     if((ret = coproc_spi_load()) < 0) {
@@ -137,7 +161,7 @@ static int __init __driver_init(void) {
     }
 
     /* FPGA Coprocessor class definition. */
-    if(IS_ERR(dev_class = class_create(THIS_MODULE, CLASS_NAME))) {
+    if(IS_ERR(dev_class = class_create(CLASS_NAME))) {
         pr_err("%s: ERROR: Unable to create the structure class.\n", THIS_MODULE->name);
         ret = PTR_ERR(dev_class);
         goto _class;
