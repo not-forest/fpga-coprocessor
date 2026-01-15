@@ -16,7 +16,7 @@ fpgacoproc-objs += mod.o spi.o
 ccflags-y += -DDEBUG
 
 # Kernel headers directory. Can be adjusted when calling.
-KDIR ?= /lib/modules/$(KERNEL_VER)/build
+KDIR ?= /home/notforest/Templates/buildroot/output/build/linux-custom/
 
 # FPGA Coprocessor overlay that must be used alongside this driver. Must be aligned with used chip model. 
 DTO_OVERLAY ?= bcm2711-fpga-coprocessor.dtso
@@ -27,7 +27,7 @@ all:
 	make -C $(KDIR) M=$(CURDIR) ARCH=$(ARCH) CROSS_COMPILE=$(COMPILER) CFLAGS_MODULE="$(EXTRA_CFLAGS)" modules
 
 dto:
-	gcc -xc -E -P $(DTOFLAGS) $(DTO_OVERLAY_S) | tee /dev/tty | dtc -@ -I dts -O dtb -o $(DTO_OVERLAY_O)
+	dtc -@ -I dts -O dtb -o $(DTO_OVERLAY_O) $(DTO_OVERLAY_S)
 
 clean:
 	make -C $(KDIR) M=$(CURDIR) clean

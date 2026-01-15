@@ -31,12 +31,18 @@
         __overlay__ {
             status = "okay";
 
+            #address-cells = <1>;
+            #size-cells = <0>;
+
             coprocessor: coprocessor@0 {
                 compatible = "brightlight,coproc-spi";
-                reg = <0>;
-                spi-max-frequency = <4000000>;
+                reg = <0x0 0x0 0x0>;
+                spi-max-frequency = <10000000>;
                 spi-bits-per-word = <8>;
                 status = "okay";
+                
+                interrupt-parent = <&gpio>;
+                interrupts = <17 2>;  /* GPIO17, IRQ_TYPE_EDGE_RISING */
             };
         };
     };
