@@ -82,7 +82,7 @@ Features include:
 - SPI device registration using Device Tree Overlay (DTO).
 - Interrupt based completion checker.
 
-![FPGA Resource Utilization](docs/coproc_kernel_driver_diagram.png)
+![Kernel Device Driver Diagram](docs/coproc_kernel_driver_diagram.png)
 
 --- 
 
@@ -96,7 +96,7 @@ The user-space API simplifies interaction with the accelerator. It provides func
 - `coproc_async_write`      - Start asynchronous write operation. Existing data in Tx buffer will be flushed via SPI.
 - `coproc_check_completion` - Check if last operation was completed. 
 
-![FPGA Resource Utilization](docs/api.png)
+![Coprocessor API Diagram](docs/coproc_api.png)
 
 ---
 
